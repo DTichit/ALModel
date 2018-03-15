@@ -8,6 +8,7 @@
 ##' @slot tab_morta_f est un objet de la classe \code{\link{TabMorta}} contenant la table de mortalite pour les hommes.
 ##' @slot tab_rachat_tot est un objet de la classe \code{\link{TabRachat}} contenant la table modelisant les rachats totaux.
 ##' @slot tab_rachat_part est un objet de la classe \code{\link{TabRachat}} contenant la table modeisant les rachats partiels.
+##' @slot chargements est une liste contenant les chargements.
 ##' @author Damien Tichit pour Sia Partners
 ##' @keywords classes
 ##' @export
@@ -19,7 +20,8 @@ setClass(
     slots = c(tab_morta_h = "TabMorta",
               tab_morta_f = "TabMorta",
               tab_rachat_tot = "TabRachat",
-              tab_rachat_part = "TabRachat"),
+              tab_rachat_part = "TabRachat",
+              chargements = "list"),
 
     validity = function (object){
 
@@ -52,13 +54,15 @@ setMethod(
                           tab_morta_h = "TabMorta",
                           tab_morta_f = "TabMorta",
                           tab_rachat_tot = "TabRachat",
-                          tab_rachat_part = "TabRachat"){
+                          tab_rachat_part = "TabRachat",
+                          chargements = "list"){
 
-        if(! (missing(tab_morta_h) | missing(tab_morta_f) | missing(tab_rachat_tot) | missing(tab_rachat_part))){
+        if(! (missing(tab_morta_h) | missing(tab_morta_f) | missing(tab_rachat_tot) | missing(tab_rachat_part) | missing(chargements))){
             .Object@tab_morta_h <- tab_morta_h
             .Object@tab_morta_f <- tab_morta_f
             .Object@tab_rachat_tot <- tab_rachat_tot
             .Object@tab_rachat_part <- tab_rachat_part
+            .Object@chargements <- chargements
 
             # Validation de l'objet
             validObject(.Object)
@@ -69,8 +73,9 @@ setMethod(
             .Object@tab_morta_f <- new("TabMorta")
             .Object@tab_rachat_tot <- new("TabRachat")
             .Object@tab_rachat_part <- new("TabRachat")
+            .Object@chargements <- list()
 
-            warnings("[HypPassif] : Attention au moins un des obets est manquant a l'initialisation")
+            warnings("[HypPassif] : Attention au moins un des objets est manquant a l'initialisation")
         }
 
         # Output
@@ -90,6 +95,7 @@ setMethod(
                "tab_morta_f" = {return(x@tab_morta_f)},
                "tab_rachat_part" = {return(x@tab_rachat_part)},
                "tab_rachat_tot" = {return(x@tab_rachat_tot)},
+               "chargements" = {return(x@chargements)},
                stop("Cet attribut n'existe pas!")
         )
     }
@@ -108,6 +114,7 @@ setReplaceMethod(
                "tab_morta_f" = {x@tab_morta_f <- value},
                "tab_rachat_part" = {x@tab_rachat_part <- value},
                "tab_rachat_tot" = {x@tab_rachat_tot <- value},
+               "chargements" = {x@chargements <- value},
                stop("Cet attribut n'existe pas!")
         )
         validObject(x)

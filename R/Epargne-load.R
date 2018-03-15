@@ -21,10 +21,13 @@ setMethod(
 
         # Lecture du fichier
         ptf <- read.csv2(address, header = TRUE,
-                         colClasses = c("numeric", "factor", "integer", "numeric", "numeric", "numeric"))
+                         colClasses = c("numeric", "factor", "integer", "numeric", "numeric"))
+
+        # Creation du dataframe
+        df <- data.frame(id_mp = paste("ep", 1L:nrow(ptf), sep = "-"), ptf)
 
         # Creation de l'objet
-        epargne <- new("Epargne", ptf = ptf)
+        epargne <- new("Epargne", ptf = df)
 
         # Output
         return(epargne)

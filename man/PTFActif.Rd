@@ -15,6 +15,8 @@ Cette classe represente le portfeuille financier de la compagnie d'assurance.
 \item{\code{obligation}}{est un objet de la classe \code{\link{Obligation}} representant le portfeuille obligation.}
 
 \item{\code{tresorerie}}{est un objet de la classe \code{\link{Tresorerie}} representant le portfeuille tresorerie.}
+
+\item{\code{immobilier}}{est un objet de la classe \code{\link{Immobilier}} representant le portfeuille tresorerie.}
 }}
 
 \author{

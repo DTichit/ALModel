@@ -27,9 +27,19 @@ setMethod(
         tab_rachat_tot  <- load_tab_rachat(paste(address, "02_TablesRachat", "TR-T.csv", sep = "/"))
         tab_rachat_part  <- load_tab_rachat(paste(address, "02_TablesRachat", "TR-P.csv", sep = "/"))
 
+
+        # Lecture du fichiers contenant les chargements
+        temp <- read.csv2(paste(address, "chargements.csv", sep = "/"))
+
+        # Creation de la liste contenant les chargements
+        chgt <- list(epargne = list(encours = temp[1L, "EP.chgt_encours"],
+                                    rachats = temp[1L, "EP.chgt_rachat"],
+                                    fixes   = temp[1L, "EP.chgt_fixes"]))
+
         # Creation de l'objet
         hyp_passif <- new("HypPassif",
-                          tab_morta_h = tab_morta_h, tab_morta_f = tab_morta_f, tab_rachat_tot = tab_rachat_tot, tab_rachat_part = tab_rachat_part)
+                          tab_morta_h = tab_morta_h, tab_morta_f = tab_morta_f, tab_rachat_tot = tab_rachat_tot, tab_rachat_part = tab_rachat_part,
+                          chargements = chgt)
 
         # Output
         return(hyp_passif)

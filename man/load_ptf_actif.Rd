@@ -16,7 +16,7 @@ Cette fonction permet de charger les donnees pour un objet de type \code{\link{A
 une architecture propre a \code{SiALM}.
 }
 \details{
-La creation d'un objet \code{\link{Actif}} necessite la creation de trois autres objets : \code{\link{Action}}, \code{\link{Obligation}} et \code{\link{Tresorerie}}.
+La creation d'un objet \code{\link{Actif}} necessite la creation de trois autres objets : \code{\link{Action}}, \code{\link{Obligation}}, \code{\link{Immobilier}} et \code{\link{Tresorerie}}.
 }
 \seealso{
 Construction d'un objet de type \code{\link{Action}} : \code{\link{load_action}}.
@@ -24,6 +24,8 @@ Construction d'un objet de type \code{\link{Action}} : \code{\link{load_action}}
 Construction d'un objet de type \code{\link{Obligation}} : \code{\link{load_obligation}}.
 
 Construction d'un objet de type \code{\link{Tresorerie}} : \code{\link{load_tresorerie}}.
+
+Construction d'un objet de type \code{\link{Immobilier}} : \code{\link{load_immobilier}}.
 }
 \author{
 Damien Tichit pour Sia Partners

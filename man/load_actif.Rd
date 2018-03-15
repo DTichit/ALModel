@@ -16,10 +16,12 @@ Cette fonction permet de charger les donnees pour un objet de type \code{\link{A
 une architecture propre a \code{SiALM}.
 }
 \details{
-La creation d'un objet \code{\link{Actif}} necessite la creation d'e deux autres objets'un autre objet : \code{\link{PTFActif}}.
+La creation d'un objet \code{\link{Actif}} necessite la creation de deux autres objets : \code{\link{PTFActif}}, \code{\link{HypActif}}.
 }
 \seealso{
 Construction d'un objet de type \code{\link{PTFActif}} : \code{\link{load_ptf_actif}}.
+
+Construction d'un objet de type \code{\link{HypActif}} : \code{\link{load_hyp_actif}}.
 }
 \author{
 Damien Tichit pour Sia Partners

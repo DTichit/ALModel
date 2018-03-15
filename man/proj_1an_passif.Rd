@@ -3,17 +3,15 @@
 \docType{methods}
 \name{proj_1an_passif}
 \alias{proj_1an_passif}
-\title{Fonction \code{proj_1an_passif}.}
+\title{Fonction \code{proj_1an_passif}}
 \usage{
-proj_1an_passif(passif, an)
+proj_1an_passif(passif)
 }
 \arguments{
-\item{passif}{est un objet de type \code{Passif}.}
-
-\item{an}{est un \code{integer}.}
+\item{passif}{est un objet de type \code{\link{Passif}}.}
 }
 \description{
-Cette fonction permet de projeter horizon 1 an un portefeuille passif.
+Cette fonction permet de projeter horizon 1 an le passif d'une compagnie d'assurance.
 }
 \author{
 Damien Tichit pour Sia Partners

@@ -5,12 +5,14 @@
 \alias{Actif}
 \title{Classe \code{Actif}}
 \description{
-Cette classe aggrege l'ensemble des donnees relatives a l'actif de la compagnie d'assurance : portefeuille
+Cette classe aggrege l'ensemble des donnees relatives a l'actif de la compagnie d'assurance : portefeuille, hypotheses
 }
 \section{Slots}{
 
 \describe{
 \item{\code{ptf_actif}}{est un objet de la classe \code{\link{PTFActif}} representant le portfeuille financier.}
+
+\item{\code{hyp_actif}}{est un objet de la classe \code{\link{HypActif}} representant les hypotheses du portfeuille financier.}
 }}
 
 \author{
