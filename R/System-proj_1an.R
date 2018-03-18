@@ -29,10 +29,12 @@ setMethod(
         ## ######################################################
 
         # Projection sur une annee des passifs
-        temp <- proj_1an_actif(actif = system@actif)
+        # temp <- proj_1an_actif(actif = system@actif)
 
         # Mise a jour de l'attribut
-        actif <- temp[["actif"]]
+        # actif <- temp[["actif"]]
+
+        warning("Penser a rebrancher la partie actif !")
 
 
 

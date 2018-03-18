@@ -20,7 +20,7 @@ setMethod(
     definition = function(address){
 
         # Lecture du fichier
-        temp <- read.csv2(address)
+        temp <- read.csv2(address, header = TRUE, colClasses = c("integer", "numeric"))
 
         # Creation de l'objet
         tab_rachat <- new("TabRachat", table = temp)

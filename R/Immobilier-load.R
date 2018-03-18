@@ -21,10 +21,10 @@ setMethod(
 
         # Lecture du fichier
         temp <- read.csv2(address, header = TRUE,
-                          colClasses = c("numeric", "numeric", "numeric"))
+                          colClasses = c("numeric", "numeric"))
 
         # Creation du dataframe
-        df <- data.frame(id_mp = paste("im", 1L:nrow(temp), sep = "-"), temp, cible = FALSE)
+        df <- data.frame(id_mp = paste("im", 1L:nrow(temp), sep = "-"), temp)
 
         # Creation de l'objet
         immo <- new("Immobilier", ptf = df)

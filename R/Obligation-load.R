@@ -5,6 +5,8 @@
 ##'
 ##' La creation d'un objet \code{\link{Obligation}} necessite des donnees presentes dans un fichier nomme \code{Obligations.csv}.
 ##'
+##' Cette fonction permet egalement d'aggreger les donnees : 1 obligation par maturite residuelle.
+##'
 ##' @name load_obligation
 ##' @docType methods
 ##' @param address est un objet de type \code{character} indiquant le dossier dans lequel se situe l'ensemble des donnees necessaires
@@ -21,10 +23,10 @@ setMethod(
 
         # Lecture du fichier
         temp <- read.csv2(address, header = TRUE,
-                          colClasses = c("numeric", "numeric", "numeric", "numeric", "integer", "factor"))
+                          colClasses = c("numeric", "numeric", "numeric", "numeric", "integer", "factor", "factor"))
 
         # Creation du dataframe
-        df <- data.frame(id_mp = paste("ob", 1L:nrow(temp), sep = "-"), temp, cible = FALSE)
+        df <- data.frame(id_mp = paste("ob", 1L:nrow(temp), sep = "-"), temp)
 
         # Creation de l'objet
         obligation <- new("Obligation", ptf = df)

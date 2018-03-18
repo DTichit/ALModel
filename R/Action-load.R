@@ -17,19 +17,19 @@ setGeneric(name = "load_action", def = function(address) {standardGeneric("load_
 setMethod(
     f = "load_action",
     signature = c(address = "character"),
-    definition = function(address){
+    definition = function(address){{
 
         # Lecture du fichier
         temp <- read.csv2(address, header = TRUE,
-                          colClasses = c("numeric", "numeric", "numeric"))
+                          colClasses = c("numeric", "numeric"))
 
         # Creation du dataframe
-        df <- data.frame(id_mp = paste("ac", 1L:nrow(temp), sep = "-"), temp, cible = FALSE)
+        df <- data.frame(id_mp = paste("ac", 1L:nrow(temp), sep = "-"), temp)
 
         # Creation de l'objet
         action <- new("Action", ptf = df)
 
         # Output
         return(action)
-    }
+    }}
 )

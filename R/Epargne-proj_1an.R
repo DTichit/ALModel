@@ -35,8 +35,8 @@ setMethod(
         nb_contr_ptf_epargne <- .subset2(epargne@ptf, which(name_ptf == "nb_contr"))
         sexe_ptf_epargne <- .subset2(epargne@ptf, which(name_ptf == "sexe"))
         age_ptf_epargne  <- .subset2(epargne@ptf, which(name_ptf == "age"))
+        anc_ptf_epargne  <- .subset2(epargne@ptf, which(name_ptf == "anc"))
         pm_ptf_epargne   <- .subset2(epargne@ptf, which(name_ptf == "pm"))
-        prime_ptf_epargne <- .subset2(epargne@ptf, which(name_ptf == "prime"))
 
 
         ## ###########################
@@ -61,11 +61,11 @@ setMethod(
         ## ###########################
 
         # Calcul des taux de rachats par model point
-        tx_rachat_tot  <- calc_rx(tab_rachat = hyp_passif@tab_rachat_tot, age = age_ptf_epargne)
-        tx_rachat_part <- calc_rx(tab_rachat = hyp_passif@tab_rachat_part, age = age_ptf_epargne)
+        tx_rachat_tot  <- calc_rx(tab_rachat = hyp_passif@tab_rachat_tot, anc = anc_ptf_epargne)
+        tx_rachat_part <- calc_rx(tab_rachat = hyp_passif@tab_rachat_part, anc = anc_ptf_epargne)
 
         # Calcul des prestations relatives aux rachats
-        rachat_tot  <- tx_rachat_part * pm_ptf_epargne
+        rachat_tot  <- tx_rachat_tot * pm_ptf_epargne
         rachat_part <- tx_rachat_part * pm_ptf_epargne
 
 
@@ -86,21 +86,21 @@ setMethod(
         ## ######################################################
 
         # Extraction des chargements
+        tx_chgt_gestion <- .subset2(epargne@ptf, which(name_ptf == "chgt_gestion"))
+        tx_chgt_rachats <- .subset2(epargne@ptf, which(name_ptf == "chgt_rachats"))
+        tx_chgt_deces   <- .subset2(epargne@ptf, which(name_ptf == "chgt_deces"))
+
+        # Extraction des donnees
         nb_contr_ptf_epargne <- .subset2(epargne@ptf, which(name_ptf == "nb_contr"))
         pm_ptf_epargne   <- .subset2(epargne@ptf, which(name_ptf == "pm"))
-        chgt <- hyp_passif@chargements[["epargne"]]
 
-        # Calcul des chargements sur encours
-        chgt_encours <- pm_ptf_epargne * chgt[["encours"]]
-
-        # Calcul des chargements sur les rachats
-        chgt_rachats <- (rachat_tot + rachat_part) * chgt[["rachats"]]
-
-        # Calcul des chargements fixes
-        chgt_fixes <- rep(x = chgt[["fixes"]], length = nrow(epargne@ptf)) * nb_contr_ptf_epargne
+        # Calcul des differents chargements
+        chgt_gestion <- pm_ptf_epargne * tx_chgt_gestion
+        chgt_rachats <- pm_ptf_epargne * tx_chgt_rachats
+        chgt_deces   <- pm_ptf_epargne * tx_chgt_deces
 
         # Aggregation des chargements
-        chgt <- chgt_encours + chgt_rachats + chgt_fixes
+        chgt <- chgt_gestion + chgt_rachats + chgt_deces
 
 
 
@@ -114,10 +114,10 @@ setMethod(
         ## ######################################################
 
         # Prestations
-        prestations <- deces + rachat_tot + rachat_part + chgt
+        prestations <- deces + (rachat_tot + rachat_part)
 
         # Calcul des nouvelles PM
-        new_pm <- pm_ptf_epargne - prestations + prime_ptf_epargne
+        new_pm <- pm_ptf_epargne - prestations - chgt
         new_nb_contr <- nb_contr_ptf_epargne * (1 - tx_deces - tx_rachat_tot)
 
         # Mise a jour de l'objet
@@ -158,12 +158,12 @@ setMethod(
         # Output
         return(list(epargne = epargne,
                     flux = list(prestation = list(deces = sum(deces),
-                                                   rachat_tot = sum(rachat_tot),
-                                                   rachat_part = sum(rachat_part)),
-                                chargement = list(chgt_encours = sum(chgt_encours),
+                                                  rachat_tot = sum(rachat_tot),
+                                                  rachat_part = sum(rachat_part)),
+                                chargement = list(chgt_gestion = sum(chgt_gestion),
                                                   chgt_rachats = sum(chgt_rachats),
-                                                  chgt_fixes = sum(chgt_fixes))),
+                                                  chgt_deces = sum(chgt_deces))),
                     revalorisation = list(pm = sum(revalo_tmg_pm),
-                                           prestation = sum(revalo_tmg_prest))))
+                                          prestation = sum(revalo_tmg_prest))))
     }
 )
