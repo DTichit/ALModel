@@ -3,7 +3,7 @@ Type: Package
 Title: Evaluation des engagements Best-Estimate pour des contrats d'assurance-vie.
 Version: 0.1.0
 Author: Damien Tichit
-Maintainer: Damien Tichit <damien.tichit@gmail.com>
+Maintainer: Damien Tichit <damien.tichit@sia-partners.com>
 Description: SiALM est un modele ALM permettant d'evaluer les engagements best-estimate pour une compagnie d'assurance.
     Il permet de modeliser des contrats epargne.
 License: GPL-2
