@@ -1,17 +1,17 @@
-##' Fonction \code{calc_coupon}
+##' Fonction \code{vieillissement_obligation}
 ##'
-##' Cette fonction permet de calculer les coupons pour un portfeuille obligataire.
+##' Cette fonction permet de vieillir un portfeuille obligataire : mise a jour de la maturite residuelle et vente des obligations arrivees a maturite.
 ##'
-##' @name calc_coupon
+##' @name vieillissement_obligation
 ##' @docType methods
 ##' @param obligation est un objet de type \code{\link{Obligation}}.
 ##' @author Damien Tichit pour Sia Partners
 ##' @export
 ##' @include Obligation-class.R
 ##'
-setGeneric(name = "calc_coupon", def = function(obligation) {standardGeneric("calc_coupon")})
+setGeneric(name = "vieillissement_obligation", def = function(obligation) {standardGeneric("vieillissement_obligation")})
 setMethod(
-    f = "calc_coupon",
+    f = "vieillissement_obligation",
     signature = c(obligation = "Obligation"),
     definition = function(obligation){
 
@@ -24,22 +24,19 @@ setMethod(
 
 
 
-
         ## ######################################################
         ## ######################################################
         ##
-        ##               Evaluation des coupons
+        ##          Mise a jour de la maturite residuelle
         ##
         ## ######################################################
         ## ######################################################
 
         # Extraction de donnees
-        nb_ptf      <- .subset2(obligation@ptf, which(name_ptf_oblig == "nombre"))
-        nominal_ptf <- .subset2(obligation@ptf, which(name_ptf_oblig == "nominal"))
-        tx_coup_ptf <- .subset2(obligation@ptf, which(name_ptf_oblig == "tx_coupon"))
+        mat_res_oblig <- .subset2(obligation@ptf, which(name_ptf_oblig == "mat_res"))
 
-        # Calcul des coupons
-        coupons <- nb_ptf * tx_coup_ptf * nominal_ptf
+        # Mise a jour des maturites
+        obligation@ptf["maturite_residuelle"] <- mat_res_oblig - 1L
 
 
 
@@ -55,7 +52,7 @@ setMethod(
         ## ######################################################
 
         # Extraction de donnees
-        mat_res_oblig_new <- .subset2(obligation@ptf, which(name_ptf_oblig == "maturite_residuelle"))
+        mat_res_oblig_new <- .subset2(obligation@ptf, which(name_ptf_oblig == "mat_res"))
 
         # Determination des oblig a vendre
         ind_oblig_sell <- which(mat_res_oblig_new == 0L)
@@ -81,8 +78,6 @@ setMethod(
 
         # Output
         return(list(obligation = obligation,
-                    gain = list(coupons = coupons,
-                                pmvl_oblig = pmvl_oblig,
-                                vente_oblig = vente_oblig)))
+                    flux = list(vente = vente_oblig)))
     }
 )
