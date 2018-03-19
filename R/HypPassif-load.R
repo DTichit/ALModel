@@ -21,25 +21,22 @@ setMethod(
     signature = c(address = "character"),
     definition = function(address){
 
-        # Creation des tables
+        # Creation des tables de mortalite
         tab_morta_h <- load_tab_morta(paste(address, "01_TablesMortalite", "TM-H.csv", sep = "/"))
         tab_morta_f <- load_tab_morta(paste(address, "01_TablesMortalite", "TM-F.csv", sep = "/"))
+
+        # Creation des tables de rachats
         tab_rachat_tot  <- load_tab_rachat(paste(address, "02_TablesRachat", "TR-T.csv", sep = "/"))
         tab_rachat_part  <- load_tab_rachat(paste(address, "02_TablesRachat", "TR-P.csv", sep = "/"))
 
-
-        # Lecture du fichiers contenant les chargements
-        temp <- read.csv2(paste(address, "chargements.csv", sep = "/"))
-
-        # Creation de la liste contenant les chargements
-        chgt <- list(epargne = list(encours = temp[1L, "EP.chgt_encours"],
-                                    rachats = temp[1L, "EP.chgt_rachat"],
-                                    fixes   = temp[1L, "EP.chgt_fixes"]))
+        # Chargement de l'objet modelisant les rachats conjoncturels
+        rachat_conj <- load_rachat_conj(paste(address, "03_RachatsConjoncturels", "Rachats_conjoncturels.csv", sep = "/"))
 
         # Creation de l'objet
         hyp_passif <- new("HypPassif",
-                          tab_morta_h = tab_morta_h, tab_morta_f = tab_morta_f, tab_rachat_tot = tab_rachat_tot, tab_rachat_part = tab_rachat_part,
-                          chargements = chgt)
+                          tab_morta_h = tab_morta_h, tab_morta_f = tab_morta_f,
+                          tab_rachat_tot = tab_rachat_tot, tab_rachat_part = tab_rachat_part,
+                          rachat_conj = rachat_conj)
 
         # Output
         return(hyp_passif)
