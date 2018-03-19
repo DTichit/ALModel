@@ -69,7 +69,7 @@ setMethod(
         rachat_part <- tx_rachat_part * pm_ptf_epargne
 
 
-        warning("Les rachats dynamiques sont a coder !")
+        warning("Les rachats dynamiques sont a inserer !")
 
 
 
@@ -91,16 +91,45 @@ setMethod(
         tx_chgt_deces   <- .subset2(epargne@ptf, which(name_ptf == "chgt_deces"))
 
         # Extraction des donnees
-        nb_contr_ptf_epargne <- .subset2(epargne@ptf, which(name_ptf == "nb_contr"))
         pm_ptf_epargne   <- .subset2(epargne@ptf, which(name_ptf == "pm"))
 
         # Calcul des differents chargements
         chgt_gestion <- pm_ptf_epargne * tx_chgt_gestion
-        chgt_rachats <- pm_ptf_epargne * tx_chgt_rachats
-        chgt_deces   <- pm_ptf_epargne * tx_chgt_deces
+        chgt_rachats <- (rachat_tot + rachat_part) * tx_chgt_rachats
+        chgt_deces   <- deces * tx_chgt_deces
 
         # Aggregation des chargements
         chgt <- chgt_gestion + chgt_rachats + chgt_deces
+
+
+
+
+
+
+
+        ## ######################################################
+        ## ######################################################
+        ##
+        ##                Evaluation des frais
+        ##
+        ## ######################################################
+        ## ######################################################
+
+        # Extraction des frais
+        frais_gestion <- .subset2(epargne@ptf, which(name_ptf == "frais_uni_gestion"))
+        frais_rachats <- .subset2(epargne@ptf, which(name_ptf == "frais_uni_rachats"))
+        frais_deces   <- .subset2(epargne@ptf, which(name_ptf == "frais_uni_deces"))
+
+        # Extraction des donnees
+        nb_contr_ptf_epargne <- .subset2(epargne@ptf, which(name_ptf == "nb_contr"))
+
+        # Calcul des differents frais
+        frais_gestion <- nb_contr_ptf_epargne * frais_gestion
+        frais_rachats <- nb_contr_ptf_epargne * (tx_rachat_tot + tx_rachat_part) * frais_rachats
+        frais_deces   <- nb_contr_ptf_epargne * tx_deces * frais_deces
+
+        # Aggregation des frais
+        frais <- frais_gestion + frais_rachats + frais_deces
 
 
 
@@ -160,10 +189,13 @@ setMethod(
                     flux = list(prestation = list(deces = sum(deces),
                                                   rachat_tot = sum(rachat_tot),
                                                   rachat_part = sum(rachat_part)),
-                                chargement = list(chgt_gestion = sum(chgt_gestion),
-                                                  chgt_rachats = sum(chgt_rachats),
-                                                  chgt_deces = sum(chgt_deces))),
-                    revalorisation = list(pm = sum(revalo_tmg_pm),
-                                          prestation = sum(revalo_tmg_prest))))
+                                revalorisation_tmg = list(pm = sum(revalo_tmg_pm),
+                                                          prestation = sum(revalo_tmg_prest)),
+                                chargement = list(gestion = sum(chgt_gestion),
+                                                  rachats = sum(chgt_rachats),
+                                                  deces = sum(chgt_deces)),
+                                frais = list(gestion = sum(frais_gestion),
+                                             rachats = sum(frais_rachats),
+                                             deces = sum(frais_deces)))))
     }
 )
