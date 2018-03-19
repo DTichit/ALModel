@@ -20,10 +20,12 @@ setMethod(
 
         # Extraction des donnees
         hyp_alm <- alm@hyp_alm
-        system  <- alm@system
 
         # Boucle sur le nombre de simulation
-        for (sim in 1L:(hyp_alm@nb_simu)) {
+        temp <- lapply(1L:(hyp_alm@nb_simu), function(sim) {
+
+            # Remise a jour de l'objet
+            system  <- alm@system
 
             # Boucle sur le nombre d'annees
             for (an in 1L:(hyp_alm@an_proj)) {
@@ -35,7 +37,8 @@ setMethod(
                 system <- res_proj[["system"]]
 
             }
-        }
+
+        })
 
 
         # Output

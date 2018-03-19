@@ -25,7 +25,7 @@ setMethod(
         ## ######################################################
         ## ######################################################
 
-        # Projection sur une annee des contrats epargne
+        # Projection sur une annee du portfeuille
         res_proj_ptf <- proj_1an_ptf_passif(ptf_passif = passif@ptf_passif, hyp_passif = passif@hyp_passif)
 
         # Mise a jour de l'attribut
@@ -44,6 +44,23 @@ setMethod(
         ## ######################################################
 
         # Determination de la PB a attribuer
+
+
+
+
+
+        ## ######################################################
+        ## ######################################################
+        ##
+        ##              Aggregation des donnees
+        ##
+        ## ######################################################
+        ## ######################################################
+
+        # Prestations
+        prestation <- res_proj_ptf[["flux"]][["prestation"]]
+
+
 
 
 
