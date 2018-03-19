@@ -19,7 +19,7 @@ setMethod(
         ## ######################################################
         ## ######################################################
         ##
-        ##              Revalorisation des actifs
+        ##      Revalorisation des actifs et calcul des PMVL
         ##
         ## ######################################################
         ## ######################################################
@@ -36,16 +36,29 @@ setMethod(
         ## ######################################################
         ## ######################################################
         ##
-        ##            Gestion du protfeuille financier
+        ##          Evaluation des produits financiers
         ##
         ## ######################################################
         ## ######################################################
 
         # Appel de la fonction
-        res_proj_ptf <- proj_1an_ptf_actif(ptf_actif = actif@ptf_actif)
+        prod_fin_ptf <- eval_prod_fin(ptf_actif = actif@ptf_actif)
 
-        # MaJ de l'objet
-        actif@ptf_actif <- res_proj_ptf[["ptf_actif"]]
+
+
+
+
+        ## ######################################################
+        ## ######################################################
+        ##
+        ##          Vieillissement des portfeuilles
+        ##
+        ## ######################################################
+        ## ######################################################
+
+        # Appel de la fonction
+        res_vieillissement <- vieillissement_ptf_actif(ptf_actif = actif@ptf_actif)
+
 
 
 
@@ -59,10 +72,7 @@ setMethod(
         ## ######################################################
 
         # Calcul des frais financiers
-        frais <- 0
-
-        # Appel de la fonction
-        warning("Frais financiers : Cette partie doit etre code !! : A voir si elle doit etre placee ici !")
+        frais_fin <- eval_frais_fin(ptf_actif = actif@ptf_actif, hyp_actif = actif@hyp_actif)
 
 
 
@@ -76,23 +86,15 @@ setMethod(
         ## ######################################################
         ## ######################################################
 
-        # Produits financiers
-        prod_fin <- do.call(sum, res_proj_ptf[["flux"]][["prod_fin"]])
-
-        # Vente d'actifs
-        vente <- do.call(sum, res_proj_ptf[["flux"]][["vente"]])
-
-        # PMVL
-        pmvl <- do.call(sum, res_revalo_actif[["pmvl"]])
 
 
 
 
         # Output
         return(list(actif = actif,
-                    flux = list(prod_fin = prod_fin,
-                                vente = vente),
-                    pmvl = pmvl,
-                    frais = frais))
+                    flux = list(prod_fin = prod_fin_ptf[["prod_fin"]],
+                                vente = res_vieillissement[["flux"]][["vente"]]),
+                    pmvl = res_revalo_actif[["pmvl"]],
+                    frais = frais_fin[["frais"]]))
     }
 )

@@ -23,18 +23,17 @@ setMethod(
         ## ######################################################
         ## ######################################################
         ##
-        ##              Gestion des actifs
+        ##                  Gestion des actifs :
+        ## Revalorisation, calcul des prod fin et vieillissement
         ##
         ## ######################################################
         ## ######################################################
 
-        # Projection sur une annee des passifs
-        # temp <- proj_1an_actif(actif = system@actif)
+        # Revalorisation du PTF actif
+        temp <- proj_1an_actif(actif = system@actif)
 
         # Mise a jour de l'attribut
-        # actif <- temp[["actif"]]
-
-        warning("Penser a rebrancher la partie actif !")
+        actif <- temp[["actif"]]
 
 
 
@@ -43,7 +42,8 @@ setMethod(
         ## ######################################################
         ## ######################################################
         ##
-        ##              Gestion des passifs
+        ##              Gestion des passifs :
+        ## Evaluation des prestations, revalo des contrats aux TMG
         ##
         ## ######################################################
         ## ######################################################
