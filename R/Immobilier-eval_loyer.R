@@ -1,19 +1,21 @@
-##' Fonction \code{calc_loyer}
+##' Fonction \code{eval_loyer}
 ##'
 ##' Cette fonction permet de calculer les loyers pour un portefeuille d'immobiliers.
 ##'
-##' @name calc_loyer
+##' @name eval_loyer
 ##' @docType methods
 ##' @param immobilier est un objet de type \code{\link{Immobilier}}.
 ##' @author Damien Tichit pour Sia Partners
 ##' @export
 ##' @include Immobilier-class.R
 ##'
-setGeneric(name = "calc_loyer", def = function(immobilier) {standardGeneric("calc_loyer")})
+setGeneric(name = "eval_loyer", def = function(immobilier) {standardGeneric("eval_loyer")})
 setMethod(
-    f = "calc_loyer",
+    f = "eval_loyer",
     signature = c(immobilier = "Immobilier"),
     definition = function(immobilier){
+
+        warning("Fonction a coder : voir l'ESG")
 
         ## ###########################
         ##   Extraction des donnnes
@@ -25,17 +27,11 @@ setMethod(
         ## ###########################
         ##          Loyers
         ## ###########################
-
-        # Extraction de donnees
-        loyer_ptf           <- .subset2(immobilier@ptf, which(name_ptf_immobilier == "loyer"))
-        nb_ptf              <- .subset2(immobilier@ptf, which(name_ptf_immobilier == "nombre"))
-
-        # Calcul des loyers
-        loyers <- nb_ptf * loyer_ptf
+        loyers <- rep(0, nrow(immobilier@ptf))
 
 
 
         # Output
-        return(list(loyer = loyers))
+        return(list(loyer = sum(loyers)))
     }
 )
