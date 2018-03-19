@@ -1,6 +1,7 @@
 ##' Fonction \code{revalo_ptf_actif}
 ##'
-##' Cette fonction permet de projeter de revaloriser le portfeuille financier. Elle calcule egalement les plus ou moins value latentes (PMVL) engendrees.
+##' Cette fonction permet de projeter de revaloriser le portfeuille financier.
+##' Elle calcule egalement les plus ou moins value latentes (PMVL) engendrees.
 ##'
 ##' @name revalo_ptf_actif
 ##' @docType methods
@@ -14,7 +15,7 @@ setMethod(
     signature = c(ptf_actif = "PTFActif"),
     definition = function(ptf_actif){
 
-        warning("Attention aucune ravlorisation d'actif n'est pour l'instant code !")
+        warning("Penser a modifier cette fonction ! Inserer l'ESG")
 
         ## ######################################################
         ## ######################################################
@@ -29,10 +30,11 @@ setMethod(
         ## ###########################
 
         # Revalorisation des obligations
-        res_revalo_oblig <- revalo_obligation(ptf_actif@obligation)
+        res_revalo_oblig <- revalo_obligation(obligation = ptf_actif@obligation, yield_curve = rep(0.01, 50L))
 
         # Mise a jour de l'attribut
         ptf_actif@obligation <- res_revalo_oblig[["obligation"]]
+
 
 
 
