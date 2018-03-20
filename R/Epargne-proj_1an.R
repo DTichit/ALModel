@@ -155,7 +155,7 @@ setMethod(
 
         # Vieillissement du portfeuille
         epargne@ptf$age <- age_ptf_epargne + 1L
-
+        epargne@ptf$anc <- anc_ptf_epargne + 1L
 
 
 
