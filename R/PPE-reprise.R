@@ -17,6 +17,11 @@ setMethod(
     definition = function(ppe, montant){
 
 
+        # Test sur le signe du montant
+        if(montant < 0)
+            warning("PPE : Dotation d'un montant negatif.")
+
+
         ## ###########################
         ##   Montant total de la PPE
         ## ###########################

@@ -16,8 +16,12 @@ setMethod(
     signature = c(ppe = "PPE", montant = "numeric"),
     definition = function(ppe, montant){
 
+        # Test sur le signe du montant
+        if(montant < 0)
+            warning("PPE : Dotation d'un montant negatif.")
+
         # Application de la dotation
-        ppe@ppe[1] <- ppe@ppe[1] + montant
+        ppe@ppe[1L] <- ppe@ppe[1L] + montant
 
         # Output
         return(list(ppe = ppe))
