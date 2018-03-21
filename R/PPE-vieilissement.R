@@ -16,7 +16,7 @@ setMethod(
     definition = function(ppe){
 
         # Warning si la 8eme annee n'a as ete reprise
-        if(ppe@ppe[8L]>0)
+        if(ppe@ppe[8L] > 0)
             warning("La dotation de la PPE de l'annee i-8 n'a pas ete reprise.")
 
 
