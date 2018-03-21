@@ -57,14 +57,15 @@ setMethod(
         ## ######################################################
         ## ######################################################
 
-        # Prestations
-        prestation <- res_proj_ptf[["flux"]][["prestation"]]
+        # Flux : prestations, chgts et frais
+        flux_passif <- res_proj_ptf[["flux"]]
 
 
 
 
 
         # Output
-        return(list(passif = passif))
+        return(list(passif = passif,
+                    flux = flux_passif))
     }
 )

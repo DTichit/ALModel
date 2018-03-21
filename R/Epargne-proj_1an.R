@@ -189,13 +189,13 @@ setMethod(
                     flux = list(prestation = list(deces = sum(deces),
                                                   rachat_tot = sum(rachat_tot),
                                                   rachat_part = sum(rachat_part)),
-                                revalorisation_tmg = list(pm = sum(revalo_tmg_pm),
-                                                          prestation = sum(revalo_tmg_prest)),
                                 chargement = list(gestion = sum(chgt_gestion),
                                                   rachats = sum(chgt_rachats),
                                                   deces = sum(chgt_deces)),
                                 frais = list(gestion = sum(frais_gestion),
                                              rachats = sum(frais_rachats),
-                                             deces = sum(frais_deces)))))
+                                             deces = sum(frais_deces))),
+                    besoin = list(revalo_tmg = list(pm = sum(revalo_tmg_pm),
+                                                    prestation = sum(revalo_tmg_prest)))))
     }
 )

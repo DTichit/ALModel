@@ -51,21 +51,21 @@ setMethod(
         # Prestations
         prestation <- list(epargne = res_proj_epargne[["flux"]][["prestation"]])
 
-        # Revalorisation aux TMG
-        revalorisation_tmg <- list(epargne = res_proj_epargne[["flux"]][["revalorisation_tmg"]])
-
         # Chargements
         chargement <- list(epargne = res_proj_epargne[["flux"]][["chargement"]])
 
         # Frais
         frais <- list(epargne = res_proj_epargne[["flux"]][["frais"]])
 
+        # Besoin pour la revalorisation aux TMG
+        revalo_tmg <- list(epargne = res_proj_epargne[["besoin"]][["revalo_tmg"]])
+
 
         # Output
         return(list(ptf_passif = ptf_passif,
                     flux = list(prestation = prestation,
-                                revalorisation_tmg = revalorisation_tmg,
                                 chargement = chargement,
-                                frais = frais)))
+                                frais = frais),
+                    besoin = list(revalo_tmg = revalo_tmg)))
     }
 )
