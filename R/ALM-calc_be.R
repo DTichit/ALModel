@@ -18,11 +18,24 @@ setMethod(
     signature = c(alm = "ALM"),
     definition = function(alm){
 
+
+        ## ###########################
+        ##      Initialisation
+        ## ###########################
+
         # Extraction des donnees
         hyp_alm <- alm@hyp_alm
 
-        # Boucle sur le nombre de simulation
-        temp <- lapply(1L:(hyp_alm@nb_simu), function(sim) {
+        # Initialisation de la liste contenant les flux par annee
+        flux_be_simu <- list()
+
+
+
+        ## ###########################
+        ## Boucle sur les simulations
+        ## ###########################
+
+        flux_be <- lapply(1L:(hyp_alm@nb_simu), function(sim) {
 
             # Remise a jour de l'objet
             system  <- alm@system
@@ -36,12 +49,52 @@ setMethod(
                 # Mise a jour de l'attribut
                 system <- res_proj[["system"]]
 
+                # Mise en memoire des flux
+                flux_be_simu[[an]] <- res_proj[["flux_bel"]]
             }
 
+            # Aggregation des flux par produit
+            temp <- sapply(X = names(flux_be_simu[[1L]]),
+                           FUN = function(x) {sapply(X = 1L:(hyp_alm@an_proj), FUN = function(y) flux_be_simu[[y]][[x]])},
+                           simplify = FALSE, USE.NAMES = TRUE)
+
+            # Output
+            return(temp)
         })
 
 
+        ## ###########################
+        ##   Actualisation des flux
+        ## ###########################
+
+        # Recuperation des taux sans risque
+        tsr <- hyp_alm@tsr[1L:hyp_alm@an_proj]
+
+        # Actualisation
+        flux_actu <- sapply(X = names(flux_be[[1L]]), simplify = FALSE, USE.NAMES = TRUE ,
+                            FUN = function(x) {
+
+                                sapply(X = 1L:(hyp_alm@an_proj), FUN = function(y) {
+
+                                    # Actualisation des flux
+                                    flux_actu_simu <- flux_be[[y]][[x]] * ((1 + tsr)^(-(1L:(hyp_alm@an_proj))))
+
+                                    # Somme des flux
+                                    return(sum(flux_actu_simu))})
+                            })
+
+
+
+        ## ###########################
+        ##      Calcul du BEL
+        ## ###########################
+
+        # Moyenne sur les simulations
+        be <- sapply(X = names(flux_be[[1L]]), function(x) mean(flux_actu[[x]]))
+
+
+
         # Output
-        return(NULL)
+        return(list(be = be))
     }
 )
