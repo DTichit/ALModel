@@ -7,7 +7,7 @@
 ##' @docType class
 ##' @slot passif est un objet de type \code{\link{Passif}}.
 ##' @slot actif est un objet de type \code{\link{Actif}}.
-##' @slot ppe est un objet de type \code{\link{PPE}}.
+##' @slot taux_pb est une \code{list} contenant les taux de pb contractuels.
 ##' @author Damien Tichit pour Sia Partners
 ##' @keywords classes
 ##' @export
@@ -18,7 +18,7 @@ setClass(
 
     slots = c(passif = "Passif",
               actif  = "Actif",
-              ppe    = "PPE"),
+              taux_pb = "list"),
 
     validity = function (object){
 
@@ -28,7 +28,6 @@ setClass(
         # Tests sur les classes de l'objet
         if(! validObject(object@passif))    list_err <- c(list_err, "[System] : 'passif' n'est pas valide")
         if(! validObject(object@actif))     list_err <- c(list_err, "[System] : 'actif' n'est pas valide")
-        if(! validObject(object@ppe))       list_err <- c(list_err, "[System] : 'ppe' n'est pas valide")
 
         # Output
         if (is.null(list_err))
@@ -49,21 +48,21 @@ setMethod(
     definition = function(.Object,
                           passif = "Passif",
                           actif = "Actif",
-                          ppe = "PPE"){
+                          taux_pb = "list"){
 
-        if(! (missing(passif) | missing(actif) | missing(ppe))){
+        if(! (missing(passif) | missing(actif) | missing(taux_pb))){
             .Object@passif  <- passif
             .Object@actif   <- actif
-            .Object@ppe     <- ppe
+            .Object@taux_pb <- taux_pb
 
             # Validation de l'objet
             validObject(.Object)
 
         } else {
             #Traitement du cas vide
-            .Object@passif <- new("Passif")
-            .Object@actif  <- new("Actif")
-            .Object@ppe  <- new("PPE")
+            .Object@passif  <- new("Passif")
+            .Object@actif   <- new("Actif")
+            .Object@taux_pb <- list(technique = NA, financier = NA)
         }
 
         # Output
@@ -81,7 +80,7 @@ setMethod(
         switch(EXPR = i,
                "passif" = {return(x@passif)},
                "actif" = {return(x@actif)},
-               "ppe" = {return(x@ppe)},
+               "taux_pb" = {return(x@taux_pb)},
                stop("Cet attribut n'existe pas!")
         )
     }
@@ -98,7 +97,7 @@ setReplaceMethod(
         switch(EXPR = i,
                "passif" = {x@passif <- value},
                "actif" = {x@actif <- value},
-               "ppe" = {x@ppe <- value},
+               "taux_pb" = {x@taux_pb <- value},
                stop("Cet attribut n'existe pas!")
         )
         validObject(x)

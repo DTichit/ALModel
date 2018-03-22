@@ -24,11 +24,13 @@ setMethod(
         # Creation des attributs
         actif   <- load_actif(paste(address, "01_Actifs", sep = "/"))
         passif  <- load_passif(paste(address, "02_Passifs", sep = "/"))
-        ppe     <- load_ppe(paste(address, "03_PPE", "PPE.csv", sep = "/"))
+
+        # Chargements des taux de PB
+        tx_pb <- read.csv2(paste(address, "taux_pb.csv", sep = "/"))
 
         # Creation de l'objet
         system <- new("System",
-                      actif = actif, passif = passif, ppe = ppe)
+                      actif = actif, passif = passif, taux_pb = as.list(tx_pb))
 
         # Output
         return(system)

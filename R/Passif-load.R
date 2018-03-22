@@ -12,8 +12,9 @@
 ##' @author Damien Tichit pour Sia Partners
 ##' @seealso Construction d'un objet de type \code{\link{Passif}} : \code{\link{load_ptf_passif}}.
 ##' @seealso Construction d'un objet de type \code{\link{HypPassif}} : \code{\link{load_hyp_passif}}.
+##' @seealso Construction d'un objet de type \code{\link{PPE}} : \code{\link{load_ppe}}.
 ##' @export
-##' @include Passif-class.R Passif-class.R Passif-load.R HypPassif-load.R HypPassif-class.R
+##' @include Passif-class.R Passif-class.R Passif-load.R HypPassif-load.R HypPassif-class.R PPE-load.R PPE-class.R
 ##'
 setGeneric(name = "load_passif", def = function(address) {standardGeneric("load_passif")})
 setMethod(
@@ -24,10 +25,11 @@ setMethod(
         # Creation des attributs
         ptf_passif  <- load_ptf_passif(paste(address, "01_Portefeuilles", sep = "/"))
         hyp_passif  <- load_hyp_passif(paste(address, "02_Hypotheses", sep = "/"))
+        ppe         <- load_ppe(paste(address, "03_PPE", "PPE.csv", sep = "/"))
 
         # Creation de l'objet
         passif <- new("Passif",
-                      ptf_passif = ptf_passif, hyp_passif = hyp_passif)
+                      ptf_passif = ptf_passif, hyp_passif = hyp_passif, ppe = ppe)
 
         # Output
         return(passif)
