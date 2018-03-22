@@ -6,7 +6,7 @@
 ##' @docType class
 ##' @slot ptf_passif est un objet de la classe \code{\link{PTFPassif}} representant le portfeuille passif.
 ##' @slot hyp_passif est un objet de la classe \code{\link{HypPassif}} contenant l'ensemble des hypotheses du passif.
-##' @slot ppe est un objet de la classe \code{\link{PPE}}.
+##' @slot provision est un objet de la classe \code{\link{Provision}}.
 ##' @author Damien Tichit pour Sia Partners
 ##' @keywords classes
 ##' @export
@@ -17,7 +17,7 @@ setClass(
 
     slots = c(ptf_passif = "PTFPassif",
               hyp_passif = "HypPassif",
-              ppe = "PPE"),
+              provision = "Provision"),
 
     validity = function (object){
 
@@ -27,7 +27,7 @@ setClass(
         # Tests sur les classes de l'objet
         if(! validObject(object@ptf_passif))    list_err <- c(list_err, "[Passif] : 'ptf_passif' n'est pas valide")
         if(! validObject(object@hyp_passif))    list_err <- c(list_err, "[Passif] : 'ptf_passif' n'est pas valide")
-        if(! validObject(object@ppe))           list_err <- c(list_err, "[Passif] : 'ppe' n'est pas valide")
+        if(! validObject(object@provision))     list_err <- c(list_err, "[Passif] : 'provision' n'est pas valide")
 
         # Output
         if (is.null(list_err))
@@ -48,12 +48,12 @@ setMethod(
     definition = function(.Object,
                           ptf_passif = "PTFPassif",
                           hyp_passif = "HypPassif",
-                          ppe        = "PPE"){
+                          provision  = "Provision"){
 
-        if(! (missing(ptf_passif) | missing(hyp_passif) | missing(ppe))){
+        if(! (missing(ptf_passif) | missing(hyp_passif) | missing(provision))){
             .Object@ptf_passif  <- ptf_passif
             .Object@hyp_passif  <- hyp_passif
-            .Object@ppe         <- ppe
+            .Object@provision   <- provision
 
             # Validation de l'objet
             validObject(.Object)
@@ -62,7 +62,7 @@ setMethod(
             #Traitement du cas vide
             .Object@ptf_passif  <- new("PTFPassif")
             .Object@hyp_passif  <- new("HypPassif")
-            .Object@ppe         <- new("PPE")
+            .Object@provision   <- new("Provision")
 
             warnings("[Passif] : Attention au moins un des obets est manquant a l'initialisation")
         }
@@ -82,7 +82,7 @@ setMethod(
         switch(EXPR = i,
                "ptf_passif" = {return(x@ptf_passif)},
                "hyp_passif" = {return(x@hyp_passif)},
-               "ppe" = {return(x@ppe)},
+               "provision" = {return(x@provision)},
                stop("Cet attribut n'existe pas!")
         )
     }
@@ -99,7 +99,7 @@ setReplaceMethod(
         switch(EXPR = i,
                "ptf_passif" = {x@ptf_passif <- value},
                "hyp_passif" = {x@hyp_passif <- value},
-               "ppe" = {x@ppe <- value},
+               "provision" = {x@provision <- value},
                stop("Cet attribut n'existe pas!")
         )
         validObject(x)
