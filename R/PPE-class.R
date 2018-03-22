@@ -49,7 +49,7 @@ setMethod(
 
         } else {
             #Traitement du cas vide
-            .Object@table <- rep(x = NA, length = 8L)
+            .Object@ppe <- rep(x = NA, length = 8L)
         }
 
         # Output
