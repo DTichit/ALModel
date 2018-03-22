@@ -30,10 +30,10 @@ setMethod(
         ## ######################################################
 
         # Revalorisation du PTF actif
-        temp <- proj_1an_actif(actif = system@actif)
+        proj_actif <- proj_1an_actif(actif = system@actif)
 
         # Mise a jour de l'attribut
-        actif <- temp[["actif"]]
+        actif <- proj_actif[["actif"]]
 
 
 
@@ -49,10 +49,52 @@ setMethod(
         ## ######################################################
 
         # Projection sur une annee des passifs
-        temp <- proj_1an_passif(passif = system@passif)
+        proj_passif <- proj_1an_passif(passif = system@passif)
 
         # Mise a jour de l'attribut
-        system@passif <- temp[["passif"]]
+        system@passif <- proj_passif[["passif"]]
+
+
+
+
+
+        ## ######################################################
+        ## ######################################################
+        ##
+        ##              Determination de la PB
+        ##
+        ## ######################################################
+        ## ######################################################
+
+        # Mise en forme des donnees
+        result_fin <- list(pmvl = proj_actif[["pmvl"]],
+                           prod_fin = proj_actif[["flux"]][["prod_fin"]])
+        result_tech <- list(chargement = proj_passif[["flux"]][["chargement"]])
+
+        # Calcul de la PB a distribuer
+        res_pb <- calcul_pb(taux_pb = system@taux_pb, resultat_fin = result_fin, resultat_tech = result_tech)
+
+        # Ajout du reste de resultat a la tresorerie
+        reste <- do.call(sum, res_pb[["reste"]])
+        system@actif@ptf_actif@tresorerie@ptf <- system@actif@ptf_actif@tresorerie@ptf + reste
+
+
+
+
+
+        ## ######################################################
+        ## ######################################################
+        ##
+        ##              Revalorisation du passif
+        ##
+        ## ######################################################
+        ## ######################################################
+
+        # PB a attribuer
+        pb <- do.call(sum, res_pb[["pb"]])
+
+        # Appel de la fonction
+        res_revalo <- revalo_passif(passif = system@passif, pb = pb)
 
 
 
