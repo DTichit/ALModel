@@ -66,6 +66,8 @@ setMethod(
         ## ######################################################
         ## ######################################################
 
+        warning("Brancher la reserve de capitalisation")
+
         # Mise en forme des donnees
         result_fin <- list(pmvl = proj_actif[["pmvl"]],
                            prod_fin = proj_actif[["flux"]][["prod_fin"]])

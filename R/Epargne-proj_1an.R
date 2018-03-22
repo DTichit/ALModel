@@ -177,6 +177,7 @@ setMethod(
 
         # Calcul besoin revalorisation sur les prestations (en milieu d'annee)
         revalo_tmg_prest <- prestations * (tmg_ptf_epargne^0.5)
+        warning("Revalorisation des prestations a revoir")
 
 
 
