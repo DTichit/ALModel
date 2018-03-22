@@ -6,7 +6,7 @@
 ##' @docType class
 ##' @slot nb_simu est un \code{integer} representant le nombre de simulation souhaite pour calculer le BEL.
 ##' @slot an_proj est un \code{integer} representant le nombre d'annees de projection.
-##' @slot tsr est un \code{data.frame} contenant les taux sans risque avec Volatility Adjustment.
+##' @slot tsr est un \code{numeric} contenant les taux sans risque avec Volatility Adjustment.
 ##' @author Damien Tichit pour Sia Partners
 ##' @keywords classes
 ##'
@@ -15,7 +15,7 @@ setClass(
 
     slots = c(nb_simu = "integer",
               an_proj = "integer",
-              tsr     = "data.frame"),
+              tsr     = "numeric"),
 
     validity = function (object){
 
@@ -25,7 +25,6 @@ setClass(
         # Tests sur les classes de l'objet
         if(! is.integer(object@nb_simu))       list_err <- c(list_err, "[HypALM] : 'nb_simu' non valide")
         if(! is.integer(object@an_proj))       list_err <- c(list_err, "[HypALM] : 'an_proj' non valide")
-        if(! is.data.frame(object@tsr))        list_err <- c(list_err, "[HypALM] : 'tsr' non valide")
 
         # Output
         if (is.null(list_err))
@@ -45,12 +44,13 @@ setMethod(
     signature = "HypALM",
     definition = function(.Object,
                           nb_simu = "integer",
-                          an_proj = "integer"){
+                          an_proj = "integer",
+                          tsr = "numeric"){
 
-        if(! (missing(nb_simu) | missing(an_proj))){
+        if(! (missing(nb_simu) | missing(an_proj) | missing(tsr))){
             .Object@nb_simu <- nb_simu
             .Object@an_proj <- an_proj
-            .Object@tsr     <- data.frame()
+            .Object@tsr     <- tsr
 
             # Validation de l'objet
             validObject(.Object)

@@ -26,8 +26,15 @@ setMethod(
         nb_simu <- temp[1L, "nb_simu"]
         an_proj <- temp[1L, "an_proj"]
 
+        # Lecture des taux sans risque
+        tsr  <- read.csv2(paste(address, "TSR_avec_VA.csv", sep = "/"), header = TRUE, colClasses = c("numeric"))[, "rfr"]
+
+        # Test sur le nombre de taux sans risque
+        if(length(tsr) < an_proj)
+            warning("Attention : Trop peu de taux sans risque compte tenu du nombre d'annee de projection.")
+
         # Creation de l'objet
-        hyp_alm <- new("HypALM", nb_simu = nb_simu, an_proj = an_proj)
+        hyp_alm <- new("HypALM", nb_simu = nb_simu, an_proj = an_proj, tsr = tsr)
 
         # Output
         return(hyp_alm)
