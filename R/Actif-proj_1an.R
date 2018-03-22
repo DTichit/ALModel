@@ -51,21 +51,6 @@ setMethod(
         ## ######################################################
         ## ######################################################
         ##
-        ##          Vieillissement des portfeuilles
-        ##
-        ## ######################################################
-        ## ######################################################
-
-        # Appel de la fonction
-        res_vieillissement <- vieillissement_ptf_actif(ptf_actif = actif@ptf_actif)
-
-
-
-
-
-        ## ######################################################
-        ## ######################################################
-        ##
         ##        Evalutation des frais financiers
         ##
         ## ######################################################
@@ -73,6 +58,21 @@ setMethod(
 
         # Calcul des frais financiers
         frais_fin <- eval_frais_fin(ptf_actif = actif@ptf_actif, hyp_actif = actif@hyp_actif)
+
+
+
+
+
+        ## ######################################################
+        ## ######################################################
+        ##
+        ##          Vieillissement des portfeuilles
+        ##
+        ## ######################################################
+        ## ######################################################
+
+        # Appel de la fonction
+        res_vieillissement <- vieillissement_ptf_actif(ptf_actif = actif@ptf_actif)
 
 
 
