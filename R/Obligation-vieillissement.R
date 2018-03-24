@@ -36,7 +36,7 @@ setMethod(
         mat_res_oblig <- .subset2(obligation@ptf, which(name_ptf_oblig == "mat_res"))
 
         # Mise a jour des maturites
-        obligation@ptf["maturite_residuelle"] <- mat_res_oblig - 1L
+        obligation@ptf$mat_res <- mat_res_oblig - 1L
 
 
 
@@ -60,8 +60,11 @@ setMethod(
         # S'il y a des obligs a vendre :
         if(length(ind_oblig_sell) > 0L) {
 
+            # Extraction de donnees
+            vm_oblig <- .subset2(obligation@ptf, which(name_ptf_oblig == "valeur_marche"))
+
             # Gain sur les obligations vendues
-            vente_oblig <- vm_oblig_new[ind_oblig_sell]
+            vente_oblig <- vm_oblig[ind_oblig_sell]
 
             # Suppression des oblig du PTF
             obligation@ptf <- obligation@ptf[-ind_oblig_sell,]
