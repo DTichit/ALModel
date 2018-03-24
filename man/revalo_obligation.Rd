@@ -5,13 +5,16 @@
 \alias{revalo_obligation}
 \title{Fonction \code{revalo_obligation}}
 \usage{
-revalo_obligation(obligation)
+revalo_obligation(obligation, yield_curve)
 }
 \arguments{
 \item{obligation}{est un objet de type \code{\link{Obligation}}.}
+
+\item{yield_curve}{est un \code{numeric} contenant les prix zero-coupon.}
 }
 \description{
-Cette fonction permet de revaloriser le portefeuille obligataire.
+Cette fonction permet de revaloriser les differentes obligations d'un portefeuille obligataire.
+Elle calcule egalement les plus ou moins value latentes (PMVL) engendrees.
 }
 \author{
 Damien Tichit pour Sia Partners

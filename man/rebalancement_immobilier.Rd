@@ -5,14 +5,14 @@
 \alias{rebalancement_immobilier}
 \title{Fonction \code{rebalancement_immobilier}}
 \usage{
-rebalancement_immobilier(immo, immo_cible, alloc_cible)
+rebalancement_immobilier(immo, alloc_cible)
 }
 \arguments{
 \item{immo}{est un objet de type \code{\link{Immobilier}}. Ce parametre represente le ptf actuel de la compagnie.}
 
-\item{immo_cible}{est un objet de type \code{\link{Immobilier}}. Ce parametre represente le ptf cible.}
-
 \item{alloc_cible}{est un \code{numeric}. Ce parametre indique l'allocation cible a atteindre.}
+
+\item{immo_cible}{est un objet de type \code{\link{Immobilier}}. Ce parametre represente le ptf cible.}
 }
 \description{
 Cette fonction permet de rebalancer le portfeuille immobilier vers un portfeuile cible.

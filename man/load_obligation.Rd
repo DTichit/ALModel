@@ -17,6 +17,8 @@ une architecture propre a \code{SiALM}.
 }
 \details{
 La creation d'un objet \code{\link{Obligation}} necessite des donnees presentes dans un fichier nomme \code{Obligations.csv}.
+
+Cette fonction permet egalement d'aggreger les donnees : 1 obligation par maturite residuelle.
 }
 \author{
 Damien Tichit pour Sia Partners

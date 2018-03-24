@@ -5,10 +5,14 @@
 \alias{calc_be}
 \title{Fonction \code{calc_be}.}
 \usage{
-calc_be(alm)
+calc_be(alm, parallel, nb_core)
 }
 \arguments{
 \item{alm}{est un objet de type \code{ALM} contenant l'ensemble des donnees.}
+
+\item{parallel}{est une valeur \code{logical}. Lorsque cet argument est a \code{TRUE}, les calculs sont parallelises.}
+
+\item{nb_core}{est une valeur \code{integer} qui indique le nombre de coeurs utilises lorsque les calculs sont parallelises.}
 }
 \description{
 Cette fonction est une fonction centrale du package. Elle permet en effet de calculer un BEL.

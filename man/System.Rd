@@ -13,6 +13,8 @@ Cette classe regroupe les actifs et les passifs d'une compagnie d'assurance.
 \item{\code{passif}}{est un objet de type \code{\link{Passif}}.}
 
 \item{\code{actif}}{est un objet de type \code{\link{Actif}}.}
+
+\item{\code{taux_pb}}{est une \code{list} contenant les taux de pb contractuels.}
 }}
 
 \author{

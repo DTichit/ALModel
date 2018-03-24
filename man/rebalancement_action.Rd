@@ -5,18 +5,16 @@
 \alias{rebalancement_action}
 \title{Fonction \code{rebalancement_action}}
 \usage{
-rebalancement_action(action, action_cible, alloc_cible)
+rebalancement_action(action, alloc_cible)
 }
 \arguments{
 \item{action}{est un objet de type \code{\link{Action}}. Ce parametre represente le ptf actuel de la compagnie.}
 
-\item{action_cible}{est un objet de type \code{\link{Action}}. Ce parametre represente le ptf cible.}
-
-\item{alloc_cible}{est un \code{numeric}. Ce parametre indique l'allocation cible a atteindre.}
+\item{alloc_cible}{est un \code{numeric}. Ce parametre indique l'allocation cible a atteindre (en valeur de marche).}
 }
 \description{
 Cette fonction permet de rebalancer le portfeuille d'action vers un portfeuile cible.
-Le montant total, en valeur de marche, du portefeuille cible est renseigne dans le parametre \code{alloc_cible}.
+Le montant total cible, en valeur de marche, du portefeuille cible est renseigne dans le parametre \code{alloc_cible}.
 }
 \author{
 Damien Tichit pour Sia Partners

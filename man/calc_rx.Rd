@@ -5,15 +5,15 @@
 \alias{calc_rx}
 \title{Fonction \code{calc_rx}.}
 \usage{
-calc_rx(tab_rachat, age)
+calc_rx(tab_rachat, anc)
 }
 \arguments{
 \item{tab_rachat}{est un objet de type \code{\link{TabRachat}}.}
 
-\item{age}{est un \code{integer}.}
+\item{anc}{est un \code{integer}.}
 }
 \description{
-Cette fonction permet de calculer des probas de rachat pour un age et une table de rachat donnes.
+Cette fonction permet de calculer des probas de rachat pour une anciennete et une table de rachat donnes.
 Il est possible d'indiquer plusieurs ages differents sous forme de vecteur.
 }
 \author{

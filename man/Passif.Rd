@@ -5,14 +5,16 @@
 \alias{Passif}
 \title{Classe \code{Passif}}
 \description{
-Cette classe aggrege l'ensemble des donnees relatives au passif de la compagnie d'assurance : hypotheses, portefeuille
+Cette classe aggrege l'ensemble des donnees relatives au passif de la compagnie d'assurance : hypotheses, portefeuille, provisions
 }
 \section{Slots}{
 
 \describe{
 \item{\code{ptf_passif}}{est un objet de la classe \code{\link{PTFPassif}} representant le portfeuille passif.}
 
-\item{\code{hyp_passif}}{est un objet de la classe \code{\link{HypPassif}} contenant l'ensemble des hypotheses su passif.}
+\item{\code{hyp_passif}}{est un objet de la classe \code{\link{HypPassif}} contenant l'ensemble des hypotheses du passif.}
+
+\item{\code{provision}}{est un objet de la classe \code{\link{Provision}}.}
 }}
 
 \author{

@@ -16,12 +16,14 @@ Cette fonction permet de charger les donnees pour un objet de type \code{\link{P
 une architecture propre a \code{SiALM}.
 }
 \details{
-La creation d'un objet \code{\link{Passif}} necessite la creation de deux autres objets : \code{\link{Passif}} et \code{\link{HypPassif}}.
+La creation d'un objet \code{\link{Passif}} necessite la creation de deux autres objets : \code{\link{Passif}}, \code{\link{Provision}} et \code{\link{HypPassif}}.
 }
 \seealso{
-Construction d'un objet de type \code{\link{Passif}} : \code{\link{load_ptf_passif}}.
+Construction d'un objet de type \code{\link{PTFPassif}} : \code{\link{load_ptf_passif}}.
 
 Construction d'un objet de type \code{\link{HypPassif}} : \code{\link{load_hyp_passif}}.
+
+Construction d'un objet de type \code{\link{Provision}} : \code{\link{load_provision}}.
 }
 \author{
 Damien Tichit pour Sia Partners

@@ -14,7 +14,7 @@ Cette classe aggrege l'ensemble des hypotheses relatives au modele ALM.
 
 \item{\code{an_proj}}{est un \code{integer} representant le nombre d'annees de projection.}
 
-\item{\code{tsr}}{est un \code{data.frame} contenant les taux sans risque avec Volatility Adjustment.}
+\item{\code{tsr}}{est un \code{numeric} contenant les taux sans risque avec Volatility Adjustment.}
 }}
 
 \author{

@@ -5,7 +5,7 @@
 \alias{HypPassif}
 \title{Classe \code{HypPassif}}
 \description{
-Cette classe aggrege l'ensemble des hypotheses relatives au passif de la compagnie d'assurance : tables de rachat, de mortalite...
+Cette classe aggrege l'ensemble des hypotheses relatives au passif d'une compagnie d'assurance : tables de rachat, de mortalite...
 }
 \section{Slots}{
 
@@ -16,9 +16,9 @@ Cette classe aggrege l'ensemble des hypotheses relatives au passif de la compagn
 
 \item{\code{tab_rachat_tot}}{est un objet de la classe \code{\link{TabRachat}} contenant la table modelisant les rachats totaux.}
 
-\item{\code{tab_rachat_part}}{est un objet de la classe \code{\link{TabRachat}} contenant la table modeisant les rachats partiels.}
+\item{\code{tab_rachat_part}}{est un objet de la classe \code{\link{TabRachat}} contenant la table modelisant les rachats partiels.}
 
-\item{\code{chargements}}{est une liste contenant les chargements.}
+\item{\code{rachat_conj}}{est un objet de la classe \code{\link{RachatConj}} contenant les parametres modelisant les rachats conjoncturels}
 }}
 
 \author{

@@ -11,7 +11,8 @@ revalo_ptf_actif(ptf_actif)
 \item{ptf_actif}{est un objet de type \code{\link{PTFActif}}.}
 }
 \description{
-Cette fonction permet de projeter de revaloriser le portfeuille financier. Elle calcule egalement les plus ou moins value latentes (PMVL) engendrees.
+Cette fonction permet de projeter de revaloriser le portfeuille financier.
+Elle calcule egalement les plus ou moins value latentes (PMVL) engendrees.
 }
 \author{
 Damien Tichit pour Sia Partners

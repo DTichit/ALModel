@@ -11,7 +11,7 @@ rebalancement_actif(actif)
 \item{actif}{est un objet de type \code{Actif}.}
 }
 \description{
-Cette fonction permet de rebalancer le portfeuille d'actif vers le portfeuile cible.
+Cette fonction permet de rebalancer le portefeuille d'actif vers le portfeuile cible.
 }
 \author{
 Damien Tichit pour Sia Partners
