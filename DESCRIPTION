@@ -10,6 +10,8 @@ License: GPL-2
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.0.1
+Depends:
+    R (>= 3.4.4), doParallel(>= 1.0.11), dplyr(>= 0.7.4)
 Collate: 
     'HypALM-class.R'
     'PPE-class.R'
@@ -21,6 +23,9 @@ Collate:
     'Tresorerie-class.R'
     'PTFActif-class.R'
     'Actif-class.R'
+    'ReserveCapi-class.R'
+    'Provision-class.R'
+    'RachatConj-class.R'
     'TabRachat-class.R'
     'TabMorta-class.R'
     'HypPassif-class.R'
@@ -35,8 +40,6 @@ Collate:
     'System-proj_1an.R'
     'ALM-calc_be.R'
     'HypALM-load.R'
-    'ReserveCapi-class.R'
-    'Provision-class.R'
     'PPE-load.R'
     'ReserveCapi-load.R'
     'Provision-load.R'
@@ -89,9 +92,9 @@ Collate:
     'PTFPassif-proj_1an.R'
     'Passif-aggregagtion.R'
     'Passif-revalo.R'
-    'RachatConj-class.R'
     'RachatConj-calc.R'
     'RachatConj-load.R'
+    'SiALM.R'
     'System-calcul_pb.R'
     'TabMorta-calc_qx.R'
     'TabRachat-calc_rx.R'
