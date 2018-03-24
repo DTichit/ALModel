@@ -7,16 +7,18 @@
 ##' @name calc_be
 ##' @docType methods
 ##' @param alm est un objet de type \code{ALM} contenant l'ensemble des donnees.
+##' @param parallel est une valeur \code{logical}. Lorsque cet argument est a \code{TRUE}, les calculs sont parallelises.
+##' @param nb_core est une valeur \code{integer} qui indique le nombre de coeurs utilises lorsque les calculs sont parallelises.
 ##' @author Damien Tichit pour Sia Partners
 ##' @seealso Projection sur une annee d'un \code{\link{System}} : \code{\link{proj_1an_system}}.
 ##' @export
 ##' @include System-class.R System-proj_1an.R ALM-class.R
 ##'
-setGeneric(name = "calc_be", def = function(alm) {standardGeneric("calc_be")})
+setGeneric(name = "calc_be", def = function(alm, parallel, nb_core){standardGeneric("calc_be")})
 setMethod(
     f = "calc_be",
-    signature = c(alm = "ALM"),
-    definition = function(alm){
+    signature = c(alm = "ALM", parallel = "logical", nb_core = "integer"),
+    definition = function(alm, parallel, nb_core){
 
 
         ## ###########################
@@ -36,34 +38,87 @@ setMethod(
         ## Boucle sur les simulations
         ## ###########################
 
-        flux_be <- lapply(1L:(hyp_alm@nb_simu), function(sim) {
+        if(parallel){
 
-            # Remise a jour de l'objet
-            system  <- alm@system
+            # Initialisation de la parallelisation
+            cluster <- makePSOCKcluster(nb_core)
+            registerDoParallel(cluster)
 
-            # Boucle sur le nombre d'annees
-            for (an in 1L:(hyp_alm@an_proj)) {
+            flux_be <- foreach(i=1L:(hyp_alm@nb_simu), .packages = c("SiALM")) %dopar% {
 
-                # Projection sur une annee
-                res_proj <- proj_1an_system(system = system, an = an)
+                # Remise a jour de l'objet
+                system  <- alm@system
 
-                # Mise a jour de l'attribut
-                system <- res_proj[["system"]]
+                # Boucle sur le nombre d'annees
+                for (an in 1L:(hyp_alm@an_proj)) {
 
-                # Mise en memoire des flux
-                flux_be_simu[[an]]  <- res_proj[["flux_bel"]]
-                flux_simu[[an]]     <- res_proj[["flux"]]
+                    # Projection sur une annee
+                    res_proj <- proj_1an_system(system = system, an = an)
+
+                    # Mise a jour de l'attribut
+                    system <- res_proj[["system"]]
+
+                    # Mise en memoire des flux
+                    flux_be_simu[[an]]  <- res_proj[["flux_bel"]]
+                    flux_simu[[an]]     <- res_proj[["flux"]]
+                }
+
+                # Aggregation des flux par produit
+                temp <- sapply(X = names(flux_be_simu[[1L]]),
+                               FUN = function(x) {sapply(X = 1L:(hyp_alm@an_proj), FUN = function(y) return(flux_be_simu[[y]][[x]]))},
+                               simplify = FALSE, USE.NAMES = TRUE)
+
+                # Output
+                return(temp)
             }
 
-            # Aggregation des flux par produit
-            temp <- sapply(X = names(flux_be_simu[[1L]]),
-                           FUN = function(x) {sapply(X = 1L:(hyp_alm@an_proj), FUN = function(y) return(flux_be_simu[[y]][[x]]))},
-                           simplify = FALSE, USE.NAMES = TRUE)
 
-            # Output
-            return(temp)
-        })
+            # Stoppe la parallelisation
+            stopCluster(cluster)
 
+
+
+        } else {
+
+
+            # Barre de progression
+            barre <- txtProgressBar(min = 0L, max = hyp_alm@nb_simu, style = 3L)
+
+            flux_be <- lapply(1L:(hyp_alm@nb_simu), function(sim) {
+
+                # Remise a jour de l'objet
+                system  <- alm@system
+
+                # Boucle sur le nombre d'annees
+                for (an in 1L:(hyp_alm@an_proj)) {
+
+                    # Projection sur une annee
+                    res_proj <- proj_1an_system(system = system, an = an)
+
+                    # Mise a jour de l'attribut
+                    system <- res_proj[["system"]]
+
+                    # Mise en memoire des flux
+                    flux_be_simu[[an]]  <- res_proj[["flux_bel"]]
+                    flux_simu[[an]]     <- res_proj[["flux"]]
+                }
+
+
+                # Avancement de la barre de progression
+                setTxtProgressBar(barre, sim)
+
+                # Aggregation des flux par produit
+                temp <- sapply(X = names(flux_be_simu[[1L]]),
+                               FUN = function(x) {sapply(X = 1L:(hyp_alm@an_proj), FUN = function(y) return(flux_be_simu[[y]][[x]]))},
+                               simplify = FALSE, USE.NAMES = TRUE)
+
+                # Output
+                return(temp)
+            })
+
+            # Fermeture de la barre de progression
+            close(barre)
+        }
 
         ## ###########################
         ##   Actualisation des flux
