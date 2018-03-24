@@ -1,6 +1,6 @@
 ##' Fonction \code{rebalancement_actif}
 ##'
-##' Cette fonction permet de rebalancer le portfeuille d'actif vers le portfeuile cible.
+##' Cette fonction permet de rebalancer le portefeuille d'actif vers le portfeuile cible.
 ##'
 ##' @name rebalancement_actif
 ##' @docType methods
@@ -13,6 +13,7 @@ setMethod(
     f = "rebalancement_actif",
     signature = c(actif = "Actif"),
     definition = function(actif){
+
 
         ## ###########################
         ##   Extraction du PTF cible
@@ -80,13 +81,13 @@ setMethod(
         alloc_cible_action <- prop_action * alloc_totale
 
         # Appel de la fonction
-        action_rebal <- rebalancement_action(action = actif@ptf_actif@action, action_cible = ptf_cible@action, alloc_cible = alloc_cible_action)
-
-        # Flux actions
-        flux_action <- action_rebal[["flux"]]
+        action_rebal <- rebalancement_action(action = actif@ptf_actif@action, alloc_cible = alloc_cible_action)
 
         # Mise a jour de l'objet
         actif@ptf_actif@action <- action_rebal[["action"]]
+
+        # Flux actions
+        flux_action <- action_rebal[["flux"]]
 
 
 
@@ -100,13 +101,13 @@ setMethod(
         alloc_cible_immo <- prop_immo * alloc_totale
 
         # Appel de la fonction
-        immo_rebal <- rebalancement_immobilier(immo = actif@ptf_actif@immobilier, immo_cible = ptf_cible@immobilier, alloc_cible = alloc_cible_immo)
-
-        # Flux immo
-        flux_immo <- immo_rebal[["flux"]]
+        immo_rebal <- rebalancement_immobilier(immo = actif@ptf_actif@immobilier, alloc_cible = alloc_cible_immo)
 
         # Mise a jour de l'objet
         actif@ptf_actif@immobilier <- immo_rebal[["immo"]]
+
+        # Flux immo
+        flux_immo <- immo_rebal[["flux"]]
 
 
 
