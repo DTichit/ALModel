@@ -74,6 +74,9 @@ setMethod(
         # Appel de la fonction
         res_vieillissement <- vieillissement_ptf_actif(ptf_actif = actif@ptf_actif)
 
+        # Mise a jour de l'objet
+        actif@ptf_actif <- res_vieillissement[["ptf_actif"]]
+
 
 
 
@@ -93,8 +96,8 @@ setMethod(
         # Output
         return(list(actif = actif,
                     flux = list(prod_fin = prod_fin_ptf[["prod_fin"]],
-                                vente = res_vieillissement[["flux"]][["vente"]]),
-                    pmvl = res_revalo_actif[["pmvl"]],
-                    frais = frais_fin[["frais"]]))
+                                vente = res_vieillissement[["flux"]][["vente"]],
+                                frais = frais_fin[["frais"]]),
+                    pmvl = res_revalo_actif[["pmvl"]]))
     }
 )

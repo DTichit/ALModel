@@ -33,7 +33,7 @@ setMethod(
         proj_actif <- proj_1an_actif(actif = system@actif)
 
         # Mise a jour de l'attribut
-        actif <- proj_actif[["actif"]]
+        system@actif <- proj_actif[["actif"]]
 
 
 
@@ -132,25 +132,36 @@ setMethod(
 
         # Frais par produit
         frais_prod <- sapply(X = name_passif,
-                             FUN = function(x) do.call(sum, proj_passif[["flux"]][["frais"]][[x]]),
+                             FUN = function(x) return(do.call(sum, proj_passif[["flux"]][["frais"]][[x]])),
                              simplify = FALSE, USE.NAMES = TRUE)
 
 
 
         ## ###########################
-        ##      Flux totaux
+        ##      Flux calcul BEL
         ## ###########################
 
         # Somme des flux necessaires au calcul du BEL
         flux_bel <- sapply(X = name_passif,
-                           FUN = function(x) (frais_prod[[x]] + prestation_prod[[x]]),
+                           FUN = function(x) return(frais_prod[[x]] + prestation_prod[[x]]),
                            simplify = FALSE, USE.NAMES = TRUE)
+
+
+        ## ###########################
+        ## Aggregation de l'ensemble des flux
+        ## ###########################
+
+        # Aggregation des flux : Actif, Passif
+        warning("Inserer : Provisions et revalorisation")
+        flux <- list(actif = proj_actif[["flux"]],
+                     passif = proj_passif[["flux"]])
 
 
 
         # Output
         return(list(system = system,
-                    flux_bel = flux_bel))
+                    flux_bel = flux_bel,
+                    flux = flux))
 
     }
 )
