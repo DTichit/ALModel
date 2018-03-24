@@ -4,6 +4,8 @@
 ##'
 ##' C'est sur cette fonction que s'effectue les boucles sur le nombre de simulations ainsi que sur les annees.
 ##'
+##' Il est possible paralleliser les calculs afin d'accelerer le calcul d'un best-estimate.
+##'
 ##' @name calc_be
 ##' @docType methods
 ##' @param alm est un objet de type \code{ALM} contenant l'ensemble des donnees.
@@ -14,10 +16,10 @@
 ##' @export
 ##' @include System-class.R System-proj_1an.R ALM-class.R
 ##'
-setGeneric(name = "calc_be", def = function(alm, parallel, nb_core){standardGeneric("calc_be")})
+setGeneric(name = "calc_be", def = function(alm, parallel = FALSE, nb_core = 1L){standardGeneric("calc_be")})
 setMethod(
     f = "calc_be",
-    signature = c(alm = "ALM", parallel = "logical", nb_core = "integer"),
+    signature = c(alm = "ALM"),
     definition = function(alm, parallel, nb_core){
 
 

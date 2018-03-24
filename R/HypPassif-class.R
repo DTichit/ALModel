@@ -12,7 +12,7 @@
 ##' @author Damien Tichit pour Sia Partners
 ##' @keywords classes
 ##' @export
-##' @include TabMorta-class.R TabRachat-class.R
+##' @include TabMorta-class.R TabRachat-class.R RachatConj-class.R
 ##'
 setClass(
     Class = "HypPassif",
