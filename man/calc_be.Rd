@@ -5,7 +5,7 @@
 \alias{calc_be}
 \title{Fonction \code{calc_be}.}
 \usage{
-calc_be(alm, parallel, nb_core)
+calc_be(alm, parallel = FALSE, nb_core = 1L)
 }
 \arguments{
 \item{alm}{est un objet de type \code{ALM} contenant l'ensemble des donnees.}
@@ -19,6 +19,8 @@ Cette fonction est une fonction centrale du package. Elle permet en effet de cal
 }
 \details{
 C'est sur cette fonction que s'effectue les boucles sur le nombre de simulations ainsi que sur les annees.
+
+Il est possible paralleliser les calculs afin d'accelerer le calcul d'un best-estimate.
 }
 \seealso{
 Projection sur une annee d'un \code{\link{System}} : \code{\link{proj_1an_system}}.
