@@ -40,7 +40,7 @@ setMethod(
         prop_ptf_cible <- .subset2(ptf_cible, which(names_ptf_cible == "prop"))
 
         # Differentiel
-        diff_oblig <- sum(vm_ptf) - alloc_cible
+        diff_alloc <- sum(vm_ptf) - alloc_cible
 
 
 
@@ -48,7 +48,7 @@ setMethod(
         ##          ACHAT
         ## ###########################
 
-        if(diff_oblig < 0) {
+        if(diff_alloc < 0) {
 
             ## ###
             ## Dans ce cas la, il manque des actions => ACHAT
@@ -76,10 +76,10 @@ setMethod(
 
 
         # Calcul des parametres de sorties
-        if (diff_oblig < 0) {
-            achat <- diff_oblig ; vente <- 0
+        if (diff_alloc < 0) {
+            achat <- diff_alloc ; vente <- 0
         } else {
-            vente <- diff_oblig ; achat <- 0
+            vente <- diff_alloc ; achat <- 0
         }
 
 
