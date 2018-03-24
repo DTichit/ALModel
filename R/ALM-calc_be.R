@@ -27,7 +27,8 @@ setMethod(
         hyp_alm <- alm@hyp_alm
 
         # Initialisation de la liste contenant les flux par annee
-        flux_be_simu <- list()
+        flux_be_simu    <- list()
+        flux_simu       <- list()
 
 
 
@@ -50,12 +51,13 @@ setMethod(
                 system <- res_proj[["system"]]
 
                 # Mise en memoire des flux
-                flux_be_simu[[an]] <- res_proj[["flux_bel"]]
+                flux_be_simu[[an]]  <- res_proj[["flux_bel"]]
+                flux_simu[[an]]     <- res_proj[["flux"]]
             }
 
             # Aggregation des flux par produit
             temp <- sapply(X = names(flux_be_simu[[1L]]),
-                           FUN = function(x) {sapply(X = 1L:(hyp_alm@an_proj), FUN = function(y) flux_be_simu[[y]][[x]])},
+                           FUN = function(x) {sapply(X = 1L:(hyp_alm@an_proj), FUN = function(y) return(flux_be_simu[[y]][[x]]))},
                            simplify = FALSE, USE.NAMES = TRUE)
 
             # Output
@@ -95,6 +97,8 @@ setMethod(
 
 
         # Output
-        return(list(be = be))
+        return(list(be = list(be = be,
+                              flux_actu = flux_actu),
+                    flux = 0L))
     }
 )
