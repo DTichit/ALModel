@@ -15,6 +15,7 @@ setMethod(
     definition = function(actif){
 
 
+        warning("La tresorerie n'est jamais mise a jour a la suite des differents flux : frais, vieilissement....")
 
         ## ######################################################
         ## ######################################################
@@ -66,7 +67,7 @@ setMethod(
         ## ######################################################
         ## ######################################################
         ##
-        ##          Vieillissement des portfeuilles
+        ##          Vieillissement des portefeuilles
         ##
         ## ######################################################
         ## ######################################################
@@ -77,7 +78,16 @@ setMethod(
         # Mise a jour de l'objet
         actif@ptf_actif <- res_vieillissement[["ptf_actif"]]
 
+        warning("Les PMV sortant de la fonction 'vieillissement' sont deja comptablisees dans la fonction 'revalo' !")
 
+        # Plusieurs solutions pour palier a ce probleme :
+        #       - Mettre le vieillissement en debut de fonction ;
+        #       - Sortir de la fonction 'vieillissement' les indices des produits vendus ;
+        #       - Dans la fonction 'revalo', ne calculer que les PMVL pour les obligations dont la maturite est >=2 ;
+        #       - Ajouter une colonne 'last_vm' dans les PTF afin de calculer les PMVL plus tard.
+
+
+        warning("On fait quoi des ventes apres le vieillissement ? Mise a jour de la treso ou PB ?")
 
 
 
@@ -97,6 +107,7 @@ setMethod(
         return(list(actif = actif,
                     flux = list(prod_fin = prod_fin_ptf[["prod_fin"]],
                                 vente = res_vieillissement[["flux"]][["vente"]],
+                                pmv   = res_vieillissement[["flux"]][["pmv"]],
                                 frais = frais_fin[["frais"]]),
                     pmvl = res_revalo_actif[["pmvl"]]))
     }
