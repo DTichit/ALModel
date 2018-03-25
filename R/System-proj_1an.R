@@ -70,6 +70,7 @@ setMethod(
 
         # Mise en forme des donnees
         result_fin <- list(pmvl = proj_actif[["pmvl"]],
+                           pmv = proj_actif[["flux"]][["pmv"]],
                            prod_fin = proj_actif[["flux"]][["prod_fin"]])
         result_tech <- list(chargement = proj_passif[["flux"]][["chargement"]])
 

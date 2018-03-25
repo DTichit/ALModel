@@ -25,11 +25,14 @@ setMethod(
         # Extraction des PMVL
         pmvl <- do.call(sum, resultat_fin[["pmvl"]])
 
+        # Extraction des PMVL
+        pmv  <- do.call(sum, resultat_fin[["pmv"]])
+
         # Extraction des produits financiers
         prod_fin <- do.call(sum, resultat_fin[["prod_fin"]])
 
         # Resultat financier total
-        resultat_fin <- pmvl + prod_fin
+        resultat_fin <- pmvl + pmv + prod_fin
 
 
 
