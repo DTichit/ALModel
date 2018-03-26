@@ -2,19 +2,16 @@
 ##'
 ##' Cette fonction est une fonction centrale du package. Elle permet en effet de calculer un BEL.
 ##'
-##' C'est sur cette fonction que s'effectue les boucles sur le nombre de simulations ainsi que sur les annees.
-##'
 ##' Il est possible paralleliser les calculs afin d'accelerer le calcul d'un best-estimate.
 ##'
 ##' @name calc_be
 ##' @docType methods
-##' @param alm est un objet de type \code{ALM} contenant l'ensemble des donnees.
+##' @param alm est un objet de type \code{\link{ALM}} contenant l'ensemble des donnees.
 ##' @param parallel est une valeur \code{logical}. Lorsque cet argument est a \code{TRUE}, les calculs sont parallelises.
 ##' @param nb_core est une valeur \code{integer} qui indique le nombre de coeurs utilises lorsque les calculs sont parallelises.
 ##' @author Damien Tichit pour Sia Partners
-##' @seealso Projection sur une annee d'un \code{\link{System}} : \code{\link{proj_1an_system}}.
 ##' @export
-##' @include System-class.R System-proj_1an.R ALM-class.R
+##' @include ALM-class.R
 ##'
 setGeneric(name = "calc_be", def = function(alm, parallel = FALSE, nb_core = 1L){standardGeneric("calc_be")})
 setMethod(
@@ -51,27 +48,10 @@ setMethod(
                 # Remise a jour de l'objet
                 system  <- alm@system
 
-                # Boucle sur le nombre d'annees
-                for (an in 1L:(hyp_alm@an_proj)) {
+                # Appel de la fonction pour calculer les flux sur 1 simulation
+                be_simu <- calc_be_simu(alm)[["flux"]]
 
-                    # Projection sur une annee
-                    res_proj <- proj_1an_system(system = system, an = an)
-
-                    # Mise a jour de l'attribut
-                    system <- res_proj[["system"]]
-
-                    # Mise en memoire des flux
-                    flux_be_simu[[an]]  <- res_proj[["flux_bel"]]
-                    flux_simu[[an]]     <- res_proj[["flux"]]
-                }
-
-                # Aggregation des flux par produit
-                temp <- sapply(X = names(flux_be_simu[[1L]]),
-                               FUN = function(x) {sapply(X = 1L:(hyp_alm@an_proj), FUN = function(y) return(flux_be_simu[[y]][[x]]))},
-                               simplify = FALSE, USE.NAMES = TRUE)
-
-                # Output
-                return(temp)
+                return(be_simu)
             }
 
 
@@ -91,36 +71,21 @@ setMethod(
                 # Remise a jour de l'objet
                 system  <- alm@system
 
-                # Boucle sur le nombre d'annees
-                for (an in 1L:(hyp_alm@an_proj)) {
-
-                    # Projection sur une annee
-                    res_proj <- proj_1an_system(system = system, an = an)
-
-                    # Mise a jour de l'attribut
-                    system <- res_proj[["system"]]
-
-                    # Mise en memoire des flux
-                    flux_be_simu[[an]]  <- res_proj[["flux_bel"]]
-                    flux_simu[[an]]     <- res_proj[["flux"]]
-                }
-
+                # Appel de la fonction pour calculer les flux sur 1 simulation
+                be_simu <- calc_be_simu(alm)[["flux"]]
 
                 # Avancement de la barre de progression
                 setTxtProgressBar(barre, sim)
 
-                # Aggregation des flux par produit
-                temp <- sapply(X = names(flux_be_simu[[1L]]),
-                               FUN = function(x) {sapply(X = 1L:(hyp_alm@an_proj), FUN = function(y) return(flux_be_simu[[y]][[x]]))},
-                               simplify = FALSE, USE.NAMES = TRUE)
-
                 # Output
-                return(temp)
+                return(be_simu)
             })
 
             # Fermeture de la barre de progression
             close(barre)
         }
+
+
 
         ## ###########################
         ##   Actualisation des flux
