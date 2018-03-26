@@ -5,15 +5,36 @@
 ##' @name proj_1an_passif
 ##' @docType methods
 ##' @param passif est un objet de type \code{\link{Passif}}.
+##' @param an est un objet de type \code{integer}.
 ##' @author Damien Tichit pour Sia Partners
 ##' @export
 ##' @include Passif-class.R
 ##'
-setGeneric(name = "proj_1an_passif", def = function(passif) {standardGeneric("proj_1an_passif")})
+setGeneric(name = "proj_1an_passif", def = function(passif, an) {standardGeneric("proj_1an_passif")})
 setMethod(
     f = "proj_1an_passif",
-    signature = c(passif = "Passif"),
-    definition = function(passif){
+    signature = c(passif = "Passif", an = "integer"),
+    definition = function(passif, an){
+
+
+
+        ## ######################################################
+        ## ######################################################
+        ##
+        ##           Calcul des probas, le cas echeant
+        ##
+        ## ######################################################
+        ## ######################################################
+
+        if(passif@hyp_passif@calc_proba) {
+
+            # Appel de la fonction
+            res_calc_proba <- calc_proba_ptf_passif(ptf_passif = passif@ptf_passif, hyp_passif = passif@hyp_passif, an = an)
+
+            # Mise a jour de l'attribut
+            passif@ptf_passif <- res_calc_proba[["ptf_passif"]]
+
+        }
 
 
 
@@ -26,7 +47,7 @@ setMethod(
         ## ######################################################
 
         # Projection sur une annee du portfeuille
-        res_proj_ptf <- proj_1an_ptf_passif(ptf_passif = passif@ptf_passif, hyp_passif = passif@hyp_passif)
+        res_proj_ptf <- proj_1an_ptf_passif(ptf_passif = passif@ptf_passif, hyp_passif = passif@hyp_passif, an = an)
 
         # Mise a jour de l'attribut
         passif@ptf_passif <- res_proj_ptf[["ptf_passif"]]

@@ -6,15 +6,16 @@
 ##' @docType methods
 ##' @param epargne est un objet de type \code{\link{Epargne}}.
 ##' @param hyp_passif est un objet de type \code{\link{HypPassif}}.
+##' @param an est un objet de type \code{integer}.
 ##' @author Damien Tichit pour Sia Partners
 ##' @export
 ##' @include Epargne-class.R HypPassif-class.R
 ##'
-setGeneric(name = "proj_1an_epargne", def = function(epargne, hyp_passif) {standardGeneric("proj_1an_epargne")})
+setGeneric(name = "proj_1an_epargne", def = function(epargne, hyp_passif, an) {standardGeneric("proj_1an_epargne")})
 setMethod(
     f = "proj_1an_epargne",
-    signature = c(epargne = "Epargne", hyp_passif = "HypPassif"),
-    definition = function(epargne, hyp_passif){
+    signature = c(epargne = "Epargne", hyp_passif = "HypPassif", an = "integer"),
+    definition = function(epargne, hyp_passif, an){
 
         ## ###########################
         ##   Extraction des donnnes
@@ -33,9 +34,9 @@ setMethod(
 
         # Extraction de donnees
         nb_contr_ptf_epargne <- .subset2(epargne@ptf, which(name_ptf == "nb_contr"))
-        sexe_ptf_epargne <- .subset2(epargne@ptf, which(name_ptf == "sexe"))
-        age_ptf_epargne  <- .subset2(epargne@ptf, which(name_ptf == "age"))
-        anc_ptf_epargne  <- .subset2(epargne@ptf, which(name_ptf == "anc"))
+        # sexe_ptf_epargne <- .subset2(epargne@ptf, which(name_ptf == "sexe"))
+        # age_ptf_epargne  <- .subset2(epargne@ptf, which(name_ptf == "age"))
+        # anc_ptf_epargne  <- .subset2(epargne@ptf, which(name_ptf == "anc"))
         pm_ptf_epargne   <- .subset2(epargne@ptf, which(name_ptf == "pm"))
 
 
@@ -43,29 +44,25 @@ setMethod(
         ## Gestion des deces
         ## ###########################
 
-        # Selection des contrats par sexe
-        contrats_h <- which(sexe_ptf_epargne == "H")
-        contrats_f <- which(sexe_ptf_epargne == "F")
-
-        # Calcul des taux de deces par model point
-        tx_deces <- rep(x = NA, length = nrow(epargne@ptf))
-        tx_deces[contrats_h] <- calc_qx(tab_morta = hyp_passif@tab_morta_h, age = age_ptf_epargne[contrats_h])
-        tx_deces[contrats_f] <- calc_qx(tab_morta = hyp_passif@tab_morta_f, age = age_ptf_epargne[contrats_f])
+        # Extraction des taux de deces par model point
+        tx_deces_pm     <- epargne@proba@deces_pm[,an+1L]
+        tx_deces_contr  <- epargne@proba@deces_contr[,an+1L]
 
         # Calcul des prestations relatives aux deces
-        deces <- tx_deces * pm_ptf_epargne
+        deces <- tx_deces_pm * pm_ptf_epargne
 
 
         ## ###########################
         ## Gestion des rachats structurels
         ## ###########################
 
-        # Calcul des taux de rachats par model point
-        tx_rachat_tot  <- calc_rx(tab_rachat = hyp_passif@tab_rachat_tot, anc = anc_ptf_epargne)
-        tx_rachat_part <- calc_rx(tab_rachat = hyp_passif@tab_rachat_part, anc = anc_ptf_epargne)
+        # Extraction des taux de rachats par model point
+        tx_rachat_tot_pm  <- epargne@proba@rachat_tot_pm[,an+1L]
+        tx_rachat_tot_contr  <- epargne@proba@rachat_tot_contr[,an+1L]
+        tx_rachat_part <- epargne@proba@rachat_part[,an+1L]
 
         # Calcul des prestations relatives aux rachats
-        rachat_tot  <- tx_rachat_tot * pm_ptf_epargne
+        rachat_tot  <- tx_rachat_tot_pm * pm_ptf_epargne
         rachat_part <- tx_rachat_part * pm_ptf_epargne
 
 
@@ -125,8 +122,8 @@ setMethod(
 
         # Calcul des differents frais
         frais_gestion <- nb_contr_ptf_epargne * frais_gestion
-        frais_rachats <- nb_contr_ptf_epargne * (tx_rachat_tot + tx_rachat_part) * frais_rachats
-        frais_deces   <- nb_contr_ptf_epargne * tx_deces * frais_deces
+        frais_rachats <- nb_contr_ptf_epargne * tx_rachat_tot_contr * frais_rachats
+        frais_deces   <- nb_contr_ptf_epargne * tx_deces_contr * frais_deces
 
         # Aggregation des frais
         frais <- frais_gestion + frais_rachats + frais_deces
@@ -147,16 +144,17 @@ setMethod(
 
         # Calcul des nouvelles PM
         new_pm <- pm_ptf_epargne - prestations - chgt
-        new_nb_contr <- nb_contr_ptf_epargne * (1 - tx_deces - tx_rachat_tot)
+        new_nb_contr <- nb_contr_ptf_epargne * (1 - tx_deces_contr - tx_rachat_tot_contr)
 
         # Mise a jour de l'objet
         epargne@ptf$nb_contr <- new_nb_contr
         epargne@ptf$pm       <- new_pm
 
-        # Vieillissement du portfeuille
-        epargne@ptf$age <- age_ptf_epargne + 1L
-        epargne@ptf$anc <- anc_ptf_epargne + 1L
-
+        # Vieillissement du portfeuille : seulement dans la simulation calculant les probas
+        if(hyp_passif@calc_proba){
+            epargne@ptf$age <- .subset2(epargne@ptf, which(name_ptf == "age")) + 1L
+            epargne@ptf$anc <- .subset2(epargne@ptf, which(name_ptf == "anc")) + 1L
+        }
 
 
 
@@ -176,7 +174,7 @@ setMethod(
         revalo_tmg_pm <- pm_ptf_epargne * tmg_ptf_epargne
 
         # Calcul besoin revalorisation sur les prestations (en milieu d'annee)
-        revalo_tmg_prest <- prestations * (tmg_ptf_epargne^0.5)
+        revalo_tmg_prest <- prestations * (tmg_ptf_epargne*0.5)
         warning("Revalorisation des prestations a revoir")
 
 

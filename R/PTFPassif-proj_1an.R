@@ -6,15 +6,16 @@
 ##' @docType methods
 ##' @param ptf_passif est un objet de type \code{\link{PTFPassif}}.
 ##' @param hyp_passif est un objet de type \code{\link{HypPassif}}.
+##' @param an est un objet de type \code{integer}.
 ##' @author Damien Tichit pour Sia Partners
 ##' @export
 ##' @include PTFPassif-class.R HypPassif-class.R
 ##'
-setGeneric(name = "proj_1an_ptf_passif", def = function(ptf_passif, hyp_passif) {standardGeneric("proj_1an_ptf_passif")})
+setGeneric(name = "proj_1an_ptf_passif", def = function(ptf_passif, hyp_passif, an) {standardGeneric("proj_1an_ptf_passif")})
 setMethod(
     f = "proj_1an_ptf_passif",
-    signature = c(ptf_passif = "PTFPassif", hyp_passif = "HypPassif"),
-    definition = function(ptf_passif, hyp_passif){
+    signature = c(ptf_passif = "PTFPassif", hyp_passif = "HypPassif", an = "integer"),
+    definition = function(ptf_passif, hyp_passif, an){
 
 
 
@@ -31,7 +32,7 @@ setMethod(
         ## ###########################
 
         # Projection sur une annee des contrats epargne
-        res_proj_epargne <- proj_1an_epargne(epargne = ptf_passif@epargne, hyp_passif = hyp_passif)
+        res_proj_epargne <- proj_1an_epargne(epargne = ptf_passif@epargne, hyp_passif = hyp_passif, an = an)
 
         # Mise a jour de l'attribut
         ptf_passif@epargne <- res_proj_epargne[["epargne"]]

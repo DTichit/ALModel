@@ -8,7 +8,8 @@
 ##' @slot tab_morta_f est un objet de la classe \code{\link{TabMorta}} contenant la table de mortalite pour les hommes.
 ##' @slot tab_rachat_tot est un objet de la classe \code{\link{TabRachat}} contenant la table modelisant les rachats totaux.
 ##' @slot tab_rachat_part est un objet de la classe \code{\link{TabRachat}} contenant la table modelisant les rachats partiels.
-##' @slot rachat_conj est un objet de la classe \code{\link{RachatConj}} contenant les parametres modelisant les rachats conjoncturels
+##' @slot rachat_conj est un objet de la classe \code{\link{RachatConj}} contenant les parametres modelisant les rachats conjoncturels.
+##' @slot calc_proba est un objet \code{logical} qui indique si les probabilites doivent etre calculees.
 ##' @author Damien Tichit pour Sia Partners
 ##' @keywords classes
 ##' @export
@@ -21,7 +22,8 @@ setClass(
               tab_morta_f = "TabMorta",
               tab_rachat_tot = "TabRachat",
               tab_rachat_part = "TabRachat",
-              rachat_conj = "RachatConj"),
+              rachat_conj = "RachatConj",
+              calc_proba = "logical"),
 
     validity = function (object){
 
@@ -57,6 +59,8 @@ setMethod(
                           tab_rachat_tot = "TabRachat",
                           tab_rachat_part = "TabRachat",
                           rachat_conj = "RachatConj"){
+
+        .Object@calc_proba <- TRUE
 
         if(! (missing(tab_morta_h) | missing(tab_morta_f) | missing(tab_rachat_tot) | missing(tab_rachat_part) | missing(rachat_conj))){
             .Object@tab_morta_h <- tab_morta_h
@@ -95,6 +99,7 @@ setMethod(
                "tab_rachat_part" = {return(x@tab_rachat_part)},
                "tab_rachat_tot" = {return(x@tab_rachat_tot)},
                "rachat_conj" = {return(x@rachat_conj)},
+               "calc_proba" = {return(x@calc_proba)},
                stop("Cet attribut n'existe pas!")
         )
     }
@@ -114,6 +119,7 @@ setReplaceMethod(
                "tab_rachat_part" = {x@tab_rachat_part <- value},
                "tab_rachat_tot" = {x@tab_rachat_tot <- value},
                "rachat_conj" = {x@rachat_conj <- value},
+               "calc_proba" = {x@calc_proba <- value},
                stop("Cet attribut n'existe pas!")
         )
         validObject(x)

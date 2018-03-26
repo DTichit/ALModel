@@ -1,6 +1,6 @@
 ##' Fonction \code{aggregation_alm}.
 ##'
-##' Cette fonction permet de faire appel aux différentes fonctions permettant d'aggreger les portfeuilles.
+##' Cette fonction permet de faire appel aux différentes fonctions permettant d'aggreger les portefeuilles.
 ##'
 ##' @name aggregation_alm
 ##' @docType methods
@@ -20,7 +20,7 @@ setMethod(
 
 
         # Appel de la fonction permettant d'aggreger les differents PTF de passifs
-        alm@system@passif <- aggregation_passif(alm@system@passif)
+        alm@system@passif <- aggregation_passif_1(alm@system@passif)
 
         # Output
         return(alm)

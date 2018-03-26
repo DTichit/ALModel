@@ -5,20 +5,24 @@
 ##'
 ##' @name Epargne
 ##' @docType class
-##' @slot ptf est un objet de type \code{\link{data.frame}} contenant les donnees relatives au portfeuille.
+##' @slot ptf est un objet de type \code{data.frame} contenant les donnees relatives au portfeuille.
+##' @slot proba est un objet de type \code{\link{ProbaEpargne}} contenant les probas relatives au portfeuille.
 ##' @author Damien Tichit pour Sia Partners
 ##' @keywords classes
 ##'
 setClass(
     Class = "Epargne",
 
-    slots = c(ptf = "data.frame"),
+    slots = c(ptf = "data.frame",
+              proba = "ProbaEpargne"),
 
     validity = function (object){
 
         # Liste stockant les erreurs
         list_err <- NULL
 
+        # Tests sur les classes de l'objet
+        if(! validObject(object@proba))      list_err <- c(list_err, "[Epargne] : 'proba' n'est pas valide")
 
         # Output
         if (is.null(list_err))
@@ -42,6 +46,7 @@ setMethod(
 
         if(! missing(ptf)){
             .Object@ptf <- ptf
+            .Object@proba <- new("ProbaEpargne")
 
             # Validation du format
             validObject(.Object)
@@ -49,6 +54,7 @@ setMethod(
         } else {
             #Traitement du cas vide
             .Object@ptf <- data.frame()
+            .Object@proba <- new("ProbaEpargne")
         }
 
         # Output
@@ -65,6 +71,7 @@ setMethod(
     definition = function(x, i){
         switch(EXPR = i,
                "ptf" = {return(x@ptf)},
+               "proba" = {return(x@proba)},
                stop("Cet attribut n'existe pas!")
         )
     }
@@ -80,6 +87,7 @@ setReplaceMethod(
     definition = function(x, i, value){
         switch(EXPR = i,
                "ptf" = {x@ptf <- value},
+               "proba" = {x@proba <- value},
                stop("Cet attribut n'existe pas!")
         )
         validObject(x)
