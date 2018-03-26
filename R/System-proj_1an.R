@@ -49,7 +49,7 @@ setMethod(
         ## ######################################################
 
         # Projection sur une annee des passifs
-        proj_passif <- proj_1an_passif(passif = system@passif)
+        proj_passif <- proj_1an_passif(passif = system@passif, an = an)
 
         # Mise a jour de l'attribut
         system@passif <- proj_passif[["passif"]]
@@ -69,8 +69,7 @@ setMethod(
         warning("Brancher la reserve de capitalisation")
 
         # Mise en forme des donnees
-        result_fin <- list(pmvl = proj_actif[["pmvl"]],
-                           pmv = proj_actif[["flux"]][["pmv"]],
+        result_fin <- list(pmv = proj_actif[["flux"]][["pmv"]],
                            prod_fin = proj_actif[["flux"]][["prod_fin"]])
         result_tech <- list(chargement = proj_passif[["flux"]][["chargement"]])
 
