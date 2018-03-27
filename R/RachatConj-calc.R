@@ -27,7 +27,7 @@ setMethod(
         diff_taux <- tx_serv - tx_cible
 
         # Initialisation du vecteur des taux de rachats
-        rachat <- rep(x = NA, length = length(tx_cible))
+        rachat <- rep(x = NA, length = length(tx_serv))
 
 
 
@@ -107,6 +107,6 @@ setMethod(
 
 
         # Output
-        return(list(rachat = rachat))
+        return(rachat)
     }
 )

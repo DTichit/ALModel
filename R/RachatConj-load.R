@@ -24,7 +24,7 @@ setMethod(
                           colClasses = c("numeric", "numeric", "numeric", "numeric", "numeric", "numeric"))
 
         # Creation de l'objet
-        rachat_conj <- new("RachatConj", alpha = temp[,"alpha"], beta = temp[,"alpha"], gamma = temp[,"gamma"],
+        rachat_conj <- new("RachatConj", alpha = temp[,"alpha"], beta = temp[,"beta"], gamma = temp[,"gamma"],
                            delta = temp[,"delta"], RCmin = temp[,"RCmin"], RCmax = temp[,"RCmax"])
 
         # Output
