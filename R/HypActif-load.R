@@ -23,8 +23,11 @@ setMethod(
         # Creation des attributs
         ptf_cible      <- load_ptf_cible(paste(address, "01_PortefeuillesCibles", sep = "/"))
 
+        # Lecture de fichiers
+        frais_fin <- read.csv2(paste(address, "frais_financiers.csv", sep = "/"))
+
         # Creation de l'objet
-        hyp_actif <- new("HypActif", ptf_cible = ptf_cible)
+        hyp_actif <- new("HypActif", ptf_cible = ptf_cible, frais_fin = frais_fin)
 
         # Output
         return(hyp_actif)
