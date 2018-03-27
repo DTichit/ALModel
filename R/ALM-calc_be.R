@@ -29,7 +29,7 @@ setMethod(
 
         # Initialisation de la liste contenant les flux par annee
         flux_be_simu    <- list()
-        flux_simu       <- list()
+        stock           <- list()
 
 
 
@@ -49,7 +49,7 @@ setMethod(
                 system  <- alm@system
 
                 # Appel de la fonction pour calculer les flux sur 1 simulation
-                be_simu <- calc_be_simu(alm)[["flux"]]
+                be_simu <- calc_be_simu(alm)[["out"]]
 
                 return(be_simu)
             }
@@ -72,7 +72,7 @@ setMethod(
                 system  <- alm@system
 
                 # Appel de la fonction pour calculer les flux sur 1 simulation
-                be_simu <- calc_be_simu(alm)[["flux"]]
+                be_simu <- calc_be_simu(alm)[["out"]]
 
                 # Avancement de la barre de progression
                 setTxtProgressBar(barre, sim)
@@ -95,13 +95,13 @@ setMethod(
         tsr <- hyp_alm@tsr[1L:hyp_alm@an_proj]
 
         # Actualisation
-        flux_actu <- sapply(X = names(flux_be[[1L]]), simplify = FALSE, USE.NAMES = TRUE ,
+        flux_actu <- sapply(X = names(flux_be[[1L]][["flux"]]), simplify = FALSE, USE.NAMES = TRUE ,
                             FUN = function(x) {
 
                                 sapply(X = 1L:(hyp_alm@an_proj), FUN = function(y) {
 
                                     # Actualisation des flux
-                                    flux_actu_simu <- flux_be[[y]][[x]] * ((1 + tsr)^(-(1L:(hyp_alm@an_proj))))
+                                    flux_actu_simu <- flux_be[[y]][["flux"]][[x]] * ((1 + tsr)^(-(1L:(hyp_alm@an_proj))))
 
                                     # Somme des flux
                                     return(sum(flux_actu_simu))})
@@ -114,13 +114,20 @@ setMethod(
         ## ###########################
 
         # Moyenne sur les simulations
-        be <- sapply(X = names(flux_be[[1L]]), function(x) mean(flux_actu[[x]]))
+        be <- sapply(X = names(flux_be[[1L]][["flux"]]), function(x) mean(flux_actu[[x]]))
 
+
+
+        ## ###########################
+        ##   Extraction des donnees sauvegardees
+        ## ###########################
+        stock <- sapply(X = 1L:(hyp_alm@nb_simu), simplify = FALSE, USE.NAMES = TRUE,
+                            FUN = function(x) return(flux_be[[x]][["stock"]]))
 
 
         # Output
         return(list(be = list(be = be,
                               flux_actu = flux_actu),
-                    flux = 0L))
+                    stock = stock))
     }
 )

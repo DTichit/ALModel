@@ -29,7 +29,7 @@ setMethod(
 
         # Initialisation de la liste contenant les flux par annee
         flux_be_simu    <- list()
-        flux_simu       <- list()
+        stock_simu      <- list()
 
 
 
@@ -48,7 +48,7 @@ setMethod(
 
             # Mise en memoire des flux
             flux_be_simu[[an]]  <- res_proj[["flux_bel"]]
-            flux_simu[[an]]     <- res_proj[["flux"]]
+            stock_simu[[an]]    <- res_proj[["stock"]]
         }
 
 
@@ -67,7 +67,8 @@ setMethod(
 
 
         # Output
-        return(list(flux = flux,
+        return(list(out = list(flux = flux,
+                               stock = stock_simu),
                     system = system))
     }
 )
