@@ -50,6 +50,8 @@ setMethod(
 
 
 
+        warning("Penser a mettre a jour la revalorisation precedente dans le PTF Epargne")
+
 
 
 
