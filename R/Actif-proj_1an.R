@@ -15,7 +15,6 @@ setMethod(
     definition = function(actif){
 
 
-        warning("La tresorerie n'est jamais mise a jour a la suite des differents flux : frais, vieilissement....")
 
         ## ######################################################
         ## ######################################################
@@ -78,16 +77,31 @@ setMethod(
         # Mise a jour de l'objet
         actif@ptf_actif <- res_vieillissement[["ptf_actif"]]
 
-        warning("Les PMV sortant de la fonction 'vieillissement' sont deja comptablisees dans la fonction 'revalo' !")
-
-        # Plusieurs solutions pour palier a ce probleme :
-        #       - Mettre le vieillissement en debut de fonction ;
-        #       - Sortir de la fonction 'vieillissement' les indices des produits vendus ;
-        #       - Dans la fonction 'revalo', ne calculer que les PMVL pour les obligations dont la maturite est >=2 ;
-        #       - Ajouter une colonne 'last_vm' dans les PTF afin de calculer les PMVL plus tard.
-
 
         warning("On fait quoi des ventes apres le vieillissement ? Mise a jour de la treso ou PB ?")
+
+
+
+
+
+        ## ######################################################
+        ## ######################################################
+        ##
+        ##      Mise a jour de la tresorerie apres ces etapes
+        ##
+        ## ######################################################
+        ## ######################################################
+
+        # Extraction des montants a inserer dans la treso
+        # frais <- do.call(sum, frais_fin[["frais"]])
+        diff_oblig <- 0
+
+        # Calcul du montant a inserer dans la tresorerie
+        montant <- 0
+        warning("Partie a finaliser")
+
+        # Mise a jour de l'attribut
+        # actif@ptf_actif@tresorerie <- actif@ptf_actif@tresorerie + montant
 
 
 
@@ -107,7 +121,7 @@ setMethod(
         return(list(actif = actif,
                     flux = list(prod_fin = prod_fin_ptf[["prod_fin"]],
                                 vente = res_vieillissement[["flux"]][["vente"]],
-                                pmv   = res_vieillissement[["flux"]][["pmv"]],
+                                pmvr  = res_vieillissement[["flux"]][["pmv"]],
                                 frais = frais_fin[["frais"]]),
                     pmvl = res_revalo_actif[["pmvl"]]))
     }

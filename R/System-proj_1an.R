@@ -61,15 +61,37 @@ setMethod(
         ## ######################################################
         ## ######################################################
         ##
+        ##          Gestion de la Reserve de Capitalisation
+        ##
+        ## ######################################################
+        ## ######################################################
+
+        # Extraction des PMV realisees
+        pmvr <- proj_actif[["flux"]][["pmvr"]]
+
+        # Appel de la fonction
+        res_reserve_capi <- dotation_reserve_capi(system@passif@provision@reserve_capi, pmvr = pmvr[["obligation"]])
+
+        # Mise a jour de la provision
+        system@passif@provision@reserve_capi <- res_reserve_capi[["reserve_capi"]]
+
+        # Mise a jour des PMVR
+        pmvr[["obligation"]] <- res_reserve_capi[["reste_pmv"]]
+
+
+
+
+
+        ## ######################################################
+        ## ######################################################
+        ##
         ##              Determination de la PB
         ##
         ## ######################################################
         ## ######################################################
 
-        warning("Brancher la reserve de capitalisation")
-
         # Mise en forme des donnees
-        result_fin <- list(pmv = proj_actif[["flux"]][["pmv"]],
+        result_fin <- list(pmvr = pmvr,
                            prod_fin = proj_actif[["flux"]][["prod_fin"]])
         result_tech <- list(chargement = proj_passif[["flux"]][["chargement"]])
 
