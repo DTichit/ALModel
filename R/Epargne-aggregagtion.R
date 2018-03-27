@@ -17,8 +17,9 @@ setMethod(
     definition = function(epargne){
 
         # Aggration des donnees
-        temp <- (epargne@ptf %>% group_by(age, anc, tmg, sexe)
-                 %>% summarise(prime = sum(prime),
+        temp <- (epargne@ptf %>% group_by(sexe, age, anc, tmg)
+                 %>% summarise(revalo_prec = weighted.mean(revalo_prec, pm),
+                               prime = sum(prime),
                                chgt_gestion = weighted.mean(chgt_gestion, pm),
                                chgt_rachats = weighted.mean(chgt_rachats, pm),
                                chgt_deces = weighted.mean(chgt_deces, pm),
@@ -81,7 +82,8 @@ setMethod(
 
         # Aggregation des donnees du PTF
         temp <- (epargne@ptf %>% group_by(tmg)
-                 %>% summarise(prime = sum(prime),
+                 %>% summarise(revalo_prec = weighted.mean(revalo_prec, pm),
+                               prime = sum(prime),
                                chgt_gestion = weighted.mean(chgt_gestion, pm),
                                chgt_rachats = weighted.mean(chgt_rachats, pm),
                                chgt_deces = weighted.mean(chgt_deces, pm),

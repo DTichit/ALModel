@@ -21,7 +21,7 @@ setMethod(
 
         # Lecture du fichier
         ptf <- read.csv2(address, header = TRUE,
-                         colClasses = c("numeric", "factor", "integer", "integer", "numeric", "numeric",
+                         colClasses = c("numeric", "factor", "integer", "integer", "numeric", "numeric", "numeric",
                                         "numeric", "numeric", "numeric", "numeric", "numeric", "numeric"))
 
         # Creation du dataframe
