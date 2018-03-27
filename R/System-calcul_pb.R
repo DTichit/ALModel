@@ -5,7 +5,7 @@
 ##' @name calcul_pb
 ##' @docType methods
 ##' @param taux_pb est une \code{list} contenant les deux taux de pb contractuels.
-##' @param resultat_fin est une \code{list} contenant les resultats financiers : PMVL, produits financiers.
+##' @param resultat_fin est une \code{list} contenant les resultats financiers : PMVR, produits financiers.
 ##' @param resultat_tech est une \code{list} contenant le resultat technique : chargements
 ##' @author Damien Tichit pour Sia Partners
 ##' @export
@@ -22,14 +22,14 @@ setMethod(
         ##     Resultat financier
         ## ###########################
 
-        # Extraction des PMVL
-        pmv  <- do.call(sum, resultat_fin[["pmv"]])
+        # Extraction des PMVR
+        pmvr  <- do.call(sum, resultat_fin[["pmvr"]])
 
         # Extraction des produits financiers
         prod_fin <- do.call(sum, resultat_fin[["prod_fin"]])
 
         # Resultat financier total
-        resultat_fin <- pmv + prod_fin
+        resultat_fin <- pmvr + prod_fin
 
 
 
