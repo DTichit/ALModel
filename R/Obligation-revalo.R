@@ -17,6 +17,7 @@ setMethod(
     signature = c(obligation = "Obligation", yield_curve = "numeric"),
     definition = function(obligation, yield_curve){
 
+        warning("Mettre de le spread")
 
         ## ###########################
         ##   Extraction des donnnes
