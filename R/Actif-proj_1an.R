@@ -57,7 +57,8 @@ setMethod(
         ## ######################################################
 
         # Calcul des frais financiers
-        frais_fin <- eval_frais_fin(ptf_actif = actif@ptf_actif, hyp_actif = actif@hyp_actif)
+        frais_fin <- eval_frais_fin(ptf_actif = actif@ptf_actif, frais_fin = actif@hyp_actif@frais_fin,
+                                    prod_fin = prod_fin_ptf[["prod_fin"]])
 
 
 
@@ -93,12 +94,12 @@ setMethod(
         ## ######################################################
 
         # Extraction des montants a inserer dans la treso
-        # frais <- do.call(sum, frais_fin[["frais"]])
-        diff_oblig <- 0
+        frais <- sapply(names(frais_fin[["frais"]]), function(x) do.call(sum, frais_fin[["frais"]][[x]]))
 
         # Calcul du montant a inserer dans la tresorerie
-        montant <- 0
+        montant <- frais
         warning("Partie a finaliser")
+        warning("Est ce qu'on met les ventes des actifs ?")
 
         # Mise a jour de l'attribut
         # actif@ptf_actif@tresorerie <- actif@ptf_actif@tresorerie + montant
