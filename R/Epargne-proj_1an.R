@@ -22,6 +22,7 @@ setMethod(
         ## ###########################
         name_ptf <- names(epargne@ptf)
 
+        warning("Penser a ajouter les primes !!")
 
 
         ## ######################################################
@@ -34,10 +35,8 @@ setMethod(
 
         # Extraction de donnees
         nb_contr_ptf_epargne <- .subset2(epargne@ptf, which(name_ptf == "nb_contr"))
-        # sexe_ptf_epargne <- .subset2(epargne@ptf, which(name_ptf == "sexe"))
-        # age_ptf_epargne  <- .subset2(epargne@ptf, which(name_ptf == "age"))
-        # anc_ptf_epargne  <- .subset2(epargne@ptf, which(name_ptf == "anc"))
         pm_ptf_epargne   <- .subset2(epargne@ptf, which(name_ptf == "pm"))
+        revalo_prec_ptf_epargne   <- .subset2(epargne@ptf, which(name_ptf == "revalo_prec"))
 
 
         ## ###########################
@@ -66,7 +65,15 @@ setMethod(
         rachat_part <- tx_rachat_part * pm_ptf_epargne
 
 
-        warning("Les rachats dynamiques sont a inserer !")
+        ## ###########################
+        ## Gestion des rachats conjocturels
+        ## ###########################
+
+        # Calcul des taux de rachats
+        tx_rachat_conj <- calc_rachat_conj(rachat_conj = hyp_passif@rachat_conj, tx_cible = 0.035, tx_serv = revalo_prec_ptf_epargne)
+
+        # Calcul des prestations
+        rachat_conj <- tx_rachat_conj * pm_ptf_epargne
 
 
 
@@ -92,7 +99,7 @@ setMethod(
 
         # Calcul des differents chargements
         chgt_gestion <- pm_ptf_epargne * tx_chgt_gestion
-        chgt_rachats <- (rachat_tot + rachat_part) * tx_chgt_rachats
+        chgt_rachats <- (rachat_tot + rachat_part + rachat_conj) * tx_chgt_rachats
         chgt_deces   <- deces * tx_chgt_deces
 
         # Aggregation des chargements
@@ -140,7 +147,7 @@ setMethod(
         ## ######################################################
 
         # Prestations
-        prestations <- deces + (rachat_tot + rachat_part)
+        prestations <- deces + (rachat_tot + rachat_part + rachat_conj)
 
         # Calcul des nouvelles PM
         new_pm <- pm_ptf_epargne - prestations - chgt
