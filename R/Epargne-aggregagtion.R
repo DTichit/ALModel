@@ -120,11 +120,11 @@ setMethod(
         temp <- (temp[,-1L] %>% group_by(tmg)
                  %>% summarise_all(funs(weighted.mean(x = ., w = nb_contr))))
 
+        # Tri par tmg
+        temp <- temp[order(temp$tmg),]
+
         # Mise a jour de l'objet
         epargne@proba@deces_contr <- data.frame(id_mp = paste("ep", 1L:nrow(temp), sep = "-"), temp)
-
-        # Tri par tmg
-        epargne@proba@deces_contr <- epargne@proba@deces_contr[order(epargne@proba@deces_contr$tmg),]
 
         # Ne conserver que les variables "utiles"
         name_deces <- names(epargne@proba@deces_contr)
@@ -142,11 +142,11 @@ setMethod(
         temp <- (temp[,-1L] %>% group_by(tmg)
                  %>% summarise_all(funs(weighted.mean(x = ., w = pm))))
 
+        # Tri par tmg
+        temp <- temp[order(temp$tmg),]
+
         # Mise a jour de l'objet
         epargne@proba@deces_pm <- data.frame(id_mp = paste("ep", 1L:nrow(temp), sep = "-"), temp)
-
-        # Tri par tmg
-        epargne@proba@deces_pm <- epargne@proba@deces_pm[order(epargne@proba@deces_pm$tmg),]
 
         # Ne conserver que les variables "utiles"
         name_deces <- names(epargne@proba@deces_pm)
@@ -164,11 +164,11 @@ setMethod(
         temp <- (temp[,-1L] %>% group_by(tmg)
                  %>% summarise_all(funs(weighted.mean(x = ., w = pm))))
 
+        # Tri par tmg
+        temp <- temp[order(temp$tmg),]
+
         # Mise a jour de l'objet
         epargne@proba@rachat_tot_pm <- data.frame(id_mp = paste("ep", 1L:nrow(temp), sep = "-"), temp)
-
-        # Tri par tmg
-        epargne@proba@rachat_tot_pm <- epargne@proba@rachat_tot_pm[order(epargne@proba@rachat_tot_pm$tmg),]
 
         # Ne conserver que les variables "utiles"
         name_rachat_tot <- names(epargne@proba@rachat_tot_pm)
@@ -186,11 +186,11 @@ setMethod(
         temp <- (temp[,-1L] %>% group_by(tmg)
                  %>% summarise_all(funs(weighted.mean(x = ., w = nb_contr))))
 
+        # Tri par tmg
+        temp <- temp[order(temp$tmg),]
+
         # Mise a jour de l'objet
         epargne@proba@rachat_tot_contr <- data.frame(id_mp = paste("ep", 1L:nrow(temp), sep = "-"), temp)
-
-        # Tri par tmg
-        epargne@proba@rachat_tot_contr <- epargne@proba@rachat_tot_contr[order(epargne@proba@rachat_tot_contr$tmg),]
 
         # Ne conserver que les variables "utiles"
         name_rachat_tot <- names(epargne@proba@rachat_tot_contr)
@@ -208,11 +208,11 @@ setMethod(
         temp <- (temp[,-1L] %>% group_by(tmg)
                  %>% summarise_all(funs(weighted.mean(x = ., w = pm))))
 
+        # Tri par tmg
+        temp <- temp[order(temp$tmg),]
+
         # Mise a jour de l'objet
         epargne@proba@rachat_part <- data.frame(id_mp = paste("ep", 1L:nrow(temp), sep = "-"), temp)
-
-        # Tri par tmg
-        epargne@proba@rachat_part <- epargne@proba@rachat_part[order(epargne@proba@rachat_part$tmg),]
 
         # Ne conserver que les variables "utiles"
         name_rachat_part <- names(epargne@proba@rachat_part)
