@@ -117,7 +117,7 @@ setMethod(
 
         # Mise a jour des PM
         epargne@ptf$pm <- new_pm
-        epargne@ptf$revalo_prec <- tx_revalo
+        epargne@ptf$revalo_prec <- tx_revalo - 1
 
 
 
