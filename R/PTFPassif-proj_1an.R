@@ -52,6 +52,9 @@ setMethod(
         # Prestations
         prestation <- list(epargne = res_proj_epargne[["flux"]][["prestation"]])
 
+        # Prime
+        prime <- list(epargne = res_proj_epargne[["flux"]][["prime"]])
+
         # Chargements
         chargement <- list(epargne = res_proj_epargne[["flux"]][["chargement"]])
 
@@ -65,6 +68,7 @@ setMethod(
         # Output
         return(list(ptf_passif = ptf_passif,
                     flux = list(prestation = prestation,
+                                prime = prime,
                                 chargement = chargement,
                                 frais = frais),
                     besoin = list(revalo_tmg = revalo_tmg)))

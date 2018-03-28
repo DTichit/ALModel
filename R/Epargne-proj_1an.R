@@ -70,10 +70,28 @@ setMethod(
         ## ###########################
 
         # Calcul des taux de rachats
-        tx_rachat_conj <- calc_rachat_conj(rachat_conj = hyp_passif@rachat_conj, tx_cible = 0.035, tx_serv = revalo_prec_ptf_epargne)
+        tx_rachat_conj <- calc_rachat_conj(rachat_conj = hyp_passif@rachat_conj, tx_cible = 0.02, tx_serv = revalo_prec_ptf_epargne)
+        warning("Modifier le tx cible qui a ete mis en dur !")
 
         # Calcul des prestations
         rachat_conj <- tx_rachat_conj * pm_ptf_epargne
+
+
+
+
+
+
+
+        ## ######################################################
+        ## ######################################################
+        ##
+        ##            Evaluation des primes versees
+        ##
+        ## ######################################################
+        ## ######################################################
+
+        # Extraction des donnees
+        prime <- .subset2(epargne@ptf, which(name_ptf == "prime"))
 
 
 
@@ -150,7 +168,7 @@ setMethod(
         prestations <- deces + (rachat_tot + rachat_part + rachat_conj)
 
         # Calcul des nouvelles PM
-        new_pm <- pm_ptf_epargne - prestations - chgt
+        new_pm <- pm_ptf_epargne - prestations - chgt + prime
         new_nb_contr <- nb_contr_ptf_epargne * (1 - tx_deces_contr - tx_rachat_tot_contr)
 
         # Mise a jour de l'objet
@@ -168,7 +186,7 @@ setMethod(
         ## ######################################################
         ## ######################################################
         ##
-        ##              Revalorisation des contrats
+        ##              Besoin en revalorisation
         ##
         ## ######################################################
         ## ######################################################
@@ -182,11 +200,8 @@ setMethod(
 
         # Calcul besoin revalorisation sur les prestations (en milieu d'annee)
         revalo_tmg_prest <- prestations * (tmg_ptf_epargne*0.5)
-        warning("Revalorisation des prestations a revoir")
 
 
-
-        warning("A voir si le calcul de la revalorisation est correcte")
 
 
 
@@ -194,7 +209,9 @@ setMethod(
         return(list(epargne = epargne,
                     flux = list(prestation = list(deces = sum(deces),
                                                   rachat_tot = sum(rachat_tot),
-                                                  rachat_part = sum(rachat_part)),
+                                                  rachat_part = sum(rachat_part),
+                                                  rachat_conj = sum(rachat_conj)),
+                                prime = sum(prime),
                                 chargement = list(gestion = sum(chgt_gestion),
                                                   rachats = sum(chgt_rachats),
                                                   deces = sum(chgt_deces)),

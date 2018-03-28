@@ -138,7 +138,7 @@ setMethod(
 
 
         ## ###########################
-        ##   Gestion des prestations
+        ##   Aggregation des flux
         ## ###########################
 
         # Prestation par produit
@@ -146,16 +146,13 @@ setMethod(
                                   FUN = function(x) do.call(sum, proj_passif[["flux"]][["prestation"]][[x]]),
                                   simplify = FALSE, USE.NAMES = TRUE)
 
-
-
-        ## ###########################
-        ##      Gestion des frais
-        ## ###########################
-
         # Frais par produit
         frais_prod <- sapply(X = name_passif,
                              FUN = function(x) return(do.call(sum, proj_passif[["flux"]][["frais"]][[x]])),
                              simplify = FALSE, USE.NAMES = TRUE)
+
+        # Primes par produit
+        prime_prod <- proj_passif[["flux"]][["prime"]]
 
 
 
@@ -165,7 +162,7 @@ setMethod(
 
         # Somme des flux necessaires au calcul du BEL
         flux_bel <- sapply(X = name_passif,
-                           FUN = function(x) return(frais_prod[[x]] + prestation_prod[[x]]),
+                           FUN = function(x) return(frais_prod[[x]] + prestation_prod[[x]] - prime_prod[[x]]),
                            simplify = FALSE, USE.NAMES = TRUE)
 
 
