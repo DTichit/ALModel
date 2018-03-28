@@ -19,7 +19,7 @@ setMethod(
 
         # Test sur le signe du montant
         if(montant < 0)
-            warning("PPE : Dotation d'un montant negatif.")
+            warning("PPE : Reprise d'un montant negatif (donc dotation).")
 
 
         ## ###########################
