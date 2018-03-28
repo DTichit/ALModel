@@ -100,7 +100,7 @@ setMethod(
 
         # Ajout du reste de resultat a la tresorerie
         reste <- do.call(sum, res_pb[["reste"]])
-        system@actif@ptf_actif@tresorerie@ptf <- system@actif@ptf_actif@tresorerie@ptf + reste
+        system@actif@ptf_actif@tresorerie@ptf$solde <- system@actif@ptf_actif@tresorerie@ptf$solde + reste
 
 
 
@@ -109,7 +109,7 @@ setMethod(
         ## ######################################################
         ## ######################################################
         ##
-        ##              Revalorisation du passif
+        ##  Revalorisation du passif : Distribution de la PB
         ##
         ## ######################################################
         ## ######################################################
@@ -117,8 +117,17 @@ setMethod(
         # PB a attribuer
         pb <- do.call(sum, res_pb[["pb"]])
 
+        # Revalorisation deja effectuee
+        revalo_prestation <- list(epargne = proj_passif[["besoin"]][["revalo_regl"]][["epargne"]][["prestation"]])
+
         # Appel de la fonction
-        res_revalo <- revalo_passif(passif = system@passif, pb = pb)
+        res_revalo <- revalo_passif(passif = system@passif, revalo_prestation = revalo_prestation, pb = pb)
+
+        # Mise a jour de l'objet
+        system@passif <- res_revalo[["passif"]]
+
+        # Mise a jour de la tresorie a la suite des revalorisations contractuelles
+        system@actif@ptf_actif@tresorerie@ptf$solde <- system@actif@ptf_actif@tresorerie@ptf$solde - res_revalo$reste_contr
 
 
 
