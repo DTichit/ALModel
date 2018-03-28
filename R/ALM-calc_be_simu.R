@@ -66,8 +66,22 @@ setMethod(
 
 
 
+        ## ###########################
+        ##   Actualisation des flux
+        ## ###########################
+
+        # Recuperation des taux sans risque
+        tsr <- hyp_alm@tsr[1L:hyp_alm@an_proj]
+
+        # Actualisation
+        flux_actu <- sapply(X = names(flux), simplify = FALSE, USE.NAMES = TRUE ,
+                            FUN = function(x) return(sum(flux[[x]] * ((1 + tsr)^(-(1L:(hyp_alm@an_proj)))))))
+
+
+
+
         # Output
-        return(list(out = list(flux = flux,
+        return(list(out = list(flux_actu = flux_actu,
                                stock = stock_simu),
                     system = system))
     }
