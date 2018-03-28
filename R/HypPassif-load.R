@@ -32,11 +32,18 @@ setMethod(
         # Chargement de l'objet modelisant les rachats conjoncturels
         rachat_conj <- load_rachat_conj(paste(address, "03_RachatsConjoncturels", "Rachats_conjoncturels.csv", sep = "/"))
 
+        # Lecture des fichiers csv
+        prop_pb <- read.csv2(paste(address, "prop_pb.csv", sep = "/"), header = TRUE, colClasses = c("character", "numeric"))
+
+        # Test sur le fichier
+        if(sum(prop_pb$proportion) != 1)
+            stop("La somme des proportions de PB a attribuer est differente de 1.")
+
         # Creation de l'objet
         hyp_passif <- new("HypPassif",
                           tab_morta_h = tab_morta_h, tab_morta_f = tab_morta_f,
                           tab_rachat_tot = tab_rachat_tot, tab_rachat_part = tab_rachat_part,
-                          rachat_conj = rachat_conj)
+                          rachat_conj = rachat_conj, prop_pb = prop_pb)
 
         # Output
         return(hyp_passif)
