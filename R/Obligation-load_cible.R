@@ -28,7 +28,7 @@ setMethod(
             stop("[load_obligation_cible] : Somme des proportions differente de 1.")
 
         # Creation du dataframe
-        df <- data.frame(id_mp = paste("ob", "cib", 1L:nrow(temp), sep = "-"), temp)
+        df <- data.frame(id_mp = paste("ob", "cib", 1L:nrow(temp), sep = "-"), temp, cible = TRUE)
 
         # Creation de l'objet
         obligation <- new("Obligation", ptf = df)

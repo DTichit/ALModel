@@ -23,10 +23,10 @@ setMethod(
 
         # Lecture du fichier
         temp <- read.csv2(address, header = TRUE,
-                          colClasses = c("numeric", "numeric", "numeric", "numeric", "integer", "factor", "factor"))
+                          colClasses = c("numeric", "numeric", "numeric", "numeric", "integer", "factor", "factor", "numeric"))
 
         # Creation du dataframe
-        df <- data.frame(id_mp = paste("ob", 1L:nrow(temp), sep = "-"), temp)
+        df <- data.frame(id_mp = paste("ob", 1L:nrow(temp), sep = "-"), temp, cible = FALSE)
 
         # Creation de l'objet
         obligation <- new("Obligation", ptf = df)
