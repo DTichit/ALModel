@@ -49,14 +49,14 @@ setMethod(
 
             # Extraction de donnees
             coupon <- coupon_ptf[id_mat_res] * nominal_ptf[id_mat_res]
-            pzc <- yield_curve[seq(1L, mat_res)]
+            pzc <- exp(-yield_curve[seq(1L, mat_res)])
             vr <- nominal_ptf[id_mat_res]
 
             # Actualisation des coupons (Sommation pour eviter de passer par une matrice)
-            coupon_act <- sum(coupon) * ((1 + pzc)^(-seq(1L, mat_res)))
+            coupon_act <- sum(coupon) * (pzc^seq(1L, mat_res))
 
             # Calcul des nouvelles VM
-            new_vm[id_mat_res] <- (coupon/sum(coupon)) * sum(coupon_act) + vr * (1+yield_curve[mat_res])^(-mat_res)
+            new_vm[id_mat_res] <- (coupon/sum(coupon)) * sum(coupon_act) + vr * pzc[mat_res]^mat_res
 
         }
 
@@ -74,7 +74,7 @@ setMethod(
         ## ###########################
         ##   Mise a jour de l'objet
         ## ###########################
-        obligation@ptf["valeur_marche"] <- new_vm
+        obligation@ptf$valeur_marche <- new_vm
 
 
 
