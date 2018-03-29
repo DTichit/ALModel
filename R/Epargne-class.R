@@ -9,6 +9,7 @@
 ##' @slot proba est un objet de type \code{\link{ProbaEpargne}} contenant les probas relatives au portfeuille.
 ##' @author Damien Tichit pour Sia Partners
 ##' @keywords classes
+##' @include ProbaEpargne-class.R
 ##'
 setClass(
     Class = "Epargne",
