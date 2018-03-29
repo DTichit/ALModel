@@ -10,11 +10,7 @@ Cette classe represente le portfeuille financier cible de la compagnie d'assuran
 \section{Slots}{
 
 \describe{
-\item{\code{action}}{est un objet de la classe \code{\link{Action}} representant le portfeuille cible action.}
-
 \item{\code{obligation}}{est un objet de la classe \code{\link{Obligation}} representant le portfeuille cible obligation.}
-
-\item{\code{immobilier}}{est un objet de la classe \code{\link{Immobilier}} representant le portfeuille cible Immobilier.}
 
 \item{\code{alloc_cible}}{est un objet \code{data.frame} indiquant l'allocation cible pour chaque produit.}
 }}

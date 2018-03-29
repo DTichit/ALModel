@@ -8,7 +8,7 @@
 calc_be(alm, parallel = FALSE, nb_core = 1L)
 }
 \arguments{
-\item{alm}{est un objet de type \code{ALM} contenant l'ensemble des donnees.}
+\item{alm}{est un objet de type \code{\link{ALM}} contenant l'ensemble des donnees.}
 
 \item{parallel}{est une valeur \code{logical}. Lorsque cet argument est a \code{TRUE}, les calculs sont parallelises.}
 
@@ -18,12 +18,7 @@ calc_be(alm, parallel = FALSE, nb_core = 1L)
 Cette fonction est une fonction centrale du package. Elle permet en effet de calculer un BEL.
 }
 \details{
-C'est sur cette fonction que s'effectue les boucles sur le nombre de simulations ainsi que sur les annees.
-
 Il est possible paralleliser les calculs afin d'accelerer le calcul d'un best-estimate.
-}
-\seealso{
-Projection sur une annee d'un \code{\link{System}} : \code{\link{proj_1an_system}}.
 }
 \author{
 Damien Tichit pour Sia Partners

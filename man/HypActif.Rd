@@ -5,12 +5,14 @@
 \alias{HypActif}
 \title{Classe \code{HypActif}}
 \description{
-Cette classe aggrege l'ensemble des hypotheses relatives au passif de la compagnie d'assurance : portefeuille cible
+Cette classe aggrege l'ensemble des hypotheses relatives au passif de la compagnie d'assurance : portefeuille cible, frais financiers.
 }
 \section{Slots}{
 
 \describe{
 \item{\code{ptf_cible}}{est un objet de la classe \code{\link{PTFCible}} representant le portfeuille financier cible.}
+
+\item{\code{frais_fin}}{est un objet de la classe \code{\link{data.frame}} contenant les hyptheses relatives aux frais financiers.}
 }}
 
 \author{

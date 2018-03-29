@@ -5,12 +5,14 @@
 \alias{proj_1an_ptf_passif}
 \title{Fonction \code{proj_1an_ptf_passif}}
 \usage{
-proj_1an_ptf_passif(ptf_passif, hyp_passif)
+proj_1an_ptf_passif(ptf_passif, hyp_passif, an)
 }
 \arguments{
 \item{ptf_passif}{est un objet de type \code{\link{PTFPassif}}.}
 
 \item{hyp_passif}{est un objet de type \code{\link{HypPassif}}.}
+
+\item{an}{est un objet de type \code{integer}.}
 }
 \description{
 Cette fonction permet de projeter horizon 1 an le portfeuille passif : gestion des differents passifs

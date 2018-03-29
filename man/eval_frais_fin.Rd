@@ -5,15 +5,16 @@
 \alias{eval_frais_fin}
 \title{Fonction \code{eval_frais_fin}}
 \usage{
-eval_frais_fin(ptf_actif, hyp_actif)
+eval_frais_fin(ptf_actif, frais_fin, prod_fin)
 }
 \arguments{
 \item{ptf_actif}{est un objet de type \code{\link{PTFActif}}.}
 
-\item{hyp_actif}{est un objet de type \code{\link{HypActif}}.}
+\item{frais_fin}{est un objet de type \code{data.frame}.}
 }
 \description{
-Cette fonction permet d'evaluer les frais relatifs au portfeuille actif d'une compagnie d'assurance.
+Cette fonction permet d'evaluer les frais relatifs au portfeuille actif d'une compagnie d'assurance. Il est possible de modeliser des frais par produits financiers
+mais egalement des frais proportionnels aux VM.
 }
 \author{
 Damien Tichit pour Sia Partners

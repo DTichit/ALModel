@@ -10,7 +10,9 @@ Cette classe represente le portefeuille des contrats epargne de la compagnie d'a
 \section{Slots}{
 
 \describe{
-\item{\code{ptf}}{est un objet de type \code{\link{data.frame}} contenant les donnees relatives au portfeuille.}
+\item{\code{ptf}}{est un objet de type \code{data.frame} contenant les donnees relatives au portfeuille.}
+
+\item{\code{proba}}{est un objet de type \code{\link{ProbaEpargne}} contenant les probas relatives au portfeuille.}
 }}
 
 \author{

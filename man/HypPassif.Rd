@@ -18,7 +18,11 @@ Cette classe aggrege l'ensemble des hypotheses relatives au passif d'une compagn
 
 \item{\code{tab_rachat_part}}{est un objet de la classe \code{\link{TabRachat}} contenant la table modelisant les rachats partiels.}
 
-\item{\code{rachat_conj}}{est un objet de la classe \code{\link{RachatConj}} contenant les parametres modelisant les rachats conjoncturels}
+\item{\code{rachat_conj}}{est un objet de la classe \code{\link{RachatConj}} contenant les parametres modelisant les rachats conjoncturels.}
+
+\item{\code{calc_proba}}{est un objet \code{logical} qui indique si les probabilites doivent etre calculees.}
+
+\item{\code{prop_pb}}{est un \code{data.frame} qui indique la proportion a attribue dans le cas ou les besoins ont ete assouvis (apres besoins contractuels et cible).}
 }}
 
 \author{

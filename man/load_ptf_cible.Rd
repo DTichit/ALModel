@@ -16,14 +16,10 @@ Cette fonction permet de charger les donnees pour un objet de type \code{\link{P
 une architecture propre a \code{SiALM}.
 }
 \details{
-La creation d'un objet \code{\link{PTFCible}} necessite la creation de trois autres objets : \code{\link{Action}}, \code{\link{Obligation}} et \code{\link{Immobilier}}.
+La creation d'un objet \code{\link{PTFCible}} necessite la creation d'un autre objet : \code{\link{Obligation}}.
 }
 \seealso{
-Construction d'un objet de type \code{\link{Action}} : \code{\link{load_action_cible}}.
-
 Construction d'un objet de type \code{\link{Obligation}} : \code{\link{load_obligation_cible}}.
-
-Construction d'un objet de type \code{\link{Immobilier}} : \code{\link{load_immobilier_cible}}.
 }
 \author{
 Damien Tichit pour Sia Partners

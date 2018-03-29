@@ -5,15 +5,30 @@
 \alias{revalo_passif}
 \title{Fonction \code{revalo_passif}}
 \usage{
-revalo_passif(passif, pb)
+revalo_passif(passif, pb, revalo_prestation)
 }
 \arguments{
 \item{passif}{est un objet de type \code{\link{Passif}}.}
 
 \item{pb}{est un \code{numeric} representant le montant de PB a distribuer.}
+
+\item{revalo_prestation}{est une \code{list} indiquant des montants de revalorisation obligatoires ayant deja ete distribue. Ils sont consideres comme des besoins de revalorisation contractuels.
+Les montants doivent etre mis sous forme de liste et par produit.}
 }
 \description{
-Cette fonction permet de revaloriser le passif d'une compagnie d'assurance.
+Cette fonction permet de revaloriser le passif d'une compagnie d'assurance. Au cours de cette fonction sont effectuees : la regle des 8 ans.
+}
+\details{
+Les politiques de revalorisation appliquees dans cette fonction sont les suivantes :
+\describe{
+\item{Epargne}{ : Atteindre une revalorisation proched du tme afin de minimiser les rachats conjoncturels.}
+}
+Les besoins reglementaires sont tout d'abord decompté du montant devant etre obligatoirement distribue.
+}
+\seealso{
+Calcul du besoin en revalorisation : \code{\link{besoin_revalo_ptf_passif}}.
+
+Gestion de la regle des 8 ans sur la PPE : \code{\link{reprise_ppe_8ans}}.
 }
 \author{
 Damien Tichit pour Sia Partners

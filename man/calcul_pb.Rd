@@ -10,7 +10,7 @@ calcul_pb(taux_pb, resultat_fin, resultat_tech)
 \arguments{
 \item{taux_pb}{est une \code{list} contenant les deux taux de pb contractuels.}
 
-\item{resultat_fin}{est une \code{list} contenant les resultats financiers : PMVL, produits financiers.}
+\item{resultat_fin}{est une \code{list} contenant les resultats financiers : PMVR, produits financiers.}
 
 \item{resultat_tech}{est une \code{list} contenant le resultat technique : chargements}
 }

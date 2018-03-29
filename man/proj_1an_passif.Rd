@@ -5,10 +5,12 @@
 \alias{proj_1an_passif}
 \title{Fonction \code{proj_1an_passif}}
 \usage{
-proj_1an_passif(passif)
+proj_1an_passif(passif, an)
 }
 \arguments{
 \item{passif}{est un objet de type \code{\link{Passif}}.}
+
+\item{an}{est un objet de type \code{integer}.}
 }
 \description{
 Cette fonction permet de projeter horizon 1 an le passif d'une compagnie d'assurance.
