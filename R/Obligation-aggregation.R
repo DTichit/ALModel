@@ -16,13 +16,13 @@ setMethod(
     definition = function(obligation){
 
         # Aggregation des donnees
-        temp <- as.data.frame(obligation@ptf %>% group_by(mat_res) %>% summarise(valeur_comptable = sum(valeur_comptable),
+        temp <- as.data.frame(obligation@ptf %>% group_by(cible, mat_res) %>% summarise(valeur_comptable = sum(valeur_comptable),
                                                                                  valeur_marche = sum(valeur_marche),
                                                                                  coupon = weighted.mean(coupon, nominal),
                                                                                  nominal = sum(nominal)) %>% arrange(mat_res))
 
         # Creation du dataframe
-        obligation@ptf <- temp
+        obligation@ptf <- data.frame(id_mp = paste("ob", 1L:nrow(temp), sep = "-"), temp)
 
         # Output
         return(obligation)
