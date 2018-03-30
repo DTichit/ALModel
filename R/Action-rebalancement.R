@@ -42,17 +42,27 @@ setMethod(
 
 
         ## ###########################
+        ## Calcul des nouvelles donnees
+        ## ###########################
+
+        # Montant ajoute/supprime de la VM
+        vm_mov <- diff_alloc * (vm_ptf / vm_totale)
+
+        # Montant ajoute/supprime de la VC
+        vc_mov <- (vm_ptf + vm_mov) * ratio_vcvm - vc_ptf
+
+
+
+
+        ## ###########################
         ##          MaJ du PTF
         ## ###########################
 
-        # Calcul des nouvelles VM
-        new_vm <- vm_ptf + diff_alloc * (vm_ptf / vm_totale)
-
         # Mise a jour de la VM
-        action@ptf$valeur_marche <- new_vm
+        action@ptf$valeur_marche <- vm_ptf + vm_mov
 
         # Mise a jour de la VC
-        action@ptf$valeur_comptable <- new_vm * ratio_vcvm
+        action@ptf$valeur_comptable <- vc_ptf + vc_mov
 
 
 
@@ -60,17 +70,16 @@ setMethod(
         ## ###########################
         ##    Parametres de sortie
         ## ###########################
-        if (diff_alloc < 0) {
-            achat <- diff_alloc ; vente <- 0
-        } else {
-            vente <- diff_alloc ; achat <- 0
-        }
+        if (diff_alloc < 0)
+            pmvr <- sum(abs(vm_mov) - abs(vc_mov))
+        else
+            pmvr <- 0
+
 
 
 
         # Output
         return(list(action = action,
-                    flux = list(achat = achat,
-                                vente = vente)))
+                    pmvr = pmvr))
     }
 )
