@@ -136,13 +136,17 @@ setMethod(
             }
 
             # Mise en image de donnees
-            vm_del <- ptf[1L, "valeur_marche"]
-            vc_del <- ptf[1L, "valeur_comptable"]
+            vm <- ptf[1L, "valeur_marche"]
+            vc <- ptf[1L, "valeur_comptable"]
+
+            # Part de l'oblig supprimee
+            vc_del <- diff_alloc * (vc / vm)
+            vm_del <- diff_alloc
 
             # Vente d'une partie des VM
-            ptf[1L, "valeur_comptable"] <- vc_del - diff_alloc * (vc_del / vm_del)
-            ptf[1L, "nominal"] <- ptf[1L, "nominal"] - diff_alloc * (ptf[1L, "nominal"] / vm_del)
-            ptf[1L, "valeur_marche"] <- vm_del - diff_alloc
+            ptf[1L, "valeur_comptable"] <- vc - vc_del
+            ptf[1L, "nominal"] <- ptf[1L, "nominal"] - diff_alloc * (ptf[1L, "nominal"] / vm)
+            ptf[1L, "valeur_marche"] <- vm - diff_alloc
 
             # Mise a jour du reste a vendre
             diff_alloc <- 0
