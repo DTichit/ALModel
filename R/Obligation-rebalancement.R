@@ -18,8 +18,6 @@ setMethod(
     definition = function(oblig, oblig_cible, alloc_cible) {
 
 
-        warning("La fonction 'rebalancement_obligation' n'est pas codee !")
-
         ## ###########################
         ##   Extraction des donnees
         ## ###########################
@@ -31,13 +29,13 @@ setMethod(
         # Extraction des donnees du PTF cible
         names_ptf_cible <- names(ptf_cible)
         mat_res_cible <- .subset2(ptf_cible, which(names_ptf_cible == "mat_res"))
-        cle_cible  <- paste(ptf_cible$cible, mat_res_cible, sep = ".")
+        cle_cible  <- paste(mat_res_cible, sep = ".")
 
         # Extraction des donnees du PTF
         names_ptf <- names(ptf)
         vm_ptf <- .subset2(ptf, which(names_ptf == "valeur_marche"))
         mat_res <- .subset2(ptf, which(names_ptf == "mat_res"))
-        cle  <- paste(ptf$cible, mat_res, sep = ".")
+        cle  <- paste(mat_res, sep = ".")
 
         # Presence des ces obligations dans le PTF ?
         id_pres_ptf <- match(cle_cible, cle)
@@ -65,10 +63,10 @@ setMethod(
 
             # Calcul de l'achat devant etre effectue
             achat <- ptf_cible$prop * abs(diff_alloc)
-            nb_achat <- achat / ptf_cible$valeur_marche
 
             # Determinatation du PTF achete
             ptf_cible$achat <- achat
+            ptf_cible$nb_achat <- achat / ptf_cible$valeur_marche
 
 
 
@@ -76,14 +74,14 @@ setMethod(
             if(! all(! is.na(id_pres_ptf))) {
 
                 # Besoin d'ajouter les nouvelles obligs dans le PTF
-                merge <- merge(ptf, ptf_cible, by = c("cible", "mat_res"), all.x = TRUE, all.y = TRUE)
+                merge <- merge(ptf, ptf_cible, by = c("mat_res"), all.x = TRUE, all.y = TRUE)
 
                 # Creation du nouveau portefeuille
-                ptf <- data.frame(id_mp = pna.omit(as.character(merge$id_mp.x), as.character(merge$id_mp.y)), mat_res = merge$mat_res, cible = merge$cible,
+                ptf <- data.frame(id_mp = pna.omit(as.character(merge$id_mp.x), as.character(merge$id_mp.y)), mat_res = merge$mat_res,
                                   valeur_comptable = psum(merge$valeur_comptable, merge$achat, na.rm = TRUE),
                                   valeur_marche = psum(merge$valeur_marche.x, merge$achat, na.rm = TRUE),
-                                  nominal = psum(merge$nominal.x, nb_achat * merge$nominal.y, na.rm = TRUE),
-                                  coupon = psum(merge$coupon.x * merge$nominal.x, merge$coupon.y * merge$nominal.y, na.rm = TRUE) / psum(merge$nominal.x, merge$nominal.y, na.rm = TRUE))
+                                  nominal = psum(merge$nominal.x, merge$nb_achat * merge$nominal.y, na.rm = TRUE),
+                                  coupon = psum(merge$coupon.x * merge$nominal.x, merge$coupon.y * merge$nb_achat * merge$nominal.y, na.rm = TRUE) / psum(merge$nominal.x, merge$nb_achat * merge$nominal.y, na.rm = TRUE))
 
 
             } else {
