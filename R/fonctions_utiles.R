@@ -1,5 +1,12 @@
-
-# Fonction permettant de faire la somme element par element
+##' Fonction \code{psum}
+##'
+##' Cette fonction permet de faire la somme, sur plusieurs vecteurs, element par element, et pouvant supprimer les NAs.
+##'
+##' @name psum
+##' @docType methods
+##' @param ... les differnts vecteurs.
+##' @param na.rm est un \code{logical} qui, lorsqu'il est a TRUE, permet a la somme de ne pas prendre en compte les NAs.
+##' @author Damien Tichit pour Sia Partners
 psum <- function(..., na.rm = FALSE) {
 
     # Somme
@@ -8,7 +15,16 @@ psum <- function(..., na.rm = FALSE) {
 }
 
 
-# Fonction qui, prenant 2 vecteurs, supprime les NA
+
+##' Fonction \code{pna.omit}
+##'
+##' Cette fonction, prenant deux vecteurs, sort un seul vecteur sans NAs.
+##'
+##' @name pna.omit
+##' @docType methods
+##' @param x premier vecteur.
+##' @param y second vecteur.
+##' @author Damien Tichit pour Sia Partners
 pna.omit <- function(x, y) {
 
     # Id etant NA chez y
