@@ -81,6 +81,7 @@ setMethod(
 
         # Output
         return(list(immo = immo,
-                    pmvr = pmvr))
+                    pmvr = pmvr,
+                    diff_alloc = diff_alloc))
     }
 )

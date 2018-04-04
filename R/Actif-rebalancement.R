@@ -131,9 +131,28 @@ setMethod(
 
 
 
+
+
+
+        ## ######################################################
+        ## ######################################################
+        ##
+        ##              Aggregation des donnees
+        ##
+        ## ######################################################
+        ## ######################################################
+
+        # Flux d'achat et de vente
+        flux <- list(action = flux_action[["diff_alloc"]], obligation = flux_oblig[["diff_alloc"]], immobilier = flux_immo[["diff_alloc"]])
+
+        # PMVR
+        pmvr <- list(action = flux_action[["pmvr"]], obligation = flux_oblig[["pmvr"]], immobilier = flux_immo[["pmvr"]])
+
+
+
         # Output
         return(list(actif = actif,
-                    flux = list(achat = list(action = flux_action[["achat"]], obligation = flux_oblig[["achat"]], immobilier = flux_immo[["achat"]]),
-                                vente = list(action = flux_action[["vente"]], obligation = flux_oblig[["vente"]], immobilier = flux_immo[["vente"]]))))
+                    flux = flux,
+                    pmvr = pmvr))
     }
 )

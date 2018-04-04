@@ -80,6 +80,7 @@ setMethod(
 
         # Output
         return(list(action = action,
-                    pmvr = pmvr))
+                    pmvr = pmvr,
+                    diff_alloc = diff_alloc))
     }
 )

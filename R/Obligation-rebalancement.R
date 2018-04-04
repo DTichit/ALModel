@@ -166,6 +166,7 @@ setMethod(
 
         # Output
         return(list(oblig = oblig,
-                    pmvr = pmvr))
+                    pmvr = pmvr,
+                    diff_alloc = diff_alloc))
     }
 )
