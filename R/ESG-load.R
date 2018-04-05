@@ -27,15 +27,23 @@ setMethod(
         # Message indiquant le chargement de l'ESG
         message("Chargement de l'ESG.")
 
+        # Coupon les warnings
+        options(warn = -1)
+
         # Creation des attributs
-        coef_actu       <- data.table::fread(paste(address, va, "coefActu.csv", sep = "/"))
-        ctz_nom         <- data.table::fread(paste(address, va, "CTZ_Nom.csv", sep = "/"))
-        ctz_reel        <- data.table::fread(paste(address, va, "CTZ_Reel.csv", sep = "/"))
-        eq_dividends    <- data.table::fread(paste(address, va, "EqDividends.csv", sep = "/"))
-        eq_index        <- data.table::fread(paste(address, va, "EqIndex.csv", sep = "/"))
-        im_index        <- data.table::fread(paste(address, va, "ImIndex.csv", sep = "/"))
-        im_loyer        <- data.table::fread(paste(address, va, "ImLoyer.csv", sep = "/"))
-        inflation       <- data.table::fread(paste(address, va, "Inflation.csv", sep = "/"))
+        coef_actu       <- data.table::fread(paste(address, va, "coefActu.csv", sep = "/"), dec = ",", sep = ";")[,CoefActu:=ch2numFunct(CoefActu)]
+        ctz_nom         <- data.table::fread(paste(address, va, "CTZ_Nom.csv", sep = "/"), dec = ",", sep = ";")[,ZeroCoupon:=ch2numFunct(ZeroCoupon)]
+        ctz_reel        <- data.table::fread(paste(address, va, "CTZ_Reel.csv", sep = "/"), dec = ",", sep = ";")[,ZeroCoupon:=ch2numFunct(ZeroCoupon)]
+        eq_dividends    <- data.table::fread(paste(address, va, "EqDividends.csv", sep = "/"), dec = ",", sep = ";")[,EqDividends:=ch2numFunct(EqDividends)]
+        eq_index        <- data.table::fread(paste(address, va, "EqIndex.csv", sep = "/"), dec = ",", sep = ";")[,EqIndex:=ch2numFunct(EqIndex)]
+        im_index        <- data.table::fread(paste(address, va, "ImIndex.csv", sep = "/"), dec = ",", sep = ";")[,ImIndex:=ch2numFunct(ImIndex)]
+        im_loyer        <- data.table::fread(paste(address, va, "ImLoyer.csv", sep = "/"), dec = ",", sep = ";")[,ImLoyer:=ch2numFunct(ImLoyer)]
+        inflation       <- data.table::fread(paste(address, va, "Inflation.csv", sep = "/"), dec = ",", sep = ";")[,Inflation:=ch2numFunct(Inflation)]
+
+
+
+        # Remettre les warnings
+        options(warn = 0)
 
 
         # Creation de l'objet
