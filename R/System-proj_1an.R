@@ -118,11 +118,8 @@ setMethod(
         # PB a attribuer
         pb <- do.call(sum, res_pb[["pb"]])
 
-        # Revalorisation deja effectuee
-        revalo_prestation <- list(epargne = proj_passif[["besoin"]][["revalo_regl"]][["epargne"]][["prestation"]])
-
         # Appel de la fonction
-        res_revalo <- revalo_passif(passif = system@passif, revalo_prestation = revalo_prestation, pb = pb, an = an)
+        res_revalo <- revalo_passif(passif = system@passif, revalo_prestation = proj_passif[["besoin"]][["revalo_prest"]], pb = pb, an = an)
 
         # Mise a jour de l'objet
         system@passif <- res_revalo[["passif"]]

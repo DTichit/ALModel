@@ -61,8 +61,8 @@ setMethod(
         # Frais
         frais <- list(epargne = res_proj_epargne[["flux"]][["frais"]])
 
-        # Besoins pour la revalorisation reglementaire
-        revalo_regl <- list(epargne = res_proj_epargne[["besoin"]][["revalo_tmg"]])
+        # Besoins pour la revalorisation des prestations
+        revalo_prest <- list(epargne = res_proj_epargne[["besoin"]][["revalo_prestation"]])
 
 
         # Output
@@ -71,6 +71,6 @@ setMethod(
                                 prime = prime,
                                 chargement = chargement,
                                 frais = frais),
-                    besoin = list(revalo_regl = revalo_regl)))
+                    besoin = list(revalo_prest = revalo_prest)))
     }
 )
