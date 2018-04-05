@@ -87,9 +87,8 @@ setMethod(
 
         # Actualisation
         flux_actu <- sapply(X = names(flux), simplify = FALSE, USE.NAMES = TRUE ,
-                            FUN = function(x) return(sum(flux[[x]] * ((1 + coef_actu)^(-(1L:(an_proj)))))))
+                            FUN = function(x) return(sum(flux[[x]] * (exp(-(1-coef_actu)*(1L:an_proj))))))
 
-        warning("Actualisation : 1/(1+r)^t ou exp(-r*t) ?")
 
 
 
