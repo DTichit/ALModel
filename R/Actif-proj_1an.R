@@ -5,14 +5,15 @@
 ##' @name proj_1an_actif
 ##' @docType methods
 ##' @param actif est un objet de type \code{\link{Actif}}.
+##' @param an est un \code{integer} reprensentant l'annee sur laquelle on travaille.
 ##' @author Damien Tichit pour Sia Partners
 ##' @include Actif-class.R
 ##'
-setGeneric(name = "proj_1an_actif", def = function(actif) {standardGeneric("proj_1an_actif")})
+setGeneric(name = "proj_1an_actif", def = function(actif, an) {standardGeneric("proj_1an_actif")})
 setMethod(
     f = "proj_1an_actif",
-    signature = c(actif = "Actif"),
-    definition = function(actif){
+    signature = c(actif = "Actif", an = "integer"),
+    definition = function(actif, an){
 
 
 
@@ -25,7 +26,7 @@ setMethod(
         ## ######################################################
 
         # Revalorisation du portfeuille
-        res_revalo_actif <- revalo_ptf_actif(ptf_actif = actif@ptf_actif)
+        res_revalo_actif <- revalo_ptf_actif(ptf_actif = actif@ptf_actif, hyp_actif = actif@hyp_actif, an = an)
 
         # Mise a jour de l'objet
         actif@ptf_actif <- res_revalo_actif[["ptf_actif"]]
@@ -42,7 +43,7 @@ setMethod(
         ## ######################################################
 
         # Appel de la fonction
-        prod_fin_ptf <- eval_prod_fin(ptf_actif = actif@ptf_actif)
+        prod_fin_ptf <- eval_prod_fin(ptf_actif = actif@ptf_actif, hyp_actif = actif@hyp_actif, an = an)
 
 
 
