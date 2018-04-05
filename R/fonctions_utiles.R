@@ -36,3 +36,9 @@ pna.omit <- function(x, y) {
     # Output
     return(y)
 }
+
+
+
+ch2numFunct<-function(x){
+    x %>% stringr::str_replace(",",".") %>% as.numeric
+}
