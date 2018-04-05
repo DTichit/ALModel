@@ -30,7 +30,7 @@ setMethod(
         ## ######################################################
 
         # Revalorisation du PTF actif
-        proj_actif <- proj_1an_actif(actif = system@actif)
+        proj_actif <- proj_1an_actif(actif = system@actif, an = an)
 
         # Mise a jour de l'attribut
         system@actif <- proj_actif[["actif"]]
@@ -94,6 +94,7 @@ setMethod(
         result_fin <- list(pmvr = pmvr,
                            prod_fin = proj_actif[["flux"]][["prod_fin"]])
         result_tech <- list(chargement = proj_passif[["flux"]][["chargement"]])
+        warning("Resultats a reprendre : ils sont faux !!")
 
         # Calcul de la PB a distribuer
         res_pb <- calcul_pb(taux_pb = system@taux_pb, resultat_fin = result_fin, resultat_tech = result_tech)
@@ -121,7 +122,7 @@ setMethod(
         revalo_prestation <- list(epargne = proj_passif[["besoin"]][["revalo_regl"]][["epargne"]][["prestation"]])
 
         # Appel de la fonction
-        res_revalo <- revalo_passif(passif = system@passif, revalo_prestation = revalo_prestation, pb = pb)
+        res_revalo <- revalo_passif(passif = system@passif, revalo_prestation = revalo_prestation, pb = pb, an = an)
 
         # Mise a jour de l'objet
         system@passif <- res_revalo[["passif"]]
@@ -185,6 +186,7 @@ setMethod(
                                   passif = proj_passif[["flux"]]),
                       actif = system@actif@ptf_actif,
                       passif = list(epargne = system@passif@ptf_passif@epargne@ptf),
+                      revalorisation = res_revalo[["revalorisation"]],
                       provision = system@passif@provision)
 
 

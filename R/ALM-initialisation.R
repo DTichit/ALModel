@@ -26,7 +26,7 @@ setMethod(
         alm <- aggregation_alm(alm = alm)
 
         # Effectuer une premiere simulation permettant de calculer les probas
-        system <- calc_be_simu(alm = alm)[["system"]]
+        system <- calc_be_simu(alm = alm, num_sim = 1L)[["system"]]
 
         # Mise a jour du booleen evitant un 2nd calcul de probas
         alm@system@passif@hyp_passif@calc_proba <- FALSE

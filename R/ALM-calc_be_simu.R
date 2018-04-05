@@ -7,16 +7,28 @@
 ##' @name calc_be_simu
 ##' @docType methods
 ##' @param alm est un objet de type \code{ALM} contenant l'ensemble des donnees.
+##' @param num_simu est un \code{integer} representant le numero de simulation sur lequel on travaille.
 ##' @author Damien Tichit pour Sia Partners
 ##' @seealso Projection sur une annee d'un \code{\link{System}} : \code{\link{proj_1an_system}}.
 ##' @export
 ##' @include System-class.R System-proj_1an.R ALM-class.R
 ##'
-setGeneric(name = "calc_be_simu", def = function(alm){standardGeneric("calc_be_simu")})
+setGeneric(name = "calc_be_simu", def = function(alm, num_sim){standardGeneric("calc_be_simu")})
 setMethod(
     f = "calc_be_simu",
-    signature = c(alm = "ALM"),
-    definition = function(alm){
+    signature = c(alm = "ALM", num_sim = "integer"),
+    definition = function(alm, num_sim){
+
+
+        ## ###########################
+        ## Mise a jour des donnees ESG
+        ## ###########################
+
+        # Appel de la fonction
+        res_esg <- update_esg(alm = alm, num_sim = num_sim)
+
+        # Mise a jour de l'objet ALM
+        alm <- res_esg[["alm"]]
 
 
         ## ###########################
@@ -24,7 +36,7 @@ setMethod(
         ## ###########################
 
         # Extraction des donnees
-        hyp_alm <- alm@hyp_alm
+        an_proj <- alm@hyp_alm@an_proj
         system  <- alm@system
 
         # Initialisation de la liste contenant les flux par annee
@@ -38,7 +50,7 @@ setMethod(
         ## Boucle sur les annnees
         ## ###########################
 
-        for (an in 1L:(hyp_alm@an_proj)) {
+        for (an in 1L:(an_proj)) {
 
             # Projection sur une annee
             res_proj <- proj_1an_system(system = system, an = an)
@@ -60,7 +72,7 @@ setMethod(
         ## ###########################
 
         flux <- sapply(X = names(flux_be_simu[[1L]]),
-                       FUN = function(x) {sapply(X = 1L:(hyp_alm@an_proj), FUN = function(y) return(flux_be_simu[[y]][[x]]))},
+                       FUN = function(x) {sapply(X = 1L:(an_proj), FUN = function(y) return(flux_be_simu[[y]][[x]]))},
                        simplify = FALSE, USE.NAMES = TRUE)
 
 
@@ -71,11 +83,13 @@ setMethod(
         ## ###########################
 
         # Recuperation des taux sans risque
-        tsr <- hyp_alm@tsr[1L:hyp_alm@an_proj]
+        coef_actu <- res_esg[["coef_actu"]][ProjYr <= an_proj, CoefActu]
 
         # Actualisation
         flux_actu <- sapply(X = names(flux), simplify = FALSE, USE.NAMES = TRUE ,
-                            FUN = function(x) return(sum(flux[[x]] * ((1 + tsr)^(-(1L:(hyp_alm@an_proj)))))))
+                            FUN = function(x) return(sum(flux[[x]] * ((1 + coef_actu)^(-(1L:(an_proj)))))))
+
+        warning("Actualisation : 1/(1+r)^t ou exp(-r*t) ?")
 
 
 

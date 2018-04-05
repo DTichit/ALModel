@@ -49,7 +49,7 @@ setMethod(
                 system  <- alm@system
 
                 # Appel de la fonction pour calculer les flux sur 1 simulation
-                be_simu <- calc_be_simu(alm)[["out"]]
+                be_simu <- calc_be_simu(alm, num_sim = i)[["out"]]
 
                 return(be_simu)
             }
@@ -72,7 +72,7 @@ setMethod(
                 system  <- alm@system
 
                 # Appel de la fonction pour calculer les flux sur 1 simulation
-                be_simu <- calc_be_simu(alm)[["out"]]
+                be_simu <- calc_be_simu(alm, num_sim = sim)[["out"]]
 
                 # Avancement de la barre de progression
                 setTxtProgressBar(barre, sim)
