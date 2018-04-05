@@ -21,21 +21,11 @@
 ##' @export
 ##' @include Passif-class.R PPE-reprise_ppe_8ans.R PTFPassif-besoin_revalo.R
 ##'
-setGeneric(name = "revalo_passif", def = function(passif, pb, revalo_prestation) {standardGeneric("revalo_passif")})
+setGeneric(name = "revalo_passif", def = function(passif, pb, revalo_prestation, an) {standardGeneric("revalo_passif")})
 setMethod(
     f = "revalo_passif",
-    signature = c(passif = "Passif", pb = "numeric", revalo_prestation = "list"),
-    definition = function(passif, pb, revalo_prestation){
-
-
-
-        ## ###########################
-        ##  Image du PTF avant revalo
-        ## ###########################
-
-        # Image
-        image_ptf <- passif@ptf_passif
-
+    signature = c(passif = "Passif", pb = "numeric", revalo_prestation = "list", an = "integer"),
+    definition = function(passif, pb, revalo_prestation, an){
 
 
 
@@ -77,8 +67,7 @@ setMethod(
         ## ###########################
 
         # Appel de la fonction
-        besoin_revalo <- besoin_revalo_ptf_passif(ptf_passif = passif@ptf_passif, cible = list(epargne = 0.015))
-        warning("Ne plus mettre en dur le paramatre 'cible' : ESG")
+        besoin_revalo <- besoin_revalo_ptf_passif(ptf_passif = passif@ptf_passif, cible = list(epargne = passif@hyp_passif@cible$epargne[an]))
 
 
         ## ###########################
@@ -227,7 +216,8 @@ setMethod(
 
         # Liste stockant l'ensemble des revalorisations
         revalo <- sapply(names(besoin_revalo[["besoin_cible"]]), USE.NAMES = TRUE, simplify = FALSE,
-                         function(x) list(contr = besoin_revalo[["besoin_contr"]][[x]], cible = revalo_cible_prod[[x]], supp = revalo_supp_prod[[x]]))
+                         function(x) list(contr = besoin_revalo[["besoin_contr"]][[x]], cible = revalo_cible_prod[[x]],
+                                          supp = revalo_supp_prod[[x]], prestation = revalo_prestation[[x]]))
 
 
 

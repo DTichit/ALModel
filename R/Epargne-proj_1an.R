@@ -22,7 +22,6 @@ setMethod(
         ## ###########################
         name_ptf <- names(epargne@ptf)
 
-        warning("Penser a ajouter les primes !!")
 
 
         ## ######################################################
@@ -70,8 +69,7 @@ setMethod(
         ## ###########################
 
         # Calcul des taux de rachats
-        tx_rachat_conj <- calc_rachat_conj(rachat_conj = hyp_passif@rachat_conj, tx_cible = 0.02, tx_serv = revalo_prec_ptf_epargne)
-        warning("Modifier le tx cible qui a ete mis en dur !")
+        tx_rachat_conj <- calc_rachat_conj(rachat_conj = hyp_passif@rachat_conj, tx_cible = hyp_passif@cible$epargne[an], tx_serv = revalo_prec_ptf_epargne)
 
         # Calcul des prestations
         rachat_conj <- tx_rachat_conj * pm_ptf_epargne
