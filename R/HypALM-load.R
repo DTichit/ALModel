@@ -10,8 +10,9 @@
 ##' @param address est un objet de type \code{character} indiquant le dossier dans lequel se situe l'ensemble des donnees necessaires
 ##' pour la construction de l'objet.
 ##' @author Damien Tichit pour Sia Partners
+##' @seealso Chargement d'un objet \code{\link{ESG}} : \code{\link{load_esg}}
 ##' @export
-##' @include HypALM-class.R
+##' @include HypALM-class.R ESG-class.R ESG-load.R
 ##'
 setGeneric(name = "load_hyp_alm", def = function(address) {standardGeneric("load_hyp_alm")})
 setMethod(
@@ -26,15 +27,11 @@ setMethod(
         nb_simu <- temp[1L, "nb_simu"]
         an_proj <- temp[1L, "an_proj"]
 
-        # Lecture des taux sans risque
-        tsr  <- read.csv2(paste(address, "TSR_avec_VA.csv", sep = "/"), header = TRUE, colClasses = c("numeric"))[, "rfr"]
-
-        # Test sur le nombre de taux sans risque
-        if(length(tsr) < an_proj)
-            warning("Attention : Trop peu de taux sans risque compte tenu du nombre d'annee de projection.")
+        # Chargement de l'ESG
+        esg  <- load_esg(paste(address, "01_ESG", sep = "/"))
 
         # Creation de l'objet
-        hyp_alm <- new("HypALM", nb_simu = nb_simu, an_proj = an_proj, tsr = tsr)
+        hyp_alm <- new("HypALM", esg = esg, nb_simu = nb_simu, an_proj = an_proj)
 
         # Output
         return(hyp_alm)
