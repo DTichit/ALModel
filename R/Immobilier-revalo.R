@@ -9,11 +9,11 @@
 ##' @export
 ##' @include Immobilier-class.R
 ##'
-setGeneric(name = "revalo_immobilier", def = function(immobilier) {standardGeneric("revalo_immobilier")})
+setGeneric(name = "revalo_immobilier", def = function(immobilier, log_rdt) {standardGeneric("revalo_immobilier")})
 setMethod(
     f = "revalo_immobilier",
-    signature = c(immobilier = "Immobilier"),
-    definition = function(immobilier){
+    signature = c(immobilier = "Immobilier", log_rdt = "numeric"),
+    definition = function(immobilier, log_rdt){
 
 
         ## ###########################
@@ -35,8 +35,7 @@ setMethod(
         vm_prev <- .subset2(immobilier@ptf, which(name_ptf == "valeur_marche"))
 
         # Calcul des nouvelles VM
-        warning("Revalorisation de l'immobilier n'est pas branchee !")
-        vm_new  <- vm_prev
+        vm_new  <- vm_prev * exp(log_rdt)
 
         # Mise a jour de l'attribut
         immobilier@ptf$valeur_marche <- vm_new

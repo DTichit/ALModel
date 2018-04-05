@@ -5,15 +5,16 @@
 ##' @name revalo_action
 ##' @docType methods
 ##' @param action est un objet de type \code{\link{Action}}.
+##' @param log_rdt est un \code{numeric} representant le log-rendement du PTF.
 ##' @author Damien Tichit pour Sia Partners
 ##' @export
 ##' @include Action-class.R
 ##'
-setGeneric(name = "revalo_action", def = function(action) {standardGeneric("revalo_action")})
+setGeneric(name = "revalo_action", def = function(action, log_rdt) {standardGeneric("revalo_action")})
 setMethod(
     f = "revalo_action",
-    signature = c(action = "Action"),
-    definition = function(action){
+    signature = c(action = "Action", log_rdt = "numeric"),
+    definition = function(action, log_rdt){
 
 
         ## ###########################
@@ -31,8 +32,7 @@ setMethod(
         vm_prev <- .subset2(action@ptf, which(name_ptf == "valeur_marche"))
 
         # Calcul des nouvelles VM
-        warning("Revalorisation des actions n'est pas branchee !")
-        vm_new  <- vm_prev
+        vm_new  <- vm_prev * exp(log_rdt)
 
         # Mise a jour de l'attribut
         action@ptf$valeur_marche <- vm_new
