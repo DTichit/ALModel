@@ -27,7 +27,7 @@ setMethod(
         frais_fin <- read.csv2(paste(address, "frais_financiers.csv", sep = "/"))
 
         # Creation de l'objet
-        hyp_actif <- new("HypActif", ptf_cible = ptf_cible, frais_fin = frais_fin)
+        hyp_actif <- new("HypActif", ptf_cible = ptf_cible, esg_simu = list(), frais_fin = frais_fin)
 
         # Output
         return(hyp_actif)
