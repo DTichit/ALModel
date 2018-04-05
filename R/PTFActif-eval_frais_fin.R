@@ -17,12 +17,6 @@ setMethod(
     definition = function(ptf_actif, frais_fin, prod_fin) {
 
 
-        warning("Est ce qu'il y a des frais sur la tresorerie ?")
-
-        # Extraction des donnees
-        produit <- names(prod_fin)
-
-
 
         ## ######################################################
         ## ######################################################
@@ -32,12 +26,19 @@ setMethod(
         ## ######################################################
         ## ######################################################
 
+        # Extraction du nom des produits
+        produit <- as.character(frais_fin$produit)
+
+
 
         ## ###########################
         ## Frais sur les produits financiers
         ## ###########################
 
-        frais_prod <- sapply(produit, function(x) return(frais_fin[which(frais_fin$produit == x), "frais_prod"] * prod_fin[[x]]),
+        # Extraction des frais
+        frais_prod <- frais_fin$frais_prod
+
+        frais_prod <- sapply(produit, function(x) return(frais_prod[which(produit == x)] * prod_fin[[x]]),
                              USE.NAMES = TRUE, simplify = FALSE)
 
 
@@ -46,11 +47,14 @@ setMethod(
         ## Frais proportionnels aux VM
         ## ###########################
 
+        # Extraction des frais
+        frais_vm <- frais_fin$frais_vm
+
         # Calcul des VM totales
-        alloc <- allocation_ptf_actif(ptf_actif)
+        alloc <- allocation_ptf_actif(ptf_actif)[["vm_actif"]]
 
         # Calcul des frais
-        frais_vm <- sapply(produit, function(x) return(frais_fin[which(frais_fin$produit == x), "frais_vm"] * alloc[["vm_actif"]][[x]]),
+        frais_vm <- sapply(produit, function(x) return(frais_vm[which(produit == x)] * alloc[[x]]),
                            USE.NAMES = TRUE, simplify = FALSE)
 
 
