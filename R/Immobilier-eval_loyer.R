@@ -9,13 +9,12 @@
 ##' @export
 ##' @include Immobilier-class.R
 ##'
-setGeneric(name = "eval_loyer", def = function(immobilier) {standardGeneric("eval_loyer")})
+setGeneric(name = "eval_loyer", def = function(immobilier, loyer) {standardGeneric("eval_loyer")})
 setMethod(
     f = "eval_loyer",
-    signature = c(immobilier = "Immobilier"),
-    definition = function(immobilier){
+    signature = c(immobilier = "Immobilier", loyer = "numeric"),
+    definition = function(immobilier, loyer){
 
-        warning("Fonction a coder : voir l'ESG")
 
         ## ###########################
         ##   Extraction des donnnes
@@ -27,7 +26,7 @@ setMethod(
         ## ###########################
         ##          Loyers
         ## ###########################
-        loyers <- rep(0, nrow(immobilier@ptf))
+        loyers <- .subset2(immobilier@ptf, which(name_ptf_immobilier == "valeur_marche")) * loyer
 
 
 

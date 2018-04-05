@@ -5,14 +5,16 @@
 ##' @name calc_prod_fin
 ##' @docType methods
 ##' @param ptf_actif est un objet de type \code{\link{PTFActif}}.
+##' @param hyp_actif est un objet de type \code{\link{HypActif}}.
+##' @param an est un \code{integer} reprensentant l'annee sur laquelle on travaille.
 ##' @author Damien Tichit pour Sia Partners
 ##' @include PTFActif-class.R
 ##'
-setGeneric(name = "calc_prod_fin", def = function(ptf_actif) {standardGeneric("calc_prod_fin")})
+setGeneric(name = "calc_prod_fin", def = function(ptf_actif, hyp_actif, an) {standardGeneric("calc_prod_fin")})
 setMethod(
     f = "calc_prod_fin",
-    signature = c(ptf_actif = "PTFActif"),
-    definition = function(ptf_actif){
+    signature = c(ptf_actif = "PTFActif", hyp_actif = "HypActif", an = "integer"),
+    definition = function(ptf_actif, hyp_actif, an){
 
 
 
