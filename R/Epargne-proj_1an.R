@@ -43,8 +43,8 @@ setMethod(
         ## ###########################
 
         # Extraction des taux de deces par model point
-        tx_deces_pm     <- epargne@proba@deces_pm[,an+1L]
-        tx_deces_contr  <- epargne@proba@deces_contr[,an+1L]
+        tx_deces_pm     <- .subset2(epargne@proba@deces_pm, an + 1L)
+        tx_deces_contr  <- .subset2(epargne@proba@deces_contr, an + 1L)
 
         # Calcul des prestations relatives aux deces
         deces <- tx_deces_pm * pm_ptf_epargne
@@ -55,9 +55,9 @@ setMethod(
         ## ###########################
 
         # Extraction des taux de rachats par model point
-        tx_rachat_tot_pm  <- epargne@proba@rachat_tot_pm[,an+1L]
-        tx_rachat_tot_contr  <- epargne@proba@rachat_tot_contr[,an+1L]
-        tx_rachat_part <- epargne@proba@rachat_part[,an+1L]
+        tx_rachat_tot_pm  <- .subset2(epargne@proba@rachat_tot_pm, an + 1L)
+        tx_rachat_tot_contr  <- .subset2(epargne@proba@rachat_tot_contr, an + 1L)
+        tx_rachat_part <- .subset2(epargne@proba@rachat_part, an + 1L)
 
         # Calcul des prestations relatives aux rachats
         rachat_tot  <- tx_rachat_tot_pm * pm_ptf_epargne
@@ -184,20 +184,16 @@ setMethod(
         ## ######################################################
         ## ######################################################
         ##
-        ##              Besoin en revalorisation
+        ##        Besoin en revalorisation des prestations
         ##
         ## ######################################################
         ## ######################################################
 
         # Extraction de donnees
-        pm_ptf_epargne   <- .subset2(epargne@ptf, which(name_ptf == "pm"))
         tmg_ptf_epargne  <- .subset2(epargne@ptf, which(name_ptf == "tmg"))
 
-        # Calcul besoin revalorisation sur les PM restantes
-        revalo_tmg_pm <- pm_ptf_epargne * tmg_ptf_epargne
-
         # Calcul besoin revalorisation sur les prestations (en milieu d'annee)
-        revalo_tmg_prest <- prestations * (tmg_ptf_epargne*0.5)
+        revalo_tmg_prest <- prestations * (tmg_ptf_epargne * 0.5)
 
 
 
@@ -216,7 +212,6 @@ setMethod(
                                 frais = list(gestion = sum(frais_gestion),
                                              rachats = sum(frais_rachats),
                                              deces = sum(frais_deces))),
-                    besoin = list(revalo_tmg = list(pm = sum(revalo_tmg_pm),
-                                                    prestation = sum(revalo_tmg_prest)))))
+                    besoin = list(revalo_prestation = sum(revalo_tmg_prest))))
     }
 )
