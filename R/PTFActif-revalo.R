@@ -27,7 +27,17 @@ setMethod(
         ## ######################################################
 
         ## ###########################
-        ##   Gestion des obligations
+        ##   Gestion de la treso
+        ## ###########################
+
+        # Mise a jour du PTF
+        ptf_actif@tresorerie@ptf$solde <- ptf_actif@tresorerie@ptf$solde * (1 + hyp_actif@revalo_treso)
+
+
+
+
+        ## ###########################
+        ##    Gestion des obligations
         ## ###########################
 
         # Extraction de la courbe des taux
