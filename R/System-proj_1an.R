@@ -158,6 +158,11 @@ setMethod(
                              FUN = function(x) return(do.call(sum, proj_passif[["flux"]][["frais"]][[x]])),
                              simplify = FALSE, USE.NAMES = TRUE)
 
+        # Chargements par produit
+        charg_prod <- sapply(X = name_passif,
+                             FUN = function(x) return(do.call(sum, proj_passif[["flux"]][["chargement"]][[x]])),
+                             simplify = FALSE, USE.NAMES = TRUE)
+
         # Primes par produit
         prime_prod <- proj_passif[["flux"]][["prime"]]
 
@@ -169,7 +174,7 @@ setMethod(
 
         # Somme des flux necessaires au calcul du BEL
         flux_bel <- sapply(X = name_passif,
-                           FUN = function(x) return(frais_prod[[x]] + prestation_prod[[x]] - prime_prod[[x]]),
+                           FUN = function(x) return(frais_prod[[x]] + prestation_prod[[x]] - prime_prod[[x]] - charg_prod[[x]]),
                            simplify = FALSE, USE.NAMES = TRUE)
 
 
