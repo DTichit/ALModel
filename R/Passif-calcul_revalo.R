@@ -142,7 +142,7 @@ setMethod(
         return(list(ppe = ppe,
                     pb = pb,
                     revalorisation = revalorisation,
-                    revalo_oblig = revalo_oblig,
-                    reste = reste))
+                    reste = reste,
+                    revalo_oblig = revalo_oblig))
     }
 )
