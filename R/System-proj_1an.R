@@ -90,13 +90,13 @@ setMethod(
         ##
         ## ######################################################
         ## ######################################################
+        warning("Resultats a reprendre : ils sont probablement faux !!  (Frais financiers ?)")
 
         # Mise en forme des donnees
         result_fin <- list(pmvr = pmvr,
                            prod_fin = proj_actif[["flux"]][["prod_fin"]])
         result_tech <- list(chargement = proj_passif[["flux"]][["chargement"]],
                             frais = proj_passif[["flux"]][["frais"]])
-        warning("Resultats a reprendre : ils sont probablement faux !!  (Frais financiers ?)")
 
         # Calcul de la PB a distribuer
         res_pb <- calcul_pb(taux_pb = system@taux_pb, resultat_fin = result_fin, resultat_tech = result_tech)
