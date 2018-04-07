@@ -5,10 +5,14 @@
 \alias{calc_prod_fin}
 \title{Fonction \code{calc_prod_fin}.}
 \usage{
-calc_prod_fin(ptf_actif)
+calc_prod_fin(ptf_actif, hyp_actif, an)
 }
 \arguments{
 \item{ptf_actif}{est un objet de type \code{\link{PTFActif}}.}
+
+\item{hyp_actif}{est un objet de type \code{\link{HypActif}}.}
+
+\item{an}{est un \code{integer} reprensentant l'annee sur laquelle on travaille.}
 }
 \description{
 Cette fonction permet de calculer les produits financiers pour un portefeuille financier : dividendes, coupons....

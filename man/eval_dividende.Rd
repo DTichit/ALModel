@@ -5,10 +5,12 @@
 \alias{eval_dividende}
 \title{Fonction \code{eval_dividende}}
 \usage{
-eval_dividende(action)
+eval_dividende(action, div)
 }
 \arguments{
 \item{action}{est un objet de type \code{\link{Action}}.}
+
+\item{div}{est un \code{numeric} represente la proportion de l'encours action versee au titre des dividendes.}
 }
 \description{
 Cette fonction permet de calculer les dividendes pour un portfeuille d'actions.

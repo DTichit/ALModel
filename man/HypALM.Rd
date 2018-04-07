@@ -10,11 +10,11 @@ Cette classe aggrege l'ensemble des hypotheses relatives au modele ALM.
 \section{Slots}{
 
 \describe{
+\item{\code{esg}}{est un objet de type \code{\link{ESG}}.}
+
 \item{\code{nb_simu}}{est un \code{integer} representant le nombre de simulation souhaite pour calculer le BEL.}
 
 \item{\code{an_proj}}{est un \code{integer} representant le nombre d'annees de projection.}
-
-\item{\code{tsr}}{est un \code{numeric} contenant les taux sans risque avec Volatility Adjustment.}
 }}
 
 \author{

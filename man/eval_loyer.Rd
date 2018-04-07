@@ -5,10 +5,12 @@
 \alias{eval_loyer}
 \title{Fonction \code{eval_loyer}}
 \usage{
-eval_loyer(immobilier)
+eval_loyer(immobilier, loyer)
 }
 \arguments{
 \item{immobilier}{est un objet de type \code{\link{Immobilier}}.}
+
+\item{loyer}{est un  \code{numeric} representant la proportion de l'encours immobilier versee au titre des loyers.}
 }
 \description{
 Cette fonction permet de calculer les loyers pour un portefeuille d'immobiliers.

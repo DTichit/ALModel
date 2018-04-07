@@ -18,6 +18,9 @@ une architecture propre a \code{SiALM}.
 \details{
 La creation d'un objet \code{\link{HypALM}} necessite plusieurs parametres presents dans un fichier nomme \code{Hypotheses_ALM.csv}.
 }
+\seealso{
+Chargement d'un objet \code{\link{ESG}} : \code{\link{load_esg}}
+}
 \author{
 Damien Tichit pour Sia Partners
 }

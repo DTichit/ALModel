@@ -5,10 +5,12 @@
 \alias{revalo_action}
 \title{Fonction \code{revalo_action}}
 \usage{
-revalo_action(action)
+revalo_action(action, log_rdt)
 }
 \arguments{
 \item{action}{est un objet de type \code{\link{Action}}.}
+
+\item{log_rdt}{est un \code{numeric} representant le log-rendement du PTF.}
 }
 \description{
 Cette fonction permet de revaloriser le portefeuille action. Calcule egalement les plus ou moins values latentes.

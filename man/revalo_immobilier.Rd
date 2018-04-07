@@ -5,10 +5,12 @@
 \alias{revalo_immobilier}
 \title{Fonction \code{revalo_immobilier}}
 \usage{
-revalo_immobilier(immobilier)
+revalo_immobilier(immobilier, log_rdt)
 }
 \arguments{
 \item{immobilier}{est un objet de type \code{\link{Immobilier}}.}
+
+\item{log_rdt}{est un \code{numeric} representant le log-rendement du PTF.}
 }
 \description{
 Cette fonction permet de revaloriser le portefeuille immobilier.

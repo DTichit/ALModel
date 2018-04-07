@@ -5,7 +5,7 @@
 \alias{revalo_passif}
 \title{Fonction \code{revalo_passif}}
 \usage{
-revalo_passif(passif, pb, revalo_prestation)
+revalo_passif(passif, pb, revalo_prestation, an)
 }
 \arguments{
 \item{passif}{est un objet de type \code{\link{Passif}}.}
@@ -14,6 +14,8 @@ revalo_passif(passif, pb, revalo_prestation)
 
 \item{revalo_prestation}{est une \code{list} indiquant des montants de revalorisation obligatoires ayant deja ete distribue. Ils sont consideres comme des besoins de revalorisation contractuels.
 Les montants doivent etre mis sous forme de liste et par produit.}
+
+\item{an}{est un \code{integer}.}
 }
 \description{
 Cette fonction permet de revaloriser le passif d'une compagnie d'assurance. Au cours de cette fonction sont effectuees : la regle des 8 ans.

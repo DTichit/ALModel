@@ -5,10 +5,12 @@
 \alias{proj_1an_actif}
 \title{Fonction \code{proj_1an_actif}.}
 \usage{
-proj_1an_actif(actif)
+proj_1an_actif(actif, an)
 }
 \arguments{
 \item{actif}{est un objet de type \code{\link{Actif}}.}
+
+\item{an}{est un \code{integer} reprensentant l'annee sur laquelle on travaille.}
 }
 \description{
 Cette fonction permet de projeter horizon 1 an l'actif d'une compagnie d'assurance.

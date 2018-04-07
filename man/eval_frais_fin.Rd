@@ -11,6 +11,8 @@ eval_frais_fin(ptf_actif, frais_fin, prod_fin)
 \item{ptf_actif}{est un objet de type \code{\link{PTFActif}}.}
 
 \item{frais_fin}{est un objet de type \code{data.frame}.}
+
+\item{prod_fin}{est une \code{list} contenant les produits financiers pour les differentes classes d'actifs modelisees..}
 }
 \description{
 Cette fonction permet d'evaluer les frais relatifs au portfeuille actif d'une compagnie d'assurance. Il est possible de modeliser des frais par produits financiers

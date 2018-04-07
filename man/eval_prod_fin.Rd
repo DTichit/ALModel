@@ -5,10 +5,14 @@
 \alias{eval_prod_fin}
 \title{Fonction \code{eval_prod_fin}.}
 \usage{
-eval_prod_fin(ptf_actif)
+eval_prod_fin(ptf_actif, hyp_actif, an)
 }
 \arguments{
 \item{ptf_actif}{est un objet de type \code{\link{PTFActif}}.}
+
+\item{hyp_actif}{est un objet de type \code{\link{HypActif}}.}
+
+\item{an}{est un \code{integer} reprensentant l'annee sur laquelle on travaille.}
 }
 \description{
 Cette fonction permet d'evaluer les produits financiers pour les differentes classes d'actifs.

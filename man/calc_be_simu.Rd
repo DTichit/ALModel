@@ -5,10 +5,12 @@
 \alias{calc_be_simu}
 \title{Fonction \code{calc_be_simu}.}
 \usage{
-calc_be_simu(alm)
+calc_be_simu(alm, num_sim)
 }
 \arguments{
 \item{alm}{est un objet de type \code{ALM} contenant l'ensemble des donnees.}
+
+\item{num_sim}{est un \code{integer} representant le numero de simulation sur lequel on travaille.}
 }
 \description{
 Cette fonction est une fonction centrale du package. Elle permet en effet de calculer un BEL pour une simulation donnee.

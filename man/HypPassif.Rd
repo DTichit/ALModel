@@ -23,8 +23,13 @@ Cette classe aggrege l'ensemble des hypotheses relatives au passif d'une compagn
 \item{\code{calc_proba}}{est un objet \code{logical} qui indique si les probabilites doivent etre calculees.}
 
 \item{\code{prop_pb}}{est un \code{data.frame} qui indique la proportion a attribue dans le cas ou les besoins ont ete assouvis (apres besoins contractuels et cible).}
+
+\item{\code{cible}}{est une \code{list} contenant les differents taux cibles par produits.}
 }}
 
+\seealso{
+La mise a jour de l'attribut \code{cible} : \code{\link{update_esg}}
+}
 \author{
 Damien Tichit pour Sia Partners
 }
