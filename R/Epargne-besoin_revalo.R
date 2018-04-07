@@ -48,7 +48,7 @@ setMethod(
         tmg_ptf_epargne  <- .subset2(epargne@ptf, which(name_ptf == "tmg"))
 
         # Calcul besoin revalorisation sur les PM
-        besoin_tmg <- pm_ptf_epargne * tmg_ptf_epargne
+        besoin_tmg <- sum(pm_ptf_epargne * tmg_ptf_epargne)
 
 
 
@@ -57,14 +57,14 @@ setMethod(
         ## ###########################
 
         # Calcul besoin revalorisation sur les PM
-        besoin_cible <- pm_ptf_epargne * cible
+        besoin_cible <- max(sum(pm_ptf_epargne * cible) - besoin_tmg, 0)
 
 
 
 
 
         # Output
-        return(list(besoin_tmg = sum(besoin_tmg),
-                    besoin_cible = sum(besoin_cible)))
+        return(list(besoin_tmg = besoin_tmg,
+                    besoin_cible = besoin_cible))
     }
 )
