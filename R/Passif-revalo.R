@@ -228,6 +228,8 @@ setMethod(
         # Output
         return(list(passif = passif,
                     revalorisation = revalo,
-                    reste_contr = reste_contr))
+                    reste_contr = reste_contr,
+                    besoin = list(besoin_contr = besoin_contr,
+                                  besoin_cible = besoin_cible)))
     }
 )
