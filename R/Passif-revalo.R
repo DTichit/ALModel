@@ -138,7 +138,7 @@ setMethod(
         if(reste_contr == 0){
 
             # Calcul de la revalorisation devant encore etre applique
-            res_revalo <- calcul_revalo(besoin = besoin_cible - besoin_contr, pb = pb, ppe = passif@provision@ppe, revalo_oblig = revalo_oblig)
+            res_revalo <- calcul_revalo(besoin = max(besoin_cible - besoin_contr, 0), pb = pb, ppe = passif@provision@ppe, revalo_oblig = revalo_oblig)
 
             # Mise a jour des objets
             passif@provision@ppe <- res_revalo[["ppe"]]
