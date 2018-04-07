@@ -7,7 +7,7 @@
 ##' @name calc_be_simu
 ##' @docType methods
 ##' @param alm est un objet de type \code{ALM} contenant l'ensemble des donnees.
-##' @param num_simu est un \code{integer} representant le numero de simulation sur lequel on travaille.
+##' @param num_sim est un \code{integer} representant le numero de simulation sur lequel on travaille.
 ##' @author Damien Tichit pour Sia Partners
 ##' @seealso Projection sur une annee d'un \code{\link{System}} : \code{\link{proj_1an_system}}.
 ##' @export

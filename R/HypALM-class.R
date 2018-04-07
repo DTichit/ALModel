@@ -9,6 +9,7 @@
 ##' @slot an_proj est un \code{integer} representant le nombre d'annees de projection.
 ##' @author Damien Tichit pour Sia Partners
 ##' @keywords classes
+##' @include ESG-class.R
 ##'
 setClass(
     Class = "HypALM",

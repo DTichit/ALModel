@@ -7,6 +7,7 @@
 ##' @docType methods
 ##' @param ptf_actif est un objet de type \code{\link{PTFActif}}.
 ##' @param frais_fin est un objet de type \code{data.frame}.
+##' @param prod_fin est une \code{list} contenant les produits financiers pour les differentes classes d'actifs modelisees..
 ##' @author Damien Tichit pour Sia Partners
 ##' @include Actif-class.R HypActif-class.R
 ##'

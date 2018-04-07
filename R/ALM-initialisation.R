@@ -2,7 +2,7 @@
 ##'
 ##' Cette fonction permet d'initialiser un objet de type \code{\link{ALM}} : chargement des donnees, aggregation, calcul des probas...
 ##'
-##' @name load_alm
+##' @name initialisation_alm
 ##' @docType methods
 ##' @param address est un objet de type \code{character} indiquant le dossier dans lequel se situe l'ensemble des donnees necessaire
 ##' pour la construction de l'objet.

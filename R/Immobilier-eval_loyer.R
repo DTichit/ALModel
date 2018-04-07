@@ -5,6 +5,7 @@
 ##' @name eval_loyer
 ##' @docType methods
 ##' @param immobilier est un objet de type \code{\link{Immobilier}}.
+##' @param loyer est un  \code{numeric} representant la proportion de l'encours immobilier versee au titre des loyers.
 ##' @author Damien Tichit pour Sia Partners
 ##' @export
 ##' @include Immobilier-class.R

@@ -15,6 +15,7 @@
 ##' @param pb est un \code{numeric} representant le montant de PB a distribuer.
 ##' @param revalo_prestation est une \code{list} indiquant des montants de revalorisation obligatoires ayant deja ete distribue. Ils sont consideres comme des besoins de revalorisation contractuels.
 ##' Les montants doivent etre mis sous forme de liste et par produit.
+##' @param an est un \code{integer}.
 ##' @author Damien Tichit pour Sia Partners
 ##' @seealso Calcul du besoin en revalorisation : \code{\link{besoin_revalo_ptf_passif}}.
 ##' @seealso Gestion de la regle des 8 ans sur la PPE : \code{\link{reprise_ppe_8ans}}.

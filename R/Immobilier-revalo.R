@@ -5,6 +5,7 @@
 ##' @name revalo_immobilier
 ##' @docType methods
 ##' @param immobilier est un objet de type \code{\link{Immobilier}}.
+##' @param log_rdt est un \code{numeric} representant le log-rendement du PTF.
 ##' @author Damien Tichit pour Sia Partners
 ##' @export
 ##' @include Immobilier-class.R

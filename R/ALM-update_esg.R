@@ -5,7 +5,7 @@
 ##'
 ##' @name update_esg
 ##' @docType methods
-##' @param alm est un objet de type \code{ALM}.
+##' @param alm est un objet de type \code{\link{ALM}}.
 ##' @param num_simu est un \code{integer} representant le numero de simulation sur lequel on travaille.
 ##' @author Damien Tichit pour Sia Partners
 ##' @export
