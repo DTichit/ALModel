@@ -28,7 +28,7 @@ setMethod(
             reserve_capi@montant <- reserve_capi@montant + pmvr
 
             # Reste
-            reste_pvm <- 0
+            reste_pmv <- 0
 
         } else {
 
@@ -39,7 +39,7 @@ setMethod(
             reserve_capi@montant <- reserve_capi@montant - reprise
 
             # Reste
-            reste_pvm <- abs(pmvr) - reprise
+            reste_pmv <- abs(pmvr) - reprise
 
         }
 
@@ -47,6 +47,6 @@ setMethod(
 
         # Output
         return(list(reserve_capi = reserve_capi,
-                    reste_pvm = reste_pvm))
+                    reste_pmv = reste_pmv))
     }
 )
