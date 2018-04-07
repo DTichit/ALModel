@@ -135,10 +135,10 @@ setMethod(
         revalo_cible <- 0
 
         # Gestion des besoins cibles uniquement si l'on n'a pas deja du retard avec les besoins contractuels
-        if(reste_contr == 0){
+        if((reste_contr == 0) & (besoin_cible > 0)){
 
             # Calcul de la revalorisation devant encore etre applique
-            res_revalo <- calcul_revalo(besoin = max(besoin_cible - besoin_contr, 0), pb = pb, ppe = passif@provision@ppe, revalo_oblig = revalo_oblig)
+            res_revalo <- calcul_revalo(besoin = besoin_cible, pb = pb, ppe = passif@provision@ppe, revalo_oblig = revalo_oblig)
 
             # Mise a jour des objets
             passif@provision@ppe <- res_revalo[["ppe"]]
@@ -151,8 +151,12 @@ setMethod(
 
 
         # Revalorisation cible par produit
-        revalo_cible_prod <- sapply(names(besoin_revalo[["besoin_cible"]]), function(x) besoin_revalo[["besoin_cible"]][[x]] * revalo_cible / besoin_cible,
-                                    simplify = FALSE, USE.NAMES = TRUE)
+        revalo_cible_prod <- sapply(names(besoin_revalo[["besoin_cible"]]), simplify = FALSE, USE.NAMES = TRUE, function(x){
+            if(besoin_cible >0)
+                res <- besoin_revalo[["besoin_cible"]][[x]] * revalo_cible / besoin_cible
+            else
+                res <- 0
+            return(res)})
 
 
 
@@ -163,10 +167,11 @@ setMethod(
         ## ###########################
 
         # Proportion a attribuer par produit
-        prop_pb <- passif@hyp_passif@prop_pb
+        prod <- passif@hyp_passif@prop_pb$produit
+        prop_pb <- passif@hyp_passif@prop_pb$proportion
 
         # Calcul de la revalo supplementaire en fonction des hypotheses
-        revalo_supp_prod <- sapply(prop_pb$produit, function(x) prop_pb[which(prop_pb$produit == x), "proportion"] * revalo_oblig,
+        revalo_supp_prod <- sapply(prod, function(x) prop_pb[which(prod == x)] * revalo_oblig,
                                    simplify = FALSE, USE.NAMES = TRUE)
 
 
@@ -196,7 +201,7 @@ setMethod(
 
         # Appel de la fonction
         res_revalo <- revalo_ptf_passif(ptf_passif = passif@ptf_passif, revalo_cible = revalo_cible_prod,
-                                        revalo_supp = revalo_supp_prod, cible = list(epargne = 0.015))
+                                        revalo_supp = revalo_supp_prod, cible = list(epargne = passif@hyp_passif@cible$epargne[an]))
 
         # Mise a jour de l'objet
         passif@ptf_passif <- res_revalo[["ptf_passif"]]
