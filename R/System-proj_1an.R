@@ -18,6 +18,7 @@ setMethod(
     signature = c(system = "System", an = "integer"),
     definition = function(system, an){
 
+        warning("Le rebalancement des actifs est code mais pas encore branche ")
 
 
         ## ######################################################
@@ -93,8 +94,9 @@ setMethod(
         # Mise en forme des donnees
         result_fin <- list(pmvr = pmvr,
                            prod_fin = proj_actif[["flux"]][["prod_fin"]])
-        result_tech <- list(chargement = proj_passif[["flux"]][["chargement"]])
-        warning("Resultats a reprendre : ils sont faux !!")
+        result_tech <- list(chargement = proj_passif[["flux"]][["chargement"]],
+                            frais = proj_passif[["flux"]][["frais"]])
+        warning("Resultats a reprendre : ils sont probablement faux !!")
 
         # Calcul de la PB a distribuer
         res_pb <- calcul_pb(taux_pb = system@taux_pb, resultat_fin = result_fin, resultat_tech = result_tech)

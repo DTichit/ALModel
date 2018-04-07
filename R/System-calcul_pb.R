@@ -37,13 +37,19 @@ setMethod(
         ##     Resultat technique
         ## ###########################
 
+        # Classes des differents produits modelises
+        name_prod <- names(resultat_tech[["chargement"]])
+
         # Extraction des chargements
-        chgt_prod <- lapply(X = names(resultat_tech[["chargement"]]),
+        chgt_prod <- lapply(X = name_prod,
                             FUN = function(x) do.call(sum, resultat_tech[["chargement"]][[x]]))
-        chgt <- do.call(sum, chgt_prod)
+
+        # Extraction des frais
+        frais_prod <- lapply(X = name_prod,
+                            FUN = function(x) do.call(sum, resultat_tech[["frais"]][[x]]))
 
         # Resultat technique total
-        resultat_tech <- chgt
+        resultat_tech <- do.call(sum, chgt_prod) - do.call(sum, frais_prod)
 
 
 
