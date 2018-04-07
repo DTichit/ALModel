@@ -190,7 +190,8 @@ setMethod(
                                   passif = proj_passif[["flux"]]),
                       actif = system@actif@ptf_actif,
                       passif = list(epargne = system@passif@ptf_passif@epargne@ptf),
-                      revalorisation = res_revalo[["revalorisation"]],
+                      revalorisation = list(revalorisation = res_revalo[["revalorisation"]],
+                                            besoin = res_revalo[["besoin"]]),
                       provision = system@passif@provision)
 
 
