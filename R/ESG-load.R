@@ -27,23 +27,15 @@ setMethod(
         # Message indiquant le chargement de l'ESG
         message("Chargement de l'ESG.")
 
-        # Coupon les warnings
-        options(warn = -1)
-
         # Creation des attributs
-        coef_actu       <- data.table::fread(paste(address, va, "coefActu.csv", sep = "/"), dec = ",", sep = ";")[,CoefActu:=ch2numFunct(CoefActu)]
-        ctz_nom         <- data.table::fread(paste(address, va, "CTZ_Nom.csv", sep = "/"), dec = ",", sep = ";")[,ZeroCoupon:=ch2numFunct(ZeroCoupon)]
-        ctz_reel        <- data.table::fread(paste(address, va, "CTZ_Reel.csv", sep = "/"), dec = ",", sep = ";")[,ZeroCoupon:=ch2numFunct(ZeroCoupon)]
-        eq_dividends    <- data.table::fread(paste(address, va, "EqDividends.csv", sep = "/"), dec = ",", sep = ";")[,EqDividends:=ch2numFunct(EqDividends)]
-        eq_index        <- data.table::fread(paste(address, va, "EqIndex.csv", sep = "/"), dec = ",", sep = ";")[,EqIndex:=ch2numFunct(EqIndex)]
-        im_index        <- data.table::fread(paste(address, va, "ImIndex.csv", sep = "/"), dec = ",", sep = ";")[,ImIndex:=ch2numFunct(ImIndex)]
-        im_loyer        <- data.table::fread(paste(address, va, "ImLoyer.csv", sep = "/"), dec = ",", sep = ";")[,ImLoyer:=ch2numFunct(ImLoyer)]
-        inflation       <- data.table::fread(paste(address, va, "Inflation.csv", sep = "/"), dec = ",", sep = ";")[,Inflation:=ch2numFunct(Inflation)]
-
-
-
-        # Remettre les warnings
-        options(warn = 0)
+        coef_actu       <- data.table(read.table(paste(address, va, "coefActu.csv", sep = "/"), dec = ",", sep = ";", colClasses = c("integer", "integer", "numeric"), header = TRUE))
+        ctz_nom         <- data.table(read.table(paste(address, va, "CTZ_Nom.csv", sep = "/"), dec = ",", sep = ";", colClasses = c("integer", "integer", "integer", "numeric"), header = TRUE))
+        ctz_reel        <- data.table(read.table(paste(address, va, "CTZ_Reel.csv", sep = "/"), dec = ",", sep = ";", colClasses = c("integer", "integer", "integer", "numeric"), header = TRUE))
+        eq_dividends    <- data.table(read.table(paste(address, va, "EqDividends.csv", sep = "/"), dec = ",", sep = ";", colClasses = c("integer", "integer", "numeric"), header = TRUE))
+        eq_index        <- data.table(read.table(paste(address, va, "EqIndex.csv", sep = "/"), dec = ",", sep = ";", colClasses = c("integer", "integer", "numeric"), header = TRUE))
+        im_index        <- data.table(read.table(paste(address, va, "ImIndex.csv", sep = "/"), dec = ",", sep = ";", colClasses = c("integer", "integer", "numeric"), header = TRUE))
+        im_loyer        <- data.table(read.table(paste(address, va, "ImLoyer.csv", sep = "/"), dec = ",", sep = ";", colClasses = c("integer", "integer", "numeric"), header = TRUE))
+        inflation       <- data.table(read.table(paste(address, va, "Inflation.csv", sep = "/"), dec = ",", sep = ";", colClasses = c("integer", "integer", "numeric"), header = TRUE))
 
 
         # Creation de l'objet
