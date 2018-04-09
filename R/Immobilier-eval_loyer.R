@@ -18,16 +18,9 @@ setMethod(
 
 
         ## ###########################
-        ##   Extraction des donnnes
-        ## ###########################
-        name_ptf_immobilier <- names(immobilier@ptf)
-
-
-
-        ## ###########################
         ##          Loyers
         ## ###########################
-        loyers <- .subset2(immobilier@ptf, which(name_ptf_immobilier == "valeur_marche")) * loyer
+        loyers <- .subset2(immobilier@ptf, which(names(immobilier@ptf) == "valeur_marche")) * loyer
 
 
 

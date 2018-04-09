@@ -17,17 +17,11 @@ setMethod(
     definition = function(action, div){
 
 
-        ## ###########################
-        ##   Extraction des donnnes
-        ## ###########################
-        name_ptf_action <- names(action@ptf)
-
-
 
         ## ###########################
         ##          Dividendes
         ## ###########################
-        dividendes <- .subset2(action@ptf, which(name_ptf_action == "valeur_marche")) * div
+        dividendes <- .subset2(action@ptf, which(names(action@ptf) == "valeur_marche")) * div
 
 
         # Output
