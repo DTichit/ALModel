@@ -26,15 +26,17 @@ setMethod(
         ## ######################################################
         ## ######################################################
 
-        # Extraction de la courbe ZC
+        # Extraction de donnees
         ctz_nom <- alm@hyp_alm@esg@ctz_nom[SimID == num_simu]
+        inflation <- alm@hyp_alm@esg@inflation[SimID == num_simu, Inflation]
 
         # Extraction des donnees et mise a jour de l'attribut
         alm@system@actif@hyp_actif@esg_simu <- list(ctz_nom        = as.data.frame(ctz_nom),
                                                     eq_dividends   = alm@hyp_alm@esg@eq_dividends[SimID == num_simu, EqDividends],
                                                     eq_index       = alm@hyp_alm@esg@eq_index[SimID == num_simu, EqIndex],
                                                     im_index       = alm@hyp_alm@esg@im_index[SimID == num_simu, ImIndex],
-                                                    im_loyer       = alm@hyp_alm@esg@im_loyer[SimID == num_simu, ImLoyer])
+                                                    im_loyer       = alm@hyp_alm@esg@im_loyer[SimID == num_simu, ImLoyer],
+                                                    inflation      = inflation)
 
 
 
@@ -50,7 +52,7 @@ setMethod(
 
         # Calcul et mise a jour des differents attributs
         alm@system@passif@hyp_passif@cible <- list(epargne = ctz_nom[Maturite == 10L & ProjYr > 0L, ZeroCoupon])
-        alm@system@passif@hyp_passif@esg_simu <- list(inflation = alm@hyp_alm@esg@inflation[SimID == num_simu, Inflation])
+        alm@system@passif@hyp_passif@esg_simu <- list(inflation = inflation)
 
 
 
