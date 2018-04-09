@@ -36,6 +36,11 @@ setMethod(
         # Mise a jour de l'attribut
         system@actif <- proj_actif[["actif"]]
 
+        # Mise a jour de la tresorerie
+        credit <- do.call(sum, proj_actif$flux$prod_fin) + do.call(sum, proj_actif$flux$vente)
+        debit <- sum(sapply(names(proj_actif$flux$frais), function(x) do.call(sum, proj_actif$flux$frais[[x]])))
+        system@actif@ptf_actif@tresorerie@ptf$solde <- system@actif@ptf_actif@tresorerie@ptf$solde + credit - debit
+
 
 
 
@@ -55,6 +60,35 @@ setMethod(
         # Mise a jour de l'attribut
         system@passif <- proj_passif[["passif"]]
 
+        # Mise a jour de la tresorerie
+        credit <- sum(sapply(names(proj_passif$flux$chargement), function(x) do.call(sum, proj_passif$flux$chargement[[x]])))
+        debit  <- sum(sapply(names(proj_passif$flux$frais), function(x) do.call(sum, proj_passif$flux$frais[[x]])))
+        system@actif@ptf_actif@tresorerie@ptf$solde <- system@actif@ptf_actif@tresorerie@ptf$solde + credit - debit
+
+
+
+
+
+        ## ######################################################
+        ## ######################################################
+        ##
+        ##              Re-allocation des actifs
+        ##
+        ## ######################################################
+        ## ######################################################
+
+        # Projection sur une annee des passifs
+        res_realloc <- rebalancement_actif(actif = system@actif)
+
+        # Mise a jour de l'attribut
+        system@actif <- res_realloc[["actif"]]
+
+        # Mise a jour de la tresorerie
+        credit <- do.call(sum, res_realloc$pmvr)
+        debit  <- 0
+        system@actif@ptf_actif@tresorerie@ptf$solde <- system@actif@ptf_actif@tresorerie@ptf$solde + credit - debit
+
+
 
 
 
@@ -68,7 +102,9 @@ setMethod(
         ## ######################################################
 
         # Extraction des PMV realisees
-        pmvr <- proj_actif[["flux"]][["pmvr"]]
+        pmvr_realloc <- res_realloc[["pmvr"]]
+        pmvr_proj <- proj_actif[["flux"]][["pmvr"]]
+        pmvr <- sapply(names(pmvr_realloc), function(x) if.is_null(pmvr_proj[[x]], 0) + pmvr_realloc[[x]], simplify = FALSE)
 
         # Appel de la fonction
         res_reserve_capi <- dotation_reserve_capi(system@passif@provision@reserve_capi, pmvr = pmvr[["obligation"]])
@@ -103,7 +139,7 @@ setMethod(
 
         # Ajout du reste de resultat a la tresorerie
         reste <- do.call(sum, res_pb[["reste"]])
-        system@actif@ptf_actif@tresorerie@ptf$solde <- system@actif@ptf_actif@tresorerie@ptf$solde + reste
+        # system@actif@ptf_actif@tresorerie@ptf$solde <- system@actif@ptf_actif@tresorerie@ptf$solde + reste
 
 
 
@@ -126,8 +162,14 @@ setMethod(
         # Mise a jour de l'objet
         system@passif <- res_revalo[["passif"]]
 
+        # Mise a jour de la tresorerie
+        credit <- 0
+        debit  <- sum(sapply(names(res_revalo$revalorisation), function(x) do.call(sum, res_revalo$revalorisation[[x]])))
+        system@actif@ptf_actif@tresorerie@ptf$solde <- system@actif@ptf_actif@tresorerie@ptf$solde + credit - debit
+
+
         # Mise a jour de la tresorie a la suite des revalorisations contractuelles
-        system@actif@ptf_actif@tresorerie@ptf$solde <- system@actif@ptf_actif@tresorerie@ptf$solde - res_revalo$reste_contr
+        # system@actif@ptf_actif@tresorerie@ptf$solde <- system@actif@ptf_actif@tresorerie@ptf$solde - res_revalo$reste_contr
 
 
 
@@ -185,7 +227,6 @@ setMethod(
         ## ###########################
 
         # Aggregation des flux : Actif, Passif
-        warning("Inserer : Revalorisation")
         stock <- list(flux = list(actif = proj_actif[["flux"]],
                                   passif = proj_passif[["flux"]]),
                       actif = system@actif@ptf_actif,
