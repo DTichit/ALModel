@@ -12,6 +12,7 @@
 ##' @slot calc_proba est un objet \code{logical} qui indique si les probabilites doivent etre calculees.
 ##' @slot prop_pb est un \code{data.frame} qui indique la proportion a attribue dans le cas ou les besoins ont ete assouvis (apres besoins contractuels et cible).
 ##' @slot cible est une \code{list} contenant les differents taux cibles par produits.
+##' @slot esg_simu est une \code{list} reprenant les donnees de l'ESG pour une simulation : taux cibles et inflation.
 ##' @author Damien Tichit pour Sia Partners
 ##' @keywords classes
 ##' @export
@@ -28,7 +29,8 @@ setClass(
               rachat_conj = "RachatConj",
               calc_proba = "logical",
               prop_pb = "data.frame",
-              cible = "list"),
+              cible = "list",
+              esg_simu = "list"),
 
     validity = function (object){
 
@@ -65,11 +67,12 @@ setMethod(
                           tab_rachat_part = "TabRachat",
                           rachat_conj = "RachatConj",
                           prop_pb = "RachatConj",
-                          cible = "list"){
+                          cible = "list",
+                          esg_simu = "list"){
 
         .Object@calc_proba <- TRUE
 
-        if(! (missing(tab_morta_h) | missing(tab_morta_f) | missing(tab_rachat_tot) | missing(tab_rachat_part) | missing(rachat_conj) | missing(prop_pb) | missing(cible))){
+        if(! (missing(tab_morta_h) | missing(tab_morta_f) | missing(tab_rachat_tot) | missing(tab_rachat_part) | missing(rachat_conj) | missing(prop_pb) | missing(cible) | missing(esg_simu))){
             .Object@tab_morta_h <- tab_morta_h
             .Object@tab_morta_f <- tab_morta_f
             .Object@tab_rachat_tot <- tab_rachat_tot
@@ -77,6 +80,7 @@ setMethod(
             .Object@rachat_conj <- rachat_conj
             .Object@prop_pb <- prop_pb
             .Object@cible <- cible
+            .Object@esg_simu <- esg_simu
 
             # Validation de l'objet
             validObject(.Object)
@@ -90,6 +94,7 @@ setMethod(
             .Object@rachat_conj <- new("RachatConj")
             .Object@prop_pb <- new("RachatConj")
             .Object@cible <- list()
+            .Object@esg_simu <- list()
         }
 
         # Output
@@ -113,6 +118,7 @@ setMethod(
                "calc_proba" = {return(x@calc_proba)},
                "prop_pb" = {return(x@prop_pb)},
                "cible" = {return(x@cible)},
+               "esg_simu" = {return(x@esg_simu)},
                stop("Cet attribut n'existe pas!")
         )
     }
@@ -135,6 +141,7 @@ setReplaceMethod(
                "calc_proba" = {x@calc_proba <- value},
                "prop_pb" = {x@prop_pb <- value},
                "cible" = {x@cible <- value},
+               "esg_simu" = {x@esg_simu <- value},
                stop("Cet attribut n'existe pas!")
         )
         validObject(x)

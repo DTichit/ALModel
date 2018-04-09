@@ -49,8 +49,9 @@ setMethod(
         ## ######################################################
         ## ######################################################
 
-        # Calcul et mise a jour de l'attribut cible
+        # Calcul et mise a jour des differents attributs
         alm@system@passif@hyp_passif@cible <- list(epargne = ctz_nom[Maturite == 10L & ProjYr > 0L, ZeroCoupon])
+        alm@system@passif@hyp_passif@esg_simu <- list(inflation = alm@hyp_alm@esg@inflation[SimID == num_simu, Inflation])
 
 
 
