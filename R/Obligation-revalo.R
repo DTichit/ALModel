@@ -22,15 +22,18 @@ setMethod(
         ## ###########################
         ##   Extraction des donnnes
         ## ###########################
-        ptf_oblig <- obligation@ptf
+        ptf_oblig <- obligation@ptf[order(obligation@ptf$mat_res),]
         names_ptf <- names(ptf_oblig)
         vm_ptf      <- .subset2(ptf_oblig, which(names_ptf == "valeur_marche"))
         coupon_ptf  <- .subset2(ptf_oblig, which(names_ptf == "coupon"))
         nominal_ptf <- .subset2(ptf_oblig, which(names_ptf == "nominal"))
         mat_res_ptf <- .subset2(ptf_oblig, which(names_ptf == "mat_res"))
 
+        # Ne conserver que les lignes ayant des obligs
+        id <- which(nominal_ptf > 0)
+
         # Maturite residuelles uniques
-        uniq_mat_res <- unique(mat_res_ptf)
+        uniq_mat_res <- unique(mat_res_ptf[id])
 
 
 
@@ -39,7 +42,7 @@ setMethod(
         ## ###########################
 
         # Initialisation du vecteur contenant les nouvelles vm
-        new_vm <- rep(x = NA, length = nrow(ptf_oblig))
+        new_vm <- rep(x = 0, length = nrow(ptf_oblig))
 
         # Calcul de la VM pour les differentes maturites residuelles
         for(mat_res in uniq_mat_res) {
@@ -74,7 +77,12 @@ setMethod(
         ## ###########################
         ##   Mise a jour de l'objet
         ## ###########################
-        obligation@ptf$valeur_marche <- new_vm
+
+        # Mise a jour des VM
+        ptf_oblig$valeur_marche <- new_vm
+
+        # Mise a jour de l'attribut
+        obligation@ptf <- ptf_oblig
 
 
 
