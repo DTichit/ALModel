@@ -34,8 +34,7 @@ setMethod(
                                                     eq_dividends   = alm@hyp_alm@esg@eq_dividends[SimID == num_simu, EqDividends],
                                                     eq_index       = alm@hyp_alm@esg@eq_index[SimID == num_simu, EqIndex],
                                                     im_index       = alm@hyp_alm@esg@im_index[SimID == num_simu, ImIndex],
-                                                    im_loyer       = alm@hyp_alm@esg@im_loyer[SimID == num_simu, ImLoyer],
-                                                    inflation      = alm@hyp_alm@esg@inflation[SimID == num_simu, Inflation])
+                                                    im_loyer       = alm@hyp_alm@esg@im_loyer[SimID == num_simu, ImLoyer])
 
 
 
