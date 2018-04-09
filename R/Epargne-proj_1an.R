@@ -140,13 +140,16 @@ setMethod(
         frais_rachats <- .subset2(epargne@ptf, which(name_ptf == "frais_uni_rachats"))
         frais_deces   <- .subset2(epargne@ptf, which(name_ptf == "frais_uni_deces"))
 
+        # Extraction de l'inflation
+        inf <- hyp_passif@esg_simu$inflation[an]
+
         # Extraction des donnees
         nb_contr_ptf_epargne <- .subset2(epargne@ptf, which(name_ptf == "nb_contr"))
 
         # Calcul des differents frais
-        frais_gestion <- nb_contr_ptf_epargne * frais_gestion
-        frais_rachats <- nb_contr_ptf_epargne * tx_rachat_tot_contr * frais_rachats
-        frais_deces   <- nb_contr_ptf_epargne * tx_deces_contr * frais_deces
+        frais_gestion <- nb_contr_ptf_epargne * frais_gestion * (1 - inf)
+        frais_rachats <- nb_contr_ptf_epargne * tx_rachat_tot_contr * frais_rachats * (1 - inf)
+        frais_deces   <- nb_contr_ptf_epargne * tx_deces_contr * frais_deces * (1 - inf)
 
         # Aggregation des frais
         frais <- frais_gestion + frais_rachats + frais_deces
@@ -173,11 +176,10 @@ setMethod(
         epargne@ptf$nb_contr <- new_nb_contr
         epargne@ptf$pm       <- new_pm
 
-        # Deflater les frais
-        inf <- hyp_passif@esg_simu$inflation[an]
-        epargne@ptf$frais_uni_gestion   <- .subset2(epargne@ptf, which(name_ptf == "frais_uni_gestion")) * inf
-        epargne@ptf$frais_uni_rachats   <- .subset2(epargne@ptf, which(name_ptf == "frais_uni_rachats")) * inf
-        epargne@ptf$frais_uni_deces     <- .subset2(epargne@ptf, which(name_ptf == "frais_uni_deces")) * inf
+        # Appliquer l'inflation aux frais
+        epargne@ptf$frais_uni_gestion   <- .subset2(epargne@ptf, which(name_ptf == "frais_uni_gestion")) * (1 - inf)
+        epargne@ptf$frais_uni_rachats   <- .subset2(epargne@ptf, which(name_ptf == "frais_uni_rachats")) * (1 - inf)
+        epargne@ptf$frais_uni_deces     <- .subset2(epargne@ptf, which(name_ptf == "frais_uni_deces")) * (1 - inf)
 
         # Vieillissement du portfeuille : seulement dans la simulation calculant les probas
         if(hyp_passif@calc_proba){
