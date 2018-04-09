@@ -58,13 +58,18 @@ setMethod(
         ## ###########################
 
         # PB financiere
-        pb_fin <- taux_pb[["financier"]] * resultat_fin
+        if(resultat_fin < 0)
+            pb_fin <- 0
+        else
+            pb_fin <- taux_pb[["financier"]] * resultat_fin
+
 
         # PB technique
         if(resultat_tech < 0)
             pb_tech <- resultat_tech
         else
             pb_tech <- taux_pb[["technique"]] * resultat_tech
+
 
 
 
