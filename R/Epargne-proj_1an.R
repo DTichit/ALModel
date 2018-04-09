@@ -173,6 +173,12 @@ setMethod(
         epargne@ptf$nb_contr <- new_nb_contr
         epargne@ptf$pm       <- new_pm
 
+        # Deflater les frais
+        inf <- hyp_passif@esg_simu$inflation[an]
+        epargne@ptf$frais_uni_gestion   <- .subset2(epargne@ptf, which(name_ptf == "frais_uni_gestion")) * inf
+        epargne@ptf$frais_uni_rachats   <- .subset2(epargne@ptf, which(name_ptf == "frais_uni_rachats")) * inf
+        epargne@ptf$frais_uni_deces     <- .subset2(epargne@ptf, which(name_ptf == "frais_uni_deces")) * inf
+
         # Vieillissement du portfeuille : seulement dans la simulation calculant les probas
         if(hyp_passif@calc_proba){
             epargne@ptf$age <- .subset2(epargne@ptf, which(name_ptf == "age")) + 1L
