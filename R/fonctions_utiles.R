@@ -42,3 +42,14 @@ pna.omit <- function(x, y) {
 ch2numFunct<-function(x){
     x %>% stringr::str_replace(",",".") %>% as.numeric
 }
+
+
+if.is_null <- function(x, replace) {
+
+    if(is.null(x))
+        out <- replace
+    else
+        out <- x
+
+    return(out)
+}
