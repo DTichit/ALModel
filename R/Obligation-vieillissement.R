@@ -2,6 +2,8 @@
 ##'
 ##' Cette fonction permet de vieillir un portfeuille obligataire : mise a jour de la maturite residuelle et vente des obligations arrivees a maturite.
 ##'
+##' Attention : le PTF doit etre aggrege
+##'
 ##' @name vieillissement_obligation
 ##' @docType methods
 ##' @param obligation est un objet de type \code{\link{Obligation}}.
@@ -19,7 +21,11 @@ setMethod(
         ## ###########################
         ##   Extraction des donnnes
         ## ###########################
-        name_ptf_oblig <- names(obligation@ptf)
+        name_ptf <- names(obligation@ptf)
+        mat_res  <- .subset2(obligation@ptf, which(name_ptf == "mat_res"))
+
+
+
 
 
 
@@ -27,19 +33,35 @@ setMethod(
         ## ######################################################
         ## ######################################################
         ##
-        ##          Mise a jour de la maturite residuelle
+        ##              Creation d'un nouveau PTF
         ##
         ## ######################################################
         ## ######################################################
 
-        # Extraction de donnees
-        mat_res_oblig <- .subset2(obligation@ptf, which(name_ptf_oblig == "mat_res"))
+        if(length(mat_res) != max(mat_res)) {
 
-        # Mise a jour des maturites
-        obligation@ptf$mat_res <- mat_res_oblig - 1L
+            # Creation des nouvelles maturites residuelles
+            new_mat_res <- 1L:max(mat_res)
 
+            # Creation du nouveau PTF
+            ptf <- data.frame(id_mp = paste("ob", new_mat_res, sep = "-"), mat_res = new_mat_res,
+                              valeur_comptable = 0, valeur_marche = 0, coupon = 0, nominal = 0)
 
+            # ID
+            id_new <- match(mat_res, new_mat_res)
+            id_old <- match(new_mat_res, mat_res)
+            id_old <- id_old[!is.na(id_old)]
 
+            # Mise a jour du nouveau PTF
+            ptf[id_new, "valeur_comptable"] <- obligation@ptf$valeur_comptable[id_old]
+            ptf[id_new, "valeur_marche"]    <- obligation@ptf$valeur_marche[id_old]
+            ptf[id_new, "coupon"]           <- obligation@ptf$coupon[id_old]
+            ptf[id_new, "nominal"]          <- obligation@ptf$nominal[id_old]
+
+            # Mise a jour de l'attribut
+            obligation@ptf <- ptf
+
+        }
 
 
 
@@ -52,40 +74,56 @@ setMethod(
         ## ######################################################
 
         # Extraction de donnees
-        mat_res_oblig_new <- .subset2(obligation@ptf, which(name_ptf_oblig == "mat_res"))
+        name_ptf <- names(obligation@ptf)
+        mat_res <- .subset2(obligation@ptf, which(name_ptf == "mat_res"))
 
         # Determination des oblig a vendre
-        ind_oblig_sell <- which(mat_res_oblig_new == 0L)
+        ind_oblig_sell <- which(mat_res == 1L)
 
-        # S'il y a des obligs a vendre :
-        if(length(ind_oblig_sell) > 0L) {
+        # Extraction de donnees
+        vm_sell <- sum(obligation@ptf$valeur_marche[ind_oblig_sell])
+        vc_sell <- sum(obligation@ptf$valeur_comptable[ind_oblig_sell])
 
-            # Extraction de donnees
-            vm_oblig <- .subset2(obligation@ptf, which(name_ptf_oblig == "valeur_marche"))
-            vc_oblig <- .subset2(obligation@ptf, which(name_ptf_oblig == "valeur_comptable"))
+        # Calcul des plus ou moins values
+        pmv_oblig <- vm_sell - vc_sell
 
-            # Gain sur les obligations vendues
-            vente_oblig <- vm_oblig[ind_oblig_sell]
 
-            # Calcul des plus ou moins values
-            pmv_oblig <- vm_oblig[ind_oblig_sell] - vc_oblig[ind_oblig_sell]
 
-            # Suppression des oblig du PTF
-            obligation@ptf <- obligation@ptf[-ind_oblig_sell,]
 
-        } else {
 
-            # Aucune vente
-            vente_oblig <- 0 ; pmv_oblig <- 0
 
+        ## ######################################################
+        ## ######################################################
+        ##
+        ##          Mise a jour de la maturite residuelle
+        ##
+        ## ######################################################
+        ## ######################################################
+
+        # Nouvelles maturites residuelles
+        mat_res_new <- mat_res - 1L
+        mat_res_new <- mat_res_new[which(mat_res_new != 0)]
+
+        # ID
+        id_new <- match(mat_res_new, mat_res)
+        id_old <- match(2L:max(mat_res), mat_res)
+
+        # Mise a jour du PTF
+        n_maj <- match(c("id_mp", "mat_res"), name_ptf)
+        obligation@ptf[id_new, -n_maj] <- obligation@ptf[id_old, -n_maj]
+
+
+        # Mettre a 0 la derniere ligne
+        if(obligation@ptf$nominal[which(mat_res == max(mat_res))] > 0) {
+            maj <- match(c("valeur_comptable", "valeur_marche", "coupon", "nominal"), name_ptf)
+            obligation@ptf[which(mat_res == max(mat_res)), maj] <- 0
         }
-
 
 
 
         # Output
         return(list(obligation = obligation,
-                    flux = list(vente = vente_oblig,
+                    flux = list(vente = vm_sell,
                                 pmv = pmv_oblig)))
     }
 )
