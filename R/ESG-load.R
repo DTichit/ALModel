@@ -30,7 +30,7 @@ setMethod(
         # Creation des attributs
         coef_actu       <- data.table(read.table(paste(address, va, "coefActu.csv", sep = "/"), dec = ",", sep = ";", colClasses = c("integer", "integer", "numeric"), header = TRUE))
         ctz_nom         <- data.table(read.table(paste(address, va, "CTZ_Nom.csv", sep = "/"), dec = ",", sep = ";", colClasses = c("integer", "integer", "integer", "numeric"), header = TRUE))
-        ctz_reel        <- data.table(read.table(paste(address, va, "CTZ_Reel.csv", sep = "/"), dec = ",", sep = ";", colClasses = c("integer", "integer", "integer", "numeric"), header = TRUE))
+        # ctz_reel        <- data.table(read.table(paste(address, va, "CTZ_Reel.csv", sep = "/"), dec = ",", sep = ";", colClasses = c("integer", "integer", "integer", "numeric"), header = TRUE))
         eq_dividends    <- data.table(read.table(paste(address, va, "EqDividends.csv", sep = "/"), dec = ",", sep = ";", colClasses = c("integer", "integer", "numeric"), header = TRUE))
         eq_index        <- data.table(read.table(paste(address, va, "EqIndex.csv", sep = "/"), dec = ",", sep = ";", colClasses = c("integer", "integer", "numeric"), header = TRUE))
         im_index        <- data.table(read.table(paste(address, va, "ImIndex.csv", sep = "/"), dec = ",", sep = ";", colClasses = c("integer", "integer", "numeric"), header = TRUE))
@@ -40,7 +40,7 @@ setMethod(
 
         # Creation de l'objet
         esg <- new("ESG",
-                   coef_actu = coef_actu, ctz_nom = ctz_nom, ctz_reel = ctz_reel, eq_dividends = eq_dividends,
+                   coef_actu = coef_actu, ctz_nom = ctz_nom, ctz_reel = data.table(), eq_dividends = eq_dividends,
                    eq_index = eq_index, im_index = im_index, im_loyer = im_loyer, inflation = inflation)
 
 
