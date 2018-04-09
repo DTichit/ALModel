@@ -23,8 +23,11 @@ setMethod(
         ## ###########################
 
         # Extraction des PTF en les triant pour ne pas faire d'erreurs par la suite
-        ptf_cible <- oblig_cible@ptf[order(oblig_cible@ptf[,"id_mp"]), ]
-        ptf       <- oblig@ptf[order(oblig@ptf[,"id_mp"]), ]
+        # ptf_cible <- oblig_cible@ptf[order(oblig_cible@ptf[,"id_mp"]), ]
+        # ptf       <- oblig@ptf[order(oblig@ptf[,"id_mp"]), ]
+        ptf_cible <- oblig_cible@ptf
+        ptf       <- oblig@ptf
+
 
         # Extraction des donnees du PTF cible
         names_ptf_cible <- names(ptf_cible)
@@ -89,7 +92,7 @@ setMethod(
 
                 # Mise en image de donnees
                 nominal_prev <- ptf$nominal[id_pres_ptf]
-                nominal_achat <- nb_achat * ptf_cible$nominal[id_pres_cib]
+                nominal_achat <- ptf_cible$nb_achat[id_pres_cib] * ptf_cible$nominal[id_pres_cib]
 
                 # Mise a jour du PTF
                 ptf$valeur_comptable[id_pres_ptf] <- ptf$valeur_comptable[id_pres_ptf] + achat
@@ -124,8 +127,9 @@ setMethod(
                 vm_del <- ptf[1L:(id_del-1L), "valeur_marche"]
                 vc_del <- ptf[1L:(id_del-1L), "valeur_comptable"]
 
-                # Supprimer les lignes du PTF
-                ptf <- ptf[-(1L:(id_del-1L)),]
+                # Suppression des obligations vendues
+                maj <- match(c("valeur_comptable", "valeur_marche", "coupon", "nominal"), names_ptf)
+                ptf[1L:(id_del-1L), maj] <- 0
 
                 # Mise a jour du reste a vendre
                 diff_alloc <- diff_alloc - sum(vm_del)
@@ -136,17 +140,17 @@ setMethod(
             }
 
             # Mise en image de donnees
-            vm <- ptf[1L, "valeur_marche"]
-            vc <- ptf[1L, "valeur_comptable"]
+            vm <- ptf[id_del, "valeur_marche"]
+            vc <- ptf[id_del, "valeur_comptable"]
 
             # Part de l'oblig supprimee
             vc_del <- diff_alloc * (vc / vm)
             vm_del <- diff_alloc
 
             # Vente d'une partie des VM
-            ptf[1L, "valeur_comptable"] <- vc - vc_del
-            ptf[1L, "nominal"] <- ptf[1L, "nominal"] - diff_alloc * (ptf[1L, "nominal"] / vm)
-            ptf[1L, "valeur_marche"] <- vm - diff_alloc
+            ptf[id_del, "valeur_comptable"] <- vc - vc_del
+            ptf[id_del, "nominal"] <- ptf[id_del, "nominal"] - diff_alloc * (ptf[id_del, "nominal"] / vm)
+            ptf[id_del, "valeur_marche"] <- vm - diff_alloc
 
             # Mise a jour du reste a vendre
             diff_alloc <- 0
@@ -157,16 +161,23 @@ setMethod(
         }
 
 
-
         # Mise a jour de l'objet
         oblig@ptf <- ptf
 
 
 
 
+        ## ###########################
+        ##    Parametres de sortie
+        ## ###########################
+
+        # Flux
+        flux <- alloc_cible - sum(vm_ptf)
+
+
         # Output
         return(list(oblig = oblig,
                     pmvr = pmvr,
-                    diff_alloc = diff_alloc))
+                    flux = flux))
     }
 )

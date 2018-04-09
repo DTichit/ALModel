@@ -86,9 +86,6 @@ setMethod(
         # Mise a jour de l'objet
         actif@ptf_actif@action <- action_rebal[["action"]]
 
-        # Flux actions
-        flux_action <- action_rebal[["flux"]]
-
 
 
 
@@ -106,9 +103,6 @@ setMethod(
         # Mise a jour de l'objet
         actif@ptf_actif@immobilier <- immo_rebal[["immo"]]
 
-        # Flux immo
-        flux_immo <- immo_rebal[["flux"]]
-
 
 
 
@@ -122,9 +116,6 @@ setMethod(
 
         # Appel de la fonction
         oblig_rebal <- rebalancement_obligation(oblig = actif@ptf_actif@obligation, oblig_cible = ptf_cible@obligation, alloc_cible = alloc_cible_oblig)
-
-        # Flux obligataires
-        flux_oblig <- oblig_rebal[["flux"]]
 
         # Mise a jour de l'objet
         actif@ptf_actif@obligation <- oblig_rebal[["oblig"]]
@@ -142,17 +133,17 @@ setMethod(
         ## ######################################################
         ## ######################################################
 
-        # Flux d'achat et de vente
-        flux <- list(action = flux_action[["diff_alloc"]], obligation = flux_oblig[["diff_alloc"]], immobilier = flux_immo[["diff_alloc"]])
+        # Difference d'allocation
+        flux <- list(action = action_rebal[["flux"]], obligation = oblig_rebal[["flux"]], immobilier = immo_rebal[["flux"]])
 
         # PMVR
-        pmvr <- list(action = flux_action[["pmvr"]], obligation = flux_oblig[["pmvr"]], immobilier = flux_immo[["pmvr"]])
+        pmvr <- list(action = action_rebal[["pmvr"]], obligation = oblig_rebal[["pmvr"]], immobilier = immo_rebal[["pmvr"]])
 
 
 
         # Output
         return(list(actif = actif,
-                    flux = flux,
+                    flux  = flux,
                     pmvr = pmvr))
     }
 )

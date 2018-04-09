@@ -71,10 +71,15 @@ setMethod(
         ## ###########################
         ##    Parametres de sortie
         ## ###########################
+
+        # Plus ou moins values realisees
         if (diff_alloc < 0)
             pmvr <- sum(abs(vm_mov) - abs(vc_mov))
         else
             pmvr <- 0
+
+        # Flux
+        flux <-  alloc_cible - vm_totale
 
 
 
@@ -82,6 +87,6 @@ setMethod(
         # Output
         return(list(immo = immo,
                     pmvr = pmvr,
-                    diff_alloc = diff_alloc))
+                    flux = flux))
     }
 )

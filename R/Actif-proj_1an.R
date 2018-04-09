@@ -95,15 +95,17 @@ setMethod(
         ## ######################################################
 
         # Extraction des montants a inserer dans la treso
-        frais <- sapply(names(frais_fin[["frais"]]), function(x) do.call(sum, frais_fin[["frais"]][[x]]))
+        frais <- sapply(names(frais_fin[["frais"]]), function(x) do.call(sum, frais_fin[["frais"]][[x]]), simplify = FALSE)
+        vente <- res_vieillissement$flux$vente
+        pmv <- res_vieillissement$flux$pmv
 
         # Calcul du montant a inserer dans la tresorerie
-        montant <- frais
+        montant <- do.call(sum, vente) - do.call(sum, pmv)
         warning("Partie a finaliser")
         warning("Est ce qu'on met les ventes des actifs ?")
 
         # Mise a jour de l'attribut
-        # actif@ptf_actif@tresorerie <- actif@ptf_actif@tresorerie + montant
+        # actif@ptf_actif@tresorerie@ptf$solde <- actif@ptf_actif@tresorerie@ptf$solde + montant
 
 
 
