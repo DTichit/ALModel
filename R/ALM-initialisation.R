@@ -20,7 +20,7 @@ setMethod(
     definition = function(address){
 
         # Creation de l'objet ALM
-        alm <- load_alm("../01_Data")
+        alm <- load_alm(address)
 
         # Premiere aggregation
         alm <- aggregation_alm(alm = alm)
