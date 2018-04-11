@@ -53,3 +53,20 @@ if.is_null <- function(x, replace) {
 
     return(out)
 }
+
+
+
+
+sum_list <- function(list, p) {
+
+    # Calcul de la somme en fonction de la profondeur de la liste
+    if(p == 1L)
+        res <- do.call(sum, list)
+    else if(p == 2L)
+        res <- sum(sapply(names(list), function(x) do.call(sum, list[[x]])))
+    else
+        stop("Calcul de la somme non codee pour cette profondeur")
+
+    # Output
+    return(res)
+}
