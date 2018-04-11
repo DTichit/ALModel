@@ -92,11 +92,11 @@ setMethod(
         ## ###########################
 
         # Extraction des flux actualises
-        flux_actu <- sapply(X = names(flux_be[[1L]][["flux_actu"]]), simplify = FALSE, USE.NAMES = TRUE,
-                        FUN = function(x) sapply(1L:(hyp_alm@nb_simu), function(y) return(flux_be[[y]][["flux_actu"]][[x]])))
+        flux_actu <-  sapply(1L:(hyp_alm@nb_simu), function(y) return(flux_be[[y]][["flux_actu"]]))
 
         # Moyenne sur les simulations
-        be <- sapply(X = names(flux_actu), function(x) {mean(flux_actu[[x]])})
+        # be <- sapply(X = names(flux_actu), function(x) {mean(flux_actu[[x]])})
+        be <- mean(flux_actu)
 
 
 

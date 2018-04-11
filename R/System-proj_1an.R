@@ -37,8 +37,8 @@ setMethod(
         system@actif <- proj_actif[["actif"]]
 
         # Mise a jour de la tresorerie
-        credit <- do.call(sum, proj_actif$flux$prod_fin) + do.call(sum, proj_actif$flux$vente)
-        debit <- sum(sapply(names(proj_actif$flux$frais), function(x) do.call(sum, proj_actif$flux$frais[[x]])))
+        credit <- sum_list(proj_actif$flux$prod_fin, 1L) + sum_list(proj_actif$flux$vente, 1L)
+        debit <- sum_list(proj_actif$flux$frais, 2L)
         system@actif@ptf_actif@tresorerie@ptf$solde <- system@actif@ptf_actif@tresorerie@ptf$solde + credit - debit
 
 
@@ -48,8 +48,8 @@ setMethod(
         ## ######################################################
         ## ######################################################
         ##
-        ##              Gestion des passifs :
-        ## Evaluation des prestations, revalo des contrats aux TMG
+        ##                Gestion des passifs :
+        ##   Evaluation des prestations, des frais et des chgts
         ##
         ## ######################################################
         ## ######################################################
@@ -61,8 +61,8 @@ setMethod(
         system@passif <- proj_passif[["passif"]]
 
         # Mise a jour de la tresorerie
-        credit <- sum(sapply(names(proj_passif$flux$chargement), function(x) do.call(sum, proj_passif$flux$chargement[[x]])))
-        debit  <- sum(sapply(names(proj_passif$flux$frais), function(x) do.call(sum, proj_passif$flux$frais[[x]])))
+        credit <- sum_list(proj_passif$flux$chargement, 2L) + sum_list(proj_passif$flux$prime, 1L)
+        debit  <- sum_list(proj_passif$flux$frais, 2L) + sum_list(proj_passif$flux$prestation, 2L)
         system@actif@ptf_actif@tresorerie@ptf$solde <- system@actif@ptf_actif@tresorerie@ptf$solde + credit - debit
 
 
@@ -84,7 +84,7 @@ setMethod(
         system@actif <- res_realloc[["actif"]]
 
         # Mise a jour de la tresorerie
-        credit <- do.call(sum, res_realloc$pmvr)
+        credit <- sum_list(res_realloc$pmvr, 1L)
         debit  <- 0
         system@actif@ptf_actif@tresorerie@ptf$solde <- system@actif@ptf_actif@tresorerie@ptf$solde + credit - debit
 
@@ -137,10 +137,6 @@ setMethod(
         # Calcul de la PB a distribuer
         res_pb <- calcul_pb(taux_pb = system@taux_pb, resultat_fin = result_fin, resultat_tech = result_tech)
 
-        # Ajout du reste de resultat a la tresorerie
-        reste <- do.call(sum, res_pb[["reste"]])
-        # system@actif@ptf_actif@tresorerie@ptf$solde <- system@actif@ptf_actif@tresorerie@ptf$solde + reste
-
 
 
 
@@ -154,7 +150,7 @@ setMethod(
         ## ######################################################
 
         # PB a attribuer
-        pb <- do.call(sum, res_pb[["pb"]])
+        pb <- sum_list(res_pb[["pb"]], 1L)
 
         # Appel de la fonction
         res_revalo <- revalo_passif(passif = system@passif, revalo_prestation = proj_passif[["besoin"]][["revalo_prest"]], pb = pb, an = an)
@@ -164,12 +160,8 @@ setMethod(
 
         # Mise a jour de la tresorerie
         credit <- 0
-        debit  <- sum(sapply(names(res_revalo$revalorisation), function(x) do.call(sum, res_revalo$revalorisation[[x]])))
+        debit  <- sum_list(res_revalo$revalorisation, 2L)
         system@actif@ptf_actif@tresorerie@ptf$solde <- system@actif@ptf_actif@tresorerie@ptf$solde + credit - debit
-
-
-        # Mise a jour de la tresorie a la suite des revalorisations contractuelles
-        # system@actif@ptf_actif@tresorerie@ptf$solde <- system@actif@ptf_actif@tresorerie@ptf$solde - res_revalo$reste_contr
 
 
 
@@ -210,6 +202,9 @@ setMethod(
         # Primes par produit
         prime_prod <- proj_passif[["flux"]][["prime"]]
 
+        # Frais financiers
+        frais_fin <- sum_list(proj_actif[["flux"]][["frais"]], 2L)
+
 
 
         ## ###########################
@@ -217,9 +212,11 @@ setMethod(
         ## ###########################
 
         # Somme des flux necessaires au calcul du BEL
-        flux_bel <- sapply(X = name_passif,
-                           FUN = function(x) return(frais_prod[[x]] + prestation_prod[[x]] - prime_prod[[x]] - charg_prod[[x]]),
-                           simplify = FALSE, USE.NAMES = TRUE)
+        # flux_bel <- sapply(X = name_passif,
+        #                    FUN = function(x) return(frais_prod[[x]] + prestation_prod[[x]] - prime_prod[[x]] - charg_prod[[x]]),
+        #                    simplify = FALSE, USE.NAMES = TRUE)
+        flux_bel <- (sum_list(prestation_prod, 1L) + sum_list(frais_prod, 1L) + frais_fin) -
+            (sum_list(prime_prod, 1L) + sum_list(charg_prod, 1L))
 
 
         ## ###########################

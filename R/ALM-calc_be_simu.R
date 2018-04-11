@@ -71,9 +71,10 @@ setMethod(
         ## Aggregation des flux par produit
         ## ###########################
 
-        flux <- sapply(X = names(flux_be_simu[[1L]]),
-                       FUN = function(x) {sapply(X = 1L:(an_proj), FUN = function(y) return(flux_be_simu[[y]][[x]]))},
-                       simplify = FALSE, USE.NAMES = TRUE)
+        # flux <- sapply(X = names(flux_be_simu[[1L]]),
+        #                FUN = function(x) {sapply(X = 1L:(an_proj), FUN = function(y) return(flux_be_simu[[y]][[x]]))},
+        #                simplify = FALSE, USE.NAMES = TRUE)
+        flux <- unlist(flux_be_simu)
 
 
 
@@ -86,8 +87,9 @@ setMethod(
         coef_actu <- res_esg[["coef_actu"]][ProjYr <= an_proj, CoefActu]
 
         # Actualisation
-        flux_actu <- sapply(X = names(flux), simplify = FALSE, USE.NAMES = TRUE ,
-                            FUN = function(x) return(sum(flux[[x]] * coef_actu)))
+        # flux_actu <- sapply(X = names(flux), simplify = FALSE, USE.NAMES = TRUE ,
+        #                     FUN = function(x) return(sum(flux[[x]] * coef_actu)))
+        flux_actu <- sum(flux * coef_actu)
 
         warning("Demander comment est calcule le coef actu afin de savoir comment il fonctionne pour actualiser ???")
 
