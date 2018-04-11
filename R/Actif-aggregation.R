@@ -38,7 +38,7 @@ setMethod(
         ##         Obligations
         ## ###########################
 
-        actif@ptf_actif@obligation <- aggregation_obligation(actif@ptf_actif@obligation)
+        # actif@ptf_actif@obligation <- aggregation_obligation(actif@ptf_actif@obligation)
 
 
 
