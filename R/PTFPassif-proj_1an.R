@@ -49,6 +49,9 @@ setMethod(
         ## ######################################################
         ## ######################################################
 
+        # PM a l'ouverture
+        pm_ouverture <- list(epargne = res_proj_epargne[["pm_ouverture"]])
+
         # Prestations
         prestation <- list(epargne = res_proj_epargne[["flux"]][["prestation"]])
 
@@ -67,6 +70,7 @@ setMethod(
 
         # Output
         return(list(ptf_passif = ptf_passif,
+                    pm_ouverture = pm_ouverture,
                     flux = list(prestation = prestation,
                                 prime = prime,
                                 chargement = chargement,

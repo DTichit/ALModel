@@ -27,6 +27,22 @@ setMethod(
         ## ######################################################
         ## ######################################################
         ##
+        ##           Mise en memoire des PM a l'ouverture
+        ##
+        ## ######################################################
+        ## ######################################################
+
+        # Extraction de donnees
+        pm_ptf_epargne   <- .subset2(epargne@ptf, which(name_ptf == "pm"))
+
+        # PM a l'ouverture
+        pm_ouverture <- sum(pm_ptf_epargne)
+
+
+
+        ## ######################################################
+        ## ######################################################
+        ##
         ##               Evaluation des prestations
         ##
         ## ######################################################
@@ -34,7 +50,6 @@ setMethod(
 
         # Extraction de donnees
         nb_contr_ptf_epargne <- .subset2(epargne@ptf, which(name_ptf == "nb_contr"))
-        pm_ptf_epargne   <- .subset2(epargne@ptf, which(name_ptf == "pm"))
         revalo_prec_ptf_epargne   <- .subset2(epargne@ptf, which(name_ptf == "revalo_prec"))
 
 
@@ -209,6 +224,7 @@ setMethod(
 
         # Output
         return(list(epargne = epargne,
+                    pm_ouverture = pm_ouverture,
                     flux = list(prestation = list(deces = sum(deces),
                                                   rachat_tot = sum(rachat_tot),
                                                   rachat_part = sum(rachat_part),

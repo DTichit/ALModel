@@ -56,26 +56,10 @@ setMethod(
 
 
 
-        ## ######################################################
-        ## ######################################################
-        ##
-        ##              Aggregation des donnees
-        ##
-        ## ######################################################
-        ## ######################################################
-
-        # Flux : prestations, chgts et frais
-        flux_passif <- res_proj_ptf[["flux"]]
-
-        # Besoin pour assouvir le TMG
-        besoin_passif <- res_proj_ptf[["besoin"]]
-
-
-
-
         # Output
         return(list(passif = passif,
-                    flux = flux_passif,
-                    besoin = besoin_passif))
+                    pm_ouverture = res_proj_ptf[["pm_ouverture"]],
+                    flux = res_proj_ptf[["flux"]],
+                    besoin = res_proj_ptf[["besoin"]]))
     }
 )

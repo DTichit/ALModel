@@ -224,13 +224,15 @@ setMethod(
         ## ###########################
 
         # Aggregation des flux : Actif, Passif
-        stock <- list(flux = list(actif = proj_actif[["flux"]],
-                                  passif = proj_passif[["flux"]]),
-                      actif = system@actif@ptf_actif,
-                      passif = list(epargne = system@passif@ptf_passif@epargne@ptf),
-                      revalorisation = list(revalorisation = res_revalo[["revalorisation"]],
-                                            besoin = res_revalo[["besoin"]]),
-                      provision = system@passif@provision)
+        stock <- list(actif = list(image = system@actif@ptf_actif,
+                                   flux = proj_actif[["flux"]]),
+                      passif = list(image = list(epargne = system@passif@ptf_passif@epargne@ptf),
+                                    pm_ouverture = proj_passif[["pm_ouverture"]],
+                                    flux = list(proj_passif = proj_passif[["flux"]],
+                                                revalorisation = list(attribuee = res_revalo[["revalorisation"]],
+                                                                      besoin = res_revalo[["besoin"]]))),
+                      provision = list(image = system@passif@provision,
+                                       flux = list(reserve_capi = res_reserve_capi[["flux"]])))
 
 
 
