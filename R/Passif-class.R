@@ -7,6 +7,7 @@
 ##' @slot ptf_passif est un objet de la classe \code{\link{PTFPassif}} representant le portfeuille passif.
 ##' @slot hyp_passif est un objet de la classe \code{\link{HypPassif}} contenant l'ensemble des hypotheses du passif.
 ##' @slot provision est un objet de la classe \code{\link{Provision}}.
+##' @slot cap_pro est un \code{numeric} representant le montant de capitaux propres.
 ##' @author Damien Tichit pour Sia Partners
 ##' @keywords classes
 ##' @export
@@ -17,7 +18,8 @@ setClass(
 
     slots = c(ptf_passif = "PTFPassif",
               hyp_passif = "HypPassif",
-              provision = "Provision"),
+              provision = "Provision",
+              cap_pro = "numeric"),
 
     validity = function (object){
 
@@ -48,12 +50,14 @@ setMethod(
     definition = function(.Object,
                           ptf_passif = "PTFPassif",
                           hyp_passif = "HypPassif",
-                          provision  = "Provision"){
+                          provision  = "Provision",
+                          cap_pro  = "Provision"){
 
-        if(! (missing(ptf_passif) | missing(hyp_passif) | missing(provision))){
+        if(! (missing(ptf_passif) | missing(hyp_passif) | missing(provision) | missing(cap_pro))){
             .Object@ptf_passif  <- ptf_passif
             .Object@hyp_passif  <- hyp_passif
             .Object@provision   <- provision
+            .Object@cap_pro     <- cap_pro
 
             # Validation de l'objet
             validObject(.Object)
@@ -63,6 +67,7 @@ setMethod(
             .Object@ptf_passif  <- new("PTFPassif")
             .Object@hyp_passif  <- new("HypPassif")
             .Object@provision   <- new("Provision")
+            .Object@cap_pro     <- NA
 
             warnings("[Passif] : Attention au moins un des obets est manquant a l'initialisation")
         }
@@ -83,6 +88,7 @@ setMethod(
                "ptf_passif" = {return(x@ptf_passif)},
                "hyp_passif" = {return(x@hyp_passif)},
                "provision" = {return(x@provision)},
+               "cap_pro" = {return(x@cap_pro)},
                stop("Cet attribut n'existe pas!")
         )
     }
@@ -100,6 +106,7 @@ setReplaceMethod(
                "ptf_passif" = {x@ptf_passif <- value},
                "hyp_passif" = {x@hyp_passif <- value},
                "provision" = {x@provision <- value},
+               "cap_pro" = {x@cap_pro <- value},
                stop("Cet attribut n'existe pas!")
         )
         validObject(x)

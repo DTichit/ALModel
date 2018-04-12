@@ -18,8 +18,6 @@ setMethod(
     signature = c(system = "System", an = "integer"),
     definition = function(system, an){
 
-        warning("Le rebalancement des actifs est code mais pas encore branche ")
-
 
         ## ######################################################
         ## ######################################################
@@ -114,6 +112,24 @@ setMethod(
 
         # Mise a jour des PMVR
         pmvr[["obligation"]] <- res_reserve_capi[["reste_pmv"]]
+
+
+
+
+
+        ## ######################################################
+        ## ######################################################
+        ##
+        ##       Determination de la part de Capitaux Propres
+        ##
+        ## ######################################################
+        ## ######################################################
+
+        # PM totales
+        pm_totale <- sum_list(proj_passif$pm_ouverture, 1L)
+
+        # Quote-Part capitaux propres
+        qp_cp <- system@passif@cap_pro / (system@passif@cap_pro + pm_totale)
 
 
 
