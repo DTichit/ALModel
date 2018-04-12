@@ -30,6 +30,9 @@ setMethod(
             # Reste
             reste_pmv <- 0
 
+            # Flux
+            flux <- pmvr
+
         } else {
 
             # Calcul de la reprise maximale pouvant etre effectue
@@ -41,12 +44,16 @@ setMethod(
             # Reste
             reste_pmv <- abs(pmvr) - reprise
 
+            # Flux
+            flux <- -reprise
+
         }
 
 
 
         # Output
         return(list(reserve_capi = reserve_capi,
-                    reste_pmv = reste_pmv))
+                    reste_pmv = reste_pmv,
+                    flux = flux))
     }
 )
