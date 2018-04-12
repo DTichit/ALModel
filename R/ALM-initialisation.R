@@ -25,14 +25,17 @@ setMethod(
         # Premiere aggregation
         alm <- aggregation_alm(alm = alm)
 
+        # Calcul des taux actuariels et spread sur le PTF obligataire
+        alm@system@actif@ptf_actif@obligation@ptf$tri <- calc_tri(alm@system@actif@ptf_actif@obligation)
+
         # Effectuer une premiere simulation permettant de calculer les probas
         system <- calc_be_simu(alm = alm, num_sim = 1L)[["system"]]
 
-        # Mise a jour du booleen evitant un 2nd calcul de probas
-        alm@system@passif@hyp_passif@calc_proba <- FALSE
-
         # Mise a jour des tables de probabilites
         alm@system@passif@ptf_passif@epargne@proba <- system@passif@ptf_passif@epargne@proba
+
+        # Mise a jour du booleen evitant un 2nd calcul de probas
+        alm@system@passif@hyp_passif@calc_proba <- FALSE
 
         # Seconde aggregation : Apres le calcul des probas
         # alm@system@passif <- aggregation_passif_2(alm@system@passif)
