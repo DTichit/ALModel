@@ -18,6 +18,8 @@ setMethod(
     definition = function(ptf_actif, hyp_actif, an){
 
 
+
+
         ## ######################################################
         ## ######################################################
         ##
@@ -44,6 +46,10 @@ setMethod(
         name_ctz <- names(hyp_actif@esg_simu$ctz_nom)
         num <- which(.subset2(hyp_actif@esg_simu$ctz_nom, which(name_ctz == "ProjYr")) == an)
         yield_curve <- .subset2(hyp_actif@esg_simu$ctz_nom, which(name_ctz == "ZeroCoupon"))[num]
+
+        # Calcul du spread : uniquement en 1ere annee
+        if(an == 1L)
+            ptf_actif@obligation@ptf$spread <- calc_spread(obligation = ptf_actif@obligation, yield_curve = yield_curve)
 
         # Revalorisation des obligations
         res_revalo_oblig <- revalo_obligation(obligation = ptf_actif@obligation, yield_curve = yield_curve)

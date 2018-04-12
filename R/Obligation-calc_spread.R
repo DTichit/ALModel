@@ -27,8 +27,8 @@ setMethod(
         vr_ptf          <- .subset2(obligation@ptf, which(name_ptf_oblig == "valeur_remboursement"))
         vm_ptf          <- .subset2(obligation@ptf, which(name_ptf_oblig == "valeur_marche"))
         coupon_ptf      <- .subset2(obligation@ptf, which(name_ptf_oblig == "coupon"))
-        maturite_ptf    <- .subset2(obligation@ptf, which(names_ptf == "maturite"))
-        dur_det_ptf     <- .subset2(obligation@ptf, which(names_ptf == "duree_detention"))
+        maturite_ptf    <- .subset2(obligation@ptf, which(name_ptf_oblig == "maturite"))
+        dur_det_ptf     <- .subset2(obligation@ptf, which(name_ptf_oblig == "duree_detention"))
 
         # Calcul de la maturite residuelle du PTF
         mat_res_ptf <- maturite_ptf - dur_det_ptf
@@ -37,34 +37,18 @@ setMethod(
 
 
         ## ###########################
-        ##      Calcul des TRI
+        ##      Calcul des spread
         ## ###########################
 
-        # Initialisation du vecteur contenant les nouveaux TRI
-        spread <- rep(x = NA, length = nrow(obligation@ptf))
+        # Calcul des spread
+        spread <- sapply(1L:nrow(obligation@ptf), function(id) {
+            newton_raphson(fun = function(x)
+                sum(nominal_ptf[id] * coupon_ptf[id] * exp(-(yield_curve[1L:mat_res_ptf[id]] + x)*(1L:mat_res_ptf[id]))) + vr_ptf[id] * exp(-(yield_curve[mat_res_ptf[id]] + x) * mat_res_ptf[id]) - vm_ptf[id])
+        })
 
-        for(mat_res in uniq_mat_res) {
-
-            # Lignes correspondantes a la mat_res en question
-            id <- which(mat_res_ptf == mat_res)
-
-            # Recherche du zero
-            spread[id] <- newton_raphson(fun = function(x)
-                sum(nominal_ptf[id] * coupon_ptf[id] * exp(-(yield_curve[1L:mat_res] + x))^(1L:mat_res)) + vr_ptf[id] * exp(-x * mat_res) - vm_ptf[id])
-        }
-
-
-
-
-
-        ## ###########################
-        ##   Mise a jour de l'objet
-        ## ###########################
-
-        obligation@ptf$spread <- spread
 
 
         # Output
-        return(list(obligation = obligation))
+        return(spread)
     }
 )

@@ -17,28 +17,20 @@ setMethod(
     signature = c(obligation = "Obligation", yield_curve = "numeric"),
     definition = function(obligation, yield_curve){
 
-        warning("Mettre de le spread")
-
         ## ###########################
         ##   Extraction des donnnes
         ## ###########################
-        ptf_oblig <- obligation@ptf
-        names_ptf <- names(ptf_oblig)
-        vm_ptf      <- .subset2(ptf_oblig, which(names_ptf == "valeur_marche"))
-        coupon_ptf  <- .subset2(ptf_oblig, which(names_ptf == "coupon"))
-        nominal_ptf <- .subset2(ptf_oblig, which(names_ptf == "nominal"))
-        vr_ptf      <- .subset2(ptf_oblig, which(names_ptf == "valeur_remboursement"))
-        maturite_ptf <- .subset2(ptf_oblig, which(names_ptf == "maturite"))
-        dur_det_ptf <- .subset2(ptf_oblig, which(names_ptf == "duree_detention"))
+        names_ptf <- names(obligation@ptf)
+        vm_ptf      <- .subset2(obligation@ptf, which(names_ptf == "valeur_marche"))
+        nominal_ptf  <- .subset2(obligation@ptf, which(names_ptf == "nominal"))
+        coupon_ptf  <- .subset2(obligation@ptf, which(names_ptf == "coupon"))
+        vr_ptf      <- .subset2(obligation@ptf, which(names_ptf == "valeur_remboursement"))
+        maturite_ptf <- .subset2(obligation@ptf, which(names_ptf == "maturite"))
+        dur_det_ptf <- .subset2(obligation@ptf, which(names_ptf == "duree_detention"))
+        spread_ptf <- .subset2(obligation@ptf, which(names_ptf == "spread"))
 
         # Calcul de la maturite residuelle du PTF
         mat_res_ptf <- maturite_ptf - dur_det_ptf
-
-        # Ne conserver que les lignes ayant des obligs
-        id <- which(nominal_ptf > 0)
-
-        # Maturite residuelles uniques
-        uniq_mat_res <- unique(mat_res_ptf[id])
 
 
 
@@ -46,27 +38,24 @@ setMethod(
         ##   Calcul des nouvelles VM
         ## ###########################
 
-        # Initialisation du vecteur contenant les nouvelles vm
-        new_vm <- rep(x = 0, length = nrow(ptf_oblig))
-
         # Calcul de la VM pour les differentes maturites residuelles
-        for(mat_res in uniq_mat_res) {
-
-            # Lignes correspondantes a la mat_res en question
-            id_mat_res <- which(mat_res_ptf == mat_res)
+        vm <- sapply(1L:nrow(obligation@ptf), function(id){
 
             # Extraction de donnees
-            coupon <- coupon_ptf[id_mat_res] * nominal_ptf[id_mat_res]
-            pzc <- exp(-yield_curve[seq(1L, mat_res)])
-            vr <- nominal_ptf[id_mat_res]
+            mat_res <- mat_res_ptf[id]
+            coupon <- coupon_ptf[id] * nominal_ptf[id]
+            actu <- exp(-(yield_curve[1L:mat_res] + spread_ptf[id]) * 1L:mat_res)
+            vr <- vr_ptf[id]
 
             # Actualisation des coupons (Sommation pour eviter de passer par une matrice)
-            coupon_act <- sum(coupon) * (pzc^seq(1L, mat_res))
+            coupon_act <- coupon * actu
 
-            # Calcul des nouvelles VM
-            new_vm[id_mat_res] <- (coupon/sum(coupon)) * sum(coupon_act) + vr * pzc[mat_res]^mat_res
+            # Calcul de la nouvelle VM
+            new_vm <- sum(coupon_act) + vr * actu[mat_res]
 
-        }
+            # Output
+            return(new_vm)
+        })
 
 
 
@@ -75,7 +64,7 @@ setMethod(
         ## ###########################
 
         # Determination des PMVL
-        pmvl <- new_vm - vm_ptf
+        pmvl <- vm - vm_ptf
 
 
 
@@ -83,11 +72,8 @@ setMethod(
         ##   Mise a jour de l'objet
         ## ###########################
 
-        # Mise a jour des VM
-        ptf_oblig$valeur_marche <- new_vm
-
         # Mise a jour de l'attribut
-        obligation@ptf <- ptf_oblig
+        obligation@ptf$valeur_marche <- vm
 
 
 

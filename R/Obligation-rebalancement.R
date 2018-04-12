@@ -73,7 +73,8 @@ setMethod(
             # Mise a jour des colonnes existantes
             ptf_cible$valeur_marche <- achat
             ptf_cible$nominal <- nb_achat * .subset2(ptf_cible, which(names_ptf_cible == "nominal"))
-            ptf_cible$valeur_remboursement <- nb_achat * .subset2(ptf_cible, which(names_ptf_cible == "valeur_remboursement"))
+            ptf_cible$spread <- 0
+            ptf_cible$tri <- ptf_cible$coupon
 
 
             # Ajout de nouvelles colonnes
@@ -109,7 +110,7 @@ setMethod(
             id_del <- which(cum_sum_vm > diff_alloc)[1L]
 
 
-            if((id_del > 1L) & (! is.null(id_del))) {
+            if((id_del > 1L) & (! is.na(id_del))) {
 
                 # Obligations etant supprimees
                 vm_del <- vm_ptf[1L:(id_del-1L)]

@@ -23,10 +23,10 @@ setMethod(
         # Extraction des donnees du PTF
         name_ptf_oblig  <- names(obligation@ptf)
         nominal_ptf     <- .subset2(obligation@ptf, which(name_ptf_oblig == "nominal"))
-        va_ptf          <- .subset2(obligation@ptf, which(name_ptf_oblig == "valeur_achat"))
+        vnc_ptf          <- .subset2(obligation@ptf, which(name_ptf_oblig == "valeur_nette_comptable"))
         coupon_ptf      <- .subset2(obligation@ptf, which(name_ptf_oblig == "coupon"))
-        maturite_ptf    <- .subset2(obligation@ptf, which(names_ptf == "maturite"))
-        dur_det_ptf     <- .subset2(obligation@ptf, which(names_ptf == "duree_detention"))
+        maturite_ptf    <- .subset2(obligation@ptf, which(name_ptf_oblig == "maturite"))
+        dur_det_ptf     <- .subset2(obligation@ptf, which(name_ptf_oblig == "duree_detention"))
 
         # Calcul de la maturite residuelle du PTF
         mat_res_ptf <- maturite_ptf - dur_det_ptf
@@ -39,31 +39,15 @@ setMethod(
         ##      Calcul des TRI
         ## ###########################
 
-        # Initialisation du vecteur contenant les nouveaux TRI
-        tri <- rep(x = NA, length = nrow(obligation@ptf))
+        # Calcul des tri
+        tri <- sapply(1L:nrow(obligation@ptf), function(id) {
+            newton_raphson(function(x)
+                sum(nominal_ptf[id] * coupon_ptf[id] * exp(-x)^1L:mat_res_ptf[id]) + nominal_ptf[id] * exp(-x)^mat_res_ptf[id] - vnc_ptf[id])
+        })
 
-        for(mat_res in uniq_mat_res) {
-
-            # Lignes correspondantes a la mat_res en question
-            id <- which(mat_res_ptf == mat_res)
-
-            # Recharche du zero
-            tri[id] <- newton_raphson(function(x)
-                sum(nominal_ptf[id] * coupon_ptf[id] * exp(-x)^1L:mat_res) + nominal_ptf[id] * exp(-x)^mat_res - va_ptf[id])
-        }
-
-
-
-
-
-        ## ###########################
-        ##   Mise a jour de l'objet
-        ## ###########################
-
-        obligation@ptf$tri <- tri
 
 
         # Output
-        return(list(obligation = obligation))
+        return(tri)
     }
 )

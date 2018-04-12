@@ -43,6 +43,24 @@ setMethod(
 
 
 
+        ## ######################################################
+        ## ######################################################
+        ##
+        ##                  Mise a jour de la VNC
+        ##
+        ## ######################################################
+        ## ######################################################
+
+        # Extraction de donnees
+        vnc_ptf <- .subset2(obligation@ptf, which(name_ptf_oblig == "valeur_nette_comptable"))
+        tri_ptf <- .subset2(obligation@ptf, which(name_ptf_oblig == "tri"))
+
+        # Mise a jour des maturites
+        obligation@ptf$valeur_nette_comptable <- vnc_ptf / (1 + tri_ptf)
+
+
+
+
 
 
         ## ######################################################
