@@ -22,29 +22,16 @@ setMethod(
         ##   Extraction des donnees
         ## ###########################
 
-        # Extraction des PTF en les triant pour ne pas faire d'erreurs par la suite
-        # ptf_cible <- oblig_cible@ptf[order(oblig_cible@ptf[,"id_mp"]), ]
-        # ptf       <- oblig@ptf[order(oblig@ptf[,"id_mp"]), ]
-        ptf_cible <- oblig_cible@ptf
+        # Extraction des PTF
         ptf       <- oblig@ptf
 
-
-        # Extraction des donnees du PTF cible
-        names_ptf_cible <- names(ptf_cible)
-        mat_res_cible <- .subset2(ptf_cible, which(names_ptf_cible == "mat_res"))
-        cle_cible  <- paste(mat_res_cible, sep = ".")
+        # Tri pour eviter de faire des erreurs
+        # Ce tri permet de vendre dans un premier temps les obligations cibles puis celles ayant une maturiete residuelle petite
+        ptf <- ptf[order(ptf$cible, (ptf$maturite - ptf$duree_detention)),]
 
         # Extraction des donnees du PTF
         names_ptf <- names(ptf)
         vm_ptf <- .subset2(ptf, which(names_ptf == "valeur_marche"))
-        mat_res <- .subset2(ptf, which(names_ptf == "mat_res"))
-        cle  <- paste(mat_res, sep = ".")
-
-        # Presence des ces obligations dans le PTF ?
-        id_pres_ptf <- match(cle_cible, cle)
-        id_pres <- match(cle, cle_cible)
-        id_pres_cib <- id_pres[!is.na(id_pres)]
-
 
         # Initialisation des PMVR
         pmvr <- 0
@@ -52,111 +39,116 @@ setMethod(
         # Differentiel
         diff_alloc <- sum(vm_ptf) - alloc_cible
 
+        # Flux : parametre de sortie
+        flux <- alloc_cible - sum(vm_ptf)
 
-        ## ###########################
-        ##          ACHAT
-        ## ###########################
+
+
 
         if(diff_alloc < 0) {
 
-            ## ###
-            ## Dans ce cas la, manque => ACHAT
-            ## ###
+            ## ######################################################
+            ## ######################################################
+            ##
+            ##                          ACHAT
+            ##
+            ## ######################################################
+            ## ######################################################
 
+            # Extraction des donnees du PTF cible
+            ptf_cible <- oblig_cible@ptf
+            names_ptf_cible <- names(ptf_cible)
+
+
+            # Numero de colonne
+            num_prop <- which(names_ptf_cible == "prop")
 
             # Calcul de l'achat devant etre effectue
-            achat <- ptf_cible$prop * abs(diff_alloc)
+            achat <- abs(diff_alloc) * .subset2(ptf_cible, num_prop)
+            nb_achat <- achat / .subset2(ptf_cible, which(names_ptf_cible == "valeur_marche"))
 
-            # Determinatation du PTF achete
-            ptf_cible$achat <- achat
-            ptf_cible$nb_achat <- achat / ptf_cible$valeur_marche
+            # Suppression de la colonne 'prop'
+            ptf_cible <- ptf_cible[-num_prop]
 
-
-
-            # Presence des cibles dans le PTF
-            if(! all(! is.na(id_pres_ptf))) {
-
-                # Besoin d'ajouter les nouvelles obligs dans le PTF
-                merge <- merge(ptf, ptf_cible, by = c("mat_res"), all.x = TRUE, all.y = TRUE)
-
-                # Creation du nouveau portefeuille
-                ptf <- data.frame(id_mp = pna.omit(as.character(merge$id_mp.x), as.character(merge$id_mp.y)), mat_res = merge$mat_res,
-                                  valeur_comptable = psum(merge$valeur_comptable, merge$achat, na.rm = TRUE),
-                                  valeur_marche = psum(merge$valeur_marche.x, merge$achat, na.rm = TRUE),
-                                  nominal = psum(merge$nominal.x, merge$nb_achat * merge$nominal.y, na.rm = TRUE),
-                                  coupon = psum(merge$coupon.x * merge$nominal.x, merge$coupon.y * merge$nb_achat * merge$nominal.y, na.rm = TRUE) / psum(merge$nominal.x, merge$nb_achat * merge$nominal.y, na.rm = TRUE))
+            # Mise a jour des colonnes existantes
+            ptf_cible$valeur_marche <- achat
+            ptf_cible$nominal <- nb_achat * .subset2(ptf_cible, which(names_ptf_cible == "nominal"))
+            ptf_cible$valeur_remboursement <- nb_achat * .subset2(ptf_cible, which(names_ptf_cible == "valeur_remboursement"))
 
 
-            } else {
+            # Ajout de nouvelles colonnes
+            ptf_cible$valeur_achat <- achat
+            ptf_cible$valeur_nette_comptable <- achat
+            ptf_cible$duree_detention <- 1L
 
 
-                # Mise en image de donnees
-                nominal_prev <- ptf$nominal[id_pres_ptf]
-                nominal_achat <- ptf_cible$nb_achat[id_pres_cib] * ptf_cible$nominal[id_pres_cib]
+            # Ajout du nouveau PTF
+            ptf <- bind_rows(ptf, ptf_cible)
 
-                # Mise a jour du PTF
-                ptf$valeur_comptable[id_pres_ptf] <- ptf$valeur_comptable[id_pres_ptf] + achat
-                ptf$valeur_marche[id_pres_ptf] <- ptf$valeur_marche[id_pres_ptf] + achat
-                ptf$coupon[id_pres_ptf] <- (ptf$coupon[id_pres_ptf] * nominal_prev + ptf_cible$coupon[id_pres_cib] * nominal_achat) / (nominal_prev + nominal_achat)
-                ptf$nominal[id_pres_ptf] <- nominal_prev + nominal_achat
-
-
-            }
-
-
-            ## ###########################
-            ##          VENTE
-            ## ###########################
 
         } else {
 
-            ## ###
-            ## Dans ce cas la : trop => VENTE
-            ## ###
+            ## ######################################################
+            ## ######################################################
+            ##
+            ##                          VENTE
+            ##
+            ## ######################################################
+            ## ######################################################
 
+
+
+
+            # Extraction de donnees
+            vnc_ptf <- .subset2(ptf, which(names_ptf == "valeur_nette_comptable"))
 
             # Somme cumulee des VM
-            cum_sum_vm <- cumsum(ptf$valeur_marche)
+            cum_sum_vm <- cumsum(vm_ptf)
 
             # ID a supprimer
             id_del <- which(cum_sum_vm > diff_alloc)[1L]
 
+
             if((id_del > 1L) & (! is.null(id_del))) {
 
-                # Valeurs des obligs etant supprimees
-                vm_del <- ptf[1L:(id_del-1L), "valeur_marche"]
-                vc_del <- ptf[1L:(id_del-1L), "valeur_comptable"]
+                # Obligations etant supprimees
+                vm_del <- vm_ptf[1L:(id_del-1L)]
+                vnc_del <- vnc_ptf[1L:(id_del-1L)]
 
-                # Suppression des obligations vendues
-                maj <- match(c("valeur_comptable", "valeur_marche", "coupon", "nominal"), names_ptf)
-                ptf[1L:(id_del-1L), maj] <- 0
+                # Supprimer les lignes du PTF
+                ptf <- ptf[-(1L:(id_del-1L)),]
 
                 # Mise a jour du reste a vendre
                 diff_alloc <- diff_alloc - sum(vm_del)
 
                 # Calcul des PMVR
-                pmvr <- sum(abs(vm_del) - abs(vc_del))
+                pmvr <- sum(abs(vm_del) - abs(vnc_del))
 
             }
 
+
             # Mise en image de donnees
-            vm <- ptf[id_del, "valeur_marche"]
-            vc <- ptf[id_del, "valeur_comptable"]
+            vm <- ptf[1L, "valeur_marche"]
+            vnc <- ptf[1L, "valeur_nette_comptable"]
 
             # Part de l'oblig supprimee
-            vc_del <- diff_alloc * (vc / vm)
+            vnc_del <- diff_alloc * (vnc / vm)
             vm_del <- diff_alloc
 
-            # Vente d'une partie des VM
-            ptf[id_del, "valeur_comptable"] <- vc - vc_del
-            ptf[id_del, "nominal"] <- ptf[id_del, "nominal"] - diff_alloc * (ptf[id_del, "nominal"] / vm)
-            ptf[id_del, "valeur_marche"] <- vm - diff_alloc
+            # Vente d'une partie de la 1ere obligation
+            ptf[1L, "valeur_achat"] <- ptf[1L, "valeur_achat"] - diff_alloc * (ptf[1L, "valeur_achat"] / vm)
+            ptf[1L, "valeur_nette_comptable"] <- vnc - vnc_del
+            ptf[1L, "valeur_marche"] <- vm - diff_alloc
+            ptf[1L, "nominal"] <- ptf[1L, "nominal"] - diff_alloc * (ptf[1L, "nominal"] / vm)
+            ptf[1L, "valeur_remboursement"] <- ptf[1L, "valeur_remboursement"] - diff_alloc * (ptf[1L, "valeur_remboursement"] / vm)
+
 
             # Mise a jour du reste a vendre
             diff_alloc <- 0
 
+
             # Calcul des PMVR
-            pmvr <- pmvr + sum(abs(vm_del) - abs(vc_del))
+            pmvr <- pmvr + sum(abs(vm_del) - abs(vnc_del))
 
         }
 
@@ -164,15 +156,6 @@ setMethod(
         # Mise a jour de l'objet
         oblig@ptf <- ptf
 
-
-
-
-        ## ###########################
-        ##    Parametres de sortie
-        ## ###########################
-
-        # Flux
-        flux <- alloc_cible - sum(vm_ptf)
 
 
         # Output

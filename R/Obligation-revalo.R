@@ -22,12 +22,17 @@ setMethod(
         ## ###########################
         ##   Extraction des donnnes
         ## ###########################
-        ptf_oblig <- obligation@ptf[order(obligation@ptf$mat_res),]
+        ptf_oblig <- obligation@ptf
         names_ptf <- names(ptf_oblig)
         vm_ptf      <- .subset2(ptf_oblig, which(names_ptf == "valeur_marche"))
         coupon_ptf  <- .subset2(ptf_oblig, which(names_ptf == "coupon"))
         nominal_ptf <- .subset2(ptf_oblig, which(names_ptf == "nominal"))
-        mat_res_ptf <- .subset2(ptf_oblig, which(names_ptf == "mat_res"))
+        vr_ptf      <- .subset2(ptf_oblig, which(names_ptf == "valeur_remboursement"))
+        maturite_ptf <- .subset2(ptf_oblig, which(names_ptf == "maturite"))
+        dur_det_ptf <- .subset2(ptf_oblig, which(names_ptf == "duree_detention"))
+
+        # Calcul de la maturite residuelle du PTF
+        mat_res_ptf <- maturite_ptf - dur_det_ptf
 
         # Ne conserver que les lignes ayant des obligs
         id <- which(nominal_ptf > 0)

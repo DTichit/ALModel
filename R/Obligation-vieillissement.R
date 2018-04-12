@@ -21,11 +21,7 @@ setMethod(
         ## ###########################
         ##   Extraction des donnnes
         ## ###########################
-        name_ptf <- names(obligation@ptf)
-        mat_res  <- .subset2(obligation@ptf, which(name_ptf == "mat_res"))
-
-
-
+        name_ptf_oblig <- names(obligation@ptf)
 
 
 
@@ -33,35 +29,19 @@ setMethod(
         ## ######################################################
         ## ######################################################
         ##
-        ##              Creation d'un nouveau PTF
+        ##          Mise a jour de la duree de detention
         ##
         ## ######################################################
         ## ######################################################
 
-        if(length(mat_res) != max(mat_res)) {
+        # Extraction de donnees
+        dur_det <- .subset2(obligation@ptf, which(name_ptf_oblig == "duree_detention"))
 
-            # Creation des nouvelles maturites residuelles
-            new_mat_res <- 1L:max(mat_res)
+        # Mise a jour des maturites
+        obligation@ptf$duree_detention <- dur_det + 1L
 
-            # Creation du nouveau PTF
-            ptf <- data.frame(id_mp = paste("ob", new_mat_res, sep = "-"), mat_res = new_mat_res,
-                              valeur_comptable = 0, valeur_marche = 0, coupon = 0, nominal = 0)
 
-            # ID
-            id_new <- match(mat_res, new_mat_res)
-            id_old <- match(new_mat_res, mat_res)
-            id_old <- id_old[!is.na(id_old)]
 
-            # Mise a jour du nouveau PTF
-            ptf[id_new, "valeur_comptable"] <- obligation@ptf$valeur_comptable[id_old]
-            ptf[id_new, "valeur_marche"]    <- obligation@ptf$valeur_marche[id_old]
-            ptf[id_new, "coupon"]           <- obligation@ptf$coupon[id_old]
-            ptf[id_new, "nominal"]          <- obligation@ptf$nominal[id_old]
-
-            # Mise a jour de l'attribut
-            obligation@ptf <- ptf
-
-        }
 
 
 
@@ -74,56 +54,54 @@ setMethod(
         ## ######################################################
 
         # Extraction de donnees
-        name_ptf <- names(obligation@ptf)
-        mat_res <- .subset2(obligation@ptf, which(name_ptf == "mat_res"))
+        maturite_new <- .subset2(obligation@ptf, which(name_ptf_oblig == "maturite"))
+        dur_det_new  <- .subset2(obligation@ptf, which(name_ptf_oblig == "duree_detention"))
 
         # Determination des oblig a vendre
-        ind_oblig_sell <- which(mat_res == 1L)
+        ind_oblig_sell <- which(maturite_new == dur_det_new)
 
-        # Extraction de donnees
-        vm_sell <- sum(obligation@ptf$valeur_marche[ind_oblig_sell])
-        vc_sell <- sum(obligation@ptf$valeur_comptable[ind_oblig_sell])
+        # S'il y a des obligs a vendre :
+        if(length(ind_oblig_sell) > 0L) {
 
-        # Calcul des plus ou moins values
-        pmv_oblig <- vm_sell - vc_sell
+            # Extraction de donnees
+            vm_oblig <- .subset2(obligation@ptf, which(name_ptf_oblig == "valeur_marche"))
+            vnc_oblig <- .subset2(obligation@ptf, which(name_ptf_oblig == "valeur_nette_comptable"))
 
+            # Gain sur les obligations vendues
+            vm_sell <- vm_oblig[ind_oblig_sell]
 
+            # Calcul des plus ou moins values
+            pmv_oblig <- vm_oblig[ind_oblig_sell] - vnc_oblig[ind_oblig_sell]
 
+            # Suppression des oblig du PTF
+            obligation@ptf <- obligation@ptf[-ind_oblig_sell,]
 
+        } else {
 
+            # Aucune vente
+            vm_sell <- 0 ; pmv_oblig <- 0
 
-        ## ######################################################
-        ## ######################################################
-        ##
-        ##          Mise a jour de la maturite residuelle
-        ##
-        ## ######################################################
-        ## ######################################################
-
-        # Nouvelles maturites residuelles
-        mat_res_new <- mat_res - 1L
-        mat_res_new <- mat_res_new[which(mat_res_new != 0)]
-
-        # ID
-        id_new <- match(mat_res_new, mat_res)
-        id_old <- match(2L:max(mat_res), mat_res)
-
-        # Mise a jour du PTF
-        n_maj <- match(c("id_mp", "mat_res"), name_ptf)
-        obligation@ptf[id_new, -n_maj] <- obligation@ptf[id_old, -n_maj]
-
-
-        # Mettre a 0 la derniere ligne
-        if(obligation@ptf$nominal[which(mat_res == max(mat_res))] > 0) {
-            maj <- match(c("valeur_comptable", "valeur_marche", "coupon", "nominal"), name_ptf)
-            obligation@ptf[which(mat_res == max(mat_res)), maj] <- 0
         }
+
+
+
+
+        ## ######################################################
+        ## ######################################################
+        ##
+        ##              Mise a jour de la VNC
+        ##
+        ## ######################################################
+        ## ######################################################
+
+        warning("Penser a brancher la mise a jour de la VNC")
+
 
 
 
         # Output
         return(list(obligation = obligation,
-                    flux = list(vente = vm_sell,
-                                pmv = pmv_oblig)))
+                    flux = list(vente = sum(vm_sell),
+                                pmv = sum(pmv_oblig))))
     }
 )
