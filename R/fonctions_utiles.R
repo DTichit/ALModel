@@ -70,3 +70,50 @@ sum_list <- function(list, p) {
     # Output
     return(res)
 }
+
+
+newton_raphson <- function(fun, x0 = 0, delta = 0.01, prec = 0.0001) {
+
+    eps <- 1
+
+    while (eps > prec) {
+
+        x0 <- x0 - fun(x0) * (delta / (fun(x0 + delta) - fun(x0)))
+
+        eps <- abs(fun(x0))
+    }
+
+    return(x0)
+}
+
+
+dicho <- function(fun, x0, x1, prec = 0.001) {
+
+    f_x0 <- fun(x0)
+    f_x1 <- fun(x1)
+
+    while (eps > prec) {
+
+        f_mean <- fun((x0+x1)/2)
+
+        if(f_mean > 0) {
+
+            x0 <- (x0+x1)/2
+            f_x0 <- f_mean
+
+        } else {
+
+            x1 <- (x0+x1)/2
+            f_x1 <- f_mean
+
+        }
+
+        eps <- abs(x0-x1)
+    }
+
+    return(x0)
+}
+
+
+
+# microbenchmark::microbenchmark(dicho(fun, -0.5, 0.5),newton_raphson(fun, 0, 0.01))
