@@ -89,7 +89,7 @@ setMethod(
             vm_sell <- vm_oblig[ind_oblig_sell]
 
             # Calcul des plus ou moins values
-            pmv_oblig <- vm_oblig[ind_oblig_sell] - vnc_oblig[ind_oblig_sell]
+            pmv_oblig <- vm_sell - vnc_oblig[ind_oblig_sell]
 
             # Suppression des oblig du PTF
             obligation@ptf <- obligation@ptf[-ind_oblig_sell,]
@@ -100,19 +100,6 @@ setMethod(
             vm_sell <- 0 ; pmv_oblig <- 0
 
         }
-
-
-
-
-        ## ######################################################
-        ## ######################################################
-        ##
-        ##              Mise a jour de la VNC
-        ##
-        ## ######################################################
-        ## ######################################################
-
-        warning("Penser a brancher la mise a jour de la VNC")
 
 
 

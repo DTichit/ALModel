@@ -23,8 +23,7 @@ setMethod(
         ## ###########################
         ##   Vieilissement de la PPE
         ## ###########################
-        for (i in 7L:1L)
-            ppe@ppe[i+1L] <- ppe@ppe[i]
+        ppe@ppe <- c(0, ppe@ppe[-8L])
 
 
 
@@ -35,6 +34,6 @@ setMethod(
 
 
         # Output
-        return(list(ppe = ppe))
+        return(ppe)
     }
 )
