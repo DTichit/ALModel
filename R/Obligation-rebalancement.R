@@ -72,19 +72,20 @@ setMethod(
 
             # Mise a jour des colonnes existantes
             ptf_cible$valeur_marche <- achat
+            ptf_cible$valeur_remboursement <- nb_achat * .subset2(ptf_cible, which(names_ptf_cible == "valeur_remboursement"))
             ptf_cible$nominal <- nb_achat * .subset2(ptf_cible, which(names_ptf_cible == "nominal"))
-            ptf_cible$spread <- 0
-            ptf_cible$tri <- ptf_cible$coupon
 
 
             # Ajout de nouvelles colonnes
+            ptf_cible$tri <- ptf_cible$coupon
             ptf_cible$valeur_achat <- achat
             ptf_cible$valeur_nette_comptable <- achat
             ptf_cible$duree_detention <- 1L
+            ptf_cible$spread <- 0
 
 
             # Ajout du nouveau PTF
-            ptf <- bind_rows(ptf, ptf_cible)
+            ptf <-  rbind.data.frame(ptf, ptf_cible)
 
 
         } else {
