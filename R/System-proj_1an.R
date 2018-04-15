@@ -179,6 +179,23 @@ setMethod(
         debit  <- sum_list(res_revalo$revalorisation, 2L)
         system@actif@ptf_actif@tresorerie@ptf$solde <- system@actif@ptf_actif@tresorerie@ptf$solde + credit - debit
 
+        warning("Est ce que ce que le montant dote sur la PPE doit etre retire de la tresorerie ?")
+
+
+
+
+
+        ## ######################################################
+        ## ######################################################
+        ##
+        ##                  Vieillissement
+        ##
+        ## ######################################################
+        ## ######################################################
+
+        # Vieillissement de la PPE
+        system@passif@provision@ppe <- vieillissement_ppe(system@passif@provision@ppe)
+
 
 
 
