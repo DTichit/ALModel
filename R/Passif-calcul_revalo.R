@@ -139,7 +139,8 @@ setMethod(
 
 
         # Output
-        return(list(ppe = ppe,
+        return(list(ppe = list(ppe = ppe,
+                               reprise = if.is_null(get0("montant_repris"), 0)),
                     pb = pb,
                     revalorisation = revalorisation,
                     reste = reste,

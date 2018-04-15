@@ -51,6 +51,9 @@ setMethod(
         # Calcul du montant devant etre distribue obligatoirement
         revalo_oblig <- ppe_8ans[["ppe_8ans"]]
 
+        # Flux sur la PPE
+        flux_ppe <- -ppe_8ans[["ppe_8ans"]]
+
 
 
 
@@ -113,9 +116,12 @@ setMethod(
         res_revalo <- calcul_revalo(besoin = besoin_contr + besoin_prest, pb = pb, ppe = passif@provision@ppe, revalo_oblig = revalo_oblig)
 
         # Mise a jour des objets
-        passif@provision@ppe <- res_revalo[["ppe"]]
+        passif@provision@ppe <- res_revalo[["ppe"]][["ppe"]]
         pb <- res_revalo[["pb"]]
         revalo_oblig <- res_revalo[["revalo_oblig"]]
+
+        # Flux sur la PPE
+        flux_ppe <- flux_ppe - res_revalo[["ppe"]][["reprise"]]
 
         # Revalorisation cible
         revalo_contr <- res_revalo[["revalorisation"]]
@@ -141,9 +147,12 @@ setMethod(
             res_revalo <- calcul_revalo(besoin = besoin_cible, pb = pb, ppe = passif@provision@ppe, revalo_oblig = revalo_oblig)
 
             # Mise a jour des objets
-            passif@provision@ppe <- res_revalo[["ppe"]]
+            passif@provision@ppe <- res_revalo[["ppe"]][["ppe"]]
             pb <- res_revalo[["pb"]]
             revalo_oblig <- res_revalo[["revalo_oblig"]]
+
+            # Flux sur la PPE
+            flux_ppe <- flux_ppe - res_revalo[["ppe"]][["reprise"]]
 
             # Revalorisation cible totale
             revalo_cible <- res_revalo[["revalorisation"]]
@@ -182,8 +191,17 @@ setMethod(
         ## 2 - Dotation du reste de pb a la PPE
         ## ###########################
 
-        if(pb > 0)
-            ppe <- dotation_ppe(ppe = passif@provision@ppe, montant = pb)
+        if(pb > 0) {
+
+            # Dotation de la PPE
+            res_ppe <- dotation_ppe(ppe = passif@provision@ppe, montant = pb)
+
+            # Mise a jour de l'objet
+            passif@provision@ppe <- res_ppe[["ppe"]]
+
+            # Flux
+            flux_ppe <- flux_ppe + res_ppe[["dotation"]]
+        }
 
 
 
@@ -234,6 +252,7 @@ setMethod(
         return(list(passif = passif,
                     revalorisation = revalo,
                     reste_contr = reste_contr,
+                    flux_ppe = flux_ppe,
                     besoin = list(besoin_contr = besoin_contr,
                                   besoin_cible = besoin_cible)))
     }

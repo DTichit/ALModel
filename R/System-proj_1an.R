@@ -174,9 +174,12 @@ setMethod(
         # Mise a jour de l'objet
         system@passif <- res_revalo[["passif"]]
 
+        # Flux sur la PPE
+        flux_ppe <- res_revalo[["flux_ppe"]]
+
         # Mise a jour de la tresorerie
         credit <- 0
-        debit  <- sum_list(res_revalo$revalorisation, 2L)
+        debit  <- sum_list(res_revalo$revalorisation, 2L) + flux_ppe
         system@actif@ptf_actif@tresorerie@ptf$solde <- system@actif@ptf_actif@tresorerie@ptf$solde + credit - debit
 
         warning("Est ce que ce que le montant dote sur la PPE doit etre retire de la tresorerie ?")
@@ -265,7 +268,8 @@ setMethod(
                                                 revalorisation = list(attribuee = res_revalo[["revalorisation"]],
                                                                       besoin = res_revalo[["besoin"]]))),
                       provision = list(image = system@passif@provision,
-                                       flux = list(reserve_capi = res_reserve_capi[["flux"]])))
+                                       flux = list(reserve_capi = res_reserve_capi[["flux"]],
+                                                   ppe = flux_ppe)))
 
 
 

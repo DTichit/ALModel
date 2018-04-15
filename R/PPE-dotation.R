@@ -24,6 +24,7 @@ setMethod(
         ppe@ppe[1L] <- ppe@ppe[1L] + montant
 
         # Output
-        return(list(ppe = ppe))
+        return(list(ppe = ppe,
+                    dotation = montant))
     }
 )
