@@ -24,7 +24,7 @@ setMethod(
                           colClasses = c("numeric"))
 
         # Creation de l'objet
-        tresorerie <- new("Tresorerie", ptf = temp)
+        tresorerie <- new("Tresorerie", solde = temp[["solde"]])
 
         # Output
         return(tresorerie)

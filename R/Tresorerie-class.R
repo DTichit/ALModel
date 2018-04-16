@@ -5,14 +5,14 @@
 ##'
 ##' @name Tresorerie
 ##' @docType class
-##' @slot ptf est un objet de type \code{\link{data.frame}} contenant les donnees relatives au portfeuille.
+##' @slot solde est un objet \code{numeric} indiquant le solde.
 ##' @author Damien Tichit pour Sia Partners
 ##' @keywords classes
 ##'
 setClass(
     Class = "Tresorerie",
 
-    slots = c(ptf = "data.frame"),
+    slots = c(solde = "numeric"),
 
     validity = function (object){
 
@@ -37,18 +37,18 @@ setMethod(
     f = "initialize",
     signature = "Tresorerie",
     definition = function(.Object,
-                          ptf = data.frame()
+                          solde = "numeric"
     ){
 
-        if(! missing(ptf)){
-            .Object@ptf <- ptf
+        if(! missing(solde)){
+            .Object@solde <- solde
 
             # Validation du format
             validObject(.Object)
 
         } else {
             #Traitement du cas vide
-            .Object@ptf <- data.frame()
+            .Object@solde <- NA
         }
 
         # Output
@@ -64,7 +64,7 @@ setMethod(
     signature = "Tresorerie",
     definition = function(x, i){
         switch(EXPR = i,
-               "ptf" = {return(x@ptf)},
+               "solde" = {return(x@solde)},
                stop("Cet attribut n'existe pas!")
         )
     }
@@ -79,7 +79,7 @@ setReplaceMethod(
     signature = "Tresorerie",
     definition = function(x, i, value){
         switch(EXPR = i,
-               "ptf" = {x@ptf <- value},
+               "solde" = {x@solde <- value},
                stop("Cet attribut n'existe pas!")
         )
         validObject(x)
