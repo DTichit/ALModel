@@ -37,6 +37,23 @@ setMethod(
         ## ######################################################
         ## ######################################################
         ##
+        ##          Revalorisation des PTFs cibles
+        ##
+        ## ######################################################
+        ## ######################################################
+
+        # Revalorisation du portfeuille
+        res_revalo_cible <- revalo_ptf_cible(ptf_cible = actif@hyp_actif@ptf_cible, esg = actif@hyp_actif@esg_simu, an = an)
+
+        # Mise a jour de l'objet
+        actif@hyp_actif@ptf_cible <- res_revalo_cible[["ptf_cible"]]
+
+
+
+
+        ## ######################################################
+        ## ######################################################
+        ##
         ##          Evaluation des produits financiers
         ##
         ## ######################################################
