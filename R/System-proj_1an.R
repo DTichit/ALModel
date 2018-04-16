@@ -138,7 +138,7 @@ setMethod(
         ## ######################################################
         ## ######################################################
         ##
-        ##              Determination de la PB
+        ##      Determination de la PB et dotation de la PPE
         ##
         ## ######################################################
         ## ######################################################
@@ -153,6 +153,22 @@ setMethod(
         # Calcul de la PB a distribuer
         res_pb <- calcul_pb(taux_pb = system@taux_pb, resultat_fin = result_fin, resultat_tech = result_tech)
 
+        # PB a attribuer
+        pb <- sum_list(res_pb[["pb"]], 1L)
+
+        # Dotation du montant de PB sur la PPE
+        res_dotation <- dotation_ppe(ppe = system@passif@provision@ppe, montant = pb)
+        system@passif@provision@ppe <- res_dotation[["ppe"]]
+
+        # Flux sur la PPE
+        flux_ppe <- res_dotation[["dotation"]]
+
+        # Mise a jour de la tresorerie
+        credit <- 0
+        debit  <- res_dotation[["dotation"]]
+        system@actif@ptf_actif@tresorerie@ptf$solde <- system@actif@ptf_actif@tresorerie@ptf$solde + credit - debit
+
+
 
 
 
@@ -165,24 +181,19 @@ setMethod(
         ## ######################################################
         ## ######################################################
 
-        # PB a attribuer
-        pb <- sum_list(res_pb[["pb"]], 1L)
-
         # Appel de la fonction
-        res_revalo <- revalo_passif(passif = system@passif, revalo_prestation = proj_passif[["besoin"]][["revalo_prest"]], pb = pb, an = an)
+        res_revalo <- revalo_passif(passif = system@passif, revalo_prestation = proj_passif[["besoin"]][["revalo_prest"]], pb = 0, an = an)
 
         # Mise a jour de l'objet
         system@passif <- res_revalo[["passif"]]
 
         # Flux sur la PPE
-        flux_ppe <- res_revalo[["flux_ppe"]]
+        flux_ppe <- flux_ppe + res_revalo[["flux_ppe"]]
 
         # Mise a jour de la tresorerie
         credit <- 0
-        debit  <- sum_list(res_revalo$revalorisation, 2L) + flux_ppe
+        debit  <- sum_list(res_revalo$revalorisation, 2L) + res_revalo[["flux_ppe"]]
         system@actif@ptf_actif@tresorerie@ptf$solde <- system@actif@ptf_actif@tresorerie@ptf$solde + credit - debit
-
-        warning("Est ce que ce que le montant dote sur la PPE doit etre retire de la tresorerie ?")
 
 
 
