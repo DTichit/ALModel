@@ -37,7 +37,7 @@ setMethod(
         # Mise a jour de la tresorerie
         credit <- sum_list(proj_actif$flux$prod_fin, 1L) + sum_list(proj_actif$flux$vente, 1L)
         debit <- sum_list(proj_actif$flux$frais, 2L)
-        system@actif@ptf_actif@tresorerie@ptf$solde <- system@actif@ptf_actif@tresorerie@ptf$solde + credit - debit
+        system@actif@ptf_actif@tresorerie@solde <- system@actif@ptf_actif@tresorerie@solde + credit - debit
 
 
 
@@ -61,7 +61,7 @@ setMethod(
         # Mise a jour de la tresorerie
         credit <- sum_list(proj_passif$flux$chargement, 2L) + sum_list(proj_passif$flux$prime, 1L)
         debit  <- sum_list(proj_passif$flux$frais, 2L) + sum_list(proj_passif$flux$prestation, 2L)
-        system@actif@ptf_actif@tresorerie@ptf$solde <- system@actif@ptf_actif@tresorerie@ptf$solde + credit - debit
+        system@actif@ptf_actif@tresorerie@solde <- system@actif@ptf_actif@tresorerie@solde + credit - debit
 
 
 
@@ -84,7 +84,7 @@ setMethod(
         # Mise a jour de la tresorerie
         credit <- sum_list(res_realloc$pmvr, 1L)
         debit  <- 0
-        system@actif@ptf_actif@tresorerie@ptf$solde <- system@actif@ptf_actif@tresorerie@ptf$solde + credit - debit
+        system@actif@ptf_actif@tresorerie@solde <- system@actif@ptf_actif@tresorerie@solde + credit - debit
 
 
 
@@ -120,25 +120,7 @@ setMethod(
         ## ######################################################
         ## ######################################################
         ##
-        ##       Determination de la part de Capitaux Propres
-        ##
-        ## ######################################################
-        ## ######################################################
-
-        # PM totales
-        pm_totale <- sum_list(proj_passif$pm_ouverture, 1L)
-
-        # Quote-Part capitaux propres
-        qp_cp <- system@passif@cap_pro / (system@passif@cap_pro + pm_totale)
-
-
-
-
-
-        ## ######################################################
-        ## ######################################################
-        ##
-        ##      Determination de la PB et dotation de la PPE
+        ##      Calcul des resultats techniques et financiers
         ##
         ## ######################################################
         ## ######################################################
@@ -150,8 +132,46 @@ setMethod(
         result_tech <- list(chargement = proj_passif[["flux"]][["chargement"]],
                             frais = proj_passif[["flux"]][["frais"]])
 
+        # Calcul des resultats
+        result_tech <- calcul_resultat_tech(result_tech)
+        result_fin  <- calcul_resultat_fin(result_fin)
+
+
+
+
+
+        ## ######################################################
+        ## ######################################################
+        ##
+        ##              Gestion des capitaux propres
+        ##
+        ## ######################################################
+        ## ######################################################
+
+        # Appel de la fonction
+        res_gest_cp <- gestion_capitaux_propres(passif = system@passif, result_fin = result_fin)
+
+        # Mise a jour de l'attribut
+        system@passif <- res_gest_cp[["passif"]]
+
+        # Resultat financier alloue aux capitaux propres
+        result_fin_cp <- res_gest_cp[["result_fin_cp"]]
+
+
+
+
+
+
+        ## ######################################################
+        ## ######################################################
+        ##
+        ##      Calcul de la PB a distribuer et dotation de la PPE
+        ##
+        ## ######################################################
+        ## ######################################################
+
         # Calcul de la PB a distribuer
-        res_pb <- calcul_pb(taux_pb = system@taux_pb, resultat_fin = result_fin, resultat_tech = result_tech)
+        res_pb <- calcul_pb(taux_pb = system@taux_pb, resultat_fin = (result_fin - result_fin_cp), resultat_tech = result_tech)
 
         # PB a attribuer
         pb <- sum_list(res_pb[["pb"]], 1L)
@@ -166,7 +186,7 @@ setMethod(
         # Mise a jour de la tresorerie
         credit <- 0
         debit  <- res_dotation[["dotation"]]
-        system@actif@ptf_actif@tresorerie@ptf$solde <- system@actif@ptf_actif@tresorerie@ptf$solde + credit - debit
+        system@actif@ptf_actif@tresorerie@solde <- system@actif@ptf_actif@tresorerie@solde + credit - debit
 
 
 
@@ -193,7 +213,7 @@ setMethod(
         # Mise a jour de la tresorerie
         credit <- 0
         debit  <- sum_list(res_revalo$revalorisation, 2L) + res_revalo[["flux_ppe"]]
-        system@actif@ptf_actif@tresorerie@ptf$solde <- system@actif@ptf_actif@tresorerie@ptf$solde + credit - debit
+        system@actif@ptf_actif@tresorerie@solde <- system@actif@ptf_actif@tresorerie@solde + credit - debit
 
 
 
@@ -280,7 +300,8 @@ setMethod(
                                                                       besoin = res_revalo[["besoin"]]))),
                       provision = list(image = system@passif@provision,
                                        flux = list(reserve_capi = res_reserve_capi[["flux"]],
-                                                   ppe = flux_ppe)))
+                                                   ppe = flux_ppe)),
+                      capitaux_propres = system@passif@cap_pro)
 
 
 
