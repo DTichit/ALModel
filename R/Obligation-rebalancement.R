@@ -108,17 +108,17 @@ setMethod(
             cum_sum_vm <- cumsum(vm_ptf)
 
             # ID a supprimer
-            id_del <- which(cum_sum_vm > diff_alloc)[1L]
+            id_del <- which(cum_sum_vm <= diff_alloc)
 
 
-            if((id_del > 1L) & (! is.na(id_del))) {
+            if(length(id_del) >= 1L) {
 
                 # Obligations etant supprimees
-                vm_del <- vm_ptf[1L:(id_del-1L)]
-                vnc_del <- vnc_ptf[1L:(id_del-1L)]
+                vm_del <- vm_ptf[id_del]
+                vnc_del <- vnc_ptf[id_del]
 
                 # Supprimer les lignes du PTF
-                ptf <- ptf[-(1L:(id_del-1L)),]
+                ptf <- ptf[-id_del,]
 
                 # Mise a jour du reste a vendre
                 diff_alloc <- diff_alloc - sum(vm_del)
@@ -129,28 +129,32 @@ setMethod(
             }
 
 
-            # Mise en image de donnees
-            vm <- ptf[1L, "valeur_marche"]
-            vnc <- ptf[1L, "valeur_nette_comptable"]
+            # S'il reste des obligations a vendre
+            if(nrow(ptf) > 0L){
 
-            # Part de l'oblig supprimee
-            vnc_del <- diff_alloc * (vnc / vm)
-            vm_del <- diff_alloc
+                # Mise en image de donnees
+                vm <- ptf[1L, "valeur_marche"]
+                vnc <- ptf[1L, "valeur_nette_comptable"]
 
-            # Vente d'une partie de la 1ere obligation
-            ptf[1L, "valeur_achat"] <- ptf[1L, "valeur_achat"] - diff_alloc * (ptf[1L, "valeur_achat"] / vm)
-            ptf[1L, "valeur_nette_comptable"] <- vnc - vnc_del
-            ptf[1L, "valeur_marche"] <- vm - diff_alloc
-            ptf[1L, "nominal"] <- ptf[1L, "nominal"] - diff_alloc * (ptf[1L, "nominal"] / vm)
-            ptf[1L, "valeur_remboursement"] <- ptf[1L, "valeur_remboursement"] - diff_alloc * (ptf[1L, "valeur_remboursement"] / vm)
+                # Part de l'oblig supprimee
+                vnc_del <- diff_alloc * (vnc / vm)
+                vm_del <- diff_alloc
+
+                # Vente d'une partie de la 1ere obligation
+                ptf[1L, "valeur_achat"] <- ptf[1L, "valeur_achat"] - diff_alloc * (ptf[1L, "valeur_achat"] / vm)
+                ptf[1L, "valeur_nette_comptable"] <- vnc - vnc_del
+                ptf[1L, "valeur_marche"] <- vm - diff_alloc
+                ptf[1L, "nominal"] <- ptf[1L, "nominal"] - diff_alloc * (ptf[1L, "nominal"] / vm)
+                ptf[1L, "valeur_remboursement"] <- ptf[1L, "valeur_remboursement"] - diff_alloc * (ptf[1L, "valeur_remboursement"] / vm)
 
 
-            # Mise a jour du reste a vendre
-            diff_alloc <- 0
+                # Mise a jour du reste a vendre
+                diff_alloc <- 0
 
 
-            # Calcul des PMVR
-            pmvr <- pmvr + sum(abs(vm_del) - abs(vnc_del))
+                # Calcul des PMVR
+                pmvr <- pmvr + sum(abs(vm_del) - abs(vnc_del))
+            }
 
         }
 
