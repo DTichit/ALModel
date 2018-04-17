@@ -10,7 +10,7 @@ oblig <- new("Obligation", data.frame(id_mp = paste0("ob-", 1L:2L), cible = FALS
                                       maturite = c(6L, 12L), duree_detention = c(1L, 2L),
                                       valeur_nette_comptable = c(90, 400), nominal = c(100, 400),
                                       valeur_achat = c(90, 400), valeur_remboursement = c(90, 400),
-                                      valeur_marche = c(100, 440), coupon = c(0.002, 0.005),
+                                      valeur_marche = c(100, 440), coupon = c(0.002, 0.005), tri = c(0, 0), spread = c(0, 0),
                                       type = c("souv", "souv"), rating = c(1, 1)))
 
 oblig_cible <- new("Obligation", data.frame(id_mp = paste0("ob-", 1L:3L), cible = TRUE, maturite = c(3L, 5L, 7L), valeur_marche = c(100, 125, 120),
