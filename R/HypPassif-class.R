@@ -13,6 +13,7 @@
 ##' @slot prop_pb est un \code{data.frame} qui indique la proportion a attribue dans le cas ou les besoins ont ete assouvis (apres besoins contractuels et cible).
 ##' @slot cible est une \code{list} contenant les differents taux cibles par produits.
 ##' @slot esg_simu est une \code{list} reprenant les donnees de l'ESG pour une simulation : taux cibles et inflation.
+##' @slot dividende est un \code{numeric} representant le taux de dividendes verse chaque annee aux actionnaires.
 ##' @author Damien Tichit pour Sia Partners
 ##' @keywords classes
 ##' @export
@@ -30,7 +31,8 @@ setClass(
               calc_proba = "logical",
               prop_pb = "data.frame",
               cible = "list",
-              esg_simu = "list"),
+              esg_simu = "list",
+              dividende = "numeric"),
 
     validity = function (object){
 
@@ -68,11 +70,13 @@ setMethod(
                           rachat_conj = "RachatConj",
                           prop_pb = "RachatConj",
                           cible = "list",
-                          esg_simu = "list"){
+                          esg_simu = "list",
+                          dividende = "numeric"){
 
         .Object@calc_proba <- TRUE
 
-        if(! (missing(tab_morta_h) | missing(tab_morta_f) | missing(tab_rachat_tot) | missing(tab_rachat_part) | missing(rachat_conj) | missing(prop_pb) | missing(cible) | missing(esg_simu))){
+        if(! (missing(tab_morta_h) | missing(tab_morta_f) | missing(tab_rachat_tot) | missing(tab_rachat_part) |
+              missing(rachat_conj) | missing(prop_pb) | missing(cible) | missing(esg_simu) | missing(dividende))){
             .Object@tab_morta_h <- tab_morta_h
             .Object@tab_morta_f <- tab_morta_f
             .Object@tab_rachat_tot <- tab_rachat_tot
@@ -81,6 +85,7 @@ setMethod(
             .Object@prop_pb <- prop_pb
             .Object@cible <- cible
             .Object@esg_simu <- esg_simu
+            .Object@dividende <- dividende
 
             # Validation de l'objet
             validObject(.Object)
@@ -95,6 +100,7 @@ setMethod(
             .Object@prop_pb <- new("RachatConj")
             .Object@cible <- list()
             .Object@esg_simu <- list()
+            .Object@dividende <- NA
         }
 
         # Output
@@ -119,6 +125,7 @@ setMethod(
                "prop_pb" = {return(x@prop_pb)},
                "cible" = {return(x@cible)},
                "esg_simu" = {return(x@esg_simu)},
+               "dividende" = {return(x@dividende)},
                stop("Cet attribut n'existe pas!")
         )
     }
@@ -142,6 +149,7 @@ setReplaceMethod(
                "prop_pb" = {x@prop_pb <- value},
                "cible" = {x@cible <- value},
                "esg_simu" = {x@esg_simu <- value},
+               "dividende" = {x@dividende <- value},
                stop("Cet attribut n'existe pas!")
         )
         validObject(x)

@@ -34,6 +34,7 @@ setMethod(
 
         # Lecture des fichiers csv
         prop_pb <- read.csv2(paste(address, "prop_pb.csv", sep = "/"), header = TRUE, colClasses = c("character", "numeric"))
+        dividende <- read.csv2(paste(address, "dividende.csv", sep = "/"), header = TRUE, colClasses = c("numeric"))
 
         # Test sur le fichier
         if(sum(prop_pb$proportion) != 1)
@@ -43,7 +44,8 @@ setMethod(
         hyp_passif <- new("HypPassif",
                           tab_morta_h = tab_morta_h, tab_morta_f = tab_morta_f,
                           tab_rachat_tot = tab_rachat_tot, tab_rachat_part = tab_rachat_part,
-                          rachat_conj = rachat_conj, prop_pb = prop_pb, esg_simu = list(), cible = list())
+                          rachat_conj = rachat_conj, prop_pb = prop_pb, dividende = dividende[["taux"]],
+                          esg_simu = list(), cible = list())
 
         # Output
         return(hyp_passif)
