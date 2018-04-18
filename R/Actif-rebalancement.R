@@ -67,7 +67,7 @@ setMethod(
         ## ###########################
 
         # Mise a jour du solde
-        actif@ptf_actif@tresorerie@ptf$solde <- alloc_cible[which(alloc_cible$produit=="tresorerie"), "proportion"] * alloc_totale
+        actif@ptf_actif@tresorerie@solde <- alloc_cible[which(alloc_cible$produit=="tresorerie"), "proportion"] * alloc_totale
 
 
 

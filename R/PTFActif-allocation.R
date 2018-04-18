@@ -32,8 +32,7 @@ setMethod(
         vm_immo <- sum(.subset2(ptf, which(names(ptf) == "valeur_marche")))
 
         # Solde tresorerie
-        ptf <- ptf_actif@tresorerie@ptf
-        solde_treso <- sum(.subset2(ptf, which(names(ptf) == "solde")))
+        solde_treso <- ptf_actif@tresorerie@solde
 
         # Total
         vm_total <- vm_action + vm_oblig + vm_immo + solde_treso

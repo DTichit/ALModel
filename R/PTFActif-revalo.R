@@ -33,7 +33,7 @@ setMethod(
         ## ###########################
 
         # Mise a jour du PTF
-        ptf_actif@tresorerie@ptf$solde <- ptf_actif@tresorerie@ptf$solde * (1 + hyp_actif@revalo_treso)
+        ptf_actif@tresorerie@solde <- ptf_actif@tresorerie@solde * (1 + hyp_actif@revalo_treso)
 
 
 
