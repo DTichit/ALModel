@@ -92,14 +92,10 @@ setMethod(
         if(length(ind_oblig_sell) > 0L) {
 
             # Extraction de donnees
-            vm_oblig <- .subset2(obligation@ptf, which(name_ptf_oblig == "valeur_marche"))
-            vnc_oblig <- .subset2(obligation@ptf, which(name_ptf_oblig == "valeur_nette_comptable"))
+            vr_ptf <- .subset2(obligation@ptf, which(name_ptf_oblig == "valeur_remboursement"))
 
             # Gain sur les obligations vendues
-            vm_sell <- vm_oblig[ind_oblig_sell]
-
-            # Calcul des plus ou moins values
-            pmv_oblig <- vm_sell - vnc_oblig[ind_oblig_sell]
+            vente <- vr_ptf[ind_oblig_sell]
 
             # Suppression des oblig du PTF
             obligation@ptf <- obligation@ptf[-ind_oblig_sell,]
@@ -116,7 +112,6 @@ setMethod(
 
         # Output
         return(list(obligation = obligation,
-                    flux = list(vente = sum(vm_sell),
-                                pmv = sum(pmv_oblig))))
+                    flux = list(vente = sum(vente))))
     }
 )
