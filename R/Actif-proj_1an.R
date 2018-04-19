@@ -109,10 +109,8 @@ setMethod(
         ## ######################################################
 
         # Extraction des montants a inserer dans la treso
-        frais <- frais_fin[["frais"]]
-        frais <- sapply(names(frais), function(x) do.call(sum, frais[[x]]), simplify = FALSE)
+        frais <- sum_list(frais_fin[["frais"]], 2L)
         vente <- res_vieillissement$flux$vente
-        pmv <- res_vieillissement$flux$pmv
 
 
 
@@ -122,7 +120,6 @@ setMethod(
         return(list(actif = actif,
                     flux = list(prod_fin = prod_fin_ptf[["prod_fin"]],
                                 vente = res_vieillissement[["flux"]][["vente"]],
-                                pmvr  = res_vieillissement[["flux"]][["pmv"]],
                                 frais = frais_fin[["frais"]]),
                     pmvl = res_revalo_actif[["pmvl"]]))
     }
