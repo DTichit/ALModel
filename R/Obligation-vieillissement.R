@@ -54,10 +54,20 @@ setMethod(
         # Extraction de donnees
         vnc_ptf <- .subset2(obligation@ptf, which(name_ptf_oblig == "valeur_nette_comptable"))
         tri_ptf <- .subset2(obligation@ptf, which(name_ptf_oblig == "tri"))
+        dur_det <- .subset2(obligation@ptf, which(name_ptf_oblig == "duree_detention"))
+        mat_ptf <- .subset2(obligation@ptf, which(name_ptf_oblig == "maturite"))
+        nominal <- .subset2(obligation@ptf, which(name_ptf_oblig == "nominal"))
+        coupon  <- .subset2(obligation@ptf, which(name_ptf_oblig == "coupon"))
+        vr_ptf  <- .subset2(obligation@ptf, which(name_ptf_oblig == "valeur_remboursement"))
 
-        # Mise a jour des maturites
-        obligation@ptf$valeur_nette_comptable <- vnc_ptf / (1 + tri_ptf)
+        # Calcul de la maturite residuelle
+        mat_res <- mat_ptf - dur_det
 
+        # Calcul de la nouvelle VNC
+        new_vnc <- vnc_ptf - nominal * coupon * exp(-tri_ptf * (mat_res + 1L)) - vr_ptf * exp(-tri_ptf * (mat_res + 1L)) + vr_ptf * exp(-tri_ptf * mat_res)
+
+        # Mise a jour du PTF
+        obligation@ptf$valeur_nette_comptable <- new_vnc
 
 
 
