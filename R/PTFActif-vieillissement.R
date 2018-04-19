@@ -50,7 +50,7 @@ setMethod(
         vente <- list(obligation = res_obligation[["flux"]][["vente"]])
 
         # Plus ou moins values
-        pmv <- list(obligation = res_obligation[["flux"]][["vente"]])
+        pmv <- list(obligation = res_obligation[["flux"]][["pmv"]])
 
 
 
