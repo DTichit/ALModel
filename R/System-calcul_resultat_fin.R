@@ -4,7 +4,7 @@
 ##'
 ##' @name calcul_resultat_fin
 ##' @docType methods
-##' @param resultat_fin est une \code{list} contenant les resultats financiers : PMVR, produits financiers.
+##' @param resultat_fin est une \code{list} contenant les resultats financiers : PMVR, produits financiers et frais.
 ##' @author Damien Tichit pour Sia Partners
 ##' @export
 ##' @include
@@ -24,10 +24,13 @@ setMethod(
         pmvr  <- do.call(sum, resultat_fin[["pmvr"]])
 
         # Extraction des produits financiers
-        prod_fin <- do.call(sum, resultat_fin[["prod_fin"]])
+        prod_fin <- do.call(sum, resultat_fin[["produits"]])
+
+        # Extraction des frais
+        frais <- sum_list(resultat_fin[["frais"]], 2L)
 
         # Resultat financier total
-        resultat_fin <- pmvr + prod_fin
+        resultat_fin <- pmvr + prod_fin - frais
 
 
 
