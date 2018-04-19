@@ -34,10 +34,16 @@ setMethod(
         # Mise a jour de l'attribut
         system@actif <- proj_actif[["actif"]]
 
-        # Mise a jour de la tresorerie
+
+        # Credit et debit
         credit <- sum_list(proj_actif$flux$prod_fin, 1L) + sum_list(proj_actif$flux$vente, 1L)
         debit <- sum_list(proj_actif$flux$frais, 2L)
+
+        # Mise a jour de la tresorerie
         system@actif@ptf_actif@tresorerie@solde <- system@actif@ptf_actif@tresorerie@solde + credit - debit
+
+        # Mise a jour du resultat
+        resultat <- credit - debit
 
 
 
@@ -58,10 +64,16 @@ setMethod(
         # Mise a jour de l'attribut
         system@passif <- proj_passif[["passif"]]
 
-        # Mise a jour de la tresorerie
+
+        # Credit et debit
         credit <- sum_list(proj_passif$flux$chargement, 2L) + sum_list(proj_passif$flux$prime, 1L)
         debit  <- sum_list(proj_passif$flux$frais, 2L) + sum_list(proj_passif$flux$prestation, 2L)
+
+        # Mise a jour de la tresorerie
         system@actif@ptf_actif@tresorerie@solde <- system@actif@ptf_actif@tresorerie@solde + credit - debit
+
+        # Mise a jour du resultat
+        resultat <- resultat + credit - debit
 
 
 
@@ -81,10 +93,16 @@ setMethod(
         # Mise a jour de l'attribut
         system@actif <- res_realloc[["actif"]]
 
-        # Mise a jour de la tresorerie
+
+        # Credit et debit
         credit <- sum_list(res_realloc$pmvr, 1L)
         debit  <- 0
+
+        # Mise a jour de la tresorerie
         system@actif@ptf_actif@tresorerie@solde <- system@actif@ptf_actif@tresorerie@solde + credit - debit
+
+        # Mise a jour du resultat
+        resultat <- resultat + credit - debit
 
 
 
@@ -100,9 +118,7 @@ setMethod(
         ## ######################################################
 
         # Extraction des PMV realisees
-        pmvr_realloc <- res_realloc[["pmvr"]]
-        pmvr_proj <- proj_actif[["flux"]][["pmvr"]]
-        pmvr <- sapply(names(pmvr_realloc), function(x) if.is_null(pmvr_proj[[x]], 0) + pmvr_realloc[[x]], simplify = FALSE)
+        pmvr <- res_realloc[["pmvr"]]
 
         # Appel de la fonction
         res_reserve_capi <- dotation_reserve_capi(system@passif@provision@reserve_capi, pmvr = pmvr[["obligation"]])
@@ -110,8 +126,9 @@ setMethod(
         # Mise a jour de la provision
         system@passif@provision@reserve_capi <- res_reserve_capi[["reserve_capi"]]
 
-        # Mise a jour des PMVR
-        pmvr[["obligation"]] <- res_reserve_capi[["reste_pmv"]]
+        # Creation d'un objet stockant les PMVR apres avoir dote la RC
+        reste_pmvr <- pmvr
+        reste_pmvr[["obligation"]] <- res_reserve_capi[["reste_pmv"]]
 
 
 
@@ -127,8 +144,10 @@ setMethod(
         warning("Resultats a reprendre : ils sont probablement faux !!  (Frais financiers ?)")
 
         # Mise en forme des donnees
-        result_fin <- list(pmvr = pmvr,
-                           prod_fin = proj_actif[["flux"]][["prod_fin"]])
+        result_fin <- list(pmvr = reste_pmvr,
+                           vente = proj_actif[["flux"]][["vente"]],
+                           produits = proj_actif[["flux"]][["prod_fin"]],
+                           frais = proj_actif[["flux"]][["frais"]])
         result_tech <- list(chargement = proj_passif[["flux"]][["chargement"]],
                             frais = proj_passif[["flux"]][["frais"]])
 
@@ -143,19 +162,13 @@ setMethod(
         ## ######################################################
         ## ######################################################
         ##
-        ##              Gestion des capitaux propres
+        ##  Determination du resultat des actifs en face les FP
         ##
         ## ######################################################
         ## ######################################################
 
         # Appel de la fonction
-        res_gest_cp <- gestion_capitaux_propres(passif = system@passif, result_fin = result_fin)
-
-        # Mise a jour de l'attribut
-        system@passif <- res_gest_cp[["passif"]]
-
-        # Resultat financier alloue aux capitaux propres
-        result_fin_cp <- res_gest_cp[["result_fin_cp"]]
+        res_fin_fp <- resultat_fin_fp(passif = system@passif, result_fin = result_fin)[["result_fin_fp"]]
 
 
 
@@ -171,7 +184,7 @@ setMethod(
         ## ######################################################
 
         # Calcul de la PB a distribuer
-        res_pb <- calcul_pb(taux_pb = system@taux_pb, resultat_fin = (result_fin - result_fin_cp), resultat_tech = result_tech)
+        res_pb <- calcul_pb(taux_pb = system@taux_pb, resultat_fin = (result_fin - res_fin_fp), resultat_tech = result_tech)
 
         # PB a attribuer
         pb <- sum_list(res_pb[["pb"]], 1L)
@@ -183,10 +196,16 @@ setMethod(
         # Flux sur la PPE
         flux_ppe <- res_dotation[["dotation"]]
 
-        # Mise a jour de la tresorerie
+
+        # Credit et debit
         credit <- 0
         debit  <- res_dotation[["dotation"]]
+
+        # Mise a jour de la tresorerie
         system@actif@ptf_actif@tresorerie@solde <- system@actif@ptf_actif@tresorerie@solde + credit - debit
+
+        # Mise a jour du resultat
+        resultat <- resultat + credit - debit
 
 
 
@@ -210,10 +229,34 @@ setMethod(
         # Flux sur la PPE
         flux_ppe <- flux_ppe + res_revalo[["flux_ppe"]]
 
-        # Mise a jour de la tresorerie
+
+        # Credit et debit
         credit <- 0
         debit  <- sum_list(res_revalo$revalorisation, 2L) + res_revalo[["flux_ppe"]]
+
+        # Mise a jour de la tresorerie
         system@actif@ptf_actif@tresorerie@solde <- system@actif@ptf_actif@tresorerie@solde + credit - debit
+
+        # Mise a jour du resultat
+        resultat <- resultat + credit - debit
+
+
+
+
+
+        ## ######################################################
+        ## ######################################################
+        ##
+        ##              Gestion des fonds propres
+        ##
+        ## ######################################################
+        ## ######################################################
+
+        # Appel de la fonction
+        res_gest_fp <- gestion_fonds_propres(fp = system@passif@fonds_propres, resultat = resultat)
+
+        # Mise a jour de l'attribut
+        system@passif@fonds_propres <- res_gest_fp[["fp"]]
 
 
 
@@ -292,16 +335,20 @@ setMethod(
 
         # Aggregation des flux : Actif, Passif
         stock <- list(actif = list(image = system@actif@ptf_actif,
-                                   flux = proj_actif[["flux"]]),
+                                   flux = list(prod_fin = proj_actif[["flux"]]$prod_fin,
+                                               pmvr = pmvr,
+                                               frais = proj_actif[["flux"]]$frais),
+                                   resultat_fin_fp = res_fin_fp),
                       passif = list(image = list(epargne = system@passif@ptf_passif@epargne@ptf),
                                     pm_ouverture = proj_passif[["pm_ouverture"]],
-                                    flux = list(proj_passif = proj_passif[["flux"]],
-                                                revalorisation = list(attribuee = res_revalo[["revalorisation"]],
-                                                                      besoin = res_revalo[["besoin"]]))),
+                                    flux = proj_passif[["flux"]]),
+                      pb = list(pb = pb,
+                                revalorisation = list(attribuee = res_revalo[["revalorisation"]],
+                                                      besoin = res_revalo[["besoin"]])),
+                      fonds_propres = system@passif@fonds_propres,
                       provision = list(image = system@passif@provision,
                                        flux = list(reserve_capi = res_reserve_capi[["flux"]],
-                                                   ppe = flux_ppe)),
-                      capitaux_propres = system@passif@cap_pro)
+                                                   ppe = flux_ppe)))
 
 
 
