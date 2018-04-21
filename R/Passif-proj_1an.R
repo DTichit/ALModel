@@ -64,9 +64,6 @@ setMethod(
         ## ######################################################
         ## ######################################################
 
-        credit <- sum_list(proj_passif$flux$chargement, 2L) +
-        debit  <-  +
-
         # Extraction de differents montants
         prime <- sum_list(res_proj_ptf[["flux"]][["prime"]], 1L)
         chargement <- sum_list(res_proj_ptf[["flux"]][["chargement"]], 2L)
