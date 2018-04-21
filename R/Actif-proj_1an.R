@@ -103,14 +103,21 @@ setMethod(
         ## ######################################################
         ## ######################################################
         ##
-        ##      Mise a jour de la tresorerie apres ces etapes
+        ##              Resultat et Tresorerie
         ##
         ## ######################################################
         ## ######################################################
 
-        # Extraction des montants a inserer dans la treso
+        # Extraction de differents montants
         frais <- sum_list(frais_fin[["frais"]], 2L)
-        vente <- res_vieillissement$flux$vente
+        vente <- sum_list(res_vieillissement[["flux"]][["vente"]], 1L)
+        prods <- sum_list(prod_fin_ptf[["prod_fin"]], 1L)
+
+        # Mouvement sur la tresorerie
+        mvt_treso <- prods + vente - frais
+
+        # Mouvement sur le resultat
+        mvt_resultat <- prods - frais
 
 
 
@@ -121,6 +128,8 @@ setMethod(
                     flux = list(prod_fin = prod_fin_ptf[["prod_fin"]],
                                 vente = res_vieillissement[["flux"]][["vente"]],
                                 frais = frais_fin[["frais"]]),
-                    pmvl = res_revalo_actif[["pmvl"]]))
+                    pmvl = res_revalo_actif[["pmvl"]],
+                    mouvement = list(treso = mvt_treso,
+                                     resultat = mvt_resultat)))
     }
 )

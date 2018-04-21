@@ -56,10 +56,39 @@ setMethod(
 
 
 
+        ## ######################################################
+        ## ######################################################
+        ##
+        ##              Resultat et Tresorerie
+        ##
+        ## ######################################################
+        ## ######################################################
+
+        credit <- sum_list(proj_passif$flux$chargement, 2L) +
+        debit  <-  +
+
+        # Extraction de differents montants
+        prime <- sum_list(res_proj_ptf[["flux"]][["prime"]], 1L)
+        chargement <- sum_list(res_proj_ptf[["flux"]][["chargement"]], 2L)
+        frais <- sum_list(res_proj_ptf[["flux"]][["frais"]], 2L)
+        prestation <- sum_list(res_proj_ptf[["flux"]][["prestation"]], 2L)
+
+        # Mouvement sur la tresorerie
+        mvt_treso <- prime + chargement - frais - prestation
+
+        # Mouvement sur le resultat
+        mvt_resultat <- prime + chargement - frais - prestation
+
+
+
+
+
         # Output
         return(list(passif = passif,
                     pm_ouverture = res_proj_ptf[["pm_ouverture"]],
                     flux = res_proj_ptf[["flux"]],
-                    besoin = res_proj_ptf[["besoin"]]))
+                    besoin = res_proj_ptf[["besoin"]],
+                    mouvement = list(treso = mvt_treso,
+                                     resultat = mvt_resultat)))
     }
 )
