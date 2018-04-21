@@ -95,15 +95,10 @@ setMethod(
             vr_ptf <- .subset2(obligation@ptf, which(name_ptf_oblig == "valeur_remboursement"))
 
             # Gain sur les obligations vendues
-            vente <- vr_ptf[ind_oblig_sell]
+            vente <- sum(vr_ptf[ind_oblig_sell])
 
             # Suppression des oblig du PTF
             obligation@ptf <- obligation@ptf[-ind_oblig_sell,]
-
-        } else {
-
-            # Aucune vente
-            vm_sell <- 0 ; pmv_oblig <- 0
 
         }
 
@@ -112,6 +107,6 @@ setMethod(
 
         # Output
         return(list(obligation = obligation,
-                    flux = list(vente = sum(vente))))
+                    flux = list(vente = if.is_null(get0("vente"), 0))))
     }
 )
