@@ -228,6 +228,21 @@ setMethod(
 
 
 
+        ## ######################################################
+        ## ######################################################
+        ##
+        ##              Calcul des PM de cloture
+        ##
+        ## ######################################################
+        ## ######################################################
+
+        # Appel de la fonction
+        pm_cloture <- calcul_pm(passif@ptf_passif)
+
+
+
+
+
 
 
         ## ######################################################
@@ -247,13 +262,37 @@ setMethod(
 
 
 
+        ## ######################################################
+        ## ######################################################
+        ##
+        ##              Resultat et Tresorerie
+        ##
+        ## ######################################################
+        ## ######################################################
+
+        # Extraction de differents montants
+        total_revalo <- sum_list(revalo, 2L)
+
+        # Mouvement sur la tresorerie
+        mvt_treso <- -(total_revalo + flux_ppe)
+
+        # Mouvement sur le resultat
+        mvt_resultat <- -(total_revalo + flux_ppe)
+
+
+
+
+
 
         # Output
         return(list(passif = passif,
                     revalorisation = revalo,
                     reste_contr = reste_contr,
                     flux_ppe = flux_ppe,
+                    pm_cloture = pm_cloture,
                     besoin = list(besoin_contr = besoin_contr,
-                                  besoin_cible = besoin_cible)))
+                                  besoin_cible = besoin_cible),
+                    mouvement = list(treso = mvt_treso,
+                                     resultat = mvt_resultat)))
     }
 )
