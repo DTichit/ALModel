@@ -9,11 +9,11 @@
 ##' @export
 ##' @include PTFPassif-class.R
 ##'
-setGeneric(name = "calcul_pt", def = function(ptf_passif) {standardGeneric("calcul_pt")})
+setGeneric(name = "calcul_pt", def = function(passif) {standardGeneric("calcul_pt")})
 setMethod(
     f = "calcul_pt",
-    signature = c(ptf_passif = "PTFPassif"),
-    definition = function(ptf_passif){
+    signature = c(passif = "Passif"),
+    definition = function(passif){
 
 
 
