@@ -17,6 +17,38 @@ setMethod(
 
 
 
+
+
+        ## ######################################################
+        ## ######################################################
+        ##
+        ##          Vieillissement des portefeuilles
+        ##
+        ## ######################################################
+        ## ######################################################
+
+        # Appel de la fonction
+        res_vieillissement <- vieillissement_ptf_actif(ptf_actif = actif@ptf_actif)
+
+        # Mise a jour de l'objet
+        actif@ptf_actif <- res_vieillissement[["ptf_actif"]]
+
+
+
+
+        ## ######################################################
+        ## ######################################################
+        ##
+        ##          Evaluation des produits financiers
+        ##
+        ## ######################################################
+        ## ######################################################
+
+        # Appel de la fonction
+        prod_fin_ptf <- eval_prod_fin(ptf_actif = actif@ptf_actif, hyp_actif = actif@hyp_actif, an = an)
+
+
+
         ## ######################################################
         ## ######################################################
         ##
@@ -51,20 +83,6 @@ setMethod(
 
 
 
-        ## ######################################################
-        ## ######################################################
-        ##
-        ##          Evaluation des produits financiers
-        ##
-        ## ######################################################
-        ## ######################################################
-
-        # Appel de la fonction
-        prod_fin_ptf <- eval_prod_fin(ptf_actif = actif@ptf_actif, hyp_actif = actif@hyp_actif, an = an)
-
-
-
-
 
         ## ######################################################
         ## ######################################################
@@ -85,24 +103,6 @@ setMethod(
         ## ######################################################
         ## ######################################################
         ##
-        ##          Vieillissement des portefeuilles
-        ##
-        ## ######################################################
-        ## ######################################################
-
-        # Appel de la fonction
-        res_vieillissement <- vieillissement_ptf_actif(ptf_actif = actif@ptf_actif)
-
-        # Mise a jour de l'objet
-        actif@ptf_actif <- res_vieillissement[["ptf_actif"]]
-
-
-
-
-
-        ## ######################################################
-        ## ######################################################
-        ##
         ##              Resultat et Tresorerie
         ##
         ## ######################################################
@@ -112,12 +112,13 @@ setMethod(
         frais <- sum_list(frais_fin[["frais"]], 2L)
         vente <- sum_list(res_vieillissement[["flux"]][["vente"]], 1L)
         prods <- sum_list(prod_fin_ptf[["prod_fin"]], 1L)
+        var_vnc <- sum_list(res_revalo_actif[["var_vnc"]], 1L)
 
         # Mouvement sur la tresorerie
         mvt_treso <- prods + vente - frais
 
         # Mouvement sur le resultat
-        mvt_resultat <- prods - frais
+        mvt_resultat <- prods - frais + var_vnc
 
 
 
@@ -127,7 +128,8 @@ setMethod(
         return(list(actif = actif,
                     flux = list(prod_fin = prod_fin_ptf[["prod_fin"]],
                                 vente = res_vieillissement[["flux"]][["vente"]],
-                                frais = frais_fin[["frais"]]),
+                                frais = frais_fin[["frais"]],
+                                var_vnc = res_revalo_actif[["var_vnc"]]),
                     pmvl = res_revalo_actif[["pmvl"]],
                     mouvement = list(treso = mvt_treso,
                                      resultat = mvt_resultat)))
