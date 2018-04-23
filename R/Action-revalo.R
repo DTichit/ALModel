@@ -21,6 +21,8 @@ setMethod(
         ##   Extraction des donnnes
         ## ###########################
         name_ptf <- names(action@ptf)
+        vm_ptf <- .subset2(action@ptf, which(name_ptf == "valeur_marche"))
+        vc_ptf <- .subset2(action@ptf, which(name_ptf == "valeur_comptable"))
 
 
 
@@ -28,11 +30,8 @@ setMethod(
         ##   Mise a jour des VM
         ## ###########################
 
-        # Extraction des donnees
-        vm_prev <- .subset2(action@ptf, which(name_ptf == "valeur_marche"))
-
         # Calcul des nouvelles VM
-        vm_new  <- vm_prev * exp(log_rdt)
+        vm_new  <- vm_ptf * exp(log_rdt)
 
         # Mise a jour de l'attribut
         action@ptf$valeur_marche <- vm_new
@@ -44,7 +43,7 @@ setMethod(
         ## ###########################
 
         # Calcul des PMVL
-        pmvl <- vm_new - vm_prev
+        pmvl <- vm_new - vc_ptf
 
 
 
