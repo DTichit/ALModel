@@ -49,15 +49,11 @@ setMethod(
         # Vente
         vente <- list(obligation = res_obligation[["flux"]][["vente"]])
 
-        # Plus ou moins values
-        pmv <- list(obligation = res_obligation[["flux"]][["pmv"]])
-
 
 
 
         # Output
         return(list(ptf_actif = ptf_actif,
-                    flux = list(vente = vente,
-                                pmv = pmv)))
+                    flux = list(vente = vente)))
     }
 )
