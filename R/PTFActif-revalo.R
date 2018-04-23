@@ -105,10 +105,14 @@ setMethod(
                      obligation = res_revalo_oblig[["pmvl"]],
                      immobilier = res_revalo_immo[["pmvl"]])
 
+        # Variation VNC
+        var_vnc <- list(obligation = res_revalo_oblig[["var_vnc"]])
+
 
 
         # Output
         return(list(ptf_actif = ptf_actif,
+                    var_vnc = var_vnc,
                     pmvl = pmvl))
     }
 )
