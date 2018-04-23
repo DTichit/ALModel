@@ -29,8 +29,11 @@ setMethod(
         # Extraction des frais
         frais <- sum_list(resultat_fin[["frais"]], 2L)
 
+        # Variation des VNC
+        var_vnc <- sum_list(resultat_fin[["var_vnc"]], 1L)
+
         # Resultat financier total
-        resultat_fin <- pmvr + prod_fin - frais
+        resultat_fin <- pmvr + prod_fin + var_vnc - frais
 
 
 
