@@ -21,6 +21,20 @@ setMethod(
         ## ######################################################
         ## ######################################################
         ##
+        ##           Extraction des PM a l'ouverture
+        ##
+        ## ######################################################
+        ## ######################################################
+
+        # Appel de la fonction
+        pm_overture <- calcul_pm(ptf_passif = passif@ptf_passif)
+
+
+
+
+        ## ######################################################
+        ## ######################################################
+        ##
         ##           Calcul des probas, le cas echeant
         ##
         ## ######################################################
@@ -41,7 +55,7 @@ setMethod(
         ## ######################################################
         ## ######################################################
         ##
-        ## Gestion du portfeuille : Prestation, revalorisation aux TMG...
+        ## Gestion du portfeuille : Prestations, chargements, frais...
         ##
         ## ######################################################
         ## ######################################################
@@ -82,7 +96,7 @@ setMethod(
 
         # Output
         return(list(passif = passif,
-                    pm_ouverture = res_proj_ptf[["pm_ouverture"]],
+                    pm_ouverture = pm_overture,
                     flux = res_proj_ptf[["flux"]],
                     besoin = res_proj_ptf[["besoin"]],
                     mouvement = list(treso = mvt_treso,
