@@ -17,20 +17,53 @@ setMethod(
     signature = c(obligation = "Obligation", yield_curve = "numeric"),
     definition = function(obligation, yield_curve){
 
+
         ## ###########################
         ##   Extraction des donnnes
         ## ###########################
         names_ptf <- names(obligation@ptf)
+        vnc_ptf <- .subset2(obligation@ptf, which(names_ptf == "valeur_nette_comptable"))
         vm_ptf      <- .subset2(obligation@ptf, which(names_ptf == "valeur_marche"))
         nominal_ptf  <- .subset2(obligation@ptf, which(names_ptf == "nominal"))
         coupon_ptf  <- .subset2(obligation@ptf, which(names_ptf == "coupon"))
         vr_ptf      <- .subset2(obligation@ptf, which(names_ptf == "valeur_remboursement"))
-        maturite_ptf <- .subset2(obligation@ptf, which(names_ptf == "maturite"))
+        mat_ptf <- .subset2(obligation@ptf, which(names_ptf == "maturite"))
+        dur_det <- .subset2(obligation@ptf, which(names_ptf == "duree_detention"))
         dur_det_ptf <- .subset2(obligation@ptf, which(names_ptf == "duree_detention"))
         spread_ptf <- .subset2(obligation@ptf, which(names_ptf == "spread"))
+        tri_ptf <- .subset2(obligation@ptf, which(names_ptf == "tri"))
 
         # Calcul de la maturite residuelle du PTF
-        mat_res_ptf <- maturite_ptf - dur_det_ptf
+        mat_res_ptf <- mat_ptf - dur_det_ptf
+
+
+
+
+        ## ###########################
+        ##  Calcul du nouveau nominal
+        ## ###########################
+
+        # Calcul de la nouvelle VNC
+        new_nominal <- nominal_ptf / (1 + spread_ptf)
+
+        # Mise a jour du PTF
+        obligation@ptf$nominal <- new_nominal
+
+
+
+
+        ## ###########################
+        ##  Calcul des nouvelles VNC
+        ## ###########################
+
+        # Calcul de la nouvelle VNC
+        new_vnc <- vnc_ptf - new_nominal * coupon_ptf * exp(-tri_ptf * (mat_res_ptf + 1L)) - vr_ptf * exp(-tri_ptf * (mat_res_ptf + 1L)) + vr_ptf * exp(-tri_ptf * mat_res_ptf)
+
+        # Mise a jour du PTF
+        obligation@ptf$valeur_nette_comptable <- new_vnc
+
+        # Variation de la VNC
+        var_vnc <- new_vnc - vnc_ptf
 
 
 
@@ -43,7 +76,7 @@ setMethod(
 
             # Extraction de donnees
             mat_res <- mat_res_ptf[id]
-            coupon <- coupon_ptf[id] * nominal_ptf[id]
+            coupon <- coupon_ptf[id] * new_nominal[id]
             actu <- exp(-(yield_curve[1L:mat_res] + spread_ptf[id]) * 1L:mat_res)
             vr <- vr_ptf[id]
 
@@ -57,6 +90,9 @@ setMethod(
             return(new_vm)
         })
 
+        # Mise a jour de l'attribut
+        obligation@ptf$valeur_marche <- vm
+
 
 
         ## ###########################
@@ -64,21 +100,13 @@ setMethod(
         ## ###########################
 
         # Determination des PMVL
-        pmvl <- vm - vm_ptf
-
-
-
-        ## ###########################
-        ##   Mise a jour de l'objet
-        ## ###########################
-
-        # Mise a jour de l'attribut
-        obligation@ptf$valeur_marche <- vm
+        pmvl <- vm - new_vnc
 
 
 
         # Output
         return(list(obligation = obligation,
+                    var_vnc = var_vnc,
                     pmvl = sum(pmvl)))
     }
 )
