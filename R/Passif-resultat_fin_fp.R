@@ -37,8 +37,6 @@ setMethod(
         # Total des fonds propres
         fp <- passif@fonds_propres@capital_social + passif@fonds_propres@report_a_nouveau
 
-        warning("Est ce qu'on prend le report a nouveau ?")
-
         # Quote-Part capitaux propres
         qp_cp <- fp / (fp + pm)
 
@@ -52,7 +50,6 @@ setMethod(
         # Resultat financiers des actifs en face des capitaux propres
         result_fin_fp <- qp_cp * result_fin
 
-        warning("On fait quoi de ce resultat ?")
 
 
 
