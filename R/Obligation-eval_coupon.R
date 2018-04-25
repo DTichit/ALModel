@@ -22,6 +22,7 @@ setMethod(
         name_ptf_oblig <- names(obligation@ptf)
         nominal_ptf <- .subset2(obligation@ptf, which(name_ptf_oblig == "nominal"))
         coupon_ptf  <- .subset2(obligation@ptf, which(name_ptf_oblig == "coupon"))
+        spread_ptf  <- .subset2(obligation@ptf, which(name_ptf_oblig == "spread"))
 
 
 

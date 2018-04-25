@@ -18,24 +18,6 @@ setMethod(
 
 
 
-
-        ## ######################################################
-        ## ######################################################
-        ##
-        ##          Vieillissement des portefeuilles
-        ##
-        ## ######################################################
-        ## ######################################################
-
-        # Appel de la fonction
-        res_vieillissement <- vieillissement_ptf_actif(ptf_actif = actif@ptf_actif)
-
-        # Mise a jour de l'objet
-        actif@ptf_actif <- res_vieillissement[["ptf_actif"]]
-
-
-
-
         ## ######################################################
         ## ######################################################
         ##
@@ -95,6 +77,24 @@ setMethod(
         # Calcul des frais financiers
         frais_fin <- eval_frais_fin(ptf_actif = actif@ptf_actif, frais_fin = actif@hyp_actif@frais_fin,
                                     prod_fin = prod_fin_ptf[["prod_fin"]])
+
+
+
+
+
+        ## ######################################################
+        ## ######################################################
+        ##
+        ##          Vieillissement des portefeuilles
+        ##
+        ## ######################################################
+        ## ######################################################
+
+        # Appel de la fonction
+        res_vieillissement <- vieillissement_ptf_actif(ptf_actif = actif@ptf_actif)
+
+        # Mise a jour de l'objet
+        actif@ptf_actif <- res_vieillissement[["ptf_actif"]]
 
 
 
