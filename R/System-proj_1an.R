@@ -19,6 +19,8 @@ setMethod(
     definition = function(system, an){
 
 
+
+
         ## ######################################################
         ## ######################################################
         ##
@@ -37,9 +39,6 @@ setMethod(
 
         # Mise a jour de la tresorerie
         system@actif@ptf_actif@tresorerie@solde <- system@actif@ptf_actif@tresorerie@solde + proj_actif[["mouvement"]][["treso"]]
-
-        # Mise a jour du resultat
-        resultat <- proj_actif[["mouvement"]][["resultat"]]
 
 
 
@@ -60,12 +59,8 @@ setMethod(
         # Mise a jour de l'attribut
         system@passif <- proj_passif[["passif"]]
 
-
         # Mise a jour de la tresorerie
         system@actif@ptf_actif@tresorerie@solde <- system@actif@ptf_actif@tresorerie@solde + proj_passif[["mouvement"]][["treso"]]
-
-        # Mise a jour du resultat
-        resultat <- resultat + proj_passif[["mouvement"]][["resultat"]]
 
 
 
@@ -87,9 +82,6 @@ setMethod(
 
         # Mise a jour de la tresorerie
         system@actif@ptf_actif@tresorerie@solde <- system@actif@ptf_actif@tresorerie@solde + res_realloc[["mouvement"]][["treso"]]
-
-        # Mise a jour du resultat
-        resultat <- resultat + res_realloc[["mouvement"]][["resultat"]]
 
 
 
@@ -116,12 +108,8 @@ setMethod(
         # Mise a jour de la PMVR obligataire apres dotation de la RC
         pmvr[["obligation"]] <- res_reserve_capi[["reste_pmv"]]
 
-
         # Mise a jour de la tresorerie
         system@actif@ptf_actif@tresorerie@solde <- system@actif@ptf_actif@tresorerie@solde - res_reserve_capi[["flux"]]
-
-        # Mise a jour du resultat
-        resultat <- resultat - res_reserve_capi[["flux"]]
 
 
 
@@ -191,9 +179,6 @@ setMethod(
         # Mise a jour de la tresorerie
         system@actif@ptf_actif@tresorerie@solde <- system@actif@ptf_actif@tresorerie@solde - res_dotation[["dotation"]]
 
-        # Mise a jour du resultat
-        resultat <- resultat - res_dotation[["dotation"]]
-
 
 
 
@@ -219,8 +204,34 @@ setMethod(
         # Mise a jour de la tresorerie
         system@actif@ptf_actif@tresorerie@solde <- system@actif@ptf_actif@tresorerie@solde + res_revalo[["mouvement"]][["treso"]]
 
-        # Mise a jour du resultat
-        resultat <- resultat + res_revalo[["mouvement"]][["resultat"]]
+
+
+
+
+        ## ######################################################
+        ## ######################################################
+        ##
+        ##           Calcul du resultat de l'exercice
+        ##
+        ## ######################################################
+        ## ######################################################
+
+        # Creation de la liste contenant tous les elements
+        resultat <- list(charges_pm = sum_list(proj_passif[["pm_ouverture"]], 1L) - sum_list(res_revalo[["pm_cloture"]],  1L),
+                         prime = sum_list(proj_passif$flux$prime, 1L),
+                         prestation = sum_list(proj_passif$flux$prestation, 2L),
+                         revalo_pm = sum_list(res_revalo$revalorisation, 2L) - sum_list(res_revalo$revalorisation$prestation, 1L),
+                         revalo_prest = sum_list(res_revalo$revalorisation$prestation, 1L),
+                         frais = sum_list(proj_passif$flux$frais, 2L),
+                         chgt = sum_list(proj_passif$flux$chargement, 2L),
+                         resultat_fin = result_fin - res_fin_fp,
+                         charges_rc = res_reserve_capi[["flux"]],
+                         charges_ppe = flux_ppe,
+                         res_fin_fp = res_fin_fp)
+
+        # Calcul du resultat de l'exercice
+        res_resultat <- calcul_resultat(resultat)
+
 
 
 
@@ -234,12 +245,8 @@ setMethod(
         ## ######################################################
         ## ######################################################
 
-        # Mise a jour du resultat : Charges des provisions
-        resultat <- resultat + sum_list(proj_passif[["pm_ouverture"]], 1L) - sum_list(res_revalo[["pm_cloture"]],  1L)
-        resultat <- resultat + res_fin_fp
-
         # Appel de la fonction
-        res_gest_fp <- gestion_fonds_propres(fp = system@passif@fonds_propres, resultat = resultat)
+        res_gest_fp <- gestion_fonds_propres(fp = system@passif@fonds_propres, resultat = res_resultat[["resultat"]])
 
         # Mise a jour de l'attribut
         system@passif@fonds_propres <- res_gest_fp[["fp"]]
