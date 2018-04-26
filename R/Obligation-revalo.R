@@ -112,13 +112,13 @@ setMethod(
         ## ###########################
 
         # Determination des PMVL
-        pmvl <- vm - new_vnc
+        pmvl <- new_vm - new_vnc
 
 
 
         # Output
         return(list(obligation = obligation,
-                    var_vnc = var_vnc,
+                    var_vnc = sum(var_vnc),
                     pmvl = sum(pmvl)))
     }
 )
