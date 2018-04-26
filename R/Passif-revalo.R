@@ -254,9 +254,16 @@ setMethod(
         ## ######################################################
 
         # Liste stockant l'ensemble des revalorisations
-        revalo <- sapply(names(besoin_revalo[["besoin_cible"]]), USE.NAMES = TRUE, simplify = FALSE,
-                         function(x) list(contr = besoin_revalo[["besoin_contr"]][[x]], cible = revalo_cible_prod[[x]],
-                                          supp = revalo_supp_prod[[x]], prestation = revalo_prestation[[x]]))
+        # revalo <- sapply(names(besoin_revalo[["besoin_cible"]]), USE.NAMES = TRUE, simplify = FALSE,
+        #                  function(x) list(contr = besoin_revalo[["besoin_contr"]][[x]], cible = revalo_cible_prod[[x]],
+        #                                   supp = revalo_supp_prod[[x]], prestation = revalo_prestation[[x]]))
+
+        revalo <- list(contr = besoin_revalo[["besoin_contr"]],
+                       cible = revalo_cible_prod,
+                       supp = revalo_supp_prod,
+                       prestation = revalo_prestation)
+
+
 
 
 
@@ -277,7 +284,7 @@ setMethod(
         mvt_treso <- -(total_revalo + flux_ppe)
 
         # Mouvement sur le resultat
-        mvt_resultat <- -(total_revalo + flux_ppe)
+        mvt_resultat <- -(0 + flux_ppe)
 
 
 
