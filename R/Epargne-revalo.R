@@ -62,7 +62,7 @@ setMethod(
         ## ###########################
 
         # Proportion a distribuer
-        besoin_cible <- (cible - tmg_ptf_epargne) * pm_ptf_epargne
+        besoin_cible <- max(cible - tmg_ptf_epargne, 0) * pm_ptf_epargne
 
         # MP pour lesquels le cible est superieur au TMG
         id_sup <- which(besoin_cible > 0)
@@ -71,10 +71,10 @@ setMethod(
         if(length(id_sup) == length(besoin_cible)) {
 
             # Taux de revalorisation
-            tx_revalo_cible <- (sum(revalo_tmg_mp + pm_ptf_epargne) + revalo_cible) / sum(pm_ptf_epargne)
+            tx_revalo_cible <- (sum(revalo_tmg_mp + pm_ptf_epargne) + revalo_cible) / sum(pm_ptf_epargne) - 1
 
             # Revalorisation cible par model point
-            revalo_cible_mp <- (tx_revalo_cible - ( 1 + tmg_ptf_epargne)) * pm_ptf_epargne
+            revalo_cible_mp <- (tx_revalo_cible - tmg_ptf_epargne) * pm_ptf_epargne
 
         } else {
 
@@ -109,15 +109,18 @@ setMethod(
         ## ######################################################
         ## ######################################################
 
+        # Revalorisation totale
+        revalo_tot <- revalo_tmg_mp + revalo_cible_mp + revalo_supp_mp
+
         # Calcul des nouvelles PM
-        new_pm <- pm_ptf_epargne + (revalo_tmg_mp + revalo_cible_mp + revalo_supp_mp)
+        new_pm <- pm_ptf_epargne + revalo_tot
 
         # Calcul du taux de revalorisation
-        tx_revalo <- new_pm / pm_ptf_epargne
+        tx_revalo <- revalo_tot / pm_ptf_epargne
 
         # Mise a jour des PM
         epargne@ptf$pm <- new_pm
-        epargne@ptf$revalo_prec <- tx_revalo - 1
+        epargne@ptf$revalo_prec <- tx_revalo
 
 
 
