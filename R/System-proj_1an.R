@@ -108,9 +108,6 @@ setMethod(
         # Mise a jour de la PMVR obligataire apres dotation de la RC
         pmvr[["obligation"]] <- res_reserve_capi[["reste_pmv"]]
 
-        # Mise a jour de la tresorerie
-        system@actif@ptf_actif@tresorerie@solde <- system@actif@ptf_actif@tresorerie@solde - res_reserve_capi[["flux"]]
-
 
 
 
@@ -176,9 +173,6 @@ setMethod(
         # Flux sur la PPE
         flux_ppe <- res_dotation[["dotation"]]
 
-        # Mise a jour de la tresorerie
-        system@actif@ptf_actif@tresorerie@solde <- system@actif@ptf_actif@tresorerie@solde - res_dotation[["dotation"]]
-
 
 
 
@@ -201,9 +195,6 @@ setMethod(
         # Flux sur la PPE
         flux_ppe <- flux_ppe + res_revalo[["flux_ppe"]]
 
-        # Mise a jour de la tresorerie
-        system@actif@ptf_actif@tresorerie@solde <- system@actif@ptf_actif@tresorerie@solde + res_revalo[["mouvement"]][["treso"]]
-
 
 
 
@@ -220,8 +211,8 @@ setMethod(
         resultat <- list(charges_pm = sum_list(proj_passif[["pm_ouverture"]], 1L) - sum_list(res_revalo[["pm_cloture"]],  1L),
                          prime = sum_list(proj_passif$flux$prime, 1L),
                          prestation = sum_list(proj_passif$flux$prestation, 2L),
-                         revalo_pm = sum_list(res_revalo$revalorisation, 2L) - sum_list(res_revalo$revalorisation$prestation, 1L),
-                         revalo_prest = sum_list(res_revalo$revalorisation$prestation, 1L),
+                         revalo_pm = sum_list(res_revalo$revalorisation$tmg, 1L) + sum_list(res_revalo$revalorisation$pb, 2L),
+                         revalo_prest = sum_list(proj_passif[["besoin"]][["revalo_prest"]], 1L),
                          frais = sum_list(proj_passif$flux$frais, 2L),
                          chgt = sum_list(proj_passif$flux$chargement, 2L),
                          resultat_fin = result_fin - res_fin_fp,
@@ -338,7 +329,8 @@ setMethod(
                                     flux = proj_passif[["flux"]]),
                       pb = list(pb = pb,
                                 revalorisation = list(attribuee = res_revalo[["revalorisation"]],
-                                                      besoin = res_revalo[["besoin"]])),
+                                                      prestation = sum_list(proj_passif[["besoin"]][["revalo_prest"]], 1L),
+                                                      besoin_cible = res_revalo$besoin_cible)),
                       fonds_propres = system@passif@fonds_propres,
                       provision = list(image = system@passif@provision,
                                        flux = list(reserve_capi = res_reserve_capi[["flux"]],

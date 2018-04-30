@@ -156,9 +156,6 @@ setMethod(
         # Mouvement sur la tresorerie
         mvt_treso <- sum_pmvr
 
-        # Mouvement sur le resultat
-        mvt_resultat <- sum_pmvr
-
 
 
 
@@ -166,7 +163,6 @@ setMethod(
         return(list(actif = actif,
                     flux  = flux,
                     pmvr = pmvr,
-                    mouvement = list(treso = mvt_treso,
-                                     resultat = mvt_resultat)))
+                    mouvement = list(treso = mvt_treso)))
     }
 )

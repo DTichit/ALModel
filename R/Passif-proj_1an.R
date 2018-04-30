@@ -87,9 +87,6 @@ setMethod(
         # Mouvement sur la tresorerie
         mvt_treso <- prime + chargement - frais - prestation
 
-        # Mouvement sur le resultat
-        mvt_resultat <- prime + chargement - frais - prestation
-
 
 
 
@@ -99,7 +96,6 @@ setMethod(
                     pm_ouverture = pm_overture,
                     flux = res_proj_ptf[["flux"]],
                     besoin = res_proj_ptf[["besoin"]],
-                    mouvement = list(treso = mvt_treso,
-                                     resultat = mvt_resultat)))
+                    mouvement = list(treso = mvt_treso)))
     }
 )

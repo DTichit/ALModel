@@ -117,9 +117,6 @@ setMethod(
         # Mouvement sur la tresorerie
         mvt_treso <- prods + vente - frais
 
-        # Mouvement sur le resultat
-        mvt_resultat <- prods - frais + var_vnc
-
 
 
 
@@ -131,7 +128,6 @@ setMethod(
                                 frais = frais_fin[["frais"]],
                                 var_vnc = res_revalo_actif[["var_vnc"]]),
                     pmvl = res_revalo_actif[["pmvl"]],
-                    mouvement = list(treso = mvt_treso,
-                                     resultat = mvt_resultat)))
+                    mouvement = list(treso = mvt_treso)))
     }
 )
