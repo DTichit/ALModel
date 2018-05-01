@@ -63,6 +63,33 @@ setMethod(
         ## ######################################################
         ## ######################################################
         ##
+        ##                  Ecreter Nominal
+        ##
+        ## ######################################################
+        ## ######################################################
+
+        # Extraction du spread
+        spread_ptf <- .subset2(obligation@ptf, which(names_ptf == "spread"))
+
+
+        ## ###########################
+        ##  Calcul du nouveau nominal
+        ## ###########################
+
+        # Calcul du nouveau nominal
+        new_nominal <- .subset2(obligation@ptf, which(names_ptf == "nominal")) * exp(-spread_ptf)
+
+        # Mise a jour du PTF
+        obligation@ptf$nominal <- new_nominal
+
+
+
+
+
+
+        ## ######################################################
+        ## ######################################################
+        ##
         ##                  Recolte des coupons
         ##
         ## ######################################################
@@ -90,7 +117,7 @@ setMethod(
         ## ######################################################
         ## ######################################################
         ##
-        ##              Calcul des nouvelles "valeurs"
+        ##          Calcul des nouvelles VM, VNC et VR
         ##
         ## ######################################################
         ## ######################################################
@@ -106,27 +133,10 @@ setMethod(
         vr_ptf      <- .subset2(obligation@ptf, which(names_ptf == "valeur_remboursement"))
         mat_ptf     <- .subset2(obligation@ptf, which(names_ptf == "maturite"))
         dur_det_ptf <- .subset2(obligation@ptf, which(names_ptf == "duree_detention"))
-        spread_ptf  <- .subset2(obligation@ptf, which(names_ptf == "spread"))
         tri_ptf     <- .subset2(obligation@ptf, which(names_ptf == "tri"))
 
         # Calcul de la maturite residuelle du PTF
         mat_res_ptf <- mat_ptf - dur_det_ptf
-
-
-
-
-        ## ###########################
-        ##  Calcul des nouvelles VNC
-        ## ###########################
-
-        # Calcul de la nouvelle VNC
-        new_vnc <- vnc_ptf - (nominal_ptf * coupon_ptf + vr_ptf) * exp(-tri_ptf * (mat_res_ptf + 1L)) + vr_ptf * exp(-tri_ptf * mat_res_ptf)
-
-        # Mise a jour du PTF
-        obligation@ptf$valeur_nette_comptable <- new_vnc
-
-        # Variation de la VNC
-        var_vnc <- new_vnc - vnc_ptf
 
 
 
@@ -170,14 +180,32 @@ setMethod(
 
 
         ## ###########################
-        ##  Calcul du nouveau nominal
+        ##  Calcul des nouvelles VNC
         ## ###########################
 
-        # Calcul du nouveau nominal
-        new_nominal <- nominal_ptf * exp(-spread_ptf)
+        # Calcul de la nouvelle VNC
+        # new_vnc <- vnc_ptf - (nominal_ptf * coupon_ptf) * exp(spread_ptf) * exp(-tri_ptf * (mat_res_ptf + 1L)) - new_vr * exp(spread_ptf) * exp(-tri_ptf * (mat_res_ptf + 1L)) + new_vr * exp(-tri_ptf * mat_res_ptf)
+        # new_vnc <- exp(-spread_ptf) * (vnc_ptf - (nominal_ptf * coupon_ptf) * exp(spread_ptf) * exp(-tri_ptf * (mat_res_ptf + 1L)) - new_vr * exp(spread_ptf) * exp(-tri_ptf * (mat_res_ptf + 1L)) + new_vr * exp(spread_ptf) * exp(-tri_ptf * mat_res_ptf))
+        new_vnc <- sapply(1L:nrow(obligation@ptf), function(id){
+
+            # Extraction de donnees
+            mat_res <- mat_res_ptf[id]
+
+            # Calcul de la VNC
+            if(mat_res > 0)
+                vnc <- sum(coupon_ptf[id] * nominal_ptf[id] * exp(-tri_ptf[id] * 1L:mat_res)) + vr_ptf[id] * exp(-tri_ptf[id] * mat_res)
+            else
+                vnc <- vr_ptf[id] * exp(-spread_ptf[id])
+
+            # Output
+            return(vnc)
+        })
 
         # Mise a jour du PTF
-        obligation@ptf$nominal <- new_nominal
+        obligation@ptf$valeur_nette_comptable <- new_vnc
+
+        # Variation de la VNC
+        var_vnc <- new_vnc - vnc_ptf
 
 
 
@@ -187,7 +215,7 @@ setMethod(
         ## ###########################
 
         # Calcul de la nouvelle VR
-        new_vr <- vr_ptf * exp(-spread_ptf)
+        new_vr <- .subset2(obligation@ptf, which(names_ptf == "valeur_remboursement")) * exp(-spread_ptf)
 
         # Mise a jour du PTF
         obligation@ptf$valeur_remboursement <- new_vr
