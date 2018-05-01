@@ -55,6 +55,17 @@ if.is_null <- function(x, replace) {
 }
 
 
+if.is_empty <- function(x, replace) {
+
+    if(length(x) == 0L)
+        out <- replace
+    else
+        out <- x
+
+    return(out)
+}
+
+
 
 
 sum_list <- function(list, p) {
