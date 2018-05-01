@@ -80,8 +80,6 @@ setMethod(
         # Mise a jour de l'attribut
         system@actif <- res_realloc[["actif"]]
 
-        # Mise a jour de la tresorerie
-        system@actif@ptf_actif@tresorerie@solde <- system@actif@ptf_actif@tresorerie@solde + res_realloc[["mouvement"]][["treso"]]
 
 
 
@@ -115,7 +113,7 @@ setMethod(
         ## ######################################################
         ## ######################################################
         ##
-        ##      Calcul des resultats techniques et financiers
+        ##          Calcul de la PB a distribuer
         ##
         ## ######################################################
         ## ######################################################
@@ -215,7 +213,7 @@ setMethod(
                          revalo_prest = sum_list(proj_passif[["besoin"]][["revalo_prest"]], 1L),
                          frais = sum_list(proj_passif$flux$frais, 2L),
                          chgt = sum_list(proj_passif$flux$chargement, 2L),
-                         resultat_fin = result_fin - res_fin_fp,
+                         resultat_fin = result_fin - res_fin_fp + res_realloc[["pmvr"]]$obligation,
                          charges_rc = res_reserve_capi[["flux"]],
                          charges_ppe = flux_ppe,
                          res_fin_fp = res_fin_fp)
