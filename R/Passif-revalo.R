@@ -51,6 +51,9 @@ setMethod(
         # Calcul du montant devant etre distribue obligatoirement
         ppe8 <- ppe_8ans[["ppe_8ans"]]
 
+        # Flux sur la PPE
+        flux_ppe <- -ppe8
+
 
         ## ###########################
         ##          PPE totale
@@ -191,7 +194,7 @@ setMethod(
         passif@provision@ppe <- res_ppe[["ppe"]]
 
         # Flux sur la PPE
-        flux_ppe <- -res_ppe[["reprise"]]
+        flux_ppe <- flux_ppe - res_ppe[["reprise"]]
 
 
 
