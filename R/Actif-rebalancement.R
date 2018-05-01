@@ -141,28 +141,9 @@ setMethod(
 
 
 
-
-        ## ######################################################
-        ## ######################################################
-        ##
-        ##              Resultat et Tresorerie
-        ##
-        ## ######################################################
-        ## ######################################################
-
-        # Extraction de differents montants
-        sum_pmvr <- sum_list(pmvr, 1L)
-
-        # Mouvement sur la tresorerie
-        mvt_treso <- sum_pmvr
-
-
-
-
         # Output
         return(list(actif = actif,
                     flux  = flux,
-                    pmvr = pmvr,
-                    mouvement = list(treso = mvt_treso)))
+                    pmvr = pmvr))
     }
 )
