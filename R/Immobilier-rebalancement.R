@@ -50,7 +50,10 @@ setMethod(
         vm_mov <- diff_alloc * (vm_ptf / vm_totale)
 
         # Montant ajoute/supprime de la VC
-        vc_mov <- (vm_ptf + vm_mov) * ratio_vcvm - vc_ptf
+        if(diff_alloc < 0)
+            vc_mov <- (vm_ptf + vm_mov) * ratio_vcvm - vc_ptf
+        else
+            vc_mov <- diff_alloc * (vm_ptf / vm_totale)
 
 
 
