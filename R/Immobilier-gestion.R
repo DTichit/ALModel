@@ -83,7 +83,7 @@ setMethod(
 
         # Output
         return(list(immobilier = immobilier,
-                    pmvl = pmvl,
-                    loyers = loyers))
+                    pmvl = sum(pmvl),
+                    loyers = sum(loyers)))
     }
 )

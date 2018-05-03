@@ -83,7 +83,7 @@ setMethod(
 
         # Output
         return(list(action = action,
-                    pmvl = pmvl,
-                    dividendes = dividendes))
+                    pmvl = sum(pmvl),
+                    dividendes = sum(dividendes)))
     }
 )

@@ -271,8 +271,8 @@ setMethod(
 
         # Output
         return(list(obligation = obligation,
-                    pmvl = pmvl,
-                    coupons = coupons,
+                    pmvl = sum(pmvl),
+                    coupons = sum(coupons),
                     var_vnc = var_vnc,
                     vente = if.is_null(get0("vente"), 0)))
     }
