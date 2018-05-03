@@ -123,11 +123,13 @@ setMethod(
                            pmvr = pmvr,
                            var_vnc = proj_actif[["flux"]][["var_vnc"]],
                            frais = proj_actif[["flux"]][["frais"]])
-        result_tech <- list(frais = proj_passif[["flux"]][["frais"]])
+        result_tech <- list(frais = proj_passif[["flux"]][["frais"]],
+                            chargement = proj_passif[["flux"]][["chargement"]])
 
 
         # Calcul des resultats
-        result_tech <- calcul_resultat_tech(result_tech)
+        # result_tech <- calcul_resultat_tech(result_tech)
+        result_tech <- 0
         result_fin  <- calcul_resultat_fin(result_fin)
 
 
@@ -137,40 +139,19 @@ setMethod(
         ## ######################################################
         ## ######################################################
         ##
-        ##  Determination du resultat des actifs en face les FP
+        ##  Determination de differents resultats financiers
         ##
         ## ######################################################
         ## ######################################################
 
-        # Appel de la fonction
-        res_fin_fp <- resultat_fin_fp(passif = system@passif, result_fin = result_fin)[["result_fin_fp"]]
+        # Resultat financier en face des fonds propres
+        quote_part_fp <- calcul_quote_part_fp(passif = system@passif)
 
+        # Resultat financier en face des fonds propres
+        res_fin_fp <- result_fin * quote_part_fp
 
-
-
-
-
-        ## ######################################################
-        ## ######################################################
-        ##
-        ##      Calcul de la PB a distribuer et dotation de la PPE
-        ##
-        ## ######################################################
-        ## ######################################################
-
-        # Calcul de la PB a distribuer
-        res_pb <- calcul_pb(taux_pb = system@taux_pb, resultat_fin = (result_fin - res_fin_fp), resultat_tech = result_tech)
-
-        # PB a attribuer
-        pb <- sum_list(res_pb[["pb"]], 1L)
-
-        # Dotation du montant de PB sur la PPE
-        res_dotation <- dotation_ppe(ppe = system@passif@provision@ppe, montant = pb)
-        system@passif@provision@ppe <- res_dotation[["ppe"]]
-
-        # Flux sur la PPE
-        flux_ppe <- res_dotation[["dotation"]]
-
+        # Resultat financier lie a la PM
+        res_fin_pm <- result_fin  * (1 - quote_part_fp)
 
 
 
@@ -184,14 +165,41 @@ setMethod(
         ## ######################################################
         ## ######################################################
 
+        # Visualisation des PV latentes
+        pvl <- extract_pmvl_ptf_actif(system@actif@ptf_actif)[["pvl"]]
+
         # Appel de la fonction
-        res_revalo <- revalo_passif(passif = system@passif, revalo_prestation = proj_passif[["besoin"]][["revalo_prest"]], pb = 0, an = an)
+        res_revalo <- revalo_passif(passif = system@passif, resultat = res_fin_pm + result_tech, pvl = pvl,
+                                    revalo_prestation = proj_passif[["besoin"]][["revalo_prest"]], an = an)
 
         # Mise a jour de l'objet
         system@passif <- res_revalo[["passif"]]
 
-        # Flux sur la PPE
-        flux_ppe <- flux_ppe + res_revalo[["flux_ppe"]]
+
+
+
+        ## ######################################################
+        ## ######################################################
+        ##
+        ##          Realisation de PVL, le cas echeant
+        ##
+        ## ######################################################
+        ## ######################################################
+
+        # Montant de PVL devant etre realisees
+        pvl_a_realiser <- res_revalo[["pvl_a_realiser"]]
+
+        if(pvl_a_realiser > 0) {
+
+            # Appel de la fonction
+            res_real_pvl <- realisation_pvl_ptf_actif(ptf_actif = system@actif@ptf_actif, montant = res_revalo[["pvl_a_realiser"]])
+
+            # Mise a jour de l'attribut
+            system@actif@ptf_actif <- res_real_pvl[["ptf_actif"]]
+
+            # Somme des PVL realises
+            pvl_realisees <- sum_list(res_real_pvl[["pvr"]], 1L)
+        }
 
 
 
@@ -213,9 +221,9 @@ setMethod(
                          revalo_prest = sum_list(proj_passif[["besoin"]][["revalo_prest"]], 1L),
                          frais = sum_list(proj_passif$flux$frais, 2L),
                          chgt = sum_list(proj_passif$flux$chargement, 2L),
-                         resultat_fin = result_fin - res_fin_fp + res_realloc[["pmvr"]]$obligation,
+                         resultat_fin = result_fin - res_fin_fp + res_realloc[["pmvr"]]$obligation + if.is_null(get0("pvl_realisees"), 0L),
                          charges_rc = res_reserve_capi[["flux"]],
-                         charges_ppe = flux_ppe,
+                         charges_ppe = res_revalo[["flux_ppe"]],
                          res_fin_fp = res_fin_fp)
 
         # Calcul du resultat de l'exercice
@@ -234,11 +242,16 @@ setMethod(
         ## ######################################################
         ## ######################################################
 
+        message(paste(an, res_revalo[["besoin_emprunt"]]))
+
         # Appel de la fonction
-        res_gest_fp <- gestion_fonds_propres(fp = system@passif@fonds_propres, resultat = res_resultat[["resultat"]])
+        res_gest_fp <- gestion_fonds_propres(fp = system@passif@fonds_propres, resultat = res_resultat[["resultat"]], emprunt = res_revalo[["besoin_emprunt"]])
 
         # Mise a jour de l'attribut
         system@passif@fonds_propres <- res_gest_fp[["fp"]]
+
+        # Mise a jour de le tresorerie apres l'emprunt
+        system@actif@ptf_actif@tresorerie@solde <- system@actif@ptf_actif@tresorerie@solde + res_revalo[["besoin_emprunt"]]
 
 
 
@@ -320,19 +333,20 @@ setMethod(
                                    flux = list(prod_fin = proj_actif[["flux"]]$prod_fin,
                                                pmvr = res_realloc[["pmvr"]],
                                                frais = proj_actif[["flux"]]$frais,
-                                               var_vnc = proj_actif[["flux"]][["var_vnc"]]),
+                                               var_vnc = proj_actif[["flux"]][["var_vnc"]],
+                                               vente_pvl = if.is_null(get0("pvl_realisees"), 0L)),
                                    resultat_fin_fp = res_fin_fp),
                       passif = list(image = list(epargne = system@passif@ptf_passif@epargne@ptf),
                                     pm_ouverture = proj_passif[["pm_ouverture"]],
                                     flux = proj_passif[["flux"]]),
-                      pb = list(pb = pb,
-                                revalorisation = list(attribuee = res_revalo[["revalorisation"]],
+                      pb = list(revalorisation = list(attribuee = res_revalo[["revalorisation"]],
                                                       prestation = sum_list(proj_passif[["besoin"]][["revalo_prest"]], 1L),
                                                       besoin_cible = res_revalo$besoin_cible)),
-                      fonds_propres = system@passif@fonds_propres,
+                      fonds_propres = list(image = system@passif@fonds_propres,
+                                           emprunt = res_revalo[["besoin_emprunt"]]),
                       provision = list(image = system@passif@provision,
                                        flux = list(reserve_capi = res_reserve_capi[["flux"]],
-                                                   ppe = flux_ppe)))
+                                                   ppe = res_revalo[["flux_ppe"]])))
 
 
 
