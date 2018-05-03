@@ -20,7 +20,29 @@ setMethod(
         ## ######################################################
         ## ######################################################
         ##
-        ##          Extraction des PMVL par PTF
+        ##              Extraction des PVL
+        ##
+        ## ######################################################
+        ## ######################################################
+
+        # Appel de la fonction
+        pvl <- extract_pmvl_ptf_actif(ptf_actif)[["pvl"]]
+
+        # Supprimer les PVL obligataires
+        pvl[["obligation"]] <- 0
+
+        # PVL totales
+        pvl_totales <- sum_list(pvl, 1L)
+
+        # Proportion de PVL
+        prop_pvl <- sapply(names(pvl), function(x) return(pvl[[x]]/pvl_totales), simplify = FALSE)
+
+
+
+        ## ######################################################
+        ## ######################################################
+        ##
+        ##          Realisation des PMVL par PTF
         ##
         ## ######################################################
         ## ######################################################
@@ -30,35 +52,28 @@ setMethod(
         ##          PTF action
         ## ###########################
 
-        # Appel de la fonction
-        res_action <- realisation_pvl_action(action = ptf_actif@action, montant = 0)
+        if(pvl[["action"]] > 0) {
 
-        # Mise a jour de l'attribut
-        ptf_actif@action <- res_action[["action"]]
+            # Appel de la fonction
+            res_action <- realisation_pvl_action(action = ptf_actif@action, montant = montant * prop_pvl[["action"]])
 
-
-
-        ## ###########################
-        ##          PTF oblig
-        ## ###########################
-
-        # Appel de la fonction
-        res_oblig <- realisation_pvl_obligation(obligation = ptf_actif@obligation, montant = 0)
-
-        # Mise a jour de l'attribut
-        ptf_actif@obligation <- res_oblig[["obligation"]]
-
+            # Mise a jour de l'attribut
+            ptf_actif@action <- res_action[["action"]]
+        }
 
 
         ## ###########################
         ##          PTF immo
         ## ###########################
 
-        # Appel de la fonction
-        res_immo <- realisation_pvl_immobilier(immobilier = ptf_actif@immobilier, montant = 0)
+        if(pvl[["immobilier"]] > 0) {
 
-        # Mise a jour de l'attribut
-        ptf_actif@immobilier <- res_immo[["immobilier"]]
+            # Appel de la fonction
+            res_immobilier <- realisation_pvl_immobilier(immobilier = ptf_actif@immobilier, montant = montant * prop_pvl[["immobilier"]])
+
+            # Mise a jour de l'attribut
+            ptf_actif@immobilier <- res_immobilier[["immobilier"]]
+        }
 
 
 
@@ -72,8 +87,20 @@ setMethod(
         ## ######################################################
         ## ######################################################
 
-        # Total vente
-        somme_vente <- res_action[["vente"]] + res_oblig[["vente"]] + res_immo[["vente"]]
+        # Vente par produit
+        vente <- sapply(names(pvl), function(x) {
+
+            if(pvl[[x]] > 0)
+                out <- get0(paste("res", x, sep = "_"))[["vente"]]
+            else
+                out <- 0
+
+            return(out)
+
+        }, simplify = FALSE)
+
+        # Somme sur les ventes
+        somme_vente <- sum_list(vente, 1L)
 
         # Mise a jour du solde de tresorerie
         ptf_actif@tresorerie@solde <- ptf_actif@tresorerie@solde + somme_vente
@@ -90,15 +117,17 @@ setMethod(
         ## ######################################################
         ## ######################################################
 
-        # Liste agregeant l'ensemble des PMVL
-        pvr <- list(action = res_action[["pvr"]],
-                    obligation = res_oblig[["pvr"]],
-                    immobilier = res_immo[["pvr"]])
+        # Liste agregeant l'ensemble des PVR
+        pvr <- sapply(names(pvl), function(x) {
 
-        # Liste agregeant les ventes
-        vente <- list(action = res_action[["vente"]],
-                      obligation = res_oblig[["vente"]],
-                      immobilier = res_immo[["vente"]])
+            if(pvl[[x]] > 0)
+                out <- get0(paste("res", x, sep = "_"))[["pvr"]]
+            else
+                out <- 0
+
+            return(out)
+
+        }, simplify = FALSE)
 
 
 
