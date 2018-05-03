@@ -7,6 +7,7 @@
 ##' @slot capital_social est un \code{numeric} representant le montant du capital social.
 ##' @slot report_a_nouveau est un \code{numeric} representant le montant du report a nouveau.
 ##' @slot resultat_exercice est un \code{numeric} representant le resultat de l'exercice en cours.
+##' @slot dette est un \code{numeric}.
 ##' @author Damien Tichit pour Sia Partners
 ##' @keywords classes
 ##' @export
@@ -17,7 +18,8 @@ setClass(
 
     slots = c(capital_social = "numeric",
               report_a_nouveau = "numeric",
-              resultat_exercice = "numeric"),
+              resultat_exercice = "numeric",
+              dette = "numeric"),
 
     validity = function (object){
 
@@ -46,6 +48,8 @@ setMethod(
                           capital_social  = "numeric",
                           report_a_nouveau  = "numeric",
                           resultat_exercice  = "numeric"){
+
+        .Object@dette <- 0
 
         if(! (missing(capital_social) | missing(report_a_nouveau) | missing(resultat_exercice))){
             .Object@capital_social      <- capital_social
@@ -80,6 +84,7 @@ setMethod(
                "capital_social" = {return(x@capital_social)},
                "report_a_nouveau" = {return(x@report_a_nouveau)},
                "resultat_exercice" = {return(x@resultat_exercice)},
+               "dette" = {return(x@dette)},
                stop("Cet attribut n'existe pas!")
         )
     }
@@ -97,6 +102,7 @@ setReplaceMethod(
                "capital_social" = {x@capital_social <- value},
                "report_a_nouveau" = {x@report_a_nouveau <- value},
                "resultat_exercice" = {x@resultat_exercice <- value},
+               "dette" = {x@dette <- value},
                stop("Cet attribut n'existe pas!")
         )
         validObject(x)
