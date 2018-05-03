@@ -56,6 +56,9 @@ setMethod(
         ##    Montant total des PVL
         ## ###########################
 
+        # Supprimer les PVL obligataires
+        pvl[["obligation"]] <- 0
+
         # Somme des PVL
         pvl_totale <- sum_list(pvl, 1L)
 
@@ -84,7 +87,7 @@ setMethod(
         ## ###########################
 
         # Somme des besoins contractuels
-        besoin_contr <- do.call(sum, besoin_revalo[["besoin_contr"]]) + do.call(sum, revalo_prestation)
+        besoin_contractuel <- do.call(sum, besoin_revalo[["besoin_contr"]]) + do.call(sum, revalo_prestation)
 
         # Somme des besoins cibles
         besoin_cible <- do.call(sum, besoin_revalo[["besoin_cible"]])
@@ -102,9 +105,9 @@ setMethod(
         ## ######################################################
 
         # Creation des variables *_restant
-        besoin_contr_restant <- besoin_contr ; besoin_cible_restant <- besoin_cible
+        besoin_contractuel_restant <- besoin_contractuel ; besoin_cible_restant <- besoin_cible
         pvl_restante <- pvl_totale
-        resultat_restant <- resultat ; ppe_restante <- ppe_totale ; ppe_8ans_restante <- ppe8
+        resultat_restant <- resultat ; ppe_restante <- ppe_totale ; ppe_8ans_restante <- ppe_8_ans
 
 
 
@@ -373,7 +376,7 @@ setMethod(
         return(list(passif = passif,
                     revalorisation = revalo,
                     pvl_a_realiser = pvl_a_realiser,
-                    besoin_emprunt = emprunt,
+                    besoin_emprunt = if.is_null(get0("emprunt"), 0),
                     flux_ppe = flux_ppe,
                     pm_cloture = pm_cloture,
                     besoin_cible = besoin_cible))
