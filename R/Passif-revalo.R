@@ -12,7 +12,8 @@
 ##' @name revalo_passif
 ##' @docType methods
 ##' @param passif est un objet de type \code{\link{Passif}}.
-##' @param pb est un \code{numeric} representant le montant de PB a distribuer.
+##' @param resultat est un \code{numeric}.
+##' @param pvl est une \code{list} contenant les PVL par produits.
 ##' @param revalo_prestation est une \code{list} indiquant des montants de revalorisation obligatoires ayant deja ete distribue. Ils sont consideres comme des besoins de revalorisation contractuels.
 ##' Les montants doivent etre mis sous forme de liste et par produit.
 ##' @param an est un \code{integer}.
@@ -22,11 +23,11 @@
 ##' @export
 ##' @include Passif-class.R PPE-reprise_ppe_8ans.R PTFPassif-besoin_revalo.R
 ##'
-setGeneric(name = "revalo_passif", def = function(passif, pb, revalo_prestation, an) {standardGeneric("revalo_passif")})
+setGeneric(name = "revalo_passif", def = function(passif, resultat, pvl, revalo_prestation, an) {standardGeneric("revalo_passif")})
 setMethod(
     f = "revalo_passif",
-    signature = c(passif = "Passif", pb = "numeric", revalo_prestation = "list", an = "integer"),
-    definition = function(passif, pb, revalo_prestation, an){
+    signature = c(passif = "Passif", resultat = "numeric", pvl = "list", revalo_prestation = "list", an = "integer"),
+    definition = function(passif, resultat, pvl, revalo_prestation, an){
 
 
 
@@ -38,29 +39,25 @@ setMethod(
         ## ######################################################
         ## ######################################################
 
-        ## ###########################
-        ##  Regle des 8 ans de la PPE
-        ## ###########################
-
-        # Appel de la fonction
-        ppe_8ans <- reprise_ppe_8ans(passif@provision@ppe)
-
-        # Mise a jour de l'objet PPE
-        passif@provision@ppe <- ppe_8ans[["ppe"]]
-
-        # Calcul du montant devant etre distribue obligatoirement
-        ppe8 <- ppe_8ans[["ppe_8ans"]]
-
-        # Flux sur la PPE
-        flux_ppe <- -ppe8
-
 
         ## ###########################
         ##          PPE totale
         ## ###########################
 
         # Extraction du montant de la PPE
-        ppe <- sum(passif@provision@ppe@ppe)
+        ppe_totale <- sum(passif@provision@ppe@ppe)
+
+        # Extraction de la PPE 8 ans
+        ppe_8_ans <- passif@provision@ppe@ppe[8L]
+
+
+
+        ## ###########################
+        ##    Montant total des PVL
+        ## ###########################
+
+        # Somme des PVL
+        pvl_totale <- sum_list(pvl, 1L)
 
 
 
@@ -87,19 +84,27 @@ setMethod(
         ## ###########################
 
         # Somme des besoins contractuels
-        besoin_contr <- do.call(sum, besoin_revalo[["besoin_contr"]])
+        besoin_contr <- do.call(sum, besoin_revalo[["besoin_contr"]]) + do.call(sum, revalo_prestation)
 
         # Somme des besoins cibles
         besoin_cible <- do.call(sum, besoin_revalo[["besoin_cible"]])
 
 
 
-        ## ###########################
-        ##     Besoins prestations
-        ## ###########################
 
-        # Extraction des donnees
-        besoin_prest <- do.call(sum, revalo_prestation)
+
+        ## ######################################################
+        ## ######################################################
+        ##
+        ##          Initialisation de parametres
+        ##
+        ## ######################################################
+        ## ######################################################
+
+        # Creation des variables *_restant
+        besoin_contr_restant <- besoin_contr ; besoin_cible_restant <- besoin_cible
+        pvl_restante <- pvl_totale
+        resultat_restant <- resultat ; ppe_restante <- ppe_totale ; ppe_8ans_restante <- ppe8
 
 
 
@@ -116,39 +121,171 @@ setMethod(
 
 
         ## ###########################
-        ## 1ere Etape :
+        ## 1ere Etape : Revalorisation contractuelle
         ## Besoins contractuels => obligatoires
         ## ###########################
 
-        # # Calcul de la revalorisation devant encore etre applique
-        # res_revalo <- calcul_revalo(besoin = besoin_contr + besoin_prest, pb = pb, ppe = passif@provision@ppe, revalo_oblig = revalo_oblig)
-        #
-        # # Mise a jour des objets
-        # passif@provision@ppe <- res_revalo[["ppe"]][["ppe"]]
-        # pb <- res_revalo[["pb"]]
-        # revalo_oblig <- res_revalo[["revalo_oblig"]]
-        #
-        # # Flux sur la PPE
-        # flux_ppe <- flux_ppe - res_revalo[["ppe"]][["reprise"]]
-        #
-        # # Revalorisation cible
-        # revalo_contr <- res_revalo[["revalorisation"]]
-        #
-        # # Reste pour assouvir a la totalite des besoins contractuels
-        # reste_contr <- res_revalo[["reste"]]
+        # Versement du TMG : prise sur le resultat
+        if(resultat_restant >= besoin_contractuel_restant) {
+
+            # Prise sur le resultat
+            resultat_restant <- resultat_restant - besoin_contractuel_restant
+
+            # Besoin contractuel restant
+            besoin_contractuel_restant <- 0
+
+
+        } else {
+
+            # Besoin contractuel restant
+            besoin_contractuel_restant <- besoin_contractuel_restant - resultat_restant
+
+            # Mise du resultat a 0
+            resultat_restant <- 0
+
+
+            # Prise sur les PVL
+            if(pvl_restante >= besoin_contractuel_restant) {
+
+                # PVL restantes
+                pvl_restante <- pvl_restante - besoin_contractuel_restant
+
+                # Besoin contractuel restant
+                besoin_contractuel_restant <- 0
+
+            } else {
+
+                # Besoin d'emprunter
+                emprunt <- besoin_contractuel_restant - pvl_restante
+
+                # PVL restantes
+                pvl_restante <- 0
+
+                # Besoin contractuel restant
+                besoin_contractuel_restant <- 0
+
+            }
+
+        }
+
+        # Montant qui sera attribue a la revalorisation contractuelle
+        revalo_contractuelle <- besoin_contractuel
+
+        # Montant de PVL a realiser
+        pvl_a_realiser <- pvl_totale - pvl_restante
+
+
 
 
 
 
         ## ###########################
-        ## Besoins cibles => Uniquement si c'est possible
+        ## 2eme Etape : revalorisation au taux cible
+        ## Besoins cibles => Facultatifs
         ## ###########################
 
-        # Calcul de la revalorisation cible
-        revalo_cible <- min(ppe, besoin_cible)
+        # PB possible
+        pb_possible <- resultat_restant + ppe_restante
+
+        # Uniquement s'il y a de quoi verser
+        if(pb_possible > 0) {
+
+            # Calcul du besoin cible restant
+            besoin_cible_restant <- max(besoin_cible - pb_possible, 0)
+
+            # Calcul de la PB restante
+            pb_possible_restante <- max(pb_possible - besoin_cible, 0)
 
 
-        # Revalorisation cible par produit
+            # Montant de la PB qui sera versee
+            pb_versee <- pb_possible - pb_possible_restante
+
+
+
+            ### ###
+            ### Mise a jour des differents parametres
+            ### 1 - Reprise sur la PPE
+            ### 2 - Reprise sur le resultat
+            ### ###
+
+            # Modification du resultat restant
+            resultat_restant <- max(resultat_restant - max(pb_versee - ppe_restante, 0), 0)
+
+            # Modification de la PPE restante
+            ppe_restante <- max(ppe_restante - pb_versee, 0)
+
+        }
+
+        # Montant que sera attribue a la revalorisation cible
+        revalo_cible <- besoin_cible - besoin_cible_restant
+
+
+
+
+
+
+
+        ## ###########################
+        ## 3eme Etape : Gestion de la PPE
+        ## Reprise du flux, dotation du resultat restant et reprise de la PPE 8 ans
+        ## ###########################
+
+        # Flux sur la PPE
+        flux <- resultat_restant - (ppe_totale - ppe_restante)
+
+        # Dotation ou reprise de la PPE en fonction du signe
+        if(flux < 0)
+            res_ppe <- reprise_ppe(passif@provision@ppe, -flux)
+        else
+            res_ppe <- dotation_ppe(passif@provision@ppe, flux)
+
+        # Extraction de la PPE 8 ans
+        res_ppe_8ans <- reprise_ppe_8ans(res_ppe[["ppe"]])
+
+        # Mise a jour de l'objet PPE
+        passif@provision@ppe <- res_ppe_8ans[["ppe"]]
+
+        # Montant de la PPB 8 ans restant
+        ppe_8ans_restante <- res_ppe_8ans[["ppe_8ans"]]
+
+        # Flux sur la PPE
+        flux_ppe <- res_ppe[["flux"]] - ppe_8ans_restante
+
+
+
+
+
+
+
+        ## ###########################
+        ## 4eme Etape : Attribution de la PPE 8 ans
+        ## Besoins supplementaire => Facultatifs
+        ## ###########################
+
+        # Calcul de la revalorisation supplementaire
+        revalo_supp <- ppe_8ans_restante
+
+
+
+
+
+
+
+
+
+        ## ######################################################
+        ## ######################################################
+        ##
+        ##    Calcul des revalorisations par produits modelises
+        ##
+        ## ######################################################
+        ## ######################################################
+
+        ## ###########################
+        ## Revalorisation cible par produit
+        ## ###########################
+
+        # Calcul des revalo
         revalo_cible_prod <- sapply(names(besoin_revalo[["besoin_cible"]]), simplify = FALSE, USE.NAMES = TRUE, function(x){
             if(besoin_cible >0)
                 res <- besoin_revalo[["besoin_cible"]][[x]] * revalo_cible / besoin_cible
@@ -158,13 +295,9 @@ setMethod(
 
 
 
-
         ## ###########################
-        ## Revalorisation supplementaire : PPE 8 ans
+        ## Revalorisation supplementaire par produit
         ## ###########################
-
-        # Calcul de la revalorisation supplementaire
-        revalo_supp <- max(ppe8 - revalo_cible, 0)
 
         # Proportion a attribuer par produit
         prod <- passif@hyp_passif@prop_pb$produit
@@ -173,29 +306,6 @@ setMethod(
         # Calcul de la revalo supplementaire en fonction des hypotheses
         revalo_supp_prod <- sapply(prod, function(x) prop_pb[which(prod == x)] * revalo_supp,
                                    simplify = FALSE, USE.NAMES = TRUE)
-
-
-
-
-
-
-        ## ######################################################
-        ## ######################################################
-        ##
-        ##           Mise a jour de la PPE
-        ##
-        ## ######################################################
-        ## ######################################################
-
-        # Appel de la fonction
-        res_ppe <- reprise_ppe(passif@provision@ppe, revalo_cible + revalo_supp - ppe8)
-
-        # Mise a jour de l'attribut
-        passif@provision@ppe <- res_ppe[["ppe"]]
-
-        # Flux sur la PPE
-        flux_ppe <- flux_ppe - res_ppe[["reprise"]]
-
 
 
 
@@ -217,6 +327,8 @@ setMethod(
 
         # Mise a jour de l'objet
         passif@ptf_passif <- res_revalo[["ptf_passif"]]
+
+
 
 
 
@@ -248,10 +360,6 @@ setMethod(
         ## ######################################################
 
         # Liste stockant l'ensemble des revalorisations
-        # revalo <- sapply(names(besoin_revalo[["besoin_cible"]]), USE.NAMES = TRUE, simplify = FALSE,
-        #                  function(x) list(contr = besoin_revalo[["besoin_contr"]][[x]], cible = revalo_cible_prod[[x]],
-        #                                   supp = revalo_supp_prod[[x]], prestation = revalo_prestation[[x]]))
-
         revalo <- list(tmg = besoin_revalo[["besoin_contr"]],
                        pb = list(cible = revalo_cible_prod,
                                  supp = revalo_supp_prod))
@@ -264,6 +372,8 @@ setMethod(
         # Output
         return(list(passif = passif,
                     revalorisation = revalo,
+                    pvl_a_realiser = pvl_a_realiser,
+                    besoin_emprunt = emprunt,
                     flux_ppe = flux_ppe,
                     pm_cloture = pm_cloture,
                     besoin_cible = besoin_cible))
