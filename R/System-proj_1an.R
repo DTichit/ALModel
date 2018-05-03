@@ -242,8 +242,6 @@ setMethod(
         ## ######################################################
         ## ######################################################
 
-        message(paste(an, res_revalo[["besoin_emprunt"]]))
-
         # Appel de la fonction
         res_gest_fp <- gestion_fonds_propres(fp = system@passif@fonds_propres, resultat = res_resultat[["resultat"]], emprunt = res_revalo[["besoin_emprunt"]])
 

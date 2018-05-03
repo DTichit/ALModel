@@ -91,8 +91,6 @@ setMethod(
         #                     FUN = function(x) return(sum(flux[[x]] * coef_actu)))
         flux_actu <- sum(flux * coef_actu)
 
-        warning("Demander comment est calcule le coef actu afin de savoir comment il fonctionne pour actualiser ???")
-
 
 
 
