@@ -63,7 +63,7 @@ setMethod(
 
 
             # Reprise complete du montant demande
-            reprise <- montant
+            flux <- -montant
 
 
         } else {
@@ -76,13 +76,13 @@ setMethod(
             ppe@ppe <- rep(x = 0, length = 8L)
 
             # Reprise partielle du montant demande
-            reprise <- sum_ppe
+            flux <- -sum_ppe
 
         }
 
 
         # Output
         return(list(ppe = ppe,
-                    reprise = reprise))
+                    flux = flux))
     }
 )

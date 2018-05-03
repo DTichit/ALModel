@@ -25,6 +25,6 @@ setMethod(
 
         # Output
         return(list(ppe = ppe,
-                    dotation = montant))
+                    flux = montant))
     }
 )
