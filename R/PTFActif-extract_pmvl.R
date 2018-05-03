@@ -58,19 +58,19 @@ setMethod(
         ## ######################################################
 
         # Liste agregeant l'ensemble des PMVL
-        pmvl <- list(action = pmvl_action,
-                     obligation = pmvl_oblig,
-                     immobilier = pmvl_immo)
+        pmvl <- list(action = pmvl_action[["pmvl"]],
+                     obligation = pmvl_oblig[["pmvl"]],
+                     immobilier = pmvl_immo[["pmvl"]])
 
         # Liste agregeant les PVL
-        pvl <- list(action = if.is_empty(pmvl_action[which(pmvl_action > 0)], 0),
-                    obligation = if.is_empty(pmvl_oblig[which(pmvl_oblig > 0)], 0),
-                    immobilier = if.is_empty(pmvl_immo[which(pmvl_immo > 0)], 0))
+        pvl <- list(action = pmvl_action[["pvl"]],
+                    obligation = pmvl_oblig[["pvl"]],
+                    immobilier = pmvl_immo[["pvl"]])
 
         # Liste agregeant les MVL
-        mvl <- list(action = if.is_null(pmvl_action[which(pmvl_action <= 0)], 0),
-                    obligation = if.is_null(pmvl_oblig[which(pmvl_oblig <= 0)], 0),
-                    immobilier = if.is_null(pmvl_immo[which(pmvl_immo <= 0)], 0))
+        mvl <- list(action = pmvl_action[["mvl"]],
+                    obligation = pmvl_oblig[["mvl"]],
+                    immobilier = pmvl_immo[["mvl"]])
 
 
 

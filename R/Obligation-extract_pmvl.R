@@ -31,8 +31,22 @@ setMethod(
 
 
 
+        ## ###########################
+        ##    Detail : PVL et MVL
+        ## ###########################
+
+        # PVL
+        pvl <- sum(pmvl[which(pmvl > 0)])
+
+        # MVL
+        mvl <- -sum(pmvl[which(pmvl < 0)])
+
+
+
 
         # Output
-        return(pmvl)
+        return(list(pmvl = sum(pmvl),
+                    pvl = pvl,
+                    mvl = mvl))
     }
 )
