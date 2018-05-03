@@ -30,7 +30,7 @@ setMethod(
         vm_ptf <- .subset2(ptf, which(names_ptf == "valeur_marche"))
 
         # Ratio entre les VC et les VM
-        ratio_vcvm <- vc_ptf/vm_ptf
+        ratio_vcvm <- if.is_na(vc_ptf/vm_ptf, 1)
 
         # Valeur de marche totale
         vm_totale <- sum(vm_ptf)
@@ -46,13 +46,13 @@ setMethod(
         ## ###########################
 
         # Montant ajoute/supprime de la VM
-        vm_mov <- diff_alloc * (vm_ptf / vm_totale)
+        vm_mov <- diff_alloc
 
         # Montant ajoute/supprime de la VC
         if(diff_alloc < 0)
             vc_mov <- (vm_ptf + vm_mov) * ratio_vcvm - vc_ptf
         else
-            vc_mov <- diff_alloc * (vm_ptf / vm_totale)
+            vc_mov <- diff_alloc
 
 
 
