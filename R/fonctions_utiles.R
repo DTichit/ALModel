@@ -55,6 +55,17 @@ if.is_null <- function(x, replace) {
 }
 
 
+if.is_na <- function(x, replace) {
+
+    if(is.na(x))
+        out <- replace
+    else
+        out <- x
+
+    return(out)
+}
+
+
 if.is_empty <- function(x, replace) {
 
     if(length(x) == 0L)
