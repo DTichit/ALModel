@@ -57,7 +57,7 @@ setMethod(
         ## ###########################
 
         # Calcul besoin revalorisation sur les PM
-        besoin_cible <- max(sum(pm_ptf_epargne * cible) - besoin_tmg, 0)
+        besoin_cible <- sum(pm_ptf_epargne * max(cible - tmg_ptf_epargne, 0))
 
 
 
