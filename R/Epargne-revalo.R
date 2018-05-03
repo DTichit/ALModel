@@ -31,6 +31,24 @@ setMethod(
 
 
 
+        ## ######################################################
+        ## ######################################################
+        ##
+        ##               Calculs des chargements
+        ##
+        ## ######################################################
+        ## ######################################################
+
+        # Extraction des donnees
+        pm_ptf_epargne   <- .subset2(epargne@ptf, which(name_ptf == "pm"))
+        tx_chgt_gestion <- .subset2(epargne@ptf, which(name_ptf == "chgt_gestion"))
+
+        # Calcul des chargements
+        chgt_gestion <- pm_ptf_epargne * tx_chgt_gestion
+
+
+
+
 
         ## ######################################################
         ## ######################################################
@@ -110,7 +128,7 @@ setMethod(
         ## ######################################################
 
         # Revalorisation totale
-        revalo_tot <- revalo_tmg_mp + revalo_cible_mp + revalo_supp_mp
+        revalo_tot <- revalo_tmg_mp + revalo_cible_mp + revalo_supp_mp - chgt_gestion
 
         # Calcul des nouvelles PM
         new_pm <- pm_ptf_epargne + revalo_tot

@@ -115,7 +115,7 @@ setMethod(
         ## ######################################################
         ## ######################################################
         ##
-        ##               Evaluation des chargements
+        ##               Calculs des chargements
         ##
         ## ######################################################
         ## ######################################################
@@ -184,7 +184,7 @@ setMethod(
         prestations <- deces + (rachat_tot + rachat_part + rachat_conj)
 
         # Calcul des nouvelles PM
-        new_pm <- pm_ptf_epargne - prestations - chgt + prime
+        new_pm <- pm_ptf_epargne - prestations + prime
         new_nb_contr <- nb_contr_ptf_epargne * (1 - tx_deces_contr - tx_rachat_tot_contr)
 
         # Mise a jour de l'objet
