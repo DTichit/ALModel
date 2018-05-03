@@ -50,10 +50,10 @@ setMethod(
         ## ######################################################
         ## ######################################################
 
-        warning("Penser a rebrancher cette partie !")
+        # warning("Penser a rebrancher cette partie !")
         # Calcul et mise a jour des differents attributs
-        # alm@system@passif@hyp_passif@cible <- list(epargne = ctz_nom[Maturite == 10L & ProjYr > 0L, ZeroCoupon])
-        alm@system@passif@hyp_passif@cible <- list(epargne = rep(0, 100L))
+        alm@system@passif@hyp_passif@cible <- list(epargne = ctz_nom[Maturite == 10L & ProjYr > 0L, ZeroCoupon])
+        # alm@system@passif@hyp_passif@cible <- list(epargne = rep(0, 100L))
         alm@system@passif@hyp_passif@esg_simu <- list(inflation = inflation)
 
 
