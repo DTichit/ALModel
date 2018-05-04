@@ -115,36 +115,6 @@ setMethod(
         ## ######################################################
         ## ######################################################
         ##
-        ##               Calculs des chargements
-        ##
-        ## ######################################################
-        ## ######################################################
-
-        # Extraction des chargements
-        tx_chgt_gestion <- .subset2(epargne@ptf, which(name_ptf == "chgt_gestion"))
-        tx_chgt_rachats <- .subset2(epargne@ptf, which(name_ptf == "chgt_rachats"))
-        tx_chgt_deces   <- .subset2(epargne@ptf, which(name_ptf == "chgt_deces"))
-
-        # Extraction des donnees
-        pm_ptf_epargne   <- .subset2(epargne@ptf, which(name_ptf == "pm"))
-
-        # Calcul des differents chargements
-        chgt_gestion <- pm_ptf_epargne * tx_chgt_gestion
-        chgt_rachats <- (rachat_tot + rachat_part + rachat_conj) * tx_chgt_rachats
-        chgt_deces   <- deces * tx_chgt_deces
-
-        # Aggregation des chargements
-        chgt <- chgt_gestion + chgt_rachats + chgt_deces
-
-
-
-
-
-
-
-        ## ######################################################
-        ## ######################################################
-        ##
         ##                Evaluation des frais
         ##
         ## ######################################################
@@ -172,6 +142,7 @@ setMethod(
 
 
 
+
         ## ######################################################
         ## ######################################################
         ##
@@ -185,7 +156,7 @@ setMethod(
 
         # Calcul des nouvelles PM
         new_pm <- pm_ptf_epargne - prestations + prime
-        new_nb_contr <- nb_contr_ptf_epargne * (1 - tx_deces_contr - tx_rachat_tot_contr)
+        new_nb_contr <- nb_contr_ptf_epargne * (1 - tx_deces_contr - tx_rachat_tot_contr - tx_rachat_conj)
 
         # Mise a jour de l'objet
         epargne@ptf$nb_contr <- new_nb_contr
@@ -201,6 +172,37 @@ setMethod(
             epargne@ptf$age <- .subset2(epargne@ptf, which(name_ptf == "age")) + 1L
             epargne@ptf$anc <- .subset2(epargne@ptf, which(name_ptf == "anc")) + 1L
         }
+
+
+
+
+
+
+
+        ## ######################################################
+        ## ######################################################
+        ##
+        ##      Calculs des chargements sur les nouvelles PM
+        ##
+        ## ######################################################
+        ## ######################################################
+
+        # Extraction des chargements
+        tx_chgt_gestion <- .subset2(epargne@ptf, which(name_ptf == "chgt_gestion"))
+        tx_chgt_rachats <- .subset2(epargne@ptf, which(name_ptf == "chgt_rachats"))
+        tx_chgt_deces   <- .subset2(epargne@ptf, which(name_ptf == "chgt_deces"))
+
+        # Extraction des donnees
+        pm_ptf_epargne   <- .subset2(epargne@ptf, which(name_ptf == "pm"))
+
+        # Calcul des differents chargements
+        chgt_gestion <- pm_ptf_epargne * tx_chgt_gestion
+        chgt_rachats <- (rachat_tot + rachat_part + rachat_conj) * tx_chgt_rachats
+        chgt_deces   <- deces * tx_chgt_deces
+
+        # Aggregation des chargements
+        chgt <- chgt_gestion + chgt_rachats + chgt_deces
+
 
 
 
