@@ -37,10 +37,6 @@ setMethod(
         system@actif <- proj_actif[["actif"]]
 
 
-        # Mise a jour de la tresorerie
-        system@actif@ptf_actif@tresorerie@solde <- system@actif@ptf_actif@tresorerie@solde + proj_actif[["mouvement"]][["treso"]]
-
-
 
 
 
@@ -59,9 +55,6 @@ setMethod(
         # Mise a jour de l'attribut
         system@passif <- proj_passif[["passif"]]
 
-        # Mise a jour de la tresorerie
-        system@actif@ptf_actif@tresorerie@solde <- system@actif@ptf_actif@tresorerie@solde + proj_passif[["mouvement"]][["treso"]]
-
 
 
 
@@ -73,6 +66,12 @@ setMethod(
         ##
         ## ######################################################
         ## ######################################################
+
+        # Calcul du solde de tresorerie
+        solde_tresorerie <- proj_actif[["mvt_solde_treso"]] + proj_passif[["mvt_solde_treso"]]
+
+        # Mise a jour du solde de tresorerie
+        system@actif@ptf_actif@tresorerie@solde <- system@actif@ptf_actif@tresorerie@solde + solde_tresorerie
 
         # Projection sur une annee des passifs
         res_realloc <- rebalancement_actif(actif = system@actif)
@@ -169,7 +168,7 @@ setMethod(
         pvl <- extract_pmvl_ptf_actif(system@actif@ptf_actif)[["pvl"]]
 
         # Appel de la fonction
-        res_revalo <- revalo_passif(passif = system@passif, resultat = res_fin_pm + result_tech, pvl = pvl,
+        res_revalo <- revalo_passif(passif = system@passif, resultat = max(res_fin_pm, 0) + max(result_tech, 0), pvl = pvl,
                                     revalo_prestation = proj_passif[["besoin"]][["revalo_prest"]], an = an)
 
         # Mise a jour de l'objet

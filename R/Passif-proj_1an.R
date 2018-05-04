@@ -96,6 +96,6 @@ setMethod(
                     pm_ouverture = pm_overture,
                     flux = res_proj_ptf[["flux"]],
                     besoin = res_proj_ptf[["besoin"]],
-                    mouvement = list(treso = mvt_treso)))
+                    mvt_solde_treso = mvt_treso))
     }
 )
