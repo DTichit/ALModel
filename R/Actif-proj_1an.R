@@ -97,6 +97,6 @@ setMethod(
                                 frais = frais_fin[["frais"]],
                                 var_vnc = res_gestion[["flux"]][["var_vnc"]]),
                     pmvl = res_gestion[["pmvl"]],
-                    mouvement = list(treso = mvt_treso)))
+                    mvt_solde_treso = mvt_treso))
     }
 )
