@@ -85,7 +85,7 @@ setMethod(
 
 
             # Ajout du nouveau PTF
-            ptf <-  rbind.data.frame(ptf, ptf_cible)
+            ptf <-  dplyr::bind_rows(ptf, ptf_cible)
 
 
         } else {

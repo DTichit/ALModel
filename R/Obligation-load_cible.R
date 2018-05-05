@@ -21,7 +21,7 @@ setMethod(
 
         # Lecture du fichier
         temp <- read.csv2(address, header = TRUE,
-                          colClasses = c("numeric", "numeric", "numeric", "numeric", "integer", "factor", "factor", "numeric"))
+                          colClasses = c("numeric", "numeric", "numeric", "numeric", "integer", "character", "character", "numeric"))
 
         # Test sur la somme des proportions
         if(sum(temp$prop) != 1)
@@ -29,6 +29,9 @@ setMethod(
 
         # Creation du dataframe
         df <- data.frame(id_mp = paste("ob", "cib", 1L:nrow(temp), sep = "-"), temp, cible = TRUE)
+
+        # Passage de factor en character
+        df <- df %>% mutate_if(is.factor, as.character)
 
         # Creation de l'objet
         obligation <- new("Obligation", ptf = df)
