@@ -56,7 +56,8 @@ setMethod(
         prime <- list(epargne = res_proj_epargne[["flux"]][["prime"]])
 
         # Chargements
-        chargement <- list(epargne = res_proj_epargne[["flux"]][["chargement"]])
+        chargement <- list(administration = list(epargne = res_proj_epargne[["flux"]][["chargement"]][["administration"]]),
+                           acquisition = list(epargne = res_proj_epargne[["flux"]][["chargement"]][["acquisition"]]))
 
         # Frais
         frais <- list(epargne = res_proj_epargne[["flux"]][["frais"]])
