@@ -98,13 +98,21 @@ setMethod(
         ## ######################################################
         ## ######################################################
         ##
-        ##            Evaluation des primes versees
+        ##          Evaluation des primes versees deduites
+        ##               des chargements d'acquisition
         ##
         ## ######################################################
         ## ######################################################
 
         # Extraction des donnees
+        tx_chgt_acquisition <- .subset2(epargne@ptf, which(name_ptf == "chgt_acquisition"))
         prime <- .subset2(epargne@ptf, which(name_ptf == "prime"))
+
+        # Calcul des chargements d'acquisisition
+        chgt_acquisition <- tx_chgt_acquisition * prime
+
+        # Montant des primes ajoutees aux PM
+        primes_ajoutees <- prime - chgt_acquisition
 
 
 
@@ -155,7 +163,7 @@ setMethod(
         prestations <- deces + (rachat_tot + rachat_part + rachat_conj)
 
         # Calcul des nouvelles PM
-        new_pm <- pm_ptf_epargne - prestations + prime
+        new_pm <- pm_ptf_epargne - prestations + primes_ajoutees
         new_nb_contr <- nb_contr_ptf_epargne * (1 - tx_deces_contr - tx_rachat_tot_contr - tx_rachat_conj)
 
         # Mise a jour de l'objet
@@ -187,21 +195,15 @@ setMethod(
         ## ######################################################
         ## ######################################################
 
-        # Extraction des chargements
-        tx_chgt_gestion <- .subset2(epargne@ptf, which(name_ptf == "chgt_gestion"))
-        tx_chgt_rachats <- .subset2(epargne@ptf, which(name_ptf == "chgt_rachats"))
-        tx_chgt_deces   <- .subset2(epargne@ptf, which(name_ptf == "chgt_deces"))
-
         # Extraction des donnees
-        pm_ptf_epargne   <- .subset2(epargne@ptf, which(name_ptf == "pm"))
+        tx_chgt_administration  <- .subset2(epargne@ptf, which(name_ptf == "chgt_administration"))
+        pm_ptf_epargne          <- .subset2(epargne@ptf, which(name_ptf == "pm"))
 
-        # Calcul des differents chargements
-        chgt_gestion <- pm_ptf_epargne * tx_chgt_gestion
-        chgt_rachats <- (rachat_tot + rachat_part + rachat_conj) * tx_chgt_rachats
-        chgt_deces   <- deces * tx_chgt_deces
+        # Calcul des chargements
+        chgt_administration <- pm_ptf_epargne * tx_chgt_administration
 
-        # Aggregation des chargements
-        chgt <- chgt_gestion + chgt_rachats + chgt_deces
+        # Somme des chargements
+        chgt <- chgt_administration + chgt_acquisition
 
 
 
@@ -232,9 +234,8 @@ setMethod(
                                                   rachat_part = sum(rachat_part),
                                                   rachat_conj = sum(rachat_conj)),
                                 prime = sum(prime),
-                                chargement = list(gestion = sum(chgt_gestion),
-                                                  rachats = sum(chgt_rachats),
-                                                  deces = sum(chgt_deces)),
+                                chargement = list(administration = sum(chgt_administration),
+                                                  acquisition = sum(chgt_acquisition)),
                                 frais = list(gestion = sum(frais_gestion),
                                              rachats = sum(frais_rachats),
                                              deces = sum(frais_deces))),

@@ -20,7 +20,8 @@ setMethod(
         temp <- (epargne@ptf %>% group_by(sexe, age, anc, tmg)
                  %>% summarise(revalo_prec = weighted.mean(revalo_prec, pm),
                                prime = sum(prime),
-                               chgt_gestion = weighted.mean(chgt_gestion, pm),
+                               chgt_administration = weighted.mean(chgt_administration, pm),
+                               chgt_acquisition = weighted.mean(chgt_acquisition, pm),
                                chgt_rachats = weighted.mean(chgt_rachats, pm),
                                chgt_deces = weighted.mean(chgt_deces, pm),
                                frais_uni_gestion = weighted.mean(frais_uni_gestion, nb_contr),
