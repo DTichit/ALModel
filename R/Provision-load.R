@@ -24,10 +24,11 @@ setMethod(
         # Creation des attributs
         ppe             <- load_ppe(paste(address, "01_PPE", "ppe.csv", sep = "/"))
         reserve_capi    <- load_reserve_capi(paste(address, "02_ReserveCapi", "reserve_capi.csv", sep = "/"))
+        pre             <- load_pre(paste(address, "03_PRE", "pre.csv", sep = "/"))
 
         # Creation de l'objet
         provision <- new("Provision",
-                         ppe = ppe, reserve_capi = reserve_capi)
+                         ppe = ppe, reserve_capi = reserve_capi, pre = pre)
 
         # Output
         return(provision)
