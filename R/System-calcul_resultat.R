@@ -28,8 +28,8 @@ setMethod(
         ##    Marge de souscription
         ## ###########################
 
-        mg_souscription <- resultat[["charges_pm"]] + resultat[["prime"]] - resultat[["prestation"]] -
-            resultat[["chgt"]] + resultat[["revalo_pm"]]
+        mg_souscription <- resultat[["charges_pm"]] + resultat[["prime"]] - resultat[["chgt"]][["acquisition"]] -
+            resultat[["prestation"]] - resultat[["chgt"]][["administration"]] + resultat[["revalo_pm"]]
 
 
 
@@ -37,7 +37,7 @@ setMethod(
         ##      Marge de gestion
         ## ###########################
 
-        mg_gestion <- resultat[["chgt"]] - resultat[["frais"]]
+        mg_gestion <- resultat[["chgt"]][["administration"]] + resultat[["chgt"]][["acquisition"]] - resultat[["frais"]]
 
 
 
@@ -45,7 +45,7 @@ setMethod(
         ##      Marge financiere
         ## ###########################
 
-        mg_financiere <- resultat[["resultat_fin"]] - resultat[["charges_rc"]] - resultat[["charges_ppe"]] - resultat[["revalo_pm"]]
+        mg_financiere <- resultat[["resultat_fin"]] - resultat[["charges_rc"]] - resultat[["charges_ppe"]] - resultat[["charges_pre"]] - resultat[["revalo_pm"]]
 
 
 
@@ -53,7 +53,7 @@ setMethod(
         ##    Resultat financier FP
         ## ###########################
 
-        res_fin_fp <- resultat[["res_fin_fp"]]
+        # res_fin_fp <- resultat[["res_fin_fp"]]
 
 
 
@@ -69,7 +69,7 @@ setMethod(
         ## ######################################################
 
         # Calcul du resultat
-        resultat <- mg_souscription + mg_gestion + mg_financiere + res_fin_fp
+        resultat <- mg_souscription + mg_gestion + mg_financiere
 
 
 
@@ -83,7 +83,8 @@ setMethod(
         return(list(resultat = resultat,
                     marges = list(souscription = mg_souscription,
                                   gestion = mg_gestion,
-                                  financiere = mg_financiere,
-                                  res_fin_fp = res_fin_fp)))
+                                  financiere = mg_financiere
+                                  #, res_fin_fp = res_fin_fp
+                                  )))
     }
 )
