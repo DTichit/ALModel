@@ -109,6 +109,29 @@ setMethod(
 
 
 
+
+
+        ## ######################################################
+        ## ######################################################
+        ##
+        ##          Premiere gestion de la PRE
+        ##
+        ## ######################################################
+        ## ######################################################
+
+        # Visualisation des PMV latentes
+        pmvl <- extract_pmvl_ptf_actif(system@actif@ptf_actif)[["pmvl"]]
+
+        # Appel de la fonction
+        res_dot_pre1 <- dotation_pre(pre = system@passif@provision@pre, pmvl = pmvl)
+
+        # Mise a jour de la provision
+        system@passif@provision@pre <- res_dot_pre1[["pre"]]
+
+
+
+
+
         ## ######################################################
         ## ######################################################
         ##
@@ -119,7 +142,7 @@ setMethod(
 
         # Mise en forme des donnees
         result_fin <- list(produits = proj_actif[["flux"]][["prod_fin"]],
-                           pmvr = pmvr,
+                           pmvr = res_realloc[["pmvr"]],
                            var_vnc = proj_actif[["flux"]][["var_vnc"]],
                            frais = proj_actif[["flux"]][["frais"]])
         result_tech <- list(frais = proj_passif[["flux"]][["frais"]],
@@ -147,10 +170,10 @@ setMethod(
         quote_part_fp <- calcul_quote_part_fp(passif = system@passif)
 
         # Resultat financier en face des fonds propres
-        res_fin_fp <- result_fin * quote_part_fp
+        res_fin_fp <- (result_fin - res_reserve_capi[["flux"]]) * quote_part_fp
 
-        # Resultat financier lie a la PM
-        res_fin_pm <- result_fin  * (1 - quote_part_fp)
+        # Resultat financier a incorporer aux PM
+        res_fin_pm <- (result_fin - res_reserve_capi[["flux"]])  * (1 - quote_part_fp)
 
 
 
@@ -185,10 +208,7 @@ setMethod(
         ## ######################################################
         ## ######################################################
 
-        # Montant de PVL devant etre realisees
-        pvl_a_realiser <- res_revalo[["pvl_a_realiser"]]
-
-        if(pvl_a_realiser > 0) {
+        if(res_revalo[["pvl_a_realiser"]] > 0) {
 
             # Appel de la fonction
             res_real_pvl <- realisation_pvl_ptf_actif(ptf_actif = system@actif@ptf_actif, montant = res_revalo[["pvl_a_realiser"]])
@@ -196,9 +216,32 @@ setMethod(
             # Mise a jour de l'attribut
             system@actif@ptf_actif <- res_real_pvl[["ptf_actif"]]
 
-            # Somme des PVL realises
+            # Somme des PVL realisees
             pvl_realisees <- sum_list(res_real_pvl[["pvr"]], 1L)
         }
+
+
+
+
+
+
+
+        ## ######################################################
+        ## ######################################################
+        ##
+        ##              Seconde gestion de la PRE
+        ##
+        ## ######################################################
+        ## ######################################################
+
+        # Visualisation des PMV latentes
+        pmvl <- extract_pmvl_ptf_actif(system@actif@ptf_actif)[["pmvl"]]
+
+        # Appel de la fonction
+        res_dot_pre2 <- dotation_pre(pre = system@passif@provision@pre, pmvl = pmvl)
+
+        # Mise a jour de la provision
+        system@passif@provision@pre <- res_dot_pre2[["pre"]]
 
 
 
@@ -219,11 +262,12 @@ setMethod(
                          revalo_pm = sum_list(res_revalo$revalorisation$tmg, 1L) + sum_list(res_revalo$revalorisation$pb, 2L),
                          revalo_prest = sum_list(proj_passif[["besoin"]][["revalo_prest"]], 1L),
                          frais = sum_list(proj_passif$flux$frais, 2L),
-                         chgt = sum_list(proj_passif$flux$chargement, 2L),
-                         resultat_fin = result_fin - res_fin_fp + res_realloc[["pmvr"]]$obligation + if.is_null(get0("pvl_realisees"), 0L),
+                         chgt = list(administration = sum_list(proj_passif$flux$chargement$administration, 1L),
+                                     acquisition = sum_list(proj_passif$flux$chargement$acquisition, 1L)),
+                         resultat_fin = result_fin + if.is_null(get0("pvl_realisees"), 0L),
                          charges_rc = res_reserve_capi[["flux"]],
                          charges_ppe = res_revalo[["flux_ppe"]],
-                         res_fin_fp = res_fin_fp)
+                         charges_pre = res_dot_pre1[["flux"]] + res_dot_pre2[["flux"]])
 
         # Calcul du resultat de l'exercice
         res_resultat <- calcul_resultat(resultat)
@@ -296,11 +340,6 @@ setMethod(
                              FUN = function(x) return(do.call(sum, proj_passif[["flux"]][["frais"]][[x]])),
                              simplify = FALSE, USE.NAMES = TRUE)
 
-        # Chargements par produit
-        charg_prod <- sapply(X = name_passif,
-                             FUN = function(x) return(do.call(sum, proj_passif[["flux"]][["chargement"]][[x]])),
-                             simplify = FALSE, USE.NAMES = TRUE)
-
         # Primes par produit
         prime_prod <- proj_passif[["flux"]][["prime"]]
 
@@ -317,8 +356,7 @@ setMethod(
         # flux_bel <- sapply(X = name_passif,
         #                    FUN = function(x) return(frais_prod[[x]] + prestation_prod[[x]] - prime_prod[[x]] - charg_prod[[x]]),
         #                    simplify = FALSE, USE.NAMES = TRUE)
-        flux_bel <- (sum_list(prestation_prod, 1L) + sum_list(frais_prod, 1L) + frais_fin) -
-            (sum_list(prime_prod, 1L) + sum_list(charg_prod, 1L))
+        flux_bel <- (sum_list(prestation_prod, 1L) + sum_list(frais_prod, 1L) + frais_fin) - (sum_list(prime_prod, 1L))
 
 
         ## ###########################
@@ -343,7 +381,8 @@ setMethod(
                                            emprunt = res_revalo[["besoin_emprunt"]]),
                       provision = list(image = system@passif@provision,
                                        flux = list(reserve_capi = res_reserve_capi[["flux"]],
-                                                   ppe = res_revalo[["flux_ppe"]])))
+                                                   ppe = res_revalo[["flux_ppe"]],
+                                                   pre = res_dot_pre1[["flux"]] + res_dot_pre2[["flux"]])))
 
 
 
@@ -352,6 +391,5 @@ setMethod(
         return(list(system = system,
                     flux_bel = flux_bel,
                     stock = stock))
-
     }
 )
