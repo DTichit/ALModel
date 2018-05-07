@@ -85,7 +85,7 @@ setMethod(
         prestation <- sum_list(res_proj_ptf[["flux"]][["prestation"]], 2L)
 
         # Mouvement sur la tresorerie
-        mvt_treso <- prime + chargement - frais - prestation
+        mvt_treso <- prime - frais - prestation
 
 
 
