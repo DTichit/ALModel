@@ -18,6 +18,18 @@ setMethod(
     definition = function(fp, resultat, emprunt){
 
 
+
+
+        ## ###########################
+        ## Mise a jour du report a nouveau avec le resultat precedent
+        ## ###########################
+
+        # Mise a jour de l'attribut
+        fp@report_a_nouveau <- fp@report_a_nouveau + fp@resultat_exercice
+
+
+
+
         ## ###########################
         ##   Mise a jour du resultat
         ## ###########################
@@ -25,15 +37,6 @@ setMethod(
         # Mise a jour de l'attribut
         fp@resultat_exercice <- resultat
 
-
-
-
-        ## ###########################
-        ##   Mise a jour du report a nouveau
-        ## ###########################
-
-        # Mise a jour de l'attribut
-        fp@report_a_nouveau <- fp@report_a_nouveau + resultat
 
 
 
