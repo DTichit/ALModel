@@ -39,6 +39,13 @@ setMethod(
         ppe <- sum(passif@provision@ppe@ppe)
 
 
+        ## ###########################
+        ##              PRE
+        ## ###########################
+
+        pre <- sum(passif@provision@pre@montant)
+
+
 
 
 
@@ -50,13 +57,14 @@ setMethod(
         ## ######################################################
         ## ######################################################
 
-        pt_tot <- sum_list(pm, 1L) + ppe
+        pt_tot <- sum_list(pm, 1L) + ppe + pre
 
 
 
         # Output
         return(list(total = pt_tot,
                     pt = list(pm = pm,
-                              ppe = ppe)))
+                              ppe = ppe,
+                              pre = pre)))
     }
 )

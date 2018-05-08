@@ -22,13 +22,7 @@ setMethod(
         ## ###########################
 
         # Determination des PMs totales
-        pm <- calcul_pm(passif@ptf_passif)
-
-        # PM totales
-        pm <- sum_list(pm, 1L)
-
-        # PPE totale
-        ppe <- sum(passif@provision@ppe@ppe)
+        pt <- calcul_pt(passif)[["total"]]
 
 
 
@@ -41,7 +35,7 @@ setMethod(
         fp <- passif@fonds_propres@capital_social + passif@fonds_propres@report_a_nouveau
 
         # Quote-Part capitaux propres
-        qp_cp <- fp / (fp + pm + ppe)
+        qp_cp <- fp / (fp + pt)
 
 
 
