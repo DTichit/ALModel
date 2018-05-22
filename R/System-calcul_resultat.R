@@ -45,7 +45,7 @@ setMethod(
         ##      Marge financiere
         ## ###########################
 
-        mg_financiere <- resultat[["resultat_fin"]] - resultat[["charges_rc"]] - resultat[["charges_ppe"]] - resultat[["charges_pre"]] - resultat[["revalo_pm"]]
+        mg_financiere <- resultat[["resultat_fin"]] - resultat[["charges_rc"]] - resultat[["charges_ppe"]] - resultat[["charges_pre"]] - resultat[["revalo_pm"]] - resultat[["revalo_prest"]]
 
 
 

@@ -83,9 +83,10 @@ setMethod(
         chargement <- sum_list(res_proj_ptf[["flux"]][["chargement"]], 2L)
         frais <- sum_list(res_proj_ptf[["flux"]][["frais"]], 2L)
         prestation <- sum_list(res_proj_ptf[["flux"]][["prestation"]], 2L)
+        revalo_prestation <- sum_list(res_proj_ptf[["besoin"]][["revalo_prest"]], 1L)
 
         # Mouvement sur la tresorerie
-        mvt_treso <- prime - frais - prestation
+        mvt_treso <- prime - frais - prestation - revalo_prestation
 
 
 
