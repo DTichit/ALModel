@@ -184,8 +184,9 @@ setMethod(
         ## ###########################
 
         # Calcul de la nouvelle VNC
-        # new_vnc <- vnc_ptf - (nominal_ptf * coupon_ptf) * exp(spread_ptf) * exp(-tri_ptf * (mat_res_ptf + 1L)) - new_vr * exp(spread_ptf) * exp(-tri_ptf * (mat_res_ptf + 1L)) + new_vr * exp(-tri_ptf * mat_res_ptf)
-        # new_vnc <- exp(-spread_ptf) * (vnc_ptf - (nominal_ptf * coupon_ptf) * exp(spread_ptf) * exp(-tri_ptf * (mat_res_ptf + 1L)) - new_vr * exp(spread_ptf) * exp(-tri_ptf * (mat_res_ptf + 1L)) + new_vr * exp(spread_ptf) * exp(-tri_ptf * mat_res_ptf))
+        # new_vnc <- exp(-spread_ptf) * (vnc_ptf - (exp(spread_ptf) * (nominal_ptf * coupon_ptf) * exp(-tri_ptf * (mat_res_ptf + 1L))) -
+        #                                    vr_ptf * exp(-tri_ptf * (mat_res_ptf + 1L)) + vr_ptf * exp(-tri_ptf * (mat_res_ptf)))
+
         new_vnc <- sapply(1L:nrow(obligation@ptf), function(id){
 
             # Extraction de donnees
@@ -193,7 +194,7 @@ setMethod(
 
             # Calcul de la VNC
             if(mat_res > 0)
-                vnc <- sum(coupon_ptf[id] * nominal_ptf[id] * exp(-tri_ptf[id] * 1L:mat_res)) + vr_ptf[id] * exp(-tri_ptf[id] * mat_res)
+                vnc <- sum(coupon_ptf[id] * nominal_ptf[id] * exp(-tri_ptf[id] * 1L:mat_res)) + vr_ptf[id] * exp(-(tri_ptf[id] * mat_res + spread_ptf[id]))
             else
                 vnc <- vr_ptf[id] * exp(-spread_ptf[id])
 
