@@ -28,7 +28,8 @@ setMethod(
         hyp_alm <- alm@hyp_alm
 
         # Initialisation de la liste contenant les flux par annee
-        flux_be_simu    <- list()
+        flux_bel_simu   <- list()
+        flux_nav_simu   <- list()
         stock           <- list()
 
 
@@ -92,11 +93,12 @@ setMethod(
         ## ###########################
 
         # Extraction des flux actualises
-        flux_actu <-  sapply(1L:(hyp_alm@nb_simu), function(y) return(flux_be[[y]][["flux_actu"]]))
+        flux_nav_actu <-  sapply(1L:(hyp_alm@nb_simu), function(y) return(flux_be[[y]][["flux_actu"]][["nav"]]))
+        flux_bel_actu <-  sapply(1L:(hyp_alm@nb_simu), function(y) return(flux_be[[y]][["flux_actu"]][["bel"]]))
 
         # Moyenne sur les simulations
-        # be <- sapply(X = names(flux_actu), function(x) {mean(flux_actu[[x]])})
-        be <- mean(flux_actu)
+        nav <- mean(flux_nav_actu)
+        be  <- mean(flux_bel_actu)
 
 
 
@@ -109,7 +111,9 @@ setMethod(
 
         # Output
         return(list(be = list(be = be,
-                              flux_actu = flux_actu),
+                              nav = nav,
+                              flux_actu = list(bel = flux_bel_actu,
+                                               nav = flux_nav_actu)),
                     stock = stock))
     }
 )

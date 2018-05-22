@@ -40,7 +40,8 @@ setMethod(
         system  <- alm@system
 
         # Initialisation de la liste contenant les flux par annee
-        flux_be_simu    <- list()
+        flux_bel_simu   <- list()
+        flux_nav_simu   <- list()
         stock_simu      <- list()
 
 
@@ -59,7 +60,8 @@ setMethod(
             system <- res_proj[["system"]]
 
             # Mise en memoire des flux
-            flux_be_simu[[an]]  <- res_proj[["flux_bel"]]
+            flux_bel_simu[[an]]  <- res_proj[["flux"]][["bel"]]
+            flux_nav_simu[[an]] <- res_proj[["flux"]][["nav"]]
             stock_simu[[an]]    <- res_proj[["stock"]]
         }
 
@@ -83,10 +85,11 @@ setMethod(
         ## ###########################
 
         # Extraction des donnees de projection
-        flux <- unlist(flux_be_simu)
+        flux_bel <- unlist(flux_bel_simu)
+        flux_nav <- unlist(flux_nav_simu)
 
         # Ajout des donnees de fin de projection
-        flux[an_proj] <- flux[an_proj] + res_fin_proj[["fin_projection"]][["assures"]]
+        flux_bel[an_proj] <- flux_bel[an_proj] + res_fin_proj[["fin_projection"]][["assures"]]
 
 
 
@@ -99,14 +102,16 @@ setMethod(
         coef_actu <- res_esg[["coef_actu"]][ProjYr <= an_proj, CoefActu]
 
         # Actualisation
-        flux_actu <- sum(flux * coef_actu)
+        flux_bel_actu <- sum(flux_bel * coef_actu)
+        flux_nav_actu <- sum(flux_nav * coef_actu)
 
 
 
 
 
         # Output
-        return(list(out = list(flux_actu = flux_actu,
+        return(list(out = list(flux_actu = list(bel = flux_bel_actu,
+                                                nav = flux_nav_actu),
                                stock = stock_simu,
                                fin_projection = res_fin_proj[["fin_projection"]]),
                     system = system))

@@ -349,14 +349,15 @@ setMethod(
 
 
         ## ###########################
-        ##      Flux calcul BEL
+        ##   Flux calcul BEL et NAV
         ## ###########################
 
         # Somme des flux necessaires au calcul du BEL
-        # flux_bel <- sapply(X = name_passif,
-        #                    FUN = function(x) return(frais_prod[[x]] + prestation_prod[[x]] - prime_prod[[x]] - charg_prod[[x]]),
-        #                    simplify = FALSE, USE.NAMES = TRUE)
         flux_bel <- (sum_list(prestation_prod, 1L) + sum_list(frais_prod, 1L) + frais_fin) - (sum_list(prime_prod, 1L))
+
+        # Somme des flux necessaires au calcul de la NAV
+        flux_nav <- res_resultat[["resultat"]]
+
 
 
         ## ###########################
@@ -389,7 +390,8 @@ setMethod(
 
         # Output
         return(list(system = system,
-                    flux_bel = flux_bel,
+                    flux = list(bel = flux_bel,
+                                nav = flux_nav),
                     stock = stock))
     }
 )
