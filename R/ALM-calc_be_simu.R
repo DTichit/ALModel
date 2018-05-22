@@ -65,16 +65,28 @@ setMethod(
 
 
 
+        ## ###########################
+        ##  Gestion fin de projection
+        ## ###########################
+
+        # Appel de la fonction
+        res_fin_proj <- gestion_fin_projection_system(system = system)
+
+        # Mise a jour de l'attribut
+        system <- res_fin_proj[["system"]]
+
+
 
 
         ## ###########################
         ## Aggregation des flux par produit
         ## ###########################
 
-        # flux <- sapply(X = names(flux_be_simu[[1L]]),
-        #                FUN = function(x) {sapply(X = 1L:(an_proj), FUN = function(y) return(flux_be_simu[[y]][[x]]))},
-        #                simplify = FALSE, USE.NAMES = TRUE)
+        # Extraction des donnees de projection
         flux <- unlist(flux_be_simu)
+
+        # Ajout des donnees de fin de projection
+        flux[an_proj] <- flux[an_proj] + res_fin_proj[["fin_projection"]][["assures"]]
 
 
 
@@ -87,8 +99,6 @@ setMethod(
         coef_actu <- res_esg[["coef_actu"]][ProjYr <= an_proj, CoefActu]
 
         # Actualisation
-        # flux_actu <- sapply(X = names(flux), simplify = FALSE, USE.NAMES = TRUE ,
-        #                     FUN = function(x) return(sum(flux[[x]] * coef_actu)))
         flux_actu <- sum(flux * coef_actu)
 
 
@@ -97,7 +107,8 @@ setMethod(
 
         # Output
         return(list(out = list(flux_actu = flux_actu,
-                               stock = stock_simu),
+                               stock = stock_simu,
+                               fin_projection = res_fin_proj[["fin_projection"]]),
                     system = system))
     }
 )
