@@ -32,7 +32,7 @@ setMethod(
         ## ###########################
 
         # Total des fonds propres
-        fp <- passif@fonds_propres@capital_social + passif@fonds_propres@report_a_nouveau
+        fp <- passif@fonds_propres@capitaux_propres + passif@fonds_propres@report_a_nouveau
 
         # Quote-Part capitaux propres
         qp_cp <- fp / (fp + pt)

@@ -21,7 +21,7 @@ setMethod(
         temp <- read.csv2(paste(address, "fonds_propres.csv", sep = "/"), header = FALSE)
 
         # Creation de l'objet
-        fp <- new("FondsPropres", capital_social = temp[1L, 2L], report_a_nouveau = temp[2L, 2L],
+        fp <- new("FondsPropres", capitaux_propres = temp[1L, 2L], report_a_nouveau = temp[2L, 2L],
                   resultat_exercice = 0)
 
         # Output
