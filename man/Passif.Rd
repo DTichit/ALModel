@@ -15,6 +15,8 @@ Cette classe aggrege l'ensemble des donnees relatives au passif de la compagnie 
 \item{\code{hyp_passif}}{est un objet de la classe \code{\link{HypPassif}} contenant l'ensemble des hypotheses du passif.}
 
 \item{\code{provision}}{est un objet de la classe \code{\link{Provision}}.}
+
+\item{\code{fonds_propres}}{est un objet de la classe \code{\link{FondsPropres}}.}
 }}
 
 \author{

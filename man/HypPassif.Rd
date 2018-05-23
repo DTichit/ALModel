@@ -25,6 +25,10 @@ Cette classe aggrege l'ensemble des hypotheses relatives au passif d'une compagn
 \item{\code{prop_pb}}{est un \code{data.frame} qui indique la proportion a attribue dans le cas ou les besoins ont ete assouvis (apres besoins contractuels et cible).}
 
 \item{\code{cible}}{est une \code{list} contenant les differents taux cibles par produits.}
+
+\item{\code{esg_simu}}{est une \code{list} reprenant les donnees de l'ESG pour une simulation : taux cibles et inflation.}
+
+\item{\code{dividende}}{est un \code{numeric} representant le taux de dividendes verse chaque annee aux actionnaires.}
 }}
 
 \seealso{

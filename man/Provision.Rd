@@ -13,6 +13,8 @@ Cette classe aggrege les differentes provisions relatives au passif d'une compag
 \item{\code{ppe}}{est un objet de la classe \code{\link{PPE}}.}
 
 \item{\code{reserve_capi}}{est un objet de la classe \code{\link{ReserveCapi}}.}
+
+\item{\code{pre}}{est un objet de la classe \code{\link{PRE}}.}
 }}
 
 \author{
