@@ -111,9 +111,9 @@ setMethod(
 
         # Output
         return(list(be = list(be = be,
-                              nav = nav,
-                              flux_actu = list(bel = flux_bel_actu,
-                                               nav = flux_nav_actu)),
+                              flux_actu = flux_bel_actu),
+                    nav = list(nav = nav,
+                               flux_actu = flux_actu_nav),
                     stock = stock))
     }
 )
