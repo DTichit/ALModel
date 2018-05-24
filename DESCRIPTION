@@ -12,7 +12,8 @@ LazyData: true
 RoxygenNote: 6.0.1
 Depends:
     R (>= 3.4.4), doParallel(>= 1.0.11), dplyr(>= 0.7.4), data.table(>= 1.10.4-3), stringr(>= 1.3.0)
-Imports: utils, methods
+Imports: Rcpp (>= 0.12.16), utils, methods
+LinkingTo: Rcpp
 Collate: 
     'ESG-class.R'
     'HypALM-class.R'
@@ -26,6 +27,7 @@ Collate:
     'Tresorerie-class.R'
     'PTFActif-class.R'
     'Actif-class.R'
+    'FondsPropres-class.R'
     'PRE-class.R'
     'ReserveCapi-class.R'
     'Provision-class.R'
@@ -81,7 +83,6 @@ Collate:
     'Epargne-calc_proba.R'
     'Epargne-proj_1an.R'
     'Epargne-revalo.R'
-    'FondsPropres-class.R'
     'FondsPropres-gestion.R'
     'FondsPropres-load.R'
     'Immobilier-aggregation.R'
@@ -127,6 +128,7 @@ Collate:
     'Passif-revalo.R'
     'RachatConj-calc.R'
     'RachatConj-load.R'
+    'RcppExports.R'
     'ReserveCapi-dotation.R'
     'SiALM.R'
     'System-calcul_pb.R'
