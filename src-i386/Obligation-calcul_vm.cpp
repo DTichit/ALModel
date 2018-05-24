@@ -13,42 +13,45 @@ using namespace Rcpp;
 //' @param yield un vecteur contenant la courbe de taux utilisee.
 //' @author Damien Tichit pour Sia Partners
 //' @export
-//' @include Obligation-class.R
+//' @include
 
 
 // [[Rcpp::export]]
-NumericMatrix calcul_vm_obligation(NumericVector coupon, NumericVector mat_res, NumericVector valeur_remboursement, NumericVector zspread, NumericVector yield) {
+NumericVector calcul_vm_obligation(NumericVector coupon, NumericVector mat_res, NumericVector valeur_remboursement, NumericVector spread, NumericVector yield) {
 
-    int mat_max = max(mat_res);
-    int n_oblig = coupon.size();
-    int len_yield = yield.size();
-    bool yield_bool = (len_yield > 0);
+    int nb_oblig = coupon.size();
 
-    if(mat_max <= 1) mat_max = 2;
-
-    NumericMatrix out(n_oblig, mat_max);
+    NumericVector vm(nb_oblig);
 
 
-    for (int i=0; i<n_oblig; i++) {
-        for (int j=0; j<mat_max; j++) {
+    // Boucle sur le nombre d'obligations
+    for(int i=0; i<nb_oblig; i++) {
 
-            if((j+1) <= mat_res(i)) {
-                out(i,j) = coupon(i);
+        if(mat_res(i) > 0) {
 
+            // Initialisation
+            vm(i) = 0;
+
+            // Boucle sur les maturites
+            for(int j=0; j<mat_res(i); j++) {
+
+                // Comptabilisation des coupons
+                vm(i) += coupon(i) * exp(-(j + 1) * (spread(i) + yield(j)));
+
+                // Ajout de la VR a la maturite residuelle
                 if((j+1) == mat_res(i))
-                    out(i,j) += valeur_remboursement(i);
-            }
-            else {
-                out(i,j) = 0; // Initialisation
-            }
+                    vm(i) += valeur_remboursement(i) * exp(-(j + 1) * (spread(i) + yield(j)));
 
-
-            if(yield_bool)
-                out(i,j) *= exp(-(yield(j) + zspread(i)));
+            }
 
         }
-    }
 
-    return out;
-}
+        else {
+            vm(i) = valeur_remboursement(i) * exp(-spread(i));
+        };
+
+    };
+
+    return vm;
+};
 
