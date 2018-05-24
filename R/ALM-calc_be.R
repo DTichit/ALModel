@@ -113,7 +113,7 @@ setMethod(
         return(list(be = list(be = be,
                               flux_actu = flux_bel_actu),
                     nav = list(nav = nav,
-                               flux_actu = flux_actu_nav),
+                               flux_actu = flux_nav_actu),
                     stock = stock))
     }
 )
