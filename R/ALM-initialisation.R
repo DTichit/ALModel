@@ -4,8 +4,7 @@
 ##'
 ##' @name initialisation_alm
 ##' @docType methods
-##' @param address est un objet de type \code{character} indiquant le dossier dans lequel se situe l'ensemble des donnees necessaire
-##' pour la construction de l'objet.
+##' @param alm est un objet de type \code{\link{ALM}}.
 ##' @author Damien Tichit pour Sia Partners
 ##' @seealso Construction d'un objet de type \code{\link{ALM}} : \code{\link{load_alm}}.
 ##' @seealso Premiere aggregation d'un objet de type \code{\link{ALM}} : \code{\link{aggregation_alm}}.
@@ -13,14 +12,11 @@
 ##' @export
 ##' @include ALM-class.R ALM-aggregation.R ALM-load.R Passif-aggregation_2.R
 ##'
-setGeneric(name = "initialisation_alm", def = function(address) {standardGeneric("initialisation_alm")})
+setGeneric(name = "initialisation_alm", def = function(alm) {standardGeneric("initialisation_alm")})
 setMethod(
     f = "initialisation_alm",
-    signature = c(address = "character"),
-    definition = function(address){
-
-        # Creation de l'objet ALM
-        alm <- load_alm(address)
+    signature = c(alm = "ALM"),
+    definition = function(alm){
 
         # Premiere aggregation
         alm <- aggregation_alm(alm = alm)
