@@ -13,6 +13,7 @@
 ##' @seealso Le parametre \code{esg_simu} se met a jour grace a la fonction \code{\link{update_esg}}
 ##' @export
 ##' @include PTFCible-class.R ALM-update_esg.R
+##' @exportClass HypActif
 ##'
 setClass(
     Class = "HypActif",

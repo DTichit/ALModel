@@ -19,6 +19,7 @@
 ##' @export
 ##' @seealso La mise a jour de l'attribut \code{cible} : \code{\link{update_esg}}
 ##' @include TabMorta-class.R TabRachat-class.R RachatConj-class.R ALM-update_esg.R
+##' @exportClass HypPassif
 ##'
 setClass(
     Class = "HypPassif",

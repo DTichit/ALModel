@@ -10,6 +10,7 @@
 ##' @author Damien Tichit pour Sia Partners
 ##' @keywords classes
 ##' @include ESG-class.R
+##' @exportClass HypALM
 ##'
 setClass(
     Class = "HypALM",

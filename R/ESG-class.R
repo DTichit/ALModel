@@ -15,7 +15,7 @@
 ##' @author Damien Tichit pour Sia Partners
 ##' @keywords classes
 ##' @export
-##' @include
+##' @exportClass Epargne
 ##'
 setClass(
     Class = "ESG",

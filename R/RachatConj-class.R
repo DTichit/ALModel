@@ -13,6 +13,7 @@
 ##' @slot RCmax est un \code{numeric}
 ##' @author Damien Tichit pour Sia Partners
 ##' @keywords classes
+##' @exportClass RachatConj
 ##'
 setClass(
     Class = "RachatConj",

@@ -10,6 +10,7 @@
 ##' @author Damien Tichit pour Sia Partners
 ##' @keywords classes
 ##' @include ProbaEpargne-class.R
+##' @exportClass Epargne
 ##'
 setClass(
     Class = "Epargne",

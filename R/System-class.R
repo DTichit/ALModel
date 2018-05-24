@@ -12,6 +12,7 @@
 ##' @keywords classes
 ##' @export
 ##' @include Passif-class.R Actif-class.R PPE-class.R
+##' @exportClass System
 ##'
 setClass(
     Class = "System",

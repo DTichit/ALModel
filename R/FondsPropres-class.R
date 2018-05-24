@@ -11,7 +11,7 @@
 ##' @author Damien Tichit pour Sia Partners
 ##' @keywords classes
 ##' @export
-##' @include
+##' @exportClass FondsPropres
 ##'
 setClass(
     Class = "FondsPropres",

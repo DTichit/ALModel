@@ -10,6 +10,7 @@
 ##' @keywords classes
 ##' @export
 ##' @include System-class.R HypALM-class.R
+##' @exportClass ALM
 ##'
 setClass(
     Class = "ALM",

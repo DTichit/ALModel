@@ -12,6 +12,7 @@
 ##' @keywords classes
 ##' @export
 ##' @include Action-class.R Obligation-class.R Tresorerie-class.R
+##' @exportClass PTFActif
 ##'
 setClass(
     Class = "PTFActif",

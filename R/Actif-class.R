@@ -10,6 +10,7 @@
 ##' @keywords classes
 ##' @export
 ##' @include PTFActif-class.R HypActif-class.R
+##' @exportClass Actif
 ##'
 setClass(
     Class = "Actif",

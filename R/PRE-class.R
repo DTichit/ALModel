@@ -8,6 +8,7 @@
 ##' @slot montant est un \code{numeric}.
 ##' @author Damien Tichit pour Sia Partners
 ##' @keywords classes
+##' @exportClass PRE
 ##'
 setClass(
     Class = "PRE",

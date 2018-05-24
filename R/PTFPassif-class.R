@@ -9,6 +9,7 @@
 ##' @keywords classes
 ##' @export
 ##' @include Epargne-class.R
+##' @exportClass PTFPassif
 ##'
 setClass(
     Class = "PTFPassif",

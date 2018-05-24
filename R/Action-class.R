@@ -8,6 +8,7 @@
 ##' @slot ptf est un objet de type \code{\link{data.frame}} contenant les donnees relatives au portefeuille.
 ##' @author Damien Tichit pour Sia Partners
 ##' @keywords classes
+##' @exportClass Action
 ##'
 setClass(
     Class = "Action",

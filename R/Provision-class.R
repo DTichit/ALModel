@@ -11,6 +11,7 @@
 ##' @keywords classes
 ##' @export
 ##' @include ReserveCapi-class.R PPE-class.R PRE-class.R
+##' @exportClass Provision
 ##'
 setClass(
     Class = "Provision",

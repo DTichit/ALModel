@@ -8,6 +8,7 @@
 ##' @slot montant est un \code{numeric} representant le capital present dans la reserve.
 ##' @author Damien Tichit pour Sia Partners
 ##' @keywords classes
+##' @exportClass ReserveCapi
 ##'
 setClass(
     Class = "ReserveCapi",

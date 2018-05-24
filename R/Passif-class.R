@@ -11,7 +11,8 @@
 ##' @author Damien Tichit pour Sia Partners
 ##' @keywords classes
 ##' @export
-##' @include PTFPassif-class.R HypPassif-class.R Provision-class.R
+##' @include PTFPassif-class.R HypPassif-class.R Provision-class.R FondsPropres-class.R
+##' @exportClass Passif
 ##'
 setClass(
     Class = "Passif",

@@ -12,6 +12,7 @@
 ##' @slot rachat_tot_pm est un objet de type \code{data.frame}.
 ##' @author Damien Tichit pour Sia Partners
 ##' @keywords classes
+##' @exportClass ProbaEpargne
 ##'
 setClass(
     Class = "ProbaEpargne",

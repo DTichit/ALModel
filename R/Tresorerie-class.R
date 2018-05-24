@@ -8,6 +8,7 @@
 ##' @slot solde est un objet \code{numeric} indiquant le solde.
 ##' @author Damien Tichit pour Sia Partners
 ##' @keywords classes
+##' @exportClass Tresorerie
 ##'
 setClass(
     Class = "Tresorerie",

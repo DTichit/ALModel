@@ -8,6 +8,7 @@
 ##' @slot table est un objet de type \code{\link{data.frame}} contenant la table de rachat
 ##' @author Damien Tichit pour Sia Partners
 ##' @keywords classes
+##' @exportClass TabRachat
 ##'
 setClass(
     Class = "TabRachat",

@@ -21,7 +21,7 @@ setMethod(
 
         # Lecture du fichier
         temp <- read.csv2(address, header = TRUE,
-                          colClasses = c("numeric", "numeric"))
+                          colClasses = c("numeric", "numeric", "integer"))
 
         # Creation du dataframe
         df <- data.frame(id_mp = paste("ac", 1L:nrow(temp), sep = "-"), temp)

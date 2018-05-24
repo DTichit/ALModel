@@ -8,6 +8,7 @@
 ##' @slot ppe est un \code{\link{numeric}} contenant les montants dotes sur les huits dernieres annees.
 ##' @author Damien Tichit pour Sia Partners
 ##' @keywords classes
+##' @exportClass PPE
 ##'
 setClass(
     Class = "PPE",
