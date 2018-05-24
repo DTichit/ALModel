@@ -134,6 +134,7 @@ setMethod(
         mat_ptf     <- .subset2(obligation@ptf, which(names_ptf == "maturite"))
         dur_det_ptf <- .subset2(obligation@ptf, which(names_ptf == "duree_detention"))
         tri_ptf     <- .subset2(obligation@ptf, which(names_ptf == "tri"))
+        spread_ptf  <- .subset2(obligation@ptf, which(names_ptf == "spread"))
 
         # Calcul de la maturite residuelle du PTF
         mat_res_ptf <- mat_ptf - dur_det_ptf
@@ -145,33 +146,7 @@ setMethod(
         ##   Calcul des nouvelles VM
         ## ###########################
 
-        # Calcul de la VM pour les differentes maturites residuelles
-        new_vm <- sapply(1L:nrow(obligation@ptf), function(id){
-
-            # Extraction de donnees
-            mat_res <- mat_res_ptf[id]
-
-            # Calcul de la VM
-            if(mat_res > 0) {
-
-                # Cupons et actualisation
-                coupon <- coupon_ptf[id] * nominal_ptf[id]
-                actu <- exp(-(yield_curve[1L:mat_res] + spread_ptf[id]) * 1L:mat_res)
-
-                # Actualisation des coupons
-                coupon_act <- coupon * actu
-
-                # Calcul de la nouvelle VM
-                vm <- sum(coupon_act) + vr_ptf[id] * actu[mat_res]
-            } else {
-
-                # VM egale a la VR
-                vm <- vr_ptf[id] * exp(-spread_ptf[id])
-            }
-
-            # Output
-            return(vm)
-        })
+        new_vm <- calcul_vm_obligation(coupon = coupon_ptf * nominal_ptf, mat_res = mat_res_ptf, valeur_remboursement = vr_ptf, spread = spread_ptf, yield = yield_curve)
 
         # Mise a jour de l'attribut
         obligation@ptf$valeur_marche <- new_vm

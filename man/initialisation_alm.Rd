@@ -5,11 +5,10 @@
 \alias{initialisation_alm}
 \title{Fonction \code{initialisation_alm}.}
 \usage{
-initialisation_alm(address)
+initialisation_alm(alm)
 }
 \arguments{
-\item{address}{est un objet de type \code{character} indiquant le dossier dans lequel se situe l'ensemble des donnees necessaire
-pour la construction de l'objet.}
+\item{alm}{est un objet de type \code{\link{ALM}}.}
 }
 \description{
 Cette fonction permet d'initialiser un objet de type \code{\link{ALM}} : chargement des donnees, aggregation, calcul des probas...
