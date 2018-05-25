@@ -40,20 +40,35 @@ setMethod(
 
 
 
+        ## ###########################
+        ## Calcul des nouveaux FP totaux
+        ## ###########################
+
+        # Somme des elements
+        fp_totaux <- calcul_fonds_propres(fp = fp)[["total"]]
+
+
+
+
 
         ## ###########################
         ##   Mise a jour de l'emprunt
         ## ###########################
 
+        # Ajout d'un montant d'emprunt
+        if(fp_totaux < 0)
+            emprunt_total <- emprunt + abs(fp_totaux)
+
         # Mise a jour de l'attribut
-        fp@dette <- fp@dette + emprunt
+        fp@dette <- fp@dette + if.is_null(get0("emprunt_total"), emprunt)
 
 
 
 
 
         # Output
-        return(list(fp = fp))
+        return(list(fp = fp,
+                    montant_emprunte = if.is_null(get0("emprunt_total"), emprunt)))
 
 
     }

@@ -167,7 +167,8 @@ setMethod(
         ## ######################################################
 
         # Resultat financier en face des fonds propres
-        quote_part_fp <- calcul_quote_part_fp(passif = system@passif)
+        quote_part_fp <- max(calcul_quote_part_fp(passif = system@passif), 0)
+        # quote_part_fp <- 0
 
         # Resultat financier en face des fonds propres
         res_fin_fp <- (result_fin - res_reserve_capi[["flux"]]) * quote_part_fp
@@ -292,7 +293,7 @@ setMethod(
         system@passif@fonds_propres <- res_gest_fp[["fp"]]
 
         # Mise a jour de le tresorerie apres l'emprunt
-        system@actif@ptf_actif@tresorerie@solde <- system@actif@ptf_actif@tresorerie@solde + res_revalo[["besoin_emprunt"]]
+        system@actif@ptf_actif@tresorerie@solde <- system@actif@ptf_actif@tresorerie@solde + res_gest_fp[["montant_emprunte"]]
 
 
 
@@ -379,7 +380,7 @@ setMethod(
                                                       prestation = sum_list(proj_passif[["besoin"]][["revalo_prest"]], 1L),
                                                       besoin_cible = res_revalo$besoin_cible)),
                       fonds_propres = list(image = system@passif@fonds_propres,
-                                           emprunt = res_revalo[["besoin_emprunt"]]),
+                                           emprunt = res_gest_fp[["montant_emprunte"]]),
                       provision = list(image = system@passif@provision,
                                        flux = list(reserve_capi = res_reserve_capi[["flux"]],
                                                    ppe = res_revalo[["flux_ppe"]],

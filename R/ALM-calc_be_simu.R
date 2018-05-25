@@ -90,6 +90,7 @@ setMethod(
 
         # Ajout des donnees de fin de projection
         flux_bel[an_proj] <- flux_bel[an_proj] + res_fin_proj[["fin_projection"]][["assures"]]
+        flux_nav[an_proj] <- flux_nav[an_proj] + res_fin_proj[["fin_projection"]][["assureurs"]]
 
 
 

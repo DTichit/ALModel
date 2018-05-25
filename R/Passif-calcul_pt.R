@@ -46,6 +46,13 @@ setMethod(
         pre <- sum(passif@provision@pre@montant)
 
 
+        ## ###########################
+        ##        Reserve Capi
+        ## ###########################
+
+        rc <- sum(passif@provision@reserve_capi@montant)
+
+
 
 
 
@@ -57,7 +64,7 @@ setMethod(
         ## ######################################################
         ## ######################################################
 
-        pt_tot <- sum_list(pm, 1L) + ppe + pre
+        pt_tot <- sum_list(pm, 1L) + ppe + pre + rc
 
 
 
@@ -65,6 +72,7 @@ setMethod(
         return(list(total = pt_tot,
                     pt = list(pm = pm,
                               ppe = ppe,
-                              pre = pre)))
+                              pre = pre,
+                              reserve_capi = rc)))
     }
 )
