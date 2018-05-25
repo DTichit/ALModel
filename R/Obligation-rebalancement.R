@@ -156,6 +156,22 @@ setMethod(
                 pmvr <- pmvr + sum(abs(vm_del) - abs(vnc_del))
             }
 
+
+            # Gestion du cas ou toutes les obligations ont ete vendues
+            if(nrow(ptf) == 0L) {
+
+                # Affichage d'un warning
+                warning("Portfeuille obligataire vide : completion avec une ligne de 0 (A reprendre !!)")
+
+                # Creation d'un dataframe avec une ligne de 0
+                temp <- data.frame(id_mp = as.character("vide"), t(rep(0, ncol(ptf) - 1L)))
+                colnames(temp) <- colnames(ptf)
+
+                # Ajout de la ligne vide
+                ptf <- rbind(ptf, temp)
+
+            }
+
         }
 
 
