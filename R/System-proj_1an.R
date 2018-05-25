@@ -70,11 +70,8 @@ setMethod(
         # Calcul du solde de tresorerie
         solde_tresorerie <- proj_actif[["mvt_solde_treso"]] + proj_passif[["mvt_solde_treso"]]
 
-        # Mise a jour du solde de tresorerie
-        system@actif@ptf_actif@tresorerie@solde <- system@actif@ptf_actif@tresorerie@solde + solde_tresorerie
-
         # Projection sur une annee des passifs
-        res_realloc <- rebalancement_actif(actif = system@actif)
+        res_realloc <- rebalancement_actif(actif = system@actif, solde_tresorerie = solde_tresorerie)
 
         # Mise a jour de l'attribut
         system@actif <- res_realloc[["actif"]]

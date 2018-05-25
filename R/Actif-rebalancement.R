@@ -5,14 +5,15 @@
 ##' @name rebalancement_actif
 ##' @docType methods
 ##' @param actif est un objet de type \code{Actif}.
+##' @param solde_tresorerie est un \code{numeric} represantant le montant du solde de tresorerie. Par defaut, cette valeur est egale a 0.
 ##' @author Damien Tichit pour Sia Partners
 ##' @include Actif-class.R
 ##'
-setGeneric(name = "rebalancement_actif", def = function(actif) {standardGeneric("rebalancement_actif")})
+setGeneric(name = "rebalancement_actif", def = function(actif, solde_tresorerie = 0) {standardGeneric("rebalancement_actif")})
 setMethod(
     f = "rebalancement_actif",
     signature = c(actif = "Actif"),
-    definition = function(actif){
+    definition = function(actif, solde_tresorerie){
 
 
         ## ###########################
@@ -40,7 +41,7 @@ setMethod(
         alloc_ptf <- allocation_ptf_actif(actif@ptf_actif)
 
         # Allocation totale
-        alloc_totale <- alloc_ptf[["vm_actif"]][["total"]]
+        alloc_totale <- alloc_ptf[["vm_actif"]][["total"]] + solde_tresorerie
 
 
         ## ###########################
