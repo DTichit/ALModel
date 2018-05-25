@@ -38,6 +38,23 @@ setMethod(
         # Extraction de la PRE
         pre <- provisions_techniques[["pt"]][["pre"]]
 
+        # Extraction de la reserve de capitalisation
+        reserve_capi <- provisions_techniques[["pt"]][["reserve_capi"]]
+
+
+
+
+        ## ######################################################
+        ## ######################################################
+        ##
+        ##              Extraction des fonds propres
+        ##
+        ## ######################################################
+        ## ######################################################
+
+        # Appel de la fonction
+        fp <- calcul_fonds_propres(fp = passif@fonds_propres)
+
 
 
 
@@ -53,7 +70,7 @@ setMethod(
         # Mise a 0 des PM
         passif@ptf_passif@epargne@ptf$pm <- rep(0, nrow(passif@ptf_passif@epargne@ptf))
 
-        # Mise a 0 de la PPE
+        # Mise a 0 des PTs
         passif@provision@ppe@ppe <- rep(0, 8L)
 
 
@@ -71,7 +88,7 @@ setMethod(
         ## ######################################################
 
         # Montant a verser en fin de projection
-        fin_projection_assureurs    <- 0
+        fin_projection_assureurs    <- fp[["total"]] + reserve_capi + pre
         fin_projection_assures      <- pm + ppe
 
 

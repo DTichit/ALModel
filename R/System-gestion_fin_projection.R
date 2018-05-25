@@ -25,6 +25,9 @@ setMethod(
         ## ######################################################
         ## ######################################################
 
+        # Appel de la fonction
+        res_actif <- gestion_fin_projection_actif(actif = system@actif)
+
 
 
 
@@ -57,7 +60,7 @@ setMethod(
         ## ######################################################
 
         # Montant a verser en fin de projection
-        fin_projection_assureurs    <- res_passif[["fin_projection"]][["assureurs"]]
+        fin_projection_assureurs    <- res_passif[["fin_projection"]][["assureurs"]] + sum_list(res_actif$pmvr, 1L)
         fin_projection_assures      <- res_passif[["fin_projection"]][["assures"]]
 
 
