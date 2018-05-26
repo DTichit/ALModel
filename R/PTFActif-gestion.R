@@ -28,6 +28,18 @@ setMethod(
         ## ######################################################
 
         ## ###########################
+        ##          Monetaire
+        ## ###########################
+
+        # Appel de la fonction
+        res_treso <- gestion_tresorerie(tresorerie = ptf_actif@tresorerie, hyp_actif = hyp_actif, an = an)
+
+        # Mise a jour de l'attribut
+        ptf_actif@tresorerie <- res_treso[["tresorerie"]]
+
+
+
+        ## ###########################
         ##          Actions
         ## ###########################
 
@@ -77,7 +89,8 @@ setMethod(
         # Creation d'une liste contenant les resultats
         flux <- list(prod_fin = list(action = res_action[["dividendes"]],
                                      immobilier = res_immo[["loyers"]],
-                                     obligation = res_oblig[["coupons"]]),
+                                     obligation = res_oblig[["coupons"]],
+                                     tresorerie = res_treso[["interets"]]),
                      vente = list(obligation = res_oblig[["vente"]]),
                      var_vnc = list(obligation = res_oblig[["var_vnc"]]))
 

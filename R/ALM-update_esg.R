@@ -36,6 +36,7 @@ setMethod(
                                                     eq_index       = alm@hyp_alm@esg@eq_index[SimID == num_simu, EqIndex],
                                                     im_index       = alm@hyp_alm@esg@im_index[SimID == num_simu, ImIndex],
                                                     im_loyer       = alm@hyp_alm@esg@im_loyer[SimID == num_simu, ImLoyer],
+                                                    monetaire      = ctz_nom[Maturite == 1L, ZeroCoupon],
                                                     inflation      = inflation)
 
 
@@ -52,7 +53,7 @@ setMethod(
 
         # warning("Penser a rebrancher cette partie !")
         # Calcul et mise a jour des differents attributs
-        alm@system@passif@hyp_passif@cible <- list(epargne = ctz_nom[Maturite == 10L & ProjYr > 0L, ZeroCoupon])
+        alm@system@passif@hyp_passif@cible <- list(epargne = ctz_nom[Maturite == 10L, ZeroCoupon])
         # alm@system@passif@hyp_passif@cible <- list(epargne = rep(0, 100L))
         alm@system@passif@hyp_passif@esg_simu <- list(inflation = inflation)
 
