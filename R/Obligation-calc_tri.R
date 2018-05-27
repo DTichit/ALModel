@@ -46,10 +46,14 @@ setMethod(
         #     newton_raphson(function(x)
         #         sum(nominal_ptf[id] * coupon_ptf[id] * exp(-x * (1L:mat_res_ptf[id]))) + vr_ptf[id] * exp(-x * mat_res_ptf[id]) - vnc_ptf[id])
         # })
-        tri <- sapply(1L:nrow(obligation@ptf), function(id) {
-            newton_raphson(function(x)
-                sum(nominal_ptf[id] * coupon_ptf[id] * exp(-x * (1L:maturite_ptf[id]))) + vr_ptf[id] * exp(-x * maturite_ptf[id]) - achat_ptf[id])
-        })
+        if(sum(obligation@ptf$valeur_achat)>0) {
+            tri <- sapply(1L:nrow(obligation@ptf), function(id) {
+                newton_raphson(function(x)
+                    sum(nominal_ptf[id] * coupon_ptf[id] * exp(-x * (1L:maturite_ptf[id]))) + vr_ptf[id] * exp(-x * maturite_ptf[id]) - achat_ptf[id])
+            })
+        } else {
+            tri <- 0
+        }
 
 
 

@@ -165,7 +165,7 @@ setMethod(
 
         # Resultat financier en face des fonds propres
         quote_part_fp <- max(calcul_quote_part_fp(passif = system@passif), 0)
-        # quote_part_fp <- 0
+        quote_part_fp <- 0
 
         # Resultat financier en face des fonds propres
         res_fin_fp <- (result_fin - res_reserve_capi[["flux"]]) * quote_part_fp
@@ -290,7 +290,13 @@ setMethod(
         system@passif@fonds_propres <- res_gest_fp[["fp"]]
 
         # Mise a jour de le tresorerie apres l'emprunt
-        system@actif@ptf_actif@tresorerie@solde <- system@actif@ptf_actif@tresorerie@solde + res_gest_fp[["montant_emprunte"]]
+        # system@actif@ptf_actif@tresorerie@solde <- system@actif@ptf_actif@tresorerie@solde + res_gest_fp[["montant_emprunte"]]
+
+        # Projection sur une annee des passifs
+        res_realloc2 <- rebalancement_actif(actif = system@actif, solde_tresorerie = res_gest_fp[["montant_emprunte"]])
+
+        # Mise a jour de l'attribut
+        system@actif <- res_realloc2[["actif"]]
 
 
 
@@ -354,7 +360,7 @@ setMethod(
         flux_bel <- (sum_list(prestation_prod, 1L) + sum_list(frais_prod, 1L) + frais_fin) - (sum_list(prime_prod, 1L))
 
         # Somme des flux necessaires au calcul de la NAV
-        flux_nav <- res_resultat[["resultat"]]
+        flux_nav <- -res_gest_fp[["montant_emprunte"]]
 
 
 
