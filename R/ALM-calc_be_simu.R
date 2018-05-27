@@ -92,6 +92,13 @@ setMethod(
         flux_bel[an_proj] <- flux_bel[an_proj] + res_fin_proj[["fin_projection"]][["assures"]]
         flux_nav[an_proj] <- flux_nav[an_proj] + res_fin_proj[["fin_projection"]][["assureurs"]]
 
+        message("flux_bel :")
+        message(flux_bel)
+        message("
+                flux_nav :")
+        message(flux_nav)
+
+
 
 
 
@@ -100,7 +107,7 @@ setMethod(
         ## ###########################
 
         # Recuperation des taux sans risque
-        coef_actu <- res_esg[["coef_actu"]][ProjYr <= an_proj, CoefActu]
+        coef_actu <- res_esg[["coef_actu"]][ProjYr <= an_proj, CoefActu][1L:length(flux_bel)]
 
         # Actualisation
         flux_bel_actu <- sum(flux_bel * coef_actu)
