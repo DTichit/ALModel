@@ -33,8 +33,19 @@ setMethod(
         yield_curve <- .subset2(hyp_actif@esg_simu$ctz_nom, which(name_ctz == "ZeroCoupon"))[num]
 
         # Calcul du spread : uniquement en 1ere annee
-        if(an == 1L)
-            obligation@ptf$spread <- calc_spread(obligation = obligation, yield_curve = yield_curve)
+        if(an == 1L) {
+
+            # Extraction de la courbe des taux pour l'annee 0
+            num <- which(.subset2(hyp_actif@esg_simu$ctz_nom, which(name_ctz == "ProjYr")) == 0L)
+            yield_curve_0 <- .subset2(hyp_actif@esg_simu$ctz_nom, which(name_ctz == "ZeroCoupon"))[num]
+
+            # Calcul du spread
+            if(obligation@ptf$valeur_achat > 0)
+                obligation@ptf$spread <- calc_spread(obligation = obligation, yield_curve = yield_curve_0)
+            else
+                obligation@ptf$spread <- yield_curve[1L]
+
+        }
 
 
 
@@ -63,7 +74,7 @@ setMethod(
         ## ######################################################
         ## ######################################################
         ##
-        ##                  Ecreter Nominal
+        ##                  Ecreter Nominal et VR
         ##
         ## ######################################################
         ## ######################################################
@@ -81,6 +92,19 @@ setMethod(
 
         # Mise a jour du PTF
         obligation@ptf$nominal <- new_nominal
+
+
+
+
+        ## ###########################
+        ##  Calcul de la nouvelle VR
+        ## ###########################
+
+        # Calcul de la nouvelle VR
+        new_vr <- .subset2(obligation@ptf, which(names_ptf == "valeur_remboursement")) * exp(-spread_ptf)
+
+        # Mise a jour du PTF
+        obligation@ptf$valeur_remboursement <- new_vr
 
 
 
@@ -169,9 +193,9 @@ setMethod(
 
             # Calcul de la VNC
             if(mat_res > 0)
-                vnc <- sum(coupon_ptf[id] * nominal_ptf[id] * exp(-tri_ptf[id] * 1L:mat_res)) + vr_ptf[id] * exp(-(tri_ptf[id] * mat_res + spread_ptf[id]))
+                vnc <- sum(coupon_ptf[id] * nominal_ptf[id] * exp(-tri_ptf[id] * 1L:mat_res)) + vr_ptf[id] * exp(-(tri_ptf[id] * mat_res))
             else
-                vnc <- vr_ptf[id] * exp(-spread_ptf[id])
+                vnc <- vr_ptf[id]
 
             # Output
             return(vnc)
@@ -182,19 +206,6 @@ setMethod(
 
         # Variation de la VNC
         var_vnc <- new_vnc - vnc_ptf
-
-
-
-
-        ## ###########################
-        ##  Calcul de la nouvelle VR
-        ## ###########################
-
-        # Calcul de la nouvelle VR
-        new_vr <- .subset2(obligation@ptf, which(names_ptf == "valeur_remboursement")) * exp(-spread_ptf)
-
-        # Mise a jour du PTF
-        obligation@ptf$valeur_remboursement <- new_vr
 
 
 
