@@ -33,7 +33,7 @@ setMethod(
         taux <- hyp_actif@esg_simu$monetaire[an]
 
         # Calcul des interets
-        interets <- tresorerie@solde * taux
+        interets <- tresorerie@solde * (exp(taux) - 1)
 
 
 
