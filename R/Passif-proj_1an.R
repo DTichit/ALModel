@@ -96,7 +96,7 @@ setMethod(
         return(list(passif = passif,
                     pm_ouverture = pm_overture,
                     flux = res_proj_ptf[["flux"]],
-                    besoin = res_proj_ptf[["besoin"]],
+                    revalo_prestation = res_proj_ptf[["besoin"]][["revalo_prest"]],
                     mvt_solde_treso = mvt_treso))
     }
 )

@@ -165,7 +165,7 @@ setMethod(
 
         # Resultat financier en face des fonds propres
         quote_part_fp <- max(calcul_quote_part_fp(passif = system@passif), 0)
-        quote_part_fp <- 0
+        # quote_part_fp <- 0
 
         # Resultat financier en face des fonds propres
         res_fin_fp <- (result_fin - res_reserve_capi[["flux"]]) * quote_part_fp
@@ -190,7 +190,7 @@ setMethod(
 
         # Appel de la fonction
         res_revalo <- revalo_passif(passif = system@passif, resultat = max(res_fin_pm, 0) + max(result_tech, 0), pvl = pvl,
-                                    revalo_prestation = proj_passif[["besoin"]][["revalo_prest"]], an = an)
+                                    revalo_prestation = proj_passif[["revalo_prestation"]], an = an)
 
         # Mise a jour de l'objet
         system@passif <- res_revalo[["passif"]]
@@ -258,7 +258,7 @@ setMethod(
                          prime = sum_list(proj_passif$flux$prime, 1L),
                          prestation = sum_list(proj_passif$flux$prestation, 2L),
                          revalo_pm = sum_list(res_revalo$revalorisation$tmg, 1L) + sum_list(res_revalo$revalorisation$pb, 2L),
-                         revalo_prest = sum_list(proj_passif[["besoin"]][["revalo_prest"]], 1L),
+                         revalo_prest = sum_list(proj_passif[["revalo_prestation"]], 1L),
                          frais = sum_list(proj_passif$flux$frais, 2L),
                          chgt = list(administration = sum_list(proj_passif$flux$chargement$administration, 1L),
                                      acquisition = sum_list(proj_passif$flux$chargement$acquisition, 1L)),
@@ -290,13 +290,7 @@ setMethod(
         system@passif@fonds_propres <- res_gest_fp[["fp"]]
 
         # Mise a jour de le tresorerie apres l'emprunt
-        # system@actif@ptf_actif@tresorerie@solde <- system@actif@ptf_actif@tresorerie@solde + res_gest_fp[["montant_emprunte"]]
-
-        # Projection sur une annee des passifs
-        res_realloc2 <- rebalancement_actif(actif = system@actif, solde_tresorerie = res_gest_fp[["montant_emprunte"]])
-
-        # Mise a jour de l'attribut
-        system@actif <- res_realloc2[["actif"]]
+        system@actif@ptf_actif@tresorerie@solde <- system@actif@ptf_actif@tresorerie@solde + res_gest_fp[["montant_emprunte"]]
 
 
 
@@ -336,7 +330,7 @@ setMethod(
 
         # Prestation par produit
         prestation_prod <- sapply(X = name_passif,
-                                  FUN = function(x) do.call(sum, proj_passif[["flux"]][["prestation"]][[x]]),
+                                  FUN = function(x) do.call(sum, proj_passif[["flux"]][["prestation"]][[x]]) + proj_passif[["revalo_prestation"]][[x]],
                                   simplify = FALSE, USE.NAMES = TRUE)
 
         # Frais par produit
@@ -380,7 +374,7 @@ setMethod(
                                     pm_ouverture = proj_passif[["pm_ouverture"]],
                                     flux = proj_passif[["flux"]]),
                       pb = list(revalorisation = list(attribuee = res_revalo[["revalorisation"]],
-                                                      prestation = sum_list(proj_passif[["besoin"]][["revalo_prest"]], 1L),
+                                                      prestation = sum_list(proj_passif[["revalo_prestation"]], 1L),
                                                       besoin_cible = res_revalo$besoin_cible)),
                       fonds_propres = list(image = system@passif@fonds_propres,
                                            emprunt = res_gest_fp[["montant_emprunte"]]),
