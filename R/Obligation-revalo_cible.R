@@ -55,21 +55,8 @@ setMethod(
         ## ###########################
 
         # Calcul de la VM pour les differentes maturites residuelles
-        vm_ptf <- sapply(1L:nrow(obligation@ptf), function(id){
-
-            # Extraction de donnees
-            maturite <- maturite_ptf[id]
-            coupon <- coupon_ptf[id] * nominal_ptf[id]
-            actu <- exp(-(yield_curve[1L:maturite]) * 1L:maturite)
-            vr <- nominal_ptf[id]
-
-            # Calcul de la nouvelle VM
-            vm <- sum(coupon * actu) + vr * actu[maturite]
-
-            # Output
-            return(vm)
-        })
-
+        vm_ptf <- calcul_vm_obligation(coupon = coupon_ptf * nominal_ptf, mat_res = maturite_ptf,
+                                       valeur_remboursement = nominal_ptf, spread = rep(0, length(nominal_ptf)), yield = yield_curve)
 
 
 
