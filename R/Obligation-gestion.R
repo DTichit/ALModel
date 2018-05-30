@@ -40,10 +40,10 @@ setMethod(
             yield_curve_0 <- .subset2(hyp_actif@esg_simu$ctz_nom, which(name_ctz == "ZeroCoupon"))[num]
 
             # Calcul du spread
-            if(obligation@ptf$valeur_achat > 0)
+            if(sum(obligation@ptf$valeur_achat) > 0)
                 obligation@ptf$spread <- calc_spread(obligation = obligation, yield_curve = yield_curve_0)
             else
-                obligation@ptf$spread <- yield_curve[1L]
+                obligation@ptf$spread <- 0
 
         }
 
@@ -64,7 +64,7 @@ setMethod(
         names_ptf <- names(obligation@ptf)
 
         # Mise a jour de la duree de detention
-        obligation@ptf$duree_detention <- .subset2(obligation@ptf, which(names_ptf == "duree_detention")) + 1L
+        obligation@ptf$duree_detention <- pmin(.subset2(obligation@ptf, which(names_ptf == "duree_detention")) + 1L, obligation@ptf$maturite)
 
 
 
