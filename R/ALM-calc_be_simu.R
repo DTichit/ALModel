@@ -92,12 +92,6 @@ setMethod(
         flux_bel[an_proj] <- flux_bel[an_proj] + res_fin_proj[["fin_projection"]][["assures"]]
         flux_nav[an_proj] <- flux_nav[an_proj] + res_fin_proj[["fin_projection"]][["assureurs"]]
 
-        message("flux_bel :")
-        message(flux_bel)
-        message("
-                flux_nav :")
-        message(flux_nav)
-
 
 
 
