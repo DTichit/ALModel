@@ -4,9 +4,10 @@
 ##'
 ##' @name allocation_ptf_actif
 ##' @docType methods
-##' @param ptf_actif est un objet de type \code{PTFActif}.
+##' @param ptf_actif est un objet de type \code{\link{PTFActif}}.
 ##' @author Damien Tichit pour Sia Partners
-##' @include Actif-class.R
+##' @export
+##' @include PTFActif-class.R
 ##'
 setGeneric(name = "allocation_ptf_actif", def = function(ptf_actif) {standardGeneric("allocation_ptf_actif")})
 setMethod(

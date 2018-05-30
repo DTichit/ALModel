@@ -29,7 +29,7 @@ setMethod(
 
         # Extraction de la courbe des taux
         name_ctz <- names(hyp_actif@esg_simu$ctz_nom)
-        num <- which(.subset2(hyp_actif@esg_simu$ctz_nom, which(name_ctz == "ProjYr")) == an)
+        num <- which(.subset2(hyp_actif@esg_simu$ctz_nom, which(name_ctz == "ProjYr")) == (an))
         yield_curve <- .subset2(hyp_actif@esg_simu$ctz_nom, which(name_ctz == "ZeroCoupon"))[num]
 
         # Calcul du spread : uniquement en 1ere annee
