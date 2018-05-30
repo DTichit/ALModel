@@ -165,7 +165,6 @@ setMethod(
 
         # Resultat financier en face des fonds propres
         quote_part_fp <- max(calcul_quote_part_fp(passif = system@passif), 0)
-        # quote_part_fp <- 0
 
         # Resultat financier en face des fonds propres
         res_fin_fp <- (result_fin - res_reserve_capi[["flux"]]) * quote_part_fp
