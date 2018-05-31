@@ -26,6 +26,25 @@ setMethod(
 
 
 
+
+        ## ######################################################
+        ## ######################################################
+        ##
+        ##                  Gestion des probas
+        ##
+        ## ######################################################
+        ## ######################################################
+
+        # Mise a jour des nouvelles probas
+        epargne@proba@deces_contr <- agregation_proba(epargne = epargne, proba = epargne@proba@deces_contr, variable = "nb_contr")
+        epargne@proba@deces_pm <- agregation_proba(epargne = epargne, proba = epargne@proba@deces_pm, variable = "pm")
+        epargne@proba@rachat_tot_pm <- agregation_proba(epargne = epargne, proba = epargne@proba@rachat_tot_pm, variable = "pm")
+        epargne@proba@rachat_tot_contr <- agregation_proba(epargne = epargne, proba = epargne@proba@rachat_tot_contr, variable = "nb_contr")
+        epargne@proba@rachat_part <- agregation_proba(epargne = epargne, proba = epargne@proba@rachat_part, variable = "pm")
+
+
+
+
         ## ######################################################
         ## ######################################################
         ##
@@ -38,7 +57,8 @@ setMethod(
         temp <- (epargne@ptf %>% group_by(tmg)
                  %>% summarise(revalo_prec = weighted.mean(revalo_prec, pm),
                                prime = sum(prime),
-                               chgt_gestion = weighted.mean(chgt_gestion, pm),
+                               chgt_administration = weighted.mean(chgt_administration, pm),
+                               chgt_acquisition = weighted.mean(chgt_acquisition, pm),
                                chgt_rachats = weighted.mean(chgt_rachats, pm),
                                chgt_deces = weighted.mean(chgt_deces, pm),
                                frais_uni_gestion = weighted.mean(frais_uni_gestion, nb_contr),
@@ -52,130 +72,6 @@ setMethod(
 
         # Tri par tmg
         epargne@ptf <- epargne@ptf[order(epargne@ptf$tmg),]
-
-
-
-
-        ## ######################################################
-        ## ######################################################
-        ##
-        ##                  Gestion des probas
-        ##
-        ## ######################################################
-        ## ######################################################
-
-
-
-
-        ## ###########################
-        ##      Deces par contrats
-        ## ###########################
-
-        # Aggregation des donnees
-        temp <- cbind(epargne@proba@deces_contr, nb_contr = nb_contr_ptf, tmg = tmg_ptf)
-        temp <- (temp[,-1L] %>% group_by(tmg)
-                 %>% summarise_all(funs(weighted.mean(x = ., w = nb_contr))))
-
-        # Tri par tmg
-        temp <- temp[order(temp$tmg),]
-
-        # Mise a jour de l'objet
-        epargne@proba@deces_contr <- data.frame(id_mp = paste("ep", 1L:nrow(temp), sep = "-"), temp)
-
-        # Ne conserver que les variables "utiles"
-        name_deces <- names(epargne@proba@deces_contr)
-        num_del <- match(c("tmg", "nb_contr"), name_deces)
-        epargne@proba@deces_contr <- epargne@proba@deces_contr[,-num_del]
-
-
-
-        ## ###########################
-        ##      Deces par pm
-        ## ###########################
-
-        # Aggregation des donnees
-        temp <- cbind(epargne@proba@deces_pm, pm = pm_ptf, tmg = tmg_ptf)
-        temp <- (temp[,-1L] %>% group_by(tmg)
-                 %>% summarise_all(funs(weighted.mean(x = ., w = pm))))
-
-        # Tri par tmg
-        temp <- temp[order(temp$tmg),]
-
-        # Mise a jour de l'objet
-        epargne@proba@deces_pm <- data.frame(id_mp = paste("ep", 1L:nrow(temp), sep = "-"), temp)
-
-        # Ne conserver que les variables "utiles"
-        name_deces <- names(epargne@proba@deces_pm)
-        num_del <- match(c("tmg", "pm"), name_deces)
-        epargne@proba@deces_pm <- epargne@proba@deces_pm[,-num_del]
-
-
-
-        ## ###########################
-        ##    Rachats totaux par pm
-        ## ###########################
-
-        # Aggregation des donnees
-        temp <- cbind(epargne@proba@rachat_tot_pm, pm = pm_ptf, tmg = tmg_ptf)
-        temp <- (temp[,-1L] %>% group_by(tmg)
-                 %>% summarise_all(funs(weighted.mean(x = ., w = pm))))
-
-        # Tri par tmg
-        temp <- temp[order(temp$tmg),]
-
-        # Mise a jour de l'objet
-        epargne@proba@rachat_tot_pm <- data.frame(id_mp = paste("ep", 1L:nrow(temp), sep = "-"), temp)
-
-        # Ne conserver que les variables "utiles"
-        name_rachat_tot <- names(epargne@proba@rachat_tot_pm)
-        num_del <- match(c("tmg", "pm"), name_rachat_tot)
-        epargne@proba@rachat_tot_pm <- epargne@proba@rachat_tot_pm[,-num_del]
-
-
-
-        ## ###########################
-        ## Rachats totaux par contrats
-        ## ###########################
-
-        # Aggregation des donnees
-        temp <- cbind(epargne@proba@rachat_tot_contr, nb_contr = nb_contr_ptf, tmg = tmg_ptf)
-        temp <- (temp[,-1L] %>% group_by(tmg)
-                 %>% summarise_all(funs(weighted.mean(x = ., w = nb_contr))))
-
-        # Tri par tmg
-        temp <- temp[order(temp$tmg),]
-
-        # Mise a jour de l'objet
-        epargne@proba@rachat_tot_contr <- data.frame(id_mp = paste("ep", 1L:nrow(temp), sep = "-"), temp)
-
-        # Ne conserver que les variables "utiles"
-        name_rachat_tot <- names(epargne@proba@rachat_tot_contr)
-        num_del <- match(c("tmg", "nb_contr"), name_rachat_tot)
-        epargne@proba@rachat_tot_contr <- epargne@proba@rachat_tot_contr[,-num_del]
-
-
-
-        ## ###########################
-        ##      Rachats partiels
-        ## ###########################
-
-        # Aggregation des donnees
-        temp <- cbind(epargne@proba@rachat_part, pm = pm_ptf, tmg = tmg_ptf)
-        temp <- (temp[,-1L] %>% group_by(tmg)
-                 %>% summarise_all(funs(weighted.mean(x = ., w = pm))))
-
-        # Tri par tmg
-        temp <- temp[order(temp$tmg),]
-
-        # Mise a jour de l'objet
-        epargne@proba@rachat_part <- data.frame(id_mp = paste("ep", 1L:nrow(temp), sep = "-"), temp)
-
-        # Ne conserver que les variables "utiles"
-        name_rachat_part <- names(epargne@proba@rachat_part)
-        num_del <- match(c("tmg", "pm"), name_rachat_part)
-        epargne@proba@rachat_part <- epargne@proba@rachat_part[,-num_del]
-
-
 
 
 

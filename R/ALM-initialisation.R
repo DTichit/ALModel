@@ -34,7 +34,7 @@ setMethod(
         alm@system@passif@hyp_passif@calc_proba <- FALSE
 
         # Seconde aggregation : Apres le calcul des probas
-        # alm@system@passif <- aggregation_passif_2(alm@system@passif)
+        alm@system@passif <- aggregation_passif_2(alm@system@passif)
 
 
         # Output
