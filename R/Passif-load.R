@@ -26,7 +26,7 @@ setMethod(
         ptf_passif  <- load_ptf_passif(paste(address, "01_Portefeuilles", sep = "/"))
         hyp_passif  <- load_hyp_passif(paste(address, "02_Hypotheses", sep = "/"))
         provision   <- load_provision(paste(address, "03_Provisions", sep = "/"))
-        fp          <- load_fonds_propres(address)
+        fp          <- load_fonds_propres(paste(address, "04_FondsPropres", sep = "/"))
 
         # Creation de l'objet
         passif <- new("Passif",
