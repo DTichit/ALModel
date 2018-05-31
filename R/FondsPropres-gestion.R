@@ -31,21 +31,31 @@ setMethod(
 
 
         ## ###########################
+        ##   Application de l'IS
+        ## ###########################
+
+        # Calcul de l'impot
+        impots_societes <- max(0, fp@hypotheses$impots_societes * resultat)
+
+
+
+
+        ## ###########################
+        ##   Application de la PS
+        ## ###########################
+
+        # Calcul de la participation aux salaries
+        participation_salaries <- max(0, fp@hypotheses$participation_salaries * (resultat - impots_societes))
+
+
+
+
+        ## ###########################
         ##   Mise a jour du resultat
         ## ###########################
 
         # Mise a jour de l'attribut
-        fp@resultat_exercice <- resultat
-
-
-
-
-        ## ###########################
-        ## Calcul des nouveaux FP totaux
-        ## ###########################
-
-        # Somme des elements
-        fp_totaux <- calcul_fonds_propres(fp = fp)[["total"]]
+        fp@resultat_exercice <- resultat - impots_societes - participation_salaries
 
 
 
@@ -54,6 +64,9 @@ setMethod(
         ## ###########################
         ##   Mise a jour de l'emprunt
         ## ###########################
+
+        # Somme des elements composant les FP
+        fp_totaux <- calcul_fonds_propres(fp = fp)[["total"]]
 
         # Ajout d'un montant d'emprunt
         if(fp_totaux < 0)
@@ -66,10 +79,21 @@ setMethod(
 
 
 
+        ## ###########################
+        ##      Flux sur la NAV
+        ## ###########################
+
+        # Calcul du montant
+        flux_nav <- if.is_null(get0("emprunt_total"), emprunt) - (participation_salaries + impots_societes)
+
+
+
         # Output
         return(list(fp = fp,
-                    montant_emprunte = if.is_null(get0("emprunt_total"), emprunt)))
-
+                    flux_nav = flux_nav,
+                    flux = list(montant_emprunte = if.is_null(get0("emprunt_total"), emprunt),
+                                participation_salaries = participation_salaries,
+                                impots_societes = impots_societes)))
 
     }
 )

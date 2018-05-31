@@ -18,11 +18,16 @@ setMethod(
     definition = function(address){
 
         # Lecture du fichier csv
-        temp <- read.csv2(paste(address, "fonds_propres.csv", sep = "/"), header = FALSE)
+        fonds_propres <- read.csv2(paste(address, "fonds_propres.csv", sep = "/"), header = FALSE)
+        hypotheses    <- read.csv2(paste(address, "hypotheses.csv", sep = "/"), header = TRUE)
+
+        # Creation de la liste d'hypotheses
+        hyp <- list(impots_societes = hypotheses[1L, "impots_societes"],
+                    participation_salaries = hypotheses[1L, "participation_salaries"])
 
         # Creation de l'objet
-        fp <- new("FondsPropres", capitaux_propres = temp[1L, 2L], report_a_nouveau = temp[2L, 2L],
-                  resultat_exercice = 0)
+        fp <- new("FondsPropres", capitaux_propres = fonds_propres[1L, 2L], report_a_nouveau = fonds_propres[2L, 2L],
+                  resultat_exercice = 0, hypotheses = hyp)
 
         # Output
         return(fp)

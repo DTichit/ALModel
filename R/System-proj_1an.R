@@ -147,8 +147,7 @@ setMethod(
 
 
         # Calcul des resultats
-        # result_tech <- calcul_resultat_tech(result_tech)
-        result_tech <- 0
+        result_tech <- calcul_resultat_tech(result_tech)
         result_fin  <- calcul_resultat_fin(result_fin)
 
 
@@ -289,7 +288,7 @@ setMethod(
         system@passif@fonds_propres <- res_gest_fp[["fp"]]
 
         # Mise a jour de le tresorerie apres l'emprunt
-        system@actif@ptf_actif@tresorerie@solde <- system@actif@ptf_actif@tresorerie@solde + res_gest_fp[["montant_emprunte"]]
+        system@actif@ptf_actif@tresorerie@solde <- system@actif@ptf_actif@tresorerie@solde + res_gest_fp[["flux"]][["montant_emprunte"]] - res_gest_fp[["flux"]][["participation_salaries"]] - res_gest_fp[["flux"]][["impots_societes"]]
 
 
 
@@ -353,7 +352,7 @@ setMethod(
         flux_bel <- (sum_list(prestation_prod, 1L) + sum_list(frais_prod, 1L) + frais_fin) - (sum_list(prime_prod, 1L))
 
         # Somme des flux necessaires au calcul de la NAV
-        flux_nav <- -res_gest_fp[["montant_emprunte"]]
+        flux_nav <- -res_gest_fp[["flux_nav"]]
 
 
 
@@ -376,7 +375,9 @@ setMethod(
                                                       prestation = sum_list(proj_passif[["revalo_prestation"]], 1L),
                                                       besoin_cible = res_revalo$besoin_cible)),
                       fonds_propres = list(image = system@passif@fonds_propres,
-                                           emprunt = res_gest_fp[["montant_emprunte"]]),
+                                           emprunt = res_gest_fp[["flux"]][["montant_emprunte"]],
+                                           participation_salaries = res_gest_fp[["flux"]][["participation_salaries"]],
+                                           impots_societes = res_gest_fp[["flux"]][["impots_societes"]]),
                       provision = list(image = system@passif@provision,
                                        flux = list(reserve_capi = res_reserve_capi[["flux"]],
                                                    ppe = res_revalo[["flux_ppe"]],
