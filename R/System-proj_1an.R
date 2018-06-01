@@ -187,7 +187,7 @@ setMethod(
         pvl <- extract_pmvl_ptf_actif(system@actif@ptf_actif)[["pvl"]]
 
         # Appel de la fonction
-        res_revalo <- revalo_passif(passif = system@passif, resultat = max(res_fin_pm, 0) + max(result_tech, 0), pvl = pvl,
+        res_revalo <- revalo_passif(passif = system@passif, resultat = max(max(res_fin_pm, 0) + result_tech, 0), pvl = pvl,
                                     revalo_prestation = proj_passif[["revalo_prestation"]], an = an)
 
         # Mise a jour de l'objet
@@ -253,13 +253,13 @@ setMethod(
 
         # Creation de la liste contenant tous les elements
         resultat <- list(charges_pm = sum_list(proj_passif[["pm_ouverture"]], 1L) - sum_list(res_revalo[["pm_cloture"]],  1L),
-                         prime = sum_list(proj_passif$flux$prime, 1L),
-                         prestation = sum_list(proj_passif$flux$prestation, 2L),
-                         revalo_pm = sum_list(res_revalo$revalorisation$tmg, 1L) + sum_list(res_revalo$revalorisation$pb, 2L),
+                         prime = sum_list(proj_passif[["flux"]][["prime"]], 1L),
+                         prestation = sum_list(proj_passif[["flux"]][["prestation"]], 2L),
+                         revalo_pm = sum_list(res_revalo[["revalorisation"]][["tmg"]], 1L) + sum_list(res_revalo[["revalorisation"]][["pb"]], 2L),
                          revalo_prest = sum_list(proj_passif[["revalo_prestation"]], 1L),
-                         frais = sum_list(proj_passif$flux$frais, 2L),
-                         chgt = list(administration = sum_list(proj_passif$flux$chargement$administration, 1L),
-                                     acquisition = sum_list(proj_passif$flux$chargement$acquisition, 1L)),
+                         frais = sum_list(proj_passif[["flux"]][["frais"]], 2L),
+                         chgt = list(administration = sum_list(res_revalo[["chargements_appliques"]], 1L),
+                                     acquisition = sum_list(proj_passif[["flux"]][["chargement"]][["acquisition"]], 1L)),
                          resultat_fin = result_fin + if.is_null(get0("pvl_realisees"), 0L),
                          charges_rc = res_reserve_capi[["flux"]],
                          charges_ppe = res_revalo[["flux_ppe"]],
@@ -381,7 +381,8 @@ setMethod(
                       provision = list(image = system@passif@provision,
                                        flux = list(reserve_capi = res_reserve_capi[["flux"]],
                                                    ppe = res_revalo[["flux_ppe"]],
-                                                   pre = res_dot_pre1[["flux"]] + res_dot_pre2[["flux"]])))
+                                                   pre = res_dot_pre1[["flux"]] + res_dot_pre2[["flux"]])),
+                      resultat = resultat)
 
 
 

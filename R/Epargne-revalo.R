@@ -122,13 +122,31 @@ setMethod(
         ## ######################################################
         ## ######################################################
         ##
+        ##         Calcul des chargements appliques
+        ##
+        ## ######################################################
+        ## ######################################################
+
+        # PB distribuee
+        pb_distribuee <- revalo_cible_mp + revalo_supp_mp
+
+        # Chgts inferieurs a la pb distribuee
+        chgt_appliques <- pmin(pb_distribuee, chgt_administration)
+
+
+
+
+
+        ## ######################################################
+        ## ######################################################
+        ##
         ##                  Mise a jour du PTF
         ##
         ## ######################################################
         ## ######################################################
 
         # Revalorisation totale
-        revalo_tot <- revalo_tmg_mp + revalo_cible_mp + revalo_supp_mp - chgt_administration
+        revalo_tot <- revalo_tmg_mp + revalo_cible_mp + revalo_supp_mp - chgt_appliques
 
         # Calcul des nouvelles PM
         new_pm <- pm_ptf_epargne + revalo_tot
@@ -145,6 +163,10 @@ setMethod(
 
 
         # Output
-        return(list(epargne = epargne))
+        return(list(epargne = epargne,
+                    revalorisation = list(tmg = sum(revalo_tmg_mp),
+                                          cible = sum(revalo_cible_mp),
+                                          supplementaire = sum(revalo_supp_mp)),
+                    chargement = chgt_appliques))
     }
 )

@@ -57,11 +57,15 @@ setMethod(
         # Besoin en revalorisation cible
         besoin_cible <- list(epargne = res_epargne[["besoin_cible"]])
 
+        # Chargements
+        chargements <- list(epargne = res_epargne[["chargements"]])
+
 
 
 
         # Output
-        return(list(besoin_contr = besoin_contr,
-                    besoin_cible = besoin_cible))
+        return(list(besoin =list(contractuel = besoin_contr,
+                                 cible = besoin_cible),
+                    chargements = chargements))
     }
-)
+        )

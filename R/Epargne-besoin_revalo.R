@@ -61,10 +61,23 @@ setMethod(
 
 
 
+        ## ###########################
+        ##          Chargements
+        ## ###########################
+
+        # Extraction des taux
+        chgt_administration <- .subset2(epargne@ptf, which(name_ptf == "chgt_administration"))
+
+        # Calcul des chargements d'administration
+        chargements <- sum(pm_ptf_epargne * chgt_administration)
+
+
+
 
 
         # Output
         return(list(besoin_tmg = besoin_tmg,
-                    besoin_cible = besoin_cible))
+                    besoin_cible = besoin_cible,
+                    chargements = chargements))
     }
 )

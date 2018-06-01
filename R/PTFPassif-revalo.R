@@ -44,7 +44,28 @@ setMethod(
 
 
 
+
+
+
+        ## ######################################################
+        ## ######################################################
+        ##
+        ##              Agregation des donnees
+        ##
+        ## ######################################################
+        ## ######################################################
+
+        ## ###########################
+        ##   Chargements appliques
+        ## ###########################
+
+        chgt <- list(epargne = res_epargne[["chargement"]])
+
+
+
+
         # Output
-        return(list(ptf_passif = ptf_passif))
+        return(list(ptf_passif = ptf_passif,
+                    chargements_appliques = chgt))
     }
 )

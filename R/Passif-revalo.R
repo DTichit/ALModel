@@ -47,9 +47,6 @@ setMethod(
         # Extraction du montant de la PPE
         ppe_totale <- sum(passif@provision@ppe@ppe)
 
-        # Extraction de la PPE 8 ans
-        ppe_8_ans <- passif@provision@ppe@ppe[8L]
-
 
 
         ## ###########################
@@ -87,10 +84,19 @@ setMethod(
         ## ###########################
 
         # Somme des besoins contractuels
-        besoin_contractuel <- do.call(sum, besoin_revalo[["besoin_contr"]]) + do.call(sum, revalo_prestation)
+        besoin_contractuel <- sum_list(besoin_revalo[["besoin"]][["contractuel"]], 1L) + sum_list(revalo_prestation, 1L)
 
         # Somme des besoins cibles
-        besoin_cible <- do.call(sum, besoin_revalo[["besoin_cible"]])
+        besoin_cible <- sum_list(besoin_revalo[["besoin"]][["cible"]], 1L)
+
+
+        ## ###########################
+        ##        Chargements
+        ## ###########################
+
+        # Somme des chargements
+        chargements <- sum_list(besoin_revalo[["chargements"]], 1L)
+
 
 
 
@@ -107,7 +113,7 @@ setMethod(
         # Creation des variables *_restant
         besoin_contractuel_restant <- besoin_contractuel ; besoin_cible_restant <- besoin_cible
         pvl_restante <- pvl_totale
-        resultat_restant <- resultat ; ppe_restante <- ppe_totale ; ppe_8ans_restante <- ppe_8_ans
+        resultat_restant <- resultat ; ppe_restante <- ppe_totale
 
 
 
@@ -289,9 +295,9 @@ setMethod(
         ## ###########################
 
         # Calcul des revalo
-        revalo_cible_prod <- sapply(names(besoin_revalo[["besoin_cible"]]), simplify = FALSE, USE.NAMES = TRUE, function(x){
+        revalo_cible_prod <- sapply(names(besoin_revalo[["besoin"]][["cible"]]), simplify = FALSE, USE.NAMES = TRUE, function(x){
             if(besoin_cible >0)
-                res <- besoin_revalo[["besoin_cible"]][[x]] * revalo_cible / besoin_cible
+                res <- besoin_revalo[["besoin"]][["cible"]][[x]] * revalo_cible / besoin_cible
             else
                 res <- 0
             return(res)})
@@ -363,7 +369,7 @@ setMethod(
         ## ######################################################
 
         # Liste stockant l'ensemble des revalorisations
-        revalo <- list(tmg = besoin_revalo[["besoin_contr"]],
+        revalo <- list(tmg = besoin_revalo[["besoin"]][["contractuel"]],
                        pb = list(cible = revalo_cible_prod,
                                  supp = revalo_supp_prod))
 
@@ -375,6 +381,7 @@ setMethod(
         # Output
         return(list(passif = passif,
                     revalorisation = revalo,
+                    chargements_appliques = res_revalo[["chargements_appliques"]],
                     pvl_a_realiser = pvl_a_realiser,
                     besoin_emprunt = if.is_null(get0("emprunt"), 0),
                     flux_ppe = flux_ppe,
