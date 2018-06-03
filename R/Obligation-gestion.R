@@ -183,23 +183,23 @@ setMethod(
         ## ###########################
 
         # Calcul de la nouvelle VNC
-        # new_vnc <- exp(-spread_ptf) * (vnc_ptf - (exp(spread_ptf) * (nominal_ptf * coupon_ptf) * exp(-tri_ptf * (mat_res_ptf + 1L))) -
-        #                                    vr_ptf * exp(-tri_ptf * (mat_res_ptf + 1L)) + vr_ptf * exp(-tri_ptf * (mat_res_ptf)))
+        new_vnc <- exp(-spread_ptf) * (vnc_ptf + exp(spread_ptf - tri_ptf * (mat_res_ptf + 1L)) * (vr_ptf * (exp(tri_ptf) - 1) - (nominal_ptf * coupon_ptf)))
+        new_vnc[which(mat_res_ptf==0L)] <- vr_ptf[which(mat_res_ptf==0L)]
 
-        new_vnc <- sapply(1L:nrow(obligation@ptf), function(id){
-
-            # Extraction de donnees
-            mat_res <- mat_res_ptf[id]
-
-            # Calcul de la VNC
-            if(mat_res > 0)
-                vnc <- sum(coupon_ptf[id] * nominal_ptf[id] * exp(-tri_ptf[id] * 1L:mat_res)) + vr_ptf[id] * exp(-(tri_ptf[id] * mat_res))
-            else
-                vnc <- vr_ptf[id]
-
-            # Output
-            return(vnc)
-        })
+        # new_vnc <- sapply(1L:nrow(obligation@ptf), function(id){
+        #
+        #     # Extraction de donnees
+        #     mat_res <- mat_res_ptf[id]
+        #
+        #     # Calcul de la VNC
+        #     if(mat_res > 0)
+        #         vnc <- sum(coupon_ptf[id] * nominal_ptf[id] * exp(-tri_ptf[id] * 1L:mat_res)) + vr_ptf[id] * exp(-(tri_ptf[id] * mat_res))
+        #     else
+        #         vnc <- vr_ptf[id]
+        #
+        #     # Output
+        #     return(vnc)
+        # })
 
         # Mise a jour du PTF
         obligation@ptf$valeur_nette_comptable <- new_vnc
