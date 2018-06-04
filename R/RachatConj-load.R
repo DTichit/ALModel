@@ -20,12 +20,19 @@ setMethod(
     definition = function(address){
 
         # Lecture du fichier
-        temp <- read.csv2(address, header = TRUE,
+        temp <- read.csv2(paste(address, "Rachats_conjoncturels.csv", sep = "/"), header = TRUE,
                           colClasses = c("numeric", "numeric", "numeric", "numeric", "numeric", "numeric"))
+        repartition <- read.csv2(paste(address, "repartition.csv", sep = "/"), header = TRUE, colClasses = c("numeric", "numeric"))
+
+        # Test
+        if((1-sum(repartition[1L,])) > 10^(-8))
+            warning("[load_rachat_conj] : Somme des repatitions differente de 1.")
+
 
         # Creation de l'objet
         rachat_conj <- new("RachatConj", alpha = temp[,"alpha"], beta = temp[,"beta"], gamma = temp[,"gamma"],
-                           delta = temp[,"delta"], RCmin = temp[,"RCmin"], RCmax = temp[,"RCmax"])
+                           delta = temp[,"delta"], RCmin = temp[,"RCmin"], RCmax = temp[,"RCmax"],
+                           repartition = list(total = repartition[1L, "total"], partiel = repartition[1L, "partiel"]))
 
         # Output
         return(rachat_conj)

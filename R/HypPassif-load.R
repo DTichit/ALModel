@@ -30,7 +30,7 @@ setMethod(
         tab_rachat_part  <- load_tab_rachat(paste(address, "02_TablesRachat", "TR-P.csv", sep = "/"))
 
         # Chargement de l'objet modelisant les rachats conjoncturels
-        rachat_conj <- load_rachat_conj(paste(address, "03_RachatsConjoncturels", "Rachats_conjoncturels.csv", sep = "/"))
+        rachat_conj <- load_rachat_conj(paste(address, "03_RachatsConjoncturels", sep = "/"))
 
         # Lecture des fichiers csv
         prop_pb <- read.csv2(paste(address, "prop_pb.csv", sep = "/"), header = TRUE, colClasses = c("character", "numeric"))

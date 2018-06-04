@@ -11,6 +11,7 @@
 ##' @slot delta est un \code{numeric}
 ##' @slot RCmin est un \code{numeric}
 ##' @slot RCmax est un \code{numeric}
+##' @slot repartition est une \code{list}
 ##' @author Damien Tichit pour Sia Partners
 ##' @keywords classes
 ##' @exportClass RachatConj
@@ -23,7 +24,8 @@ setClass(
               gamma = "numeric",
               delta = "numeric",
               RCmin = "numeric",
-              RCmax = "numeric"),
+              RCmax = "numeric",
+              repartition = "list"),
 
     validity = function (object){
 
@@ -53,16 +55,18 @@ setMethod(
                           gamma = "numeric",
                           delta = "numeric",
                           RCmin = "numeric",
-                          RCmax = "numeric"
+                          RCmax = "numeric",
+                          repartition = "list"
     ){
 
-        if(! (missing(alpha) | missing(beta) | missing(gamma) | missing(delta) | missing(RCmin) | missing(RCmax))){
+        if(! (missing(alpha) | missing(beta) | missing(gamma) | missing(delta) | missing(RCmin) | missing(RCmax) | missing(repartition))){
             .Object@alpha <- alpha
             .Object@beta  <- beta
             .Object@gamma <- gamma
             .Object@delta <- delta
             .Object@RCmin <- RCmin
             .Object@RCmax <- RCmax
+            .Object@repartition <- repartition
 
             # Validation du format
             validObject(.Object)
@@ -75,6 +79,7 @@ setMethod(
             .Object@delta <- NA
             .Object@RCmin <- NA
             .Object@RCmax <- NA
+            .Object@repartition <- list()
         }
 
         # Output
@@ -96,6 +101,7 @@ setMethod(
                "delta" = {return(x@delta)},
                "RCmin" = {return(x@RCmin)},
                "RCmax" = {return(x@RCmax)},
+               "repartition" = {return(x@repartition)},
                stop("Cet attribut n'existe pas!")
         )
     }
@@ -116,6 +122,7 @@ setReplaceMethod(
                "delta" = {x@delta <- value},
                "RCmin" = {x@RCmin <- value},
                "RCmax" = {x@RCmax <- value},
+               "repartition" = {x@repartition <- value},
                stop("Cet attribut n'existe pas!")
         )
         validObject(x)
