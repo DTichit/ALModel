@@ -17,6 +17,8 @@ Cette classe aggrege l'ensemble des donnees relatives au passif de la compagnie 
 \item{\code{resultat_exercice}}{est un \code{numeric} representant le resultat de l'exercice en cours.}
 
 \item{\code{dette}}{est un \code{numeric}.}
+
+\item{\code{hypotheses}}{est une \code{list}.}
 }}
 
 \author{

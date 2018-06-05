@@ -1,0 +1,3371 @@
+\documentclass[a4paper]{book}
+\usepackage[times,inconsolata,hyper]{Rd}
+\usepackage{makeidx}
+\usepackage[latin1]{inputenc} % @SET ENCODING@
+% \usepackage{graphicx} % @USE GRAPHICX@
+\makeindex{}
+\begin{document}
+\chapter*{}
+\begin{center}
+{\textbf{\huge \R{} documentation}} \par\bigskip{{\Large of \file{man/Actif.Rd} etc.}}
+\par\bigskip{\large \today}
+\end{center}
+\inputencoding{utf8}
+\HeaderA{Actif}{Classe \code{Actif}}{Actif}
+\keyword{classes}{Actif}
+%
+\begin{Description}\relax
+Cette classe aggrege l'ensemble des donnees relatives a l'actif de la compagnie d'assurance : portefeuille, hypotheses
+\end{Description}
+%
+\begin{Section}{Slots}
+
+\begin{description}
+
+\item[\code{ptf\_actif}] est un objet de la classe \code{\LinkA{PTFActif}{PTFActif}} representant le portfeuille financier.
+
+\item[\code{hyp\_actif}] est un objet de la classe \code{\LinkA{HypActif}{HypActif}} representant les hypotheses du portfeuille financier.
+
+\end{description}
+\end{Section}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+\inputencoding{utf8}
+\HeaderA{Action}{Classe \code{Action}}{Action}
+\keyword{classes}{Action}
+%
+\begin{Description}\relax
+Cette classe represente le portefeuille des actions de la compagnie d'assurance.
+\end{Description}
+%
+\begin{Section}{Slots}
+
+\begin{description}
+
+\item[\code{ptf}] est un objet de type \code{\LinkA{data.frame}{data.frame}} contenant les donnees relatives au portefeuille.
+
+\end{description}
+\end{Section}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+\inputencoding{utf8}
+\HeaderA{aggregation\_actif}{Fonction \code{aggregation\_actif}.}{aggregation.Rul.actif}
+%
+\begin{Description}\relax
+Cette fonction permet de faire appel aux diffC)rentes fonctions permettant d'aggreger les portfeuilles financiers
+d'une compagnie d'assurance.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+aggregation_actif(actif)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{actif}] est un objet de type \code{\LinkA{Actif}{Actif}}.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+\inputencoding{utf8}
+\HeaderA{aggregation\_action}{Fonction \code{aggregation\_action}.}{aggregation.Rul.action}
+%
+\begin{Description}\relax
+Cette fonction permet d'aggreger les model-point pour un portfeuille d'actions.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+aggregation_action(action)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{action}] est un objet de type \code{\LinkA{Action}{Action}}.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+\inputencoding{utf8}
+\HeaderA{aggregation\_alm}{Fonction \code{aggregation\_alm}.}{aggregation.Rul.alm}
+%
+\begin{Description}\relax
+Cette fonction permet de faire appel aux diffC)rentes fonctions permettant d'aggreger les portefeuilles.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+aggregation_alm(alm)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{alm}] est un objet de type \code{\LinkA{ALM}{ALM}}.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+\inputencoding{utf8}
+\HeaderA{aggregation\_epargne\_1}{Fonction \code{aggregation\_epargne\_1}.}{aggregation.Rul.epargne.Rul.1}
+%
+\begin{Description}\relax
+Cette fonction permet d'effectuer une premiere aggregation des model-point pour un portefeuille de contrats d'epargne.
+Cette aggregation se fait par tmg, sexe, age et anciennete. Elle s'effectue avant le calcul des probas.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+aggregation_epargne_1(epargne)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{epargne}] est un objet de type \code{\LinkA{Epargne}{Epargne}}.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+\inputencoding{utf8}
+\HeaderA{aggregation\_epargne\_2}{Fonction \code{aggregation\_epargne\_2}.}{aggregation.Rul.epargne.Rul.2}
+%
+\begin{Description}\relax
+Cette fonction permet d'effectuer la derniere aggregation des model-point pour un portefeuille de contrats d'epargne.
+Cette aggregation se fait uniquement par tmg. Elle s'effectue apres le calcul des probas.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+aggregation_epargne_2(epargne)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{epargne}] est un objet de type \code{\LinkA{Epargne}{Epargne}}.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+\inputencoding{utf8}
+\HeaderA{aggregation\_immobilier}{Fonction \code{aggregation\_immobilier}.}{aggregation.Rul.immobilier}
+%
+\begin{Description}\relax
+Cette fonction permet d'aggreger les model-point pour un portfeuille d'actions.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+aggregation_immobilier(immobilier)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{immobilier}] est un objet de type \code{\LinkA{Immobilier}{Immobilier}}.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+\inputencoding{utf8}
+\HeaderA{aggregation\_obligation}{Fonction \code{aggregation\_obligation}.}{aggregation.Rul.obligation}
+%
+\begin{Description}\relax
+Cette fonction permet d'aggreger les model-point pour un portfeuille d'obligations.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+aggregation_obligation(obligation)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{obligation}] est un objet de type \code{\LinkA{Obligation}{Obligation}}.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+\inputencoding{utf8}
+\HeaderA{aggregation\_passif\_1}{Fonction \code{aggregation\_passif\_1}.}{aggregation.Rul.passif.Rul.1}
+%
+\begin{Description}\relax
+Cette fonction permet de faire appel aux diffC)rentes fonctions permettant d'aggreger les portfeuilles passifs d'une compagnie d'assurance.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+aggregation_passif_1(passif)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{passif}] est un objet de type \code{\LinkA{Passif}{Passif}}.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+\inputencoding{utf8}
+\HeaderA{aggregation\_passif\_2}{Fonction \code{aggregation\_passif\_2}.}{aggregation.Rul.passif.Rul.2}
+%
+\begin{Description}\relax
+Cette fonction permet d'effectuer une premiere aggregation des portfeuilles passifs d'une compagnie d'assurance.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+aggregation_passif_2(passif)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{passif}] est un objet de type \code{\LinkA{Passif}{Passif}}.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+\inputencoding{utf8}
+\HeaderA{agregation\_proba}{Fonction \code{agregation\_proba}.}{agregation.Rul.proba}
+%
+\begin{Description}\relax
+Cette fonction permet d'agreger les probas par PM ou par nombre de contrats.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+agregation_proba(epargne, proba, variable)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{epargne}] est un objet de type \code{\LinkA{Epargne}{Epargne}}.
+
+\item[\code{proba}] est un \code{data.frame} contenant les probabilites devant etres agregees.
+
+\item[\code{variable}] est un \code{character}. Elle indique selon quelle variable l'agregation doit etre faite.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+\inputencoding{utf8}
+\HeaderA{allocation\_ptf\_actif}{Fonction \code{allocation\_ptf\_actif}}{allocation.Rul.ptf.Rul.actif}
+%
+\begin{Description}\relax
+Cette fonction permet de determiner l'allocation des differents produits financiers.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+allocation_ptf_actif(ptf_actif)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{ptf\_actif}] est un objet de type \code{\LinkA{PTFActif}{PTFActif}}.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+\inputencoding{utf8}
+\HeaderA{allocation\_vnc\_ptf\_actif}{Fonction \code{allocation\_vnc\_ptf\_actif}}{allocation.Rul.vnc.Rul.ptf.Rul.actif}
+%
+\begin{Description}\relax
+Cette fonction permet de determiner la VNC des differents produits financiers.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+allocation_vnc_ptf_actif(ptf_actif)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{ptf\_actif}] est un objet de type \code{PTFActif}.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+\inputencoding{utf8}
+\HeaderA{ALM}{Classe \code{ALM}}{ALM}
+\keyword{classes}{ALM}
+%
+\begin{Description}\relax
+Cette classe aggrege un objet \code{\LinkA{System}{System}} ainsi que l'ensemble des hypotheses du modele ALM.
+\end{Description}
+%
+\begin{Section}{Slots}
+
+\begin{description}
+
+\item[\code{system}] est un objet de la classe \code{\LinkA{System}{System}} qui aggregent les actifs et les passifs ainsi que leurs hypothC(ses.
+
+\item[\code{hyp\_alm}] est un objet de la classe \code{\LinkA{HypALM}{HypALM}} qui contient les differentes hypotheses du modele ALM.
+
+\end{description}
+\end{Section}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+\inputencoding{utf8}
+\HeaderA{besoin\_revalo\_epargne}{Fonction \code{besoin\_revalo\_epargne}}{besoin.Rul.revalo.Rul.epargne}
+%
+\begin{Description}\relax
+Cette fonction permet de calculer les besoins en revalorisation :
+\begin{description}
+
+\item[besoins contractuels]  : besoins pour assouvir les engagements contractuels, a savoir le tmg.
+\item[besoins cibles]  : besoins pour atteindre une revalorisation egale au taux cible afin de minimiser les rachats conjoncturels.
+
+\end{description}
+
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+besoin_revalo_epargne(epargne, cible)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{epargne}] est un objet de type \code{\LinkA{Epargne}{Epargne}}.
+
+\item[\code{cible}] est un \code{numeric} representant un taux cible.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+\inputencoding{utf8}
+\HeaderA{besoin\_revalo\_ptf\_passif}{Fonction \code{besoin\_revalo\_ptf\_passif}}{besoin.Rul.revalo.Rul.ptf.Rul.passif}
+%
+\begin{Description}\relax
+Cette fonction permet de calculer les besoins en revalorisation pour les differents PTF passifs d'une compagnie d'assurance :
+\begin{description}
+
+\item[besoins contractuels]  : besoins pour assouvir les engagements contractuels.
+\item[besoins cibles]  : besoins pour atteindre une revalorisation cible.
+
+\end{description}
+
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+besoin_revalo_ptf_passif(ptf_passif, cible)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{ptf\_passif}] est un objet de type \code{\LinkA{PTFPassif}{PTFPassif}}.
+
+\item[\code{cible}] est une \code{list} contenant des elements relatifs a la politique de revalorisation pour les differents passifs.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+\inputencoding{utf8}
+\HeaderA{calc\_be}{Fonction \code{calc\_be}.}{calc.Rul.be}
+%
+\begin{Description}\relax
+Cette fonction est une fonction centrale du package. Elle permet en effet de calculer un BEL.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+calc_be(alm, parallel = FALSE, nb_core = 1L)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{alm}] est un objet de type \code{\LinkA{ALM}{ALM}} contenant l'ensemble des donnees.
+
+\item[\code{parallel}] est une valeur \code{logical}. Lorsque cet argument est a \code{TRUE}, les calculs sont parallelises.
+
+\item[\code{nb\_core}] est une valeur \code{integer} qui indique le nombre de coeurs utilises lorsque les calculs sont parallelises.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Details}\relax
+Il est possible paralleliser les calculs afin d'accelerer le calcul d'un best-estimate.
+\end{Details}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+\inputencoding{utf8}
+\HeaderA{calc\_be\_simu}{Fonction \code{calc\_be\_simu}.}{calc.Rul.be.Rul.simu}
+%
+\begin{Description}\relax
+Cette fonction est une fonction centrale du package. Elle permet en effet de calculer un BEL pour une simulation donnee.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+calc_be_simu(alm, num_sim)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{alm}] est un objet de type \code{ALM} contenant l'ensemble des donnees.
+
+\item[\code{num\_sim}] est un \code{integer} representant le numero de simulation sur lequel on travaille.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Details}\relax
+C'est sur cette fonction que s'effectue les boucles sur le nombre de simulations ainsi que sur les annees.
+\end{Details}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+%
+\begin{SeeAlso}\relax
+Projection sur une annee d'un \code{\LinkA{System}{System}} : \code{\LinkA{proj\_1an\_system}{proj.Rul.1an.Rul.system}}.
+\end{SeeAlso}
+\inputencoding{utf8}
+\HeaderA{calc\_proba\_epargne}{Fonction \code{calc\_proba\_epargne}.}{calc.Rul.proba.Rul.epargne}
+%
+\begin{Description}\relax
+Cette fonction permet de completer l'objet contenant les probabilites relatives au portefeuille epargne.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+calc_proba_epargne(epargne, hyp_passif, an)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{epargne}] est un objet de type \code{\LinkA{Epargne}{Epargne}}.
+
+\item[\code{hyp\_passif}] est un objet de type \code{\LinkA{HypPassif}{HypPassif}}.
+
+\item[\code{an}] est un objet de type \code{integer}.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+\inputencoding{utf8}
+\HeaderA{calc\_proba\_ptf\_passif}{Fonction \code{calc\_proba\_ptf\_passif}}{calc.Rul.proba.Rul.ptf.Rul.passif}
+%
+\begin{Description}\relax
+Cette fonction permet de calculer et de completer les objets relatifs aux probabilites des differents portefeuilles.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+calc_proba_ptf_passif(ptf_passif, hyp_passif, an)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{ptf\_passif}] est un objet de type \code{\LinkA{PTFPassif}{PTFPassif}}.
+
+\item[\code{hyp\_passif}] est un objet de type \code{\LinkA{HypPassif}{HypPassif}}.
+
+\item[\code{an}] est un objet de type \code{integer}.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+\inputencoding{utf8}
+\HeaderA{calc\_qx}{Fonction \code{calc\_qx}.}{calc.Rul.qx}
+%
+\begin{Description}\relax
+Cette fonction permet de calculer des probas de deces pour un age et une table de mortalite donnes.
+Il est possible d'indiquer plusieurs ages differents sous forme de vecteur.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+calc_qx(tab_morta, age)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{tab\_morta}] est un objet de type \code{\LinkA{TabMorta}{TabMorta}}.
+
+\item[\code{age}] est un \code{integer}.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+\inputencoding{utf8}
+\HeaderA{calc\_rachat\_conj}{Fonction \code{calc\_rachat\_conj}.}{calc.Rul.rachat.Rul.conj}
+%
+\begin{Description}\relax
+Cette fonction permet de calculer les taux de rachats conjoncturels.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+calc_rachat_conj(rachat_conj, tx_cible, tx_serv)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{rachat\_conj}] est un objet de type \code{\LinkA{RachatConj}{RachatConj}}.
+
+\item[\code{tx\_cible}] est un \code{numeric}.
+
+\item[\code{tx\_serv}] est un \code{numeric}.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+\inputencoding{utf8}
+\HeaderA{calc\_rx}{Fonction \code{calc\_rx}.}{calc.Rul.rx}
+%
+\begin{Description}\relax
+Cette fonction permet de calculer des probas de rachat pour une anciennete et une table de rachat donnes.
+Il est possible d'indiquer plusieurs ages differents sous forme de vecteur.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+calc_rx(tab_rachat, anc)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{tab\_rachat}] est un objet de type \code{\LinkA{TabRachat}{TabRachat}}.
+
+\item[\code{anc}] est un \code{integer}.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+\inputencoding{utf8}
+\HeaderA{calc\_spread}{Fonction \code{calc\_spread}}{calc.Rul.spread}
+%
+\begin{Description}\relax
+Cette fonction permet de calculer les spread pour un PTF obligataire.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+calc_spread(obligation, yield_curve)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{obligation}] est un objet de type \code{\LinkA{Obligation}{Obligation}}.
+
+\item[\code{yield\_curve}] est un vecteur \code{numeric}.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+\inputencoding{utf8}
+\HeaderA{calc\_tri}{Fonction \code{calc\_tri}}{calc.Rul.tri}
+%
+\begin{Description}\relax
+Cette fonction permet de calculer les taux actuariels pour un PTF obligataire.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+calc_tri(obligation)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{obligation}] est un objet de type \code{\LinkA{Obligation}{Obligation}}.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+\inputencoding{utf8}
+\HeaderA{calcul\_duration\_obligation}{Cette fonction permet de calculer les duration pour un portfeuille obligataire.}{calcul.Rul.duration.Rul.obligation}
+%
+\begin{Description}\relax
+Cette fonction permet de calculer les duration pour un portfeuille obligataire.
+\end{Description}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{coupon}] un vecteur contenant \code{numeric} les coupons.
+
+\item[\code{mat\_res}] un vecteur \code{numeric} contenant les maturites residuelles.
+
+\item[\code{valeur\_remboursement}] un vecteur \code{numeric} contenant les valeurs de remboursement.
+
+\item[\code{yield}] un vecteur contenant la courbe de taux utilisee.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+\inputencoding{utf8}
+\HeaderA{calcul\_fonds\_propres}{Fonction \code{calcul\_fonds\_propres}}{calcul.Rul.fonds.Rul.propres}
+%
+\begin{Description}\relax
+Cette fonction permet de determiner le montant total des fonds propres.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+calcul_fonds_propres(fp)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{fp}] est un objet de type \code{FondsPropres}.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+\inputencoding{utf8}
+\HeaderA{calcul\_pb}{Fonction \code{calcul\_pb}.}{calcul.Rul.pb}
+%
+\begin{Description}\relax
+Cette fonction permet de determiner la PB a distribuer.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+calcul_pb(taux_pb, resultat_fin, resultat_tech)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{taux\_pb}] est une \code{list} contenant les deux taux de pb contractuels.
+
+\item[\code{resultat\_fin}] est un \code{numeric}
+
+\item[\code{resultat\_tech}] est un \code{numeric}
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+\inputencoding{utf8}
+\HeaderA{calcul\_pm}{Fonction \code{calcul\_pm}}{calcul.Rul.pm}
+%
+\begin{Description}\relax
+Cette fonction permet de determiner le montant total des PM dans les differents portefeuilles de la compagnie d'assurance.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+calcul_pm(ptf_passif)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{ptf\_passif}] est un objet de type \code{\LinkA{PTFPassif}{PTFPassif}}.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+\inputencoding{utf8}
+\HeaderA{calcul\_pt}{Fonction \code{calcul\_pt}}{calcul.Rul.pt}
+%
+\begin{Description}\relax
+Cette fonction permet de determiner le montant total des provisions techniques pour une compagnie d'assurance : PM et PPE
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+calcul_pt(passif)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{passif}] est un objet de type \code{\LinkA{Passif}{Passif}}.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+\inputencoding{utf8}
+\HeaderA{calcul\_quote\_part\_fp}{Fonction \code{calcul\_quote\_part\_fp}}{calcul.Rul.quote.Rul.part.Rul.fp}
+%
+\begin{Description}\relax
+Cette fonction permet de determiner la proportion que represente les fonds propres sur le passif d'une compagnie d'assurance.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+calcul_quote_part_fp(passif)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{passif}] est un objet de type \code{\LinkA{Passif}{Passif}}.
+
+\item[\code{result\_fin}] est un \code{numeric} representant le resultat financier total.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+\inputencoding{utf8}
+\HeaderA{calcul\_resultat}{Fonction \code{calcul\_resultat}.}{calcul.Rul.resultat}
+%
+\begin{Description}\relax
+Cette fonction permet de calculer le resultat de l'exercice en cours pour une compagnie d'assurance.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+calcul_resultat(resultat)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{resultat}] est une \code{list} contenant les differents elements du resultat.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+\inputencoding{utf8}
+\HeaderA{calcul\_resultat\_fin}{Fonction \code{calcul\_resultat\_fin}.}{calcul.Rul.resultat.Rul.fin}
+%
+\begin{Description}\relax
+Cette fonction permet de calculer le resultat financier d'une compagnie d'assurance.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+calcul_resultat_fin(resultat_fin)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{resultat\_fin}] est une \code{list} contenant les resultats financiers : PMVR, produits financiers et frais.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+\inputencoding{utf8}
+\HeaderA{calcul\_resultat\_tech}{Fonction \code{calcul\_resultat\_tech}.}{calcul.Rul.resultat.Rul.tech}
+%
+\begin{Description}\relax
+Cette fonction permet de calculer le resultat technique d'une compagnie d'assurance.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+calcul_resultat_tech(resultat_tech)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{resultat\_tech}] est une \code{list} contenant le resultat technique : chargements
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+\inputencoding{utf8}
+\HeaderA{calcul\_revalo}{Fonction \code{calcul\_revalo}}{calcul.Rul.revalo}
+%
+\begin{Description}\relax
+Cette fonction permet de calculer la revalorisation applique en fonction du besoin, de la PB ainsi que de la PPE.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+calcul_revalo(besoin, pb, ppe, revalo_oblig = 0)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{besoin}] est un \code{numeric}.
+
+\item[\code{pb}] est un \code{numeric} representant le montant de PB restant.
+
+\item[\code{ppe}] est un objet de type \code{\LinkA{PPE}{PPE}}.
+
+\item[\code{revalo\_oblig}] est un \code{numeric}. Il represente un montant de revalorisation obligatoire devant encore etre attribue.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+\inputencoding{utf8}
+\HeaderA{calcul\_vm\_obligation}{Cette fonction permet de calculer les valeurs de marche pour un portfeuille obligataire.}{calcul.Rul.vm.Rul.obligation}
+%
+\begin{Description}\relax
+Cette fonction permet de calculer les valeurs de marche pour un portfeuille obligataire.
+\end{Description}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{coupon}] un vecteur contenant \code{numeric} les coupons.
+
+\item[\code{mat\_res}] un vecteur \code{numeric} contenant les maturites residuelles.
+
+\item[\code{valeur\_remboursement}] un vecteur \code{numeric} contenant les valeurs de remboursement.
+
+\item[\code{spread}] un vecteur \code{numeric} contenant les spread.
+
+\item[\code{yield}] un vecteur contenant la courbe de taux utilisee.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+\inputencoding{utf8}
+\HeaderA{dotation\_ppe}{Fonction \code{dotation\_ppe}.}{dotation.Rul.ppe}
+%
+\begin{Description}\relax
+Cette fonction permet de doter la PPE. Le montant est dote sur la 1ere annee de reserve.
+
+Cette fonction permet de reprendre ou doter un montant a la PPE.
+\begin{description}
+
+\item[dotation]  : Appel de la fonction \code{\LinkA{dotation\_ppe}{dotation.Rul.ppe}} ;
+\item[reprise]  : Appel de la fonction \code{\LinkA{reprise\_ppe}{reprise.Rul.ppe}}.
+
+\end{description}
+
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+dotation_ppe(ppe, montant)
+
+dotation_reprise_ppe(ppe, montant)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{ppe}] est un objet de type \code{\LinkA{PPE}{PPE}}.
+
+\item[\code{montant}] est un \code{numeric} representant le montant a doter.
+
+\item[\code{ppe}] est un objet de type \code{\LinkA{PPE}{PPE}}.
+
+\item[\code{montant}] est un \code{numeric} representant le montant a doter ou a reprendre.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+
+Damien Tichit pour Sia Partners
+\end{Author}
+\inputencoding{utf8}
+\HeaderA{dotation\_reserve\_capi}{Fonction \code{dotation\_pre}.}{dotation.Rul.reserve.Rul.capi}
+%
+\begin{Description}\relax
+Cette fonction permet de doter la PRE.
+
+Cette fonction permet de doter la Reserve de capitalisation. Sa modelisation reflete sa definition (Article A333.3).
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+dotation_pre(pre, pmvl)
+
+dotation_reserve_capi(reserve_capi, pmvr)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{pmvl}] est une \code{list} contenant les differentes PMVL par classes d'actifs modelisees.
+
+\item[\code{reserve\_capi}] est un objet de type \code{\LinkA{PRE}{PRE}}.
+
+\item[\code{pmvr}] est un \code{numeric} representant le montant les plus ou moins value resalisees a doter.
+
+\item[\code{reserve\_capi}] est un objet de type \code{\LinkA{ReserveCapi}{ReserveCapi}}.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Details}\relax
+En cas de plus value (montant > 0) : dotation totale.
+En cas de moins value (montant < 0) : reprise dans la reserve de capitalisation, sous reserve qu'il soit encore positif.
+\end{Details}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+
+Damien Tichit pour Sia Partners
+\end{Author}
+\inputencoding{utf8}
+\HeaderA{Epargne}{Classe \code{Epargne}}{Epargne}
+\keyword{classes}{Epargne}
+%
+\begin{Description}\relax
+Cette classe represente le portefeuille des contrats epargne de la compagnie d'assurance.
+\end{Description}
+%
+\begin{Section}{Slots}
+
+\begin{description}
+
+\item[\code{ptf}] est un objet de type \code{data.frame} contenant les donnees relatives au portfeuille.
+
+\item[\code{proba}] est un objet de type \code{\LinkA{ProbaEpargne}{ProbaEpargne}} contenant les probas relatives au portfeuille.
+
+\end{description}
+\end{Section}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+\inputencoding{utf8}
+\HeaderA{ESG}{Classe \code{ESG}}{ESG}
+\keyword{classes}{ESG}
+%
+\begin{Description}\relax
+Cette classe aggrege l'ensemble des donnees relatives  a un ESG. Les donnees sont renseignees par simulation ainsi que par annee de projection.
+\end{Description}
+%
+\begin{Section}{Slots}
+
+\begin{description}
+
+\item[\code{coef\_actu}] est un \code{data.table} : coefficients d'actualisation.
+
+\item[\code{ctz\_nom}] est un \code{data.table} : taux zero coupon reels.
+
+\item[\code{ctz\_reel}] est un \code{data.table} : taux zero coupon nominaux.
+
+\item[\code{eq\_dividends}] est un \code{data.table} : dividendes verses.
+
+\item[\code{eq\_index}] est un \code{data.table} : log-rendements du PTF action.
+
+\item[\code{im\_index}] est un \code{data.table} : log-rendements du PTF immobilier
+
+\item[\code{im\_loyer}] est un \code{data.table} : loyers verses.
+
+\item[\code{inflation}] est un \code{data.table} : taux d'inflation.
+
+\end{description}
+\end{Section}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+\inputencoding{utf8}
+\HeaderA{eval\_frais\_fin}{Fonction \code{eval\_frais\_fin}}{eval.Rul.frais.Rul.fin}
+%
+\begin{Description}\relax
+Cette fonction permet d'evaluer les frais relatifs au portfeuille actif d'une compagnie d'assurance. Il est possible de modeliser des frais par produits financiers
+mais egalement des frais proportionnels aux VM.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+eval_frais_fin(ptf_actif, frais_fin, prod_fin)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{ptf\_actif}] est un objet de type \code{\LinkA{PTFActif}{PTFActif}}.
+
+\item[\code{frais\_fin}] est un objet de type \code{data.frame}.
+
+\item[\code{prod\_fin}] est une \code{list} contenant les produits financiers pour les differentes classes d'actifs modelisees..
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+\inputencoding{utf8}
+\HeaderA{extract\_pmvl\_action}{Fonction \code{extract\_pmvl\_action}}{extract.Rul.pmvl.Rul.action}
+%
+\begin{Description}\relax
+Cette fonction permet de determiner les PMVL pouvant etre realises sur un PTF d'actions.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+extract_pmvl_action(action)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{action}] est un objet de type \code{Action}.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+\inputencoding{utf8}
+\HeaderA{extract\_pmvl\_immobilier}{Fonction \code{extract\_pmvl\_immobilier}}{extract.Rul.pmvl.Rul.immobilier}
+%
+\begin{Description}\relax
+Cette fonction permet de determiner les PMVL pouvant etre realises sur un PTF immobilier.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+extract_pmvl_immobilier(immobilier)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{immobilier}] est un objet de type \code{Immobilier}.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+\inputencoding{utf8}
+\HeaderA{extract\_pmvl\_obligation}{Fonction \code{extract\_pmvl\_obligation}}{extract.Rul.pmvl.Rul.obligation}
+%
+\begin{Description}\relax
+Cette fonction permet de determiner les PMVL pouvant etre realises sur un PTF obligataire.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+extract_pmvl_obligation(obligation)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{obligation}] est un objet de type \code{Obligation}.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+\inputencoding{utf8}
+\HeaderA{extract\_pmvl\_ptf\_actif}{Fonction \code{extract\_pmvl\_ptf\_actif}}{extract.Rul.pmvl.Rul.ptf.Rul.actif}
+%
+\begin{Description}\relax
+Cette fonction permet de determiner les PMVL pouvant etre realises sur les differents portefeuille.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+extract_pmvl_ptf_actif(ptf_actif)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{ptf\_actif}] est un objet de type \code{PTFActif}.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+\inputencoding{utf8}
+\HeaderA{FondsPropres}{Classe \code{FondsPropres}}{FondsPropres}
+\keyword{classes}{FondsPropres}
+%
+\begin{Description}\relax
+Cette classe aggrege l'ensemble des donnees relatives au passif de la compagnie d'assurance : hypotheses, portefeuille, provisions
+\end{Description}
+%
+\begin{Section}{Slots}
+
+\begin{description}
+
+\item[\code{capitaux\_propres}] est un \code{numeric} representant le montant des capitaux propres
+
+\item[\code{report\_a\_nouveau}] est un \code{numeric} representant le montant du report a nouveau.
+
+\item[\code{resultat\_exercice}] est un \code{numeric} representant le resultat de l'exercice en cours.
+
+\item[\code{dette}] est un \code{numeric}.
+
+\item[\code{hypotheses}] est une \code{list}.
+
+\end{description}
+\end{Section}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+\inputencoding{utf8}
+\HeaderA{gestion\_action}{Fonction \code{gestion\_action}}{gestion.Rul.action}
+%
+\begin{Description}\relax
+Cette fonction permet de gerer un portfeuille action : recolte des dividendes, recalcul des VM
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+gestion_action(action, hyp_actif, an)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{action}] est un objet de type \code{\LinkA{Action}{Action}}.
+
+\item[\code{hyp\_actif}] est un objet de type \code{\LinkA{HypActif}{HypActif}}.
+
+\item[\code{an}] est un \code{integer} reprensentant l'annee sur laquelle on travaille.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+\inputencoding{utf8}
+\HeaderA{gestion\_capitaux\_propres}{Fonction \code{gestion\_capitaux\_propres}}{gestion.Rul.capitaux.Rul.propres}
+%
+\begin{Description}\relax
+Cette fonction permet de gerer les capitaux propres : ajout d'une part du resultat fin, retirer les dividendes.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+gestion_capitaux_propres(passif, result_fin)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{passif}] est un objet de type \code{\LinkA{Passif}{Passif}}.
+
+\item[\code{result\_fin}] est un \code{numeric} representant le resultat financier total.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+\inputencoding{utf8}
+\HeaderA{gestion\_fin\_projection\_actif}{Fonction \code{gestion\_fin\_projection\_actif}}{gestion.Rul.fin.Rul.projection.Rul.actif}
+%
+\begin{Description}\relax
+Cette fonction permet de gerer la fin de projection du modele sur l'actif de la compagnie d'assurance.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+gestion_fin_projection_actif(actif)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{actif}] est un objet de type \code{\LinkA{Actif}{Actif}}.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+\inputencoding{utf8}
+\HeaderA{gestion\_fin\_projection\_passif}{Fonction \code{gestion\_fin\_projection\_passif}}{gestion.Rul.fin.Rul.projection.Rul.passif}
+%
+\begin{Description}\relax
+Cette fonction permet de gerer la fin de projection du modele sur le passif de la compagnie d'assurance.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+gestion_fin_projection_passif(passif)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{passif}] est un objet de type \code{\LinkA{Passif}{Passif}}.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+\inputencoding{utf8}
+\HeaderA{gestion\_fin\_projection\_system}{Fonction \code{gestion\_fin\_projection\_system}}{gestion.Rul.fin.Rul.projection.Rul.system}
+%
+\begin{Description}\relax
+Cette fonction permet de gerer la fin de projection de la compagnie d'assurance.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+gestion_fin_projection_system(system)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{system}] est un objet de type \code{\LinkA{System}{System}}.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+\inputencoding{utf8}
+\HeaderA{gestion\_fonds\_propres}{Fonction \code{gestion\_fonds\_propres}}{gestion.Rul.fonds.Rul.propres}
+%
+\begin{Description}\relax
+Cette fonction permet de gerer les fonds propres.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+gestion_fonds_propres(fp, resultat, emprunt)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{fp}] est un objet de type \code{FondsPropres}.
+
+\item[\code{resultat}] est un \code{numeric} representant le resultat de l'annee.
+
+\item[\code{emprunt}] est un \code{numeric}.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+\inputencoding{utf8}
+\HeaderA{gestion\_immobilier}{Fonction \code{gestion\_immobilier}}{gestion.Rul.immobilier}
+%
+\begin{Description}\relax
+Cette fonction permet de gerer un portfeuille immobilier : recolte des loyers, recalcul des VM
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+gestion_immobilier(immobilier, hyp_actif, an)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{immobilier}] est un objet de type \code{\LinkA{Immobilier}{Immobilier}}.
+
+\item[\code{hyp\_actif}] est un objet de type \code{\LinkA{HypActif}{HypActif}}.
+
+\item[\code{an}] est un \code{integer} reprensentant l'annee sur laquelle on travaille.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+\inputencoding{utf8}
+\HeaderA{gestion\_obligation}{Fonction \code{gestion\_obligation}}{gestion.Rul.obligation}
+%
+\begin{Description}\relax
+Cette fonction permet de gerer un portfeuille obligation : recolte des coupons, recalcul des VM, VNC, VR, vieillissement...
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+gestion_obligation(obligation, hyp_actif, an)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{obligation}] est un objet de type \code{\LinkA{Obligation}{Obligation}}.
+
+\item[\code{hyp\_actif}] est un objet de type \code{\LinkA{HypActif}{HypActif}}.
+
+\item[\code{an}] est un \code{integer} reprensentant l'annee sur laquelle on travaille.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+\inputencoding{utf8}
+\HeaderA{gestion\_ptf\_actif}{Fonction \code{gestion\_ptf\_actif}.}{gestion.Rul.ptf.Rul.actif}
+%
+\begin{Description}\relax
+Cette fonction permet de gerer les differents ptf actif d'une compagnie d'assurance : recolte des produits financiers, recalcul des VM, vieillissement...
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+gestion_ptf_actif(ptf_actif, hyp_actif, an)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{ptf\_actif}] est un objet de type \code{\LinkA{PTFActif}{PTFActif}}.
+
+\item[\code{hyp\_actif}] est un objet de type \code{\LinkA{HypActif}{HypActif}}.
+
+\item[\code{an}] est un \code{integer} reprensentant l'annee sur laquelle on travaille.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+\inputencoding{utf8}
+\HeaderA{gestion\_tresorerie}{Fonction \code{gestion\_tresorerie}}{gestion.Rul.tresorerie}
+%
+\begin{Description}\relax
+Cette fonction permet de gerer un portfeuille monetaire : recolte des interets monetaires.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+gestion_tresorerie(tresorerie, hyp_actif, an)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{tresorerie}] est un objet de type \code{\LinkA{Tresorerie}{Tresorerie}}.
+
+\item[\code{hyp\_actif}] est un objet de type \code{\LinkA{HypActif}{HypActif}}.
+
+\item[\code{an}] est un \code{integer} reprensentant l'annee sur laquelle on travaille.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+\inputencoding{utf8}
+\HeaderA{HypActif}{Classe \code{HypActif}}{HypActif}
+\keyword{classes}{HypActif}
+%
+\begin{Description}\relax
+Cette classe aggrege l'ensemble des hypotheses relatives au passif de la compagnie d'assurance : portefeuille cible, frais financiers.
+\end{Description}
+%
+\begin{Section}{Slots}
+
+\begin{description}
+
+\item[\code{ptf\_cible}] est un objet de la classe \code{\LinkA{PTFCible}{PTFCible}} representant le portfeuille financier cible.
+
+\item[\code{esg\_simu}] est une \code{list} reprenant les donnees de l'ESG pour une simulation.
+
+\item[\code{frais\_fin}] est un objet de la classe \code{\LinkA{data.frame}{data.frame}} contenant les hyptheses relatives aux frais financiers.
+
+\item[\code{revalo\_treso}] est un \code{numeric} indiquant le taux auquel est revalorise la tresorerie.
+
+\end{description}
+\end{Section}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+%
+\begin{SeeAlso}\relax
+Le parametre \code{esg\_simu} se met a jour grace a la fonction \code{\LinkA{update\_esg}{update.Rul.esg}}
+\end{SeeAlso}
+\inputencoding{utf8}
+\HeaderA{HypALM}{Classe \code{HypALM}}{HypALM}
+\keyword{classes}{HypALM}
+%
+\begin{Description}\relax
+Cette classe aggrege l'ensemble des hypotheses relatives au modele ALM.
+\end{Description}
+%
+\begin{Section}{Slots}
+
+\begin{description}
+
+\item[\code{esg}] est un objet de type \code{\LinkA{ESG}{ESG}}.
+
+\item[\code{nb\_simu}] est un \code{integer} representant le nombre de simulation souhaite pour calculer le BEL.
+
+\item[\code{an\_proj}] est un \code{integer} representant le nombre d'annees de projection.
+
+\end{description}
+\end{Section}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+\inputencoding{utf8}
+\HeaderA{HypPassif}{Classe \code{HypPassif}}{HypPassif}
+\keyword{classes}{HypPassif}
+%
+\begin{Description}\relax
+Cette classe aggrege l'ensemble des hypotheses relatives au passif d'une compagnie d'assurance : tables de rachat, de mortalite...
+\end{Description}
+%
+\begin{Section}{Slots}
+
+\begin{description}
+
+\item[\code{tab\_morta\_h}] est un objet de la classe \code{\LinkA{TabMorta}{TabMorta}} contenant la table de mortalite pour les hommes.
+
+\item[\code{tab\_morta\_f}] est un objet de la classe \code{\LinkA{TabMorta}{TabMorta}} contenant la table de mortalite pour les hommes.
+
+\item[\code{tab\_rachat\_tot}] est un objet de la classe \code{\LinkA{TabRachat}{TabRachat}} contenant la table modelisant les rachats totaux.
+
+\item[\code{tab\_rachat\_part}] est un objet de la classe \code{\LinkA{TabRachat}{TabRachat}} contenant la table modelisant les rachats partiels.
+
+\item[\code{rachat\_conj}] est un objet de la classe \code{\LinkA{RachatConj}{RachatConj}} contenant les parametres modelisant les rachats conjoncturels.
+
+\item[\code{calc\_proba}] est un objet \code{logical} qui indique si les probabilites doivent etre calculees.
+
+\item[\code{prop\_pb}] est un \code{data.frame} qui indique la proportion a attribue dans le cas ou les besoins ont ete assouvis (apres besoins contractuels et cible).
+
+\item[\code{cible}] est une \code{list} contenant les differents taux cibles par produits.
+
+\item[\code{esg\_simu}] est une \code{list} reprenant les donnees de l'ESG pour une simulation : taux cibles et inflation.
+
+\item[\code{dividende}] est un \code{numeric} representant le taux de dividendes verse chaque annee aux actionnaires.
+
+\end{description}
+\end{Section}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+%
+\begin{SeeAlso}\relax
+La mise a jour de l'attribut \code{cible} : \code{\LinkA{update\_esg}{update.Rul.esg}}
+\end{SeeAlso}
+\inputencoding{utf8}
+\HeaderA{Immobilier}{Classe \code{Immobilier}}{Immobilier}
+\keyword{classes}{Immobilier}
+%
+\begin{Description}\relax
+Cette classe represente le portefeuille des immobilier de la compagnie d'assurance.
+\end{Description}
+%
+\begin{Section}{Slots}
+
+\begin{description}
+
+\item[\code{ptf}] est un objet de type \code{\LinkA{data.frame}{data.frame}} contenant les donnees relatives au portefeuille.
+
+\end{description}
+\end{Section}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+\inputencoding{utf8}
+\HeaderA{initialisation\_alm}{Fonction \code{initialisation\_alm}.}{initialisation.Rul.alm}
+%
+\begin{Description}\relax
+Cette fonction permet d'initialiser un objet de type \code{\LinkA{ALM}{ALM}} : chargement des donnees, aggregation, calcul des probas...
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+initialisation_alm(alm)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{alm}] est un objet de type \code{\LinkA{ALM}{ALM}}.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+%
+\begin{SeeAlso}\relax
+Construction d'un objet de type \code{\LinkA{ALM}{ALM}} : \code{\LinkA{load\_alm}{load.Rul.alm}}.
+
+Premiere aggregation d'un objet de type \code{\LinkA{ALM}{ALM}} : \code{\LinkA{aggregation\_alm}{aggregation.Rul.alm}}.
+
+Seconde aggregation pour les passifs \code{\LinkA{ALM}{ALM}} : \code{\LinkA{aggregation\_passif\_2}{aggregation.Rul.passif.Rul.2}}.
+\end{SeeAlso}
+\inputencoding{utf8}
+\HeaderA{load\_actif}{Fonction \code{load\_actif}.}{load.Rul.actif}
+%
+\begin{Description}\relax
+Cette fonction permet de charger les donnees pour un objet de type \code{\LinkA{Actif}{Actif}}. Les donnees auront ete prealablement disposees dans
+une architecture propre a \code{SiALM}.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+load_actif(address)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{address}] est un objet de type \code{character} indiquant le dossier dans lequel se situe l'ensemble des donnees necessaires
+pour la construction de l'objet.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Details}\relax
+La creation d'un objet \code{\LinkA{Actif}{Actif}} necessite la creation de deux autres objets : \code{\LinkA{PTFActif}{PTFActif}}, \code{\LinkA{HypActif}{HypActif}}.
+\end{Details}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+%
+\begin{SeeAlso}\relax
+Construction d'un objet de type \code{\LinkA{PTFActif}{PTFActif}} : \code{\LinkA{load\_ptf\_actif}{load.Rul.ptf.Rul.actif}}.
+
+Construction d'un objet de type \code{\LinkA{HypActif}{HypActif}} : \code{\LinkA{load\_hyp\_actif}{load.Rul.hyp.Rul.actif}}.
+\end{SeeAlso}
+\inputencoding{utf8}
+\HeaderA{load\_action}{Fonction \code{load\_action}.}{load.Rul.action}
+%
+\begin{Description}\relax
+Cette fonction permet de charger les donnees pour un objet de type \code{\LinkA{Action}{Action}}. Les donnees auront ete prealablement disposees dans
+une architecture propre a \code{SiALM}.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+load_action(address)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{address}] est un objet de type \code{character} indiquant le dossier dans lequel se situe l'ensemble des donnees necessaires
+pour la construction de l'objet.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Details}\relax
+La creation d'un objet \code{\LinkA{Action}{Action}} necessite des donnees presentes dans un fichier nomme \code{Actions.csv}.
+\end{Details}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+\inputencoding{utf8}
+\HeaderA{load\_alm}{Fonction \code{load\_alm}.}{load.Rul.alm}
+%
+\begin{Description}\relax
+Cette fonction permet de charger les donnees pour un objet de type \code{\LinkA{ALM}{ALM}}. Les donnees auront ete prealablement disposees dans
+une architecture propre a \code{SiALM}.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+load_alm(address)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{address}] est un objet de type \code{character} indiquant le dossier dans lequel se situe l'ensemble des donnees necessaire
+pour la construction de l'objet.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Details}\relax
+La creation d'un objet \code{\LinkA{ALM}{ALM}} necessite la creation de deux autres objets : \code{\LinkA{System}{System}} et \code{\LinkA{HypALM}{HypALM}}.
+\end{Details}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+%
+\begin{SeeAlso}\relax
+Construction d'un objet de type \code{\LinkA{System}{System}} : \code{\LinkA{load\_system}{load.Rul.system}}.
+
+Construction d'un objet de type \code{\LinkA{HypALM}{HypALM}} : \code{\LinkA{load\_hyp\_alm}{load.Rul.hyp.Rul.alm}}.
+\end{SeeAlso}
+\inputencoding{utf8}
+\HeaderA{load\_epargne}{Fonction \code{load\_epargne}.}{load.Rul.epargne}
+%
+\begin{Description}\relax
+Cette fonction permet de charger les donnees pour un objet de type \code{\LinkA{Epargne}{Epargne}}. Les donnees auront ete prealablement disposees dans
+une architecture propre a \code{SiALM}.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+load_epargne(address)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{address}] est un objet de type \code{character} indiquant le dossier dans lequel se situe l'ensemble des donnees necessaires
+pour la construction de l'objet.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Details}\relax
+La creation d'un objet \code{\LinkA{Epargne}{Epargne}} necessite des donnees presentes dans un fichier nomme \code{Epargne.csv}.
+\end{Details}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+\inputencoding{utf8}
+\HeaderA{load\_esg}{Fonction \code{load\_esg}.}{load.Rul.esg}
+%
+\begin{Description}\relax
+Cette fonction permet de charger les donnees pour un objet de type \code{\LinkA{ESG}{ESG}}. Les donnees auront ete prealablement disposees dans
+une architecture propre a \code{SiALM}.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+load_esg(address, avec_va = TRUE)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{address}] est un objet de type \code{character} indiquant le dossier dans lequel se situe l'ensemble des donnees necessaires
+pour la construction de l'objet.
+
+\item[\code{avec\_va}] est un \code{logical} indiquant si les donnees doivent etre chargees sur le jeu de donnees avec Volatility Adjustment. Par defaut, la valeur est a \code{TRUE}.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+\inputencoding{utf8}
+\HeaderA{load\_fonds\_propres}{Fonction \code{load\_fonds\_propres}.}{load.Rul.fonds.Rul.propres}
+%
+\begin{Description}\relax
+Cette fonction permet de charger les donnees pour un objet de type \code{\LinkA{FondsPropres}{FondsPropres}}. Les donnees auront ete prealablement disposees dans
+une architecture propre a \code{SiALM}.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+load_fonds_propres(address)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{address}] est un objet de type \code{character} indiquant le dossier dans lequel se situe l'ensemble des donnees necessaires
+pour la construction de l'objet.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+\inputencoding{utf8}
+\HeaderA{load\_hyp\_actif}{Fonction \code{load\_hyp\_actif}.}{load.Rul.hyp.Rul.actif}
+%
+\begin{Description}\relax
+Cette fonction permet de charger les donnees pour un objet de type \code{\LinkA{HypActif}{HypActif}}. Les donnees auront ete prealablement disposees dans
+une architecture propre a \code{SiALM}.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+load_hyp_actif(address)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{address}] est un objet de type \code{character} indiquant le dossier dans lequel se situe l'ensemble des donnees necessaires
+pour la construction de l'objet.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Details}\relax
+La creation d'un objet \code{\LinkA{HypActif}{HypActif}} necessite la creation d'un autre objet : \code{\LinkA{PTFCible}{PTFCible}}.
+\end{Details}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+%
+\begin{SeeAlso}\relax
+Construction d'un objet de type \code{\LinkA{PTFCible}{PTFCible}} : \code{\LinkA{load\_ptf\_cible}{load.Rul.ptf.Rul.cible}}.
+\end{SeeAlso}
+\inputencoding{utf8}
+\HeaderA{load\_hyp\_alm}{Fonction \code{load\_hyp\_alm}.}{load.Rul.hyp.Rul.alm}
+%
+\begin{Description}\relax
+Cette fonction permet de charger les donnees pour un objet de type \code{\LinkA{HypALM}{HypALM}}. Les donnees auront ete prealablement disposees dans
+une architecture propre a \code{SiALM}.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+load_hyp_alm(address)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{address}] est un objet de type \code{character} indiquant le dossier dans lequel se situe l'ensemble des donnees necessaires
+pour la construction de l'objet.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Details}\relax
+La creation d'un objet \code{\LinkA{HypALM}{HypALM}} necessite plusieurs parametres presents dans un fichier nomme \code{Hypotheses\_ALM.csv}.
+\end{Details}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+%
+\begin{SeeAlso}\relax
+Chargement d'un objet \code{\LinkA{ESG}{ESG}} : \code{\LinkA{load\_esg}{load.Rul.esg}}
+\end{SeeAlso}
+\inputencoding{utf8}
+\HeaderA{load\_hyp\_passif}{Fonction \code{load\_hyp\_passif}.}{load.Rul.hyp.Rul.passif}
+%
+\begin{Description}\relax
+Cette fonction permet de charger les donnees pour un objet de type \code{\LinkA{HypPassif}{HypPassif}}. Les donnees auront ete prealablement disposees dans
+une architecture propre a \code{SiALM}.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+load_hyp_passif(address)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{address}] est un objet de type \code{character} indiquant le dossier dans lequel se situe l'ensemble des donnees necessaires
+pour la construction de l'objet.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Details}\relax
+La creation d'un objet \code{\LinkA{HypPassif}{HypPassif}} necessite la creation de deux autres objets differents : \code{\LinkA{TabMorta}{TabMorta}} et \code{\LinkA{TabRachat}{TabRachat}}.
+\end{Details}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+%
+\begin{SeeAlso}\relax
+Construction d'un objet de type \code{\LinkA{TabMorta}{TabMorta}} : \code{\LinkA{load\_tab\_morta}{load.Rul.tab.Rul.morta}}.
+
+Construction d'un objet de type \code{\LinkA{TabRachat}{TabRachat}} : \code{\LinkA{load\_tab\_rachat}{load.Rul.tab.Rul.rachat}}.
+\end{SeeAlso}
+\inputencoding{utf8}
+\HeaderA{load\_immobilier}{Fonction \code{load\_immobilier}.}{load.Rul.immobilier}
+%
+\begin{Description}\relax
+Cette fonction permet de charger les donnees pour un objet de type \code{\LinkA{Immobilier}{Immobilier}}. Les donnees auront ete prealablement disposees dans
+une architecture propre a \code{SiALM}.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+load_immobilier(address)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{address}] est un objet de type \code{character} indiquant le dossier dans lequel se situe l'ensemble des donnees necessaires
+pour la construction de l'objet.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Details}\relax
+La creation d'un objet \code{\LinkA{Immobilier}{Immobilier}} necessite des donnees presentes dans un fichier nomme \code{Immobilier.csv}.
+\end{Details}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+\inputencoding{utf8}
+\HeaderA{load\_obligation}{Fonction \code{load\_obligation}.}{load.Rul.obligation}
+%
+\begin{Description}\relax
+Cette fonction permet de charger les donnees pour un objet de type \code{\LinkA{Obligation}{Obligation}}. Les donnees auront ete prealablement disposees dans
+une architecture propre a \code{SiALM}.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+load_obligation(address)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{address}] est un objet de type \code{character} indiquant le dossier dans lequel se situe l'ensemble des donnees necessaires
+pour la construction de l'objet.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Details}\relax
+La creation d'un objet \code{\LinkA{Obligation}{Obligation}} necessite des donnees presentes dans un fichier nomme \code{Obligations.csv}.
+
+Cette fonction permet egalement d'aggreger les donnees : 1 obligation par maturite residuelle.
+\end{Details}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+\inputencoding{utf8}
+\HeaderA{load\_obligation\_cible}{Fonction \code{load\_obligation\_cible}.}{load.Rul.obligation.Rul.cible}
+%
+\begin{Description}\relax
+Cette fonction permet de charger les donnees pour un objet de type \code{\LinkA{Obligation}{Obligation}}. Les donnees auront ete prealablement disposees dans
+une architecture propre a \code{SiALM}. Cette fonction sera utilisee pour le chargement du portfeuille cible.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+load_obligation_cible(address)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{address}] est un objet de type \code{character} indiquant le dossier dans lequel se situe l'ensemble des donnees necessaires
+pour la construction de l'objet.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Details}\relax
+La creation d'un objet \code{\LinkA{Obligation}{Obligation}} necessite des donnees presentes dans un fichier nomme \code{Obligations.csv}.
+\end{Details}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+\inputencoding{utf8}
+\HeaderA{load\_passif}{Fonction \code{load\_passif}.}{load.Rul.passif}
+%
+\begin{Description}\relax
+Cette fonction permet de charger les donnees pour un objet de type \code{\LinkA{Passif}{Passif}}. Les donnees auront ete prealablement disposees dans
+une architecture propre a \code{SiALM}.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+load_passif(address)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{address}] est un objet de type \code{character} indiquant le dossier dans lequel se situe l'ensemble des donnees necessaires
+pour la construction de l'objet.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Details}\relax
+La creation d'un objet \code{\LinkA{Passif}{Passif}} necessite la creation de deux autres objets : \code{\LinkA{Passif}{Passif}}, \code{\LinkA{Provision}{Provision}} et \code{\LinkA{HypPassif}{HypPassif}}.
+\end{Details}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+%
+\begin{SeeAlso}\relax
+Construction d'un objet de type \code{\LinkA{PTFPassif}{PTFPassif}} : \code{\LinkA{load\_ptf\_passif}{load.Rul.ptf.Rul.passif}}.
+
+Construction d'un objet de type \code{\LinkA{HypPassif}{HypPassif}} : \code{\LinkA{load\_hyp\_passif}{load.Rul.hyp.Rul.passif}}.
+
+Construction d'un objet de type \code{\LinkA{Provision}{Provision}} : \code{\LinkA{load\_provision}{load.Rul.provision}}.
+\end{SeeAlso}
+\inputencoding{utf8}
+\HeaderA{load\_ppe}{Fonction \code{load\_ppe}.}{load.Rul.ppe}
+%
+\begin{Description}\relax
+Cette fonction permet de charger les donnees pour un objet de type \code{\LinkA{PPE}{PPE}}. Les donnees auront ete prealablement disposees dans
+une architecture propre a \code{SiALM}.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+load_ppe(address)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{address}] est un objet de type \code{character} indiquant le dossier dans lequel se situe l'ensemble des donnees necessaires
+pour la construction de l'objet.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Details}\relax
+La creation d'un objet \code{\LinkA{PPE}{PPE}} necessite des donnees presentes dans les fichiers nommes \code{PPE.csv} et \code{TM-H.csv}.
+\end{Details}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+\inputencoding{utf8}
+\HeaderA{load\_pre}{Fonction \code{load\_pre}.}{load.Rul.pre}
+%
+\begin{Description}\relax
+Cette fonction permet de charger les donnees pour un objet de type \code{\LinkA{PRE}{PRE}}. Les donnees auront ete prealablement disposees dans
+une architecture propre a \code{SiALM}.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+load_pre(address)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{address}] est un objet de type \code{character} indiquant le dossier dans lequel se situe l'ensemble des donnees necessaires
+pour la construction de l'objet.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Details}\relax
+La creation d'un objet \code{\LinkA{PRE}{PRE}} necessite des donnees presentes dans les fichiers nommes \code{pre.csv}.
+\end{Details}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+\inputencoding{utf8}
+\HeaderA{load\_provision}{Fonction \code{load\_provision}.}{load.Rul.provision}
+%
+\begin{Description}\relax
+Cette fonction permet de charger les donnees pour un objet de type \code{\LinkA{Provision}{Provision}}.
+Les donnees auront ete prealablement disposees dans une architecture propre a \code{SiALM}.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+load_provision(address)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{address}] est un objet de type \code{character} indiquant le dossier dans lequel se situe l'ensemble des donnees necessaires
+pour la construction de l'objet.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Details}\relax
+La creation d'un objet \code{\LinkA{Provision}{Provision}} necessite la creation de deux autres objets : \code{\LinkA{PPE}{PPE}} et \code{\LinkA{ReserveCapi}{ReserveCapi}}.
+\end{Details}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+%
+\begin{SeeAlso}\relax
+Construction d'un objet de type \code{\LinkA{PPE}{PPE}} : \code{\LinkA{load\_ppe}{load.Rul.ppe}}.
+
+Construction d'un objet de type \code{\LinkA{ReserveCapi}{ReserveCapi}} : \code{\LinkA{load\_reserve\_capi}{load.Rul.reserve.Rul.capi}}.
+\end{SeeAlso}
+\inputencoding{utf8}
+\HeaderA{load\_ptf\_actif}{Fonction \code{load\_ptf\_actif}.}{load.Rul.ptf.Rul.actif}
+%
+\begin{Description}\relax
+Cette fonction permet de charger les donnees pour un objet de type \code{\LinkA{Actif}{Actif}}. Les donnees auront ete prealablement disposees dans
+une architecture propre a \code{SiALM}.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+load_ptf_actif(address)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{address}] est un objet de type \code{character} indiquant le dossier dans lequel se situe l'ensemble des donnees necessaires
+pour la construction de l'objet.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Details}\relax
+La creation d'un objet \code{\LinkA{Actif}{Actif}} necessite la creation de trois autres objets : \code{\LinkA{Action}{Action}}, \code{\LinkA{Obligation}{Obligation}}, \code{\LinkA{Immobilier}{Immobilier}} et \code{\LinkA{Tresorerie}{Tresorerie}}.
+\end{Details}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+%
+\begin{SeeAlso}\relax
+Construction d'un objet de type \code{\LinkA{Action}{Action}} : \code{\LinkA{load\_action}{load.Rul.action}}.
+
+Construction d'un objet de type \code{\LinkA{Obligation}{Obligation}} : \code{\LinkA{load\_obligation}{load.Rul.obligation}}.
+
+Construction d'un objet de type \code{\LinkA{Tresorerie}{Tresorerie}} : \code{\LinkA{load\_tresorerie}{load.Rul.tresorerie}}.
+
+Construction d'un objet de type \code{\LinkA{Immobilier}{Immobilier}} : \code{\LinkA{load\_immobilier}{load.Rul.immobilier}}.
+\end{SeeAlso}
+\inputencoding{utf8}
+\HeaderA{load\_ptf\_cible}{Fonction \code{load\_ptf\_cible}.}{load.Rul.ptf.Rul.cible}
+%
+\begin{Description}\relax
+Cette fonction permet de charger les donnees pour un objet de type \code{\LinkA{PTFCible}{PTFCible}}. Les donnees auront ete prealablement disposees dans
+une architecture propre a \code{SiALM}.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+load_ptf_cible(address)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{address}] est un objet de type \code{character} indiquant le dossier dans lequel se situe l'ensemble des donnees necessaires
+pour la construction de l'objet.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Details}\relax
+La creation d'un objet \code{\LinkA{PTFCible}{PTFCible}} necessite la creation d'un autre objet : \code{\LinkA{Obligation}{Obligation}}.
+\end{Details}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+%
+\begin{SeeAlso}\relax
+Construction d'un objet de type \code{\LinkA{Obligation}{Obligation}} : \code{\LinkA{load\_obligation\_cible}{load.Rul.obligation.Rul.cible}}.
+\end{SeeAlso}
+\inputencoding{utf8}
+\HeaderA{load\_ptf\_passif}{Fonction \code{load\_ptf\_passif}.}{load.Rul.ptf.Rul.passif}
+%
+\begin{Description}\relax
+Cette fonction permet de charger les donnees pour un objet de type \code{\LinkA{PTFPassif}{PTFPassif}}. Les donnees auront ete prealablement disposees dans
+une architecture propre a \code{SiALM}.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+load_ptf_passif(address)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{address}] est un objet de type \code{character} indiquant le dossier dans lequel se situe l'ensemble des donnees necessaires
+pour la construction de l'objet.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Details}\relax
+La creation d'un objet \code{\LinkA{PTFPassif}{PTFPassif}} necessite la creation d'un autre objet : \code{\LinkA{Epargne}{Epargne}}.
+\end{Details}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+%
+\begin{SeeAlso}\relax
+Construction d'un objet de type \code{\LinkA{Epargne}{Epargne}} : \code{\LinkA{load\_epargne}{load.Rul.epargne}}.
+\end{SeeAlso}
+\inputencoding{utf8}
+\HeaderA{load\_rachat\_conj}{Fonction \code{load\_rachat\_conj}.}{load.Rul.rachat.Rul.conj}
+%
+\begin{Description}\relax
+Cette fonction permet de charger les donnees pour un objet de type \code{\LinkA{RachatConj}{RachatConj}}. Les donnees auront ete prealablement disposees dans
+une architecture propre a \code{SiALM}.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+load_rachat_conj(address)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{address}] est un objet de type \code{character} indiquant le dossier dans lequel se situe l'ensemble des donnees necessaires
+pour la construction de l'objet.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Details}\relax
+La creation d'un objet \code{\LinkA{RachatConj}{RachatConj}} necessite des donnees presentes dans un fichier nommes \code{Rachats\_conjoncturels.csv}.
+\end{Details}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+\inputencoding{utf8}
+\HeaderA{load\_reserve\_capi}{Fonction \code{load\_reserve\_capi}.}{load.Rul.reserve.Rul.capi}
+%
+\begin{Description}\relax
+Cette fonction permet de charger les donnees pour un objet de type \code{\LinkA{ReserveCapi}{ReserveCapi}}. Les donnees auront ete prealablement disposees dans
+une architecture propre a \code{SiALM}.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+load_reserve_capi(address)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{address}] est un objet de type \code{character} indiquant le dossier dans lequel se situe l'ensemble des donnees necessaires
+pour la construction de l'objet.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Details}\relax
+La creation d'un objet \code{\LinkA{ReserveCapi}{ReserveCapi}} necessite des donnees presentes dans les fichiers nommes \code{reserve\_capi.csv}.
+\end{Details}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+\inputencoding{utf8}
+\HeaderA{load\_system}{Fonction \code{load\_system}.}{load.Rul.system}
+%
+\begin{Description}\relax
+Cette fonction permet de charger les donnees pour un objet de type \code{\LinkA{System}{System}}. Les donnees auront ete prealablement disposees dans
+une architecture propre a \code{SiALM}.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+load_system(address)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{address}] est un objet de type \code{character} indiquant le dossier dans lequel se situe l'ensemble des donnees necessaires
+pour la construction de l'objet.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Details}\relax
+La creation d'un objet \code{\LinkA{System}{System}} necessite la creation de deux autres objets : \code{\LinkA{Actif}{Actif}} et \code{\LinkA{Passif}{Passif}}.
+\end{Details}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+%
+\begin{SeeAlso}\relax
+Construction d'un objet de type \code{\LinkA{Actif}{Actif}} : \code{\LinkA{load\_actif}{load.Rul.actif}}.
+
+Construction d'un objet de type \code{\LinkA{Passif}{Passif}} : \code{\LinkA{load\_passif}{load.Rul.passif}}.
+\end{SeeAlso}
+\inputencoding{utf8}
+\HeaderA{load\_tab\_morta}{Fonction \code{load\_tab\_morta}.}{load.Rul.tab.Rul.morta}
+%
+\begin{Description}\relax
+Cette fonction permet de charger les donnees pour un objet de type \code{\LinkA{TabMorta}{TabMorta}}. Les donnees auront ete prealablement disposees dans
+une architecture propre a \code{SiALM}.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+load_tab_morta(address)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{address}] est un objet de type \code{character} indiquant le dossier dans lequel se situe l'ensemble des donnees necessaires
+pour la construction de l'objet.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Details}\relax
+La creation d'un objet \code{\LinkA{TabMorta}{TabMorta}} necessite des donnees presentes dans les fichiers nommes \code{TM-F.csv} et \code{TM-H.csv}.
+\end{Details}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+\inputencoding{utf8}
+\HeaderA{load\_tab\_rachat}{Fonction \code{load\_tab\_rachat}.}{load.Rul.tab.Rul.rachat}
+%
+\begin{Description}\relax
+Cette fonction permet de charger les donnees pour un objet de type \code{\LinkA{TabRachat}{TabRachat}}. Les donnees auront ete prealablement disposees dans
+une architecture propre a \code{SiALM}.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+load_tab_rachat(address)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{address}] est un objet de type \code{character} indiquant le dossier dans lequel se situe l'ensemble des donnees necessaires
+pour la construction de l'objet.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Details}\relax
+La creation d'un objet \code{\LinkA{TabRachat}{TabRachat}} necessite des donnees presentes dans un fichier nomme \code{Rachat.csv}.
+\end{Details}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+\inputencoding{utf8}
+\HeaderA{load\_tresorerie}{Fonction \code{load\_tresorerie}.}{load.Rul.tresorerie}
+%
+\begin{Description}\relax
+Cette fonction permet de charger les donnees pour un objet de type \code{\LinkA{Tresorerie}{Tresorerie}}. Les donnees auront ete prealablement disposees dans
+une architecture propre a \code{SiALM}.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+load_tresorerie(address)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{address}] est un objet de type \code{character} indiquant le dossier dans lequel se situe l'ensemble des donnees necessaires
+pour la construction de l'objet.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Details}\relax
+La creation d'un objet \code{\LinkA{Tresorerie}{Tresorerie}} necessite des donnees presentes dans un fichier nomme \code{Tresorerie.csv}.
+\end{Details}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+\inputencoding{utf8}
+\HeaderA{Obligation}{Classe \code{Obligation}}{Obligation}
+\keyword{classes}{Obligation}
+%
+\begin{Description}\relax
+Cette classe represente le portefeuille des obligations de la compagnie d'assurance.
+\end{Description}
+%
+\begin{Section}{Slots}
+
+\begin{description}
+
+\item[\code{ptf}] est un objet de type \code{\LinkA{data.frame}{data.frame}} contenant les donnees relatives au portfeuille.
+
+\end{description}
+\end{Section}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+\inputencoding{utf8}
+\HeaderA{Passif}{Classe \code{Passif}}{Passif}
+\keyword{classes}{Passif}
+%
+\begin{Description}\relax
+Cette classe aggrege l'ensemble des donnees relatives au passif de la compagnie d'assurance : hypotheses, portefeuille, provisions
+\end{Description}
+%
+\begin{Section}{Slots}
+
+\begin{description}
+
+\item[\code{ptf\_passif}] est un objet de la classe \code{\LinkA{PTFPassif}{PTFPassif}} representant le portfeuille passif.
+
+\item[\code{hyp\_passif}] est un objet de la classe \code{\LinkA{HypPassif}{HypPassif}} contenant l'ensemble des hypotheses du passif.
+
+\item[\code{provision}] est un objet de la classe \code{\LinkA{Provision}{Provision}}.
+
+\item[\code{fonds\_propres}] est un objet de la classe \code{\LinkA{FondsPropres}{FondsPropres}}.
+
+\end{description}
+\end{Section}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+\inputencoding{utf8}
+\HeaderA{pna.omit}{Fonction \code{pna.omit}}{pna.omit}
+%
+\begin{Description}\relax
+Cette fonction, prenant deux vecteurs, sort un seul vecteur sans NAs.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+pna.omit(x, y)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{x}] premier vecteur.
+
+\item[\code{y}] second vecteur.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+\inputencoding{utf8}
+\HeaderA{PPE}{Classe \code{PPE}}{PPE}
+\keyword{classes}{PPE}
+%
+\begin{Description}\relax
+Cette classe represente le Provision pour Participation aux Excedents.
+\end{Description}
+%
+\begin{Section}{Slots}
+
+\begin{description}
+
+\item[\code{ppe}] est un \code{\LinkA{numeric}{numeric}} contenant les montants dotes sur les huits dernieres annees.
+
+\end{description}
+\end{Section}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+\inputencoding{utf8}
+\HeaderA{PRE}{Classe \code{PRE}}{PRE}
+\keyword{classes}{PRE}
+%
+\begin{Description}\relax
+Cette classe permet de modeliser la PRE.
+\end{Description}
+%
+\begin{Section}{Slots}
+
+\begin{description}
+
+\item[\code{montant}] est un \code{numeric}.
+
+\end{description}
+\end{Section}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+\inputencoding{utf8}
+\HeaderA{ProbaEpargne}{Classe \code{ProbaEpargne}}{ProbaEpargne}
+\keyword{classes}{ProbaEpargne}
+%
+\begin{Description}\relax
+Cette classe permet de stocker les differentes probas relatives a un portfeuille epargne : deces et rachats.
+\end{Description}
+%
+\begin{Section}{Slots}
+
+\begin{description}
+
+\item[\code{deces\_contr}] est un objet de type \code{data.frame}.
+
+\item[\code{deces\_pm}] est un objet de type \code{data.frame}.
+
+\item[\code{rachat\_part}] est un objet de type \code{data.frame}.
+
+\item[\code{rachat\_tot\_contr}] est un objet de type \code{data.frame}.
+
+\item[\code{rachat\_tot\_pm}] est un objet de type \code{data.frame}.
+
+\end{description}
+\end{Section}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+\inputencoding{utf8}
+\HeaderA{proj\_1an\_actif}{Fonction \code{proj\_1an\_actif}.}{proj.Rul.1an.Rul.actif}
+%
+\begin{Description}\relax
+Cette fonction permet de projeter horizon 1 an l'actif d'une compagnie d'assurance.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+proj_1an_actif(actif, an)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{actif}] est un objet de type \code{\LinkA{Actif}{Actif}}.
+
+\item[\code{an}] est un \code{integer} reprensentant l'annee sur laquelle on travaille.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+\inputencoding{utf8}
+\HeaderA{proj\_1an\_epargne}{Fonction \code{proj\_1an\_epargne}.}{proj.Rul.1an.Rul.epargne}
+%
+\begin{Description}\relax
+Cette fonction permet de projeter horizon 1 an un portefeuille de contrats epragnes.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+proj_1an_epargne(epargne, hyp_passif, an)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{epargne}] est un objet de type \code{\LinkA{Epargne}{Epargne}}.
+
+\item[\code{hyp\_passif}] est un objet de type \code{\LinkA{HypPassif}{HypPassif}}.
+
+\item[\code{an}] est un objet de type \code{integer}.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+\inputencoding{utf8}
+\HeaderA{proj\_1an\_passif}{Fonction \code{proj\_1an\_passif}}{proj.Rul.1an.Rul.passif}
+%
+\begin{Description}\relax
+Cette fonction permet de projeter horizon 1 an le passif d'une compagnie d'assurance.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+proj_1an_passif(passif, an)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{passif}] est un objet de type \code{\LinkA{Passif}{Passif}}.
+
+\item[\code{an}] est un objet de type \code{integer}.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+\inputencoding{utf8}
+\HeaderA{proj\_1an\_ptf\_passif}{Fonction \code{proj\_1an\_ptf\_passif}}{proj.Rul.1an.Rul.ptf.Rul.passif}
+%
+\begin{Description}\relax
+Cette fonction permet de projeter horizon 1 an le portfeuille passif : gestion des differents passifs
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+proj_1an_ptf_passif(ptf_passif, hyp_passif, an)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{ptf\_passif}] est un objet de type \code{\LinkA{PTFPassif}{PTFPassif}}.
+
+\item[\code{hyp\_passif}] est un objet de type \code{\LinkA{HypPassif}{HypPassif}}.
+
+\item[\code{an}] est un objet de type \code{integer}.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+\inputencoding{utf8}
+\HeaderA{proj\_1an\_system}{Fonction \code{proj\_1an\_system}.}{proj.Rul.1an.Rul.system}
+%
+\begin{Description}\relax
+Cette fonction permet de projeter a horizon 1 an un objet \code{\LinkA{System}{System}}.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+proj_1an_system(system, an)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{system}] est un objet de type \code{System}.
+
+\item[\code{an}] est un \code{integer}.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+%
+\begin{SeeAlso}\relax
+Projection des passifs : \code{\LinkA{proj\_1an\_passif}{proj.Rul.1an.Rul.passif}}
+
+Projection des actifs : \code{\LinkA{proj\_1an\_actif}{proj.Rul.1an.Rul.actif}}
+\end{SeeAlso}
+\inputencoding{utf8}
+\HeaderA{Provision}{Classe \code{Provision}}{Provision}
+\keyword{classes}{Provision}
+%
+\begin{Description}\relax
+Cette classe aggrege les differentes provisions relatives au passif d'une compagnie d'assurance : PPE, Reserve de Capitalisation
+\end{Description}
+%
+\begin{Section}{Slots}
+
+\begin{description}
+
+\item[\code{ppe}] est un objet de la classe \code{\LinkA{PPE}{PPE}}.
+
+\item[\code{reserve\_capi}] est un objet de la classe \code{\LinkA{ReserveCapi}{ReserveCapi}}.
+
+\item[\code{pre}] est un objet de la classe \code{\LinkA{PRE}{PRE}}.
+
+\end{description}
+\end{Section}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+\inputencoding{utf8}
+\HeaderA{psum}{Fonction \code{psum}}{psum}
+%
+\begin{Description}\relax
+Cette fonction permet de faire la somme, sur plusieurs vecteurs, element par element, et pouvant supprimer les NAs.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+psum(..., na.rm = FALSE)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{...}] les differnts vecteurs.
+
+\item[\code{na.rm}] est un \code{logical} qui, lorsqu'il est a TRUE, permet a la somme de ne pas prendre en compte les NAs.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+\inputencoding{utf8}
+\HeaderA{PTFActif}{Classe \code{PTFActif}}{PTFActif}
+\keyword{classes}{PTFActif}
+%
+\begin{Description}\relax
+Cette classe represente le portfeuille financier de la compagnie d'assurance.
+\end{Description}
+%
+\begin{Section}{Slots}
+
+\begin{description}
+
+\item[\code{action}] est un objet de la classe \code{\LinkA{Action}{Action}} representant le portfeuille action.
+
+\item[\code{obligation}] est un objet de la classe \code{\LinkA{Obligation}{Obligation}} representant le portfeuille obligation.
+
+\item[\code{tresorerie}] est un objet de la classe \code{\LinkA{Tresorerie}{Tresorerie}} representant le portfeuille tresorerie.
+
+\item[\code{immobilier}] est un objet de la classe \code{\LinkA{Immobilier}{Immobilier}} representant le portfeuille tresorerie.
+
+\end{description}
+\end{Section}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+\inputencoding{utf8}
+\HeaderA{PTFCible}{Classe \code{PTFCible}}{PTFCible}
+\keyword{classes}{PTFCible}
+%
+\begin{Description}\relax
+Cette classe represente le portfeuille financier cible de la compagnie d'assurance dans le cadre de
+\end{Description}
+%
+\begin{Section}{Slots}
+
+\begin{description}
+
+\item[\code{obligation}] est un objet de la classe \code{\LinkA{Obligation}{Obligation}} representant le portfeuille cible obligation.
+
+\item[\code{alloc\_cible}] est un objet \code{data.frame} indiquant l'allocation cible pour chaque produit.
+
+\end{description}
+\end{Section}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+\inputencoding{utf8}
+\HeaderA{PTFPassif}{Classe \code{PTFPassif}}{PTFPassif}
+\keyword{classes}{PTFPassif}
+%
+\begin{Description}\relax
+Cette classe represente le portfeuille passif de la compagnie d'assurance.
+\end{Description}
+%
+\begin{Section}{Slots}
+
+\begin{description}
+
+\item[\code{epargne}] est un objet de la classe \code{\LinkA{Epargne}{Epargne}} representant le portfeuille epargne.
+
+\end{description}
+\end{Section}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+\inputencoding{utf8}
+\HeaderA{RachatConj}{Classe \code{RachatConj}}{RachatConj}
+\keyword{classes}{RachatConj}
+%
+\begin{Description}\relax
+Cette classe permet de modeliser les rachats conjoncturels.
+\end{Description}
+%
+\begin{Section}{Slots}
+
+\begin{description}
+
+\item[\code{alpha}] est un \code{numeric}
+
+\item[\code{beta}] est un \code{numeric}
+
+\item[\code{gamma}] est un \code{numeric}
+
+\item[\code{delta}] est un \code{numeric}
+
+\item[\code{RCmin}] est un \code{numeric}
+
+\item[\code{RCmax}] est un \code{numeric}
+
+\item[\code{repartition}] est une \code{list}
+
+\end{description}
+\end{Section}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+\inputencoding{utf8}
+\HeaderA{realisation\_pvl\_action}{Fonction \code{realisation\_pvl\_action}}{realisation.Rul.pvl.Rul.action}
+%
+\begin{Description}\relax
+Cette fonction permet de realiser des plus values lattentes.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+realisation_pvl_action(action, montant)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{action}] est un objet de type \code{Action}.
+
+\item[\code{montant}] est un \code{numeric} indiquant le montant de plus value devant etre realise.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+\inputencoding{utf8}
+\HeaderA{realisation\_pvl\_immobilier}{Fonction \code{realisation\_pvl\_immobilier}}{realisation.Rul.pvl.Rul.immobilier}
+%
+\begin{Description}\relax
+Cette fonction permet de realiser des plus values lattentes.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+realisation_pvl_immobilier(immobilier, montant)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{immobilier}] est un objet de type \code{Immobilier}.
+
+\item[\code{montant}] est un \code{numeric} indiquant le montant de plus value devant etre realise.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+\inputencoding{utf8}
+\HeaderA{realisation\_pvl\_obligation}{Fonction \code{realisation\_pvl\_obligation}}{realisation.Rul.pvl.Rul.obligation}
+%
+\begin{Description}\relax
+Cette fonction permet de realiser des plus values lattentes pour un portefeuille obligataire.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+realisation_pvl_obligation(obligation, montant)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{obligation}] est un objet de type \code{Obligation}.
+
+\item[\code{montant}] est un \code{numeric} indiquant le montant de plus value devant etre realise.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+\inputencoding{utf8}
+\HeaderA{realisation\_pvl\_ptf\_actif}{Fonction \code{realisation\_pvl\_ptf\_actif}}{realisation.Rul.pvl.Rul.ptf.Rul.actif}
+%
+\begin{Description}\relax
+Cette fonction permet de realiser des plus values lattentes.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+realisation_pvl_ptf_actif(ptf_actif, montant)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{ptf\_actif}] est un objet de type \code{PTFActif}.
+
+\item[\code{montant}] est un \code{numeric} indiquant le montant de plus value devant etre realise.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+\inputencoding{utf8}
+\HeaderA{rebalancement\_actif}{Fonction \code{rebalancement\_actif}}{rebalancement.Rul.actif}
+%
+\begin{Description}\relax
+Cette fonction permet de rebalancer le portefeuille d'actif vers le portfeuile cible.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+rebalancement_actif(actif, solde_tresorerie = 0)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{actif}] est un objet de type \code{Actif}.
+
+\item[\code{solde\_tresorerie}] est un \code{numeric} represantant le montant du solde de tresorerie. Par defaut, cette valeur est egale a 0.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+\inputencoding{utf8}
+\HeaderA{rebalancement\_action}{Fonction \code{rebalancement\_action}}{rebalancement.Rul.action}
+%
+\begin{Description}\relax
+Cette fonction permet de rebalancer le portfeuille d'action vers un portfeuile cible.
+Le montant total cible, en valeur de marche, du portefeuille cible est renseigne dans le parametre \code{alloc\_cible}.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+rebalancement_action(action, alloc_cible)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{action}] est un objet de type \code{\LinkA{Action}{Action}}. Ce parametre represente le ptf actuel de la compagnie.
+
+\item[\code{alloc\_cible}] est un \code{numeric}. Ce parametre indique l'allocation cible a atteindre (en valeur de marche).
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+\inputencoding{utf8}
+\HeaderA{rebalancement\_immobilier}{Fonction \code{rebalancement\_immobilier}}{rebalancement.Rul.immobilier}
+%
+\begin{Description}\relax
+Cette fonction permet de rebalancer le portfeuille immobilier vers un portfeuile cible.
+Le montant total, en valeur de marche, du portefeuille cible est renseigne dans le parametre \code{alloc\_cible}.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+rebalancement_immobilier(immo, alloc_cible)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{immo}] est un objet de type \code{\LinkA{Immobilier}{Immobilier}}. Ce parametre represente le ptf actuel de la compagnie.
+
+\item[\code{alloc\_cible}] est un \code{numeric}. Ce parametre indique l'allocation cible a atteindre.
+
+\item[\code{immo\_cible}] est un objet de type \code{\LinkA{Immobilier}{Immobilier}}. Ce parametre represente le ptf cible.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+\inputencoding{utf8}
+\HeaderA{rebalancement\_obligation}{Fonction \code{rebalancement\_obligation}}{rebalancement.Rul.obligation}
+%
+\begin{Description}\relax
+Cette fonction permet de rebalancer le portfeuille d'obligation vers un portfeuile cible.
+Le montant total, en valeur de marche, du portefeuille cible est renseigne dans le parametre \code{alloc\_cible}.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+rebalancement_obligation(oblig, oblig_cible, alloc_cible)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{oblig}] est un objet de type \code{\LinkA{Obligation}{Obligation}}. Ce parametre represente le ptf actuel de la compagnie.
+
+\item[\code{oblig\_cible}] est un objet de type \code{\LinkA{Obligation}{Obligation}}. Ce parametre represente le ptf cible.
+
+\item[\code{alloc\_cible}] est un \code{numeric}. Ce parametre indique l'allocation cible a atteindre.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+\inputencoding{utf8}
+\HeaderA{reprise\_ppe}{Fonction \code{reprise\_ppe}.}{reprise.Rul.ppe}
+%
+\begin{Description}\relax
+Cette fonction permet de reprendre un montant sur la PPE. Le montant est prioritairement repris sur les plus vieilles dotations.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+reprise_ppe(ppe, montant)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{ppe}] est un objet de type \code{\LinkA{PPE}{PPE}}.
+
+\item[\code{montant}] est un \code{numeric} representant le montant a reprendre.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+\inputencoding{utf8}
+\HeaderA{reprise\_ppe\_8ans}{Fonction \code{reprise\_ppe\_8ans}.}{reprise.Rul.ppe.Rul.8ans}
+%
+\begin{Description}\relax
+Cette fonction permet de reprendre le montant dotee 8 annees auparavant. Elle met egalement a 0 l'element du vecteur correspondant a la PPE dotee 8 ans auparavant.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+reprise_ppe_8ans(ppe)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{ppe}] est un objet de type \code{\LinkA{PPE}{PPE}}.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+\inputencoding{utf8}
+\HeaderA{ReserveCapi}{Classe \code{ReserveCapi}}{ReserveCapi}
+\keyword{classes}{ReserveCapi}
+%
+\begin{Description}\relax
+Cette classe represente la Reserve de Capitalisation.
+\end{Description}
+%
+\begin{Section}{Slots}
+
+\begin{description}
+
+\item[\code{montant}] est un \code{numeric} representant le capital present dans la reserve.
+
+\end{description}
+\end{Section}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+\inputencoding{utf8}
+\HeaderA{revalo\_epargne}{Fonction \code{revalo\_epargne}}{revalo.Rul.epargne}
+%
+\begin{Description}\relax
+Cette fonction permet de revaloriser un portefeuille Epargne. La distribution se fait de la faca suivante :
+\begin{description}
+
+\item[Revalorisation cible]  : la revalorisation s'effectue de telle faC'on a ce que tous les MP aient la meme revalorisation et en se rapprochant du taux cible.
+\item[Revalorisation supplementaire]  : la revalorisation s'effectue au proportionnellement aux PM.
+
+\end{description}
+
+Les besoins reglementaires sont tout d'abord decomptC) du montant devant etre obligatoirement distribue.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+revalo_epargne(epargne, revalo_cible, revalo_supp, cible)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{epargne}] est un objet de type \code{\LinkA{Epargne}{Epargne}}.
+
+\item[\code{revalo\_cible}] est un \code{numeric} representant le montant de revalorisation cible a distibuer.
+
+\item[\code{revalo\_supp}] est un \code{numeric} representant le montant de revalorisation supplementaire a distibuer.
+
+\item[\code{cible}] est un \code{numeric} representant un taux cible.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+\inputencoding{utf8}
+\HeaderA{revalo\_obligation\_cible}{Fonction \code{revalo\_obligation\_cible}}{revalo.Rul.obligation.Rul.cible}
+%
+\begin{Description}\relax
+Cette fonction permet de revaloriser les differentes obligations d'un portefeuille obligataire cible :
+calcul des nouveaux coupons et mise a jour de la valeur de marche.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+revalo_obligation_cible(obligation, yield_curve)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{obligation}] est un objet de type \code{\LinkA{Obligation}{Obligation}}.
+
+\item[\code{yield\_curve}] est un \code{numeric} contenant les prix zero-coupon.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+\inputencoding{utf8}
+\HeaderA{revalo\_passif}{Fonction \code{revalo\_passif}}{revalo.Rul.passif}
+%
+\begin{Description}\relax
+Cette fonction permet de revaloriser le passif d'une compagnie d'assurance. Au cours de cette fonction sont effectuees : la regle des 8 ans.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+revalo_passif(passif, resultat, pvl, revalo_prestation, an)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{passif}] est un objet de type \code{\LinkA{Passif}{Passif}}.
+
+\item[\code{resultat}] est un \code{numeric}.
+
+\item[\code{pvl}] est une \code{list} contenant les PVL par produits.
+
+\item[\code{revalo\_prestation}] est une \code{list} indiquant des montants de revalorisation obligatoires ayant deja ete distribue. Ils sont consideres comme des besoins de revalorisation contractuels.
+Les montants doivent etre mis sous forme de liste et par produit.
+
+\item[\code{an}] est un \code{integer}.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Details}\relax
+Les politiques de revalorisation appliquees dans cette fonction sont les suivantes :
+\begin{description}
+
+\item[Epargne]  : Atteindre une revalorisation proched du tme afin de minimiser les rachats conjoncturels.
+
+\end{description}
+
+Les besoins reglementaires sont tout d'abord decomptC) du montant devant etre obligatoirement distribue.
+\end{Details}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+%
+\begin{SeeAlso}\relax
+Calcul du besoin en revalorisation : \code{\LinkA{besoin\_revalo\_ptf\_passif}{besoin.Rul.revalo.Rul.ptf.Rul.passif}}.
+
+Gestion de la regle des 8 ans sur la PPE : \code{\LinkA{reprise\_ppe\_8ans}{reprise.Rul.ppe.Rul.8ans}}.
+\end{SeeAlso}
+\inputencoding{utf8}
+\HeaderA{revalo\_ptf\_actif}{Fonction \code{revalo\_ptf\_actif}}{revalo.Rul.ptf.Rul.actif}
+%
+\begin{Description}\relax
+Cette fonction permet de projeter de revaloriser le portfeuille financier.
+Elle calcule egalement les plus ou moins value latentes (PMVL) engendrees.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+revalo_ptf_actif(ptf_actif, hyp_actif, an)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{ptf\_actif}] est un objet de type \code{\LinkA{PTFActif}{PTFActif}}.
+
+\item[\code{hyp\_actif}] est un objet de type \code{\LinkA{HypActif}{HypActif}}.
+
+\item[\code{an}] est un \code{integer} reprensentant l'annee sur laquelle on travaille.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+\inputencoding{utf8}
+\HeaderA{revalo\_ptf\_cible}{Fonction \code{revalo\_ptf\_cible}}{revalo.Rul.ptf.Rul.cible}
+%
+\begin{Description}\relax
+Cette fonction permet de revaloriser les portfeuilles cibles : mise a jour des valeurs de marche et des
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+revalo_ptf_cible(ptf_cible, esg, an)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{ptf\_cible}] est un objet de type \code{\LinkA{PTFCible}{PTFCible}}.
+
+\item[\code{esg}] est une \code{list}.
+
+\item[\code{an}] est un \code{integer} reprensentant l'annee sur laquelle on travaille.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+\inputencoding{utf8}
+\HeaderA{revalo\_ptf\_passif}{Fonction \code{revalo\_ptf\_passif}}{revalo.Rul.ptf.Rul.passif}
+%
+\begin{Description}\relax
+Cette fonction permet de revaloriser les differents PTF passifs d'une compagnie d'assurance :
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+revalo_ptf_passif(ptf_passif, revalo_cible, revalo_supp, cible)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{ptf\_passif}] est un objet de type \code{\LinkA{PTFPassif}{PTFPassif}}.
+
+\item[\code{revalo\_cible}] est une \code{list} contenant les montants de revalorisation cibles a distibuer par produit.
+
+\item[\code{revalo\_supp}] est une \code{list} contenant les montants de revalorisation supplementaire a distibuer par produit.
+
+\item[\code{cible}] est une \code{list} contenant des elements relatifs a la politique de revalorisation pour les differents passifs.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+\inputencoding{utf8}
+\HeaderA{SiALM}{SiALM est un package permettant de calculer un best-estimate pour une compagnie d'assurance proposant les produits suivants : contrats d'epargne.}{SiALM}
+\aliasA{SiALM-package}{SiALM}{SiALM.Rdash.package}
+\aliasA{SiALM-package}{SiALM}{SiALM.Rdash.package}
+%
+\begin{Description}\relax
+SiALM est un package permettant de calculer un best-estimate pour une compagnie d'assurance
+proposant les produits suivants : contrats d'epargne.
+\end{Description}
+%
+\begin{Author}\relax
+Damien Tichit
+\end{Author}
+\inputencoding{utf8}
+\HeaderA{System}{Classe \code{System}}{System}
+\keyword{classes}{System}
+%
+\begin{Description}\relax
+Cette classe regroupe les actifs et les passifs d'une compagnie d'assurance.
+\end{Description}
+%
+\begin{Section}{Slots}
+
+\begin{description}
+
+\item[\code{passif}] est un objet de type \code{\LinkA{Passif}{Passif}}.
+
+\item[\code{actif}] est un objet de type \code{\LinkA{Actif}{Actif}}.
+
+\item[\code{taux\_pb}] est une \code{list} contenant les taux de pb contractuels.
+
+\end{description}
+\end{Section}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+\inputencoding{utf8}
+\HeaderA{TabMorta}{Classe \code{TabMorta}}{TabMorta}
+\keyword{classes}{TabMorta}
+%
+\begin{Description}\relax
+Cette classe represente une table de mortalite.
+\end{Description}
+%
+\begin{Section}{Slots}
+
+\begin{description}
+
+\item[\code{table}] est un objet de type \code{\LinkA{data.frame}{data.frame}} contenant la table de mortalite.
+
+\end{description}
+\end{Section}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+\inputencoding{utf8}
+\HeaderA{TabRachat}{Classe \code{TabRachat}}{TabRachat}
+\keyword{classes}{TabRachat}
+%
+\begin{Description}\relax
+Cette classe represente une table de rachat
+\end{Description}
+%
+\begin{Section}{Slots}
+
+\begin{description}
+
+\item[\code{table}] est un objet de type \code{\LinkA{data.frame}{data.frame}} contenant la table de rachat
+
+\end{description}
+\end{Section}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+\inputencoding{utf8}
+\HeaderA{Tresorerie}{Classe \code{Tresorerie}}{Tresorerie}
+\keyword{classes}{Tresorerie}
+%
+\begin{Description}\relax
+Cette classe represente la tresorerie de la compagnie d'assurance.
+\end{Description}
+%
+\begin{Section}{Slots}
+
+\begin{description}
+
+\item[\code{solde}] est un objet \code{numeric} indiquant le solde.
+
+\end{description}
+\end{Section}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+\inputencoding{utf8}
+\HeaderA{update\_esg}{Fonction \code{update\_esg}.}{update.Rul.esg}
+%
+\begin{Description}\relax
+Cette fonction permet de mettre a jour les donnees de l'ESG dans la classe \code{\LinkA{HypActif}{HypActif}}.
+Elle met les donnees a jour pour une simulation.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+update_esg(alm, num_simu)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{alm}] est un objet de type \code{\LinkA{ALM}{ALM}}.
+
+\item[\code{num\_simu}] est un \code{integer} representant le numero de simulation sur lequel on travaille.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+\inputencoding{utf8}
+\HeaderA{update\_tresorerie}{Fonction \code{update\_tresorerie}.}{update.Rul.tresorerie}
+%
+\begin{Description}\relax
+Cette fonction permet de mettre a jour la tresorerie : credit et debit.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+update_tresorerie(tresorerie, montant)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{tresorerie}] est un objet de type \code{\LinkA{Tresorerie}{Tresorerie}}
+
+\item[\code{montant}] est un \code{numeric}
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}
+\inputencoding{utf8}
+\HeaderA{vieillissement\_ppe}{Fonction \code{vieillissement\_ppe}.}{vieillissement.Rul.ppe}
+%
+\begin{Description}\relax
+Cette fonction permet de vieillir d'une annee l'objet \code{\LinkA{PPE}{PPE}}
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+vieillissement_ppe(ppe)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{ppe}] est un objet de type \code{\LinkA{PPE}{PPE}}.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Author}\relax
+Damien Tichit pour Sia Partners
+\end{Author}

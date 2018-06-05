@@ -5,10 +5,12 @@
 \alias{rebalancement_actif}
 \title{Fonction \code{rebalancement_actif}}
 \usage{
-rebalancement_actif(actif)
+rebalancement_actif(actif, solde_tresorerie = 0)
 }
 \arguments{
 \item{actif}{est un objet de type \code{Actif}.}
+
+\item{solde_tresorerie}{est un \code{numeric} represantant le montant du solde de tresorerie. Par defaut, cette valeur est egale a 0.}
 }
 \description{
 Cette fonction permet de rebalancer le portefeuille d'actif vers le portfeuile cible.

@@ -21,6 +21,8 @@ Cette classe permet de modeliser les rachats conjoncturels.
 \item{\code{RCmin}}{est un \code{numeric}}
 
 \item{\code{RCmax}}{est un \code{numeric}}
+
+\item{\code{repartition}}{est une \code{list}}
 }}
 
 \author{

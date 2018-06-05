@@ -8,7 +8,7 @@
 allocation_ptf_actif(ptf_actif)
 }
 \arguments{
-\item{ptf_actif}{est un objet de type \code{PTFActif}.}
+\item{ptf_actif}{est un objet de type \code{\link{PTFActif}}.}
 }
 \description{
 Cette fonction permet de determiner l'allocation des differents produits financiers.
