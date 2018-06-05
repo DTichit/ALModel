@@ -217,8 +217,6 @@ setMethod(
 
             # Somme des PVL realisees
             pvl_realisees <- sum_list(res_real_pvl[["pvr"]], 1L)
-
-            message("HAHAAH")
         }
 
 
