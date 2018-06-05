@@ -28,8 +28,17 @@ setMethod(
         ##    Marge de souscription
         ## ###########################
 
-        mg_souscription <- resultat[["charges_pm"]] + resultat[["prime"]] - resultat[["chgt"]][["acquisition"]] -
-            resultat[["prestation"]] - resultat[["chgt"]][["administration"]] + resultat[["revalo_pm"]]
+        # Extraction des donnees
+        charges_pm <- sum_list(resultat[["charges_pm"]], 1L)
+        prime <- sum_list(resultat[["prime"]], 1L)
+        chgt_acquisition <- sum_list(resultat[["chgt"]][["acquisition"]], 1L)
+        chgt_administration <- sum_list(resultat[["chgt"]][["administration"]], 1L)
+        prestation <- sum_list(resultat[["prestation"]], 2L)
+        revalo_pm <- sum_list(resultat[["revalo_pm"]][["tmg"]], 1L) + sum_list(resultat[["revalo_pm"]][["pb"]], 2L)
+
+        # Calcul de la marge de souscription
+        mg_souscription <- charges_pm + (prime - chgt_acquisition) - prestation - chgt_administration + revalo_pm
+
 
 
 
@@ -37,7 +46,11 @@ setMethod(
         ##      Marge de gestion
         ## ###########################
 
-        mg_gestion <- resultat[["chgt"]][["administration"]] + resultat[["chgt"]][["acquisition"]] - resultat[["frais"]]
+        # Extraction des donnees
+        frais <- sum_list(resultat[["frais"]], 2L)
+
+        # Calcul de la marge de gestion
+        mg_gestion <- chgt_administration + chgt_acquisition - frais
 
 
 
@@ -45,7 +58,12 @@ setMethod(
         ##      Marge financiere
         ## ###########################
 
-        mg_financiere <- resultat[["resultat_fin"]] - resultat[["charges_rc"]] - resultat[["charges_ppe"]] - resultat[["charges_pre"]] - resultat[["revalo_pm"]] - resultat[["revalo_prest"]]
+        # Extraction des donnees
+        resultat_fin <- calcul_resultat_fin(resultat[["resultat_fin"]])
+        revalo_prest <- sum_list(resultat[["revalo_prest"]], 1L)
+
+        # Calcul de la marge financiere
+        mg_financiere <- resultat_fin - resultat[["charges_rc"]] - resultat[["charges_ppe"]] - resultat[["charges_pre"]] - revalo_pm - revalo_prest
 
 
 

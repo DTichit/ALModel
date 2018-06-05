@@ -80,7 +80,6 @@ setMethod(
 
         # Extraction de differents montants
         prime <- sum_list(res_proj_ptf[["flux"]][["prime"]], 1L)
-        chargement <- sum_list(res_proj_ptf[["flux"]][["chargement"]], 2L)
         frais <- sum_list(res_proj_ptf[["flux"]][["frais"]], 2L)
         prestation <- sum_list(res_proj_ptf[["flux"]][["prestation"]], 2L)
         revalo_prestation <- sum_list(res_proj_ptf[["besoin"]][["revalo_prest"]], 1L)

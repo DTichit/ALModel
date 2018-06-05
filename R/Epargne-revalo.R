@@ -167,6 +167,6 @@ setMethod(
                     revalorisation = list(tmg = sum(revalo_tmg_mp),
                                           cible = sum(revalo_cible_mp),
                                           supplementaire = sum(revalo_supp_mp)),
-                    chargement = chgt_appliques))
+                    chargement = sum(chgt_appliques)))
     }
 )

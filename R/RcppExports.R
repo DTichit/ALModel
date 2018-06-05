@@ -11,7 +11,6 @@
 #' @param yield un vecteur contenant la courbe de taux utilisee.
 #' @author Damien Tichit pour Sia Partners
 #' @export
-#' @include
 NULL
 
 calcul_duration_obligation <- function(coupon, mat_res, valeur_remboursement, yield) {
@@ -29,7 +28,6 @@ calcul_duration_obligation <- function(coupon, mat_res, valeur_remboursement, yi
 #' @param yield un vecteur contenant la courbe de taux utilisee.
 #' @author Damien Tichit pour Sia Partners
 #' @export
-#' @include
 NULL
 
 calcul_vm_obligation <- function(coupon, mat_res, valeur_remboursement, spread, yield) {

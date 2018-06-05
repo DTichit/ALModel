@@ -65,29 +65,32 @@ setMethod(
         deces <- tx_deces_pm * pm_ptf_epargne
 
 
-        ## ###########################
-        ## Gestion des rachats structurels
-        ## ###########################
-
-        # Extraction des taux de rachats par model point
-        tx_rachat_tot_pm  <- .subset2(epargne@proba@rachat_tot_pm, an + 1L)
-        tx_rachat_tot_contr  <- .subset2(epargne@proba@rachat_tot_contr, an + 1L)
-        tx_rachat_part <- .subset2(epargne@proba@rachat_part, an + 1L)
-
-        # Calcul des prestations relatives aux rachats
-        rachat_tot  <- tx_rachat_tot_pm * pm_ptf_epargne
-        rachat_part <- tx_rachat_part * pm_ptf_epargne
-
 
         ## ###########################
-        ## Gestion des rachats conjocturels
+        ## Gestion des rachats
         ## ###########################
 
         # Calcul des taux de rachats
         tx_rachat_conj <- calc_rachat_conj(rachat_conj = hyp_passif@rachat_conj, tx_cible = hyp_passif@cible$epargne[an], tx_serv = revalo_prec_ptf_epargne)
 
-        # Calcul des prestations
-        rachat_conj <- tx_rachat_conj * pm_ptf_epargne
+        # Repartition des taux (partiel / total)
+        tx_rachat_conj_partiel <- tx_rachat_conj * hyp_passif@rachat_conj@repartition$partiel
+        tx_rachat_conj_total   <- tx_rachat_conj * hyp_passif@rachat_conj@repartition$total
+
+        # Extraction des taux de rachats structurels par model point
+        tx_rachat_struct_tot_pm     <- .subset2(epargne@proba@rachat_tot_pm, an + 1L)
+        tx_rachat_struct_tot_contrat<- .subset2(epargne@proba@rachat_tot_contr, an + 1L)
+        tx_rachat_struct_part       <- .subset2(epargne@proba@rachat_part, an + 1L)
+
+        # Calcul des taux de rachats appliques
+        taux_rachat_tot_pm      <- pmax(tx_rachat_struct_tot_pm + tx_rachat_conj_total, 0)
+        taux_rachat_tot_contrat <- pmax(tx_rachat_struct_tot_contrat + tx_rachat_conj_total, 0)
+        taux_rachat_partiel     <- pmax(tx_rachat_struct_part + tx_rachat_conj_partiel, 0)
+
+
+        # Calcul des prestations relatives aux rachats
+        rachat_tot  <- taux_rachat_tot_pm * pm_ptf_epargne
+        rachat_part <- taux_rachat_partiel * pm_ptf_epargne
 
 
 
@@ -141,8 +144,8 @@ setMethod(
 
         # Calcul des differents frais
         frais_gestion <- nb_contr_ptf_epargne * frais_gestion * (1 - inf)
-        frais_rachats <- nb_contr_ptf_epargne * tx_rachat_tot_contr * frais_rachats * (1 - inf)
-        frais_deces   <- nb_contr_ptf_epargne * tx_deces_contr * frais_deces * (1 - inf)
+        frais_rachats <- (nb_contr_ptf_epargne * taux_rachat_tot_contrat) * frais_rachats * (1 - inf)
+        frais_deces   <- (nb_contr_ptf_epargne * tx_deces_contr) * frais_deces * (1 - inf)
 
         # Aggregation des frais
         frais <- frais_gestion + frais_rachats + frais_deces
@@ -160,11 +163,11 @@ setMethod(
         ## ######################################################
 
         # Prestations
-        prestations <- deces + (rachat_tot + rachat_part + rachat_conj)
+        prestations <- deces + (rachat_tot + rachat_part)
 
         # Calcul des nouvelles PM
         new_pm <- pm_ptf_epargne - prestations + primes_ajoutees
-        new_nb_contr <- nb_contr_ptf_epargne * (1 - tx_deces_contr - tx_rachat_tot_contr - tx_rachat_conj)
+        new_nb_contr <- nb_contr_ptf_epargne * (1 - tx_deces_contr - taux_rachat_tot_contrat)
 
         # Mise a jour de l'objet
         epargne@ptf$nb_contr <- new_nb_contr
@@ -231,8 +234,7 @@ setMethod(
                     pm_ouverture = pm_ouverture,
                     flux = list(prestation = list(deces = sum(deces),
                                                   rachat_tot = sum(rachat_tot),
-                                                  rachat_part = sum(rachat_part),
-                                                  rachat_conj = sum(rachat_conj)),
+                                                  rachat_part = sum(rachat_part)),
                                 prime = sum(prime),
                                 chargement = list(administration = sum(chgt_administration),
                                                   acquisition = sum(chgt_acquisition)),

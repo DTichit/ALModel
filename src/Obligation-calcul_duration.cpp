@@ -12,7 +12,6 @@ using namespace Rcpp;
 //' @param yield un vecteur contenant la courbe de taux utilisee.
 //' @author Damien Tichit pour Sia Partners
 //' @export
-//' @include
 
 
 // [[Rcpp::export]]

@@ -50,15 +50,6 @@ setMethod(
 
 
 
-        ## ###########################
-        ##   Calcul des nouvelles VM
-        ## ###########################
-
-        # Calcul de la VM pour les differentes maturites residuelles
-        vm_ptf <- calcul_vm_obligation(coupon = coupon_ptf * nominal_ptf, mat_res = maturite_ptf,
-                                       valeur_remboursement = nominal_ptf, spread = rep(0, length(nominal_ptf)), yield = yield_curve)
-
-
 
         ## ###########################
         ##   Mise a jour de l'objet
@@ -66,7 +57,7 @@ setMethod(
 
         # Mise a jour de l'attribut
         obligation@ptf$coupon           <- coupon_ptf
-        obligation@ptf$valeur_marche    <- vm_ptf
+        obligation@ptf$valeur_marche    <- nominal_ptf
 
 
 

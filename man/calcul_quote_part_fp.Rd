@@ -9,8 +9,6 @@ calcul_quote_part_fp(passif)
 }
 \arguments{
 \item{passif}{est un objet de type \code{\link{Passif}}.}
-
-\item{result_fin}{est un \code{numeric} representant le resultat financier total.}
 }
 \description{
 Cette fonction permet de determiner la proportion que represente les fonds propres sur le passif d'une compagnie d'assurance.

@@ -5,7 +5,6 @@
 ##' @name calcul_quote_part_fp
 ##' @docType methods
 ##' @param passif est un objet de type \code{\link{Passif}}.
-##' @param result_fin est un \code{numeric} representant le resultat financier total.
 ##' @author Damien Tichit pour Sia Partners
 ##' @export
 ##' @include Passif-class.R

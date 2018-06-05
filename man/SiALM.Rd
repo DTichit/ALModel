@@ -4,10 +4,13 @@
 \name{SiALM}
 \alias{SiALM}
 \alias{SiALM-package}
-\title{SiALM est un package permettant de calculer un best-estimate pour une compagnie d'assurance proposant les prosuits suivants : contrats d'epargne.}
+\alias{SiALM-package}
+\title{SiALM est un package permettant de calculer un best-estimate pour une compagnie d'assurance
+proposant les produits suivants : contrats d'epargne.}
 \description{
-SiALM est un package permettant de calculer un best-estimate pour une compagnie d'assurance proposant les prosuits suivants : contrats d'epargne.
+SiALM est un package permettant de calculer un best-estimate pour une compagnie d'assurance
+proposant les produits suivants : contrats d'epargne.
 }
 \author{
-Damien Tichit <damien.tichit@sia-partners.com>
+Damien Tichit
 }

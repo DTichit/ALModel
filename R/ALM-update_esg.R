@@ -8,8 +8,8 @@
 ##' @param alm est un objet de type \code{\link{ALM}}.
 ##' @param num_simu est un \code{integer} representant le numero de simulation sur lequel on travaille.
 ##' @author Damien Tichit pour Sia Partners
+##' @include ALM-class.R HypActif-class.R
 ##' @export
-##' @include HypActif-class.R ALM-class.R
 ##'
 setGeneric(name = "update_esg", def = function(alm, num_simu){standardGeneric("update_esg")})
 setMethod(
