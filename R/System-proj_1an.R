@@ -349,10 +349,10 @@ setMethod(
         ## ###########################
 
         # Somme des flux necessaires au calcul du BEL
-        flux_bel <- (sum_list(prestation_prod, 1L) + sum_list(frais_prod, 1L) + frais_fin) - (sum_list(prime_prod, 1L))
+        flux_bel <- (sum_list(prestation_prod, 1L) + sum_list(frais_prod, 1L) + (1-quote_part_fp) * frais_fin) - (sum_list(prime_prod, 1L))
 
         # Somme des flux necessaires au calcul de la NAV
-        flux_nav <- -res_gest_fp[["flux_nav"]]
+        flux_nav <- -res_gest_fp[["flux_nav"]] + quote_part_fp * frais_fin
 
 
 
