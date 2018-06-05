@@ -81,7 +81,6 @@ setMethod(
         frais       <- sum_list(frais_fin[["frais"]], 2L)
         vente       <- sum_list(res_gestion[["flux"]][["vente"]], 1L)
         prod_fin    <- sum_list(res_gestion[["flux"]][["prod_fin"]], 1L)
-        var_vnc     <- sum_list(res_gestion[["flux"]][["var_vnc"]], 1L)
 
         # Mouvement sur la tresorerie
         mvt_treso <- prod_fin + vente - frais

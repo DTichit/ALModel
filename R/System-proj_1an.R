@@ -138,17 +138,17 @@ setMethod(
         ## ######################################################
 
         # Mise en forme des donnees
-        result_fin <- list(produits = proj_actif[["flux"]][["prod_fin"]],
-                           pmvr = res_realloc[["pmvr"]],
-                           var_vnc = proj_actif[["flux"]][["var_vnc"]],
-                           frais = proj_actif[["flux"]][["frais"]])
-        result_tech <- list(frais = proj_passif[["flux"]][["frais"]],
-                            chargement = proj_passif[["flux"]][["chargement"]])
+        list_result_fin <- list(produits = proj_actif[["flux"]][["prod_fin"]],
+                                pmvr = res_realloc[["pmvr"]],
+                                var_vnc = proj_actif[["flux"]][["var_vnc"]],
+                                frais = proj_actif[["flux"]][["frais"]])
+        list_result_tech <- list(frais = proj_passif[["flux"]][["frais"]],
+                                 chargement = proj_passif[["flux"]][["chargement"]])
 
 
         # Calcul des resultats
-        result_tech <- calcul_resultat_tech(result_tech)
-        result_fin  <- calcul_resultat_fin(result_fin)
+        result_tech <- calcul_resultat_tech(list_result_tech)
+        result_fin  <- calcul_resultat_fin(list_result_fin)
 
 
 
@@ -193,6 +193,9 @@ setMethod(
         # Mise a jour de l'objet
         system@passif <- res_revalo[["passif"]]
 
+        # Mise a jour des chargements appliques
+        # proj_passif[["flux"]][["chargement"]][["administration"]] <- res_revalo[["chargements_appliques"]]
+
 
 
 
@@ -214,6 +217,8 @@ setMethod(
 
             # Somme des PVL realisees
             pvl_realisees <- sum_list(res_real_pvl[["pvr"]], 1L)
+
+            message("HAHAAH")
         }
 
 
@@ -251,22 +256,35 @@ setMethod(
         ## ######################################################
         ## ######################################################
 
-        # Creation de la liste contenant tous les elements
-        resultat <- list(charges_pm = sum_list(proj_passif[["pm_ouverture"]], 1L) - sum_list(res_revalo[["pm_cloture"]],  1L),
-                         prime = sum_list(proj_passif[["flux"]][["prime"]], 1L),
-                         prestation = sum_list(proj_passif[["flux"]][["prestation"]], 2L),
-                         revalo_pm = sum_list(res_revalo[["revalorisation"]][["tmg"]], 1L) + sum_list(res_revalo[["revalorisation"]][["pb"]], 2L),
-                         revalo_prest = sum_list(proj_passif[["revalo_prestation"]], 1L),
-                         frais = sum_list(proj_passif[["flux"]][["frais"]], 2L),
-                         chgt = list(administration = sum_list(res_revalo[["chargements_appliques"]], 1L),
-                                     acquisition = sum_list(proj_passif[["flux"]][["chargement"]][["acquisition"]], 1L)),
-                         resultat_fin = result_fin + if.is_null(get0("pvl_realisees"), 0L),
-                         charges_rc = res_reserve_capi[["flux"]],
-                         charges_ppe = res_revalo[["flux_ppe"]],
-                         charges_pre = res_dot_pre1[["flux"]] + res_dot_pre2[["flux"]])
+        # Charge PM par produit modelise
+        charges_pm <- sapply(X = names(proj_passif[["pm_ouverture"]]), simplify = FALSE,
+                             function(x) return(proj_passif[["pm_ouverture"]][[x]]-res_revalo[["pm_cloture"]][[x]]))
+
+        # Mise a jour de la liste du resultat financier avec les PV realisees apres l'etape de revalorisation
+        if(! is.null(get0("pvl_realisees")))
+            list_result_fin[["vente_pvl"]] <- res_real_pvl[['pvr']]
+
+        # browser()
+
+        # Creation de la liste contenant tous les flux
+        flux <- list(charges_pm = charges_pm,
+                     prime = proj_passif[["flux"]][["prime"]],
+                     prestation = proj_passif[["flux"]][["prestation"]],
+                     revalo_prest = proj_passif[["revalo_prestation"]],
+                     revalo_pm = list(tmg = res_revalo[["revalorisation"]][["tmg"]],
+                                      pb = res_revalo[["revalorisation"]][["pb"]]),
+                     frais = proj_passif[["flux"]][["frais"]],
+                     chgt = list(administration = res_revalo[["chargements_appliques"]],
+                                 acquisition = proj_passif[["flux"]][["chargement"]][["acquisition"]]),
+                     resultat_fin = list_result_fin,
+                     charges_rc = res_reserve_capi[["flux"]],
+                     charges_ppe = res_revalo[["flux_ppe"]],
+                     charges_pre = res_dot_pre1[["flux"]] + res_dot_pre2[["flux"]],
+                     quote_part_fp = quote_part_fp)
+
 
         # Calcul du resultat de l'exercice
-        res_resultat <- calcul_resultat(resultat)
+        res_resultat <- calcul_resultat(flux)
 
 
 
@@ -290,6 +308,10 @@ setMethod(
         # Mise a jour de le tresorerie apres l'emprunt
         system@actif@ptf_actif@tresorerie@solde <- system@actif@ptf_actif@tresorerie@solde + res_gest_fp[["flux"]][["montant_emprunte"]] - res_gest_fp[["flux"]][["participation_salaries"]] - res_gest_fp[["flux"]][["impots_societes"]]
 
+        # Mise a jour de la liste contenant les flux
+        flux[["participation_salaries"]]    <- res_gest_fp[["flux"]][["participation_salaries"]]
+        flux[["impots_societes"]]           <- res_gest_fp[["flux"]][["impots_societes"]]
+        flux[["emprunt"]]                   <- res_gest_fp[["flux"]][["montant_emprunte"]]
 
 
 
@@ -318,41 +340,25 @@ setMethod(
         ## ######################################################
         ## ######################################################
 
-        # Differentes classes de passif modelisees
-        name_passif <- names(proj_passif[["flux"]][["prestation"]])
-
-
-        ## ###########################
-        ##   Aggregation des flux
-        ## ###########################
-
-        # Prestation par produit
-        prestation_prod <- sapply(X = name_passif,
-                                  FUN = function(x) do.call(sum, proj_passif[["flux"]][["prestation"]][[x]]) + proj_passif[["revalo_prestation"]][[x]],
-                                  simplify = FALSE, USE.NAMES = TRUE)
-
-        # Frais par produit
-        frais_prod <- sapply(X = name_passif,
-                             FUN = function(x) return(do.call(sum, proj_passif[["flux"]][["frais"]][[x]])),
-                             simplify = FALSE, USE.NAMES = TRUE)
-
-        # Primes par produit
-        prime_prod <- proj_passif[["flux"]][["prime"]]
-
-        # Frais financiers
-        frais_fin <- sum_list(proj_actif[["flux"]][["frais"]], 2L)
-
-
 
         ## ###########################
         ##   Flux calcul BEL et NAV
         ## ###########################
 
+        # Extraction des flux
+        prestation <- sum_list(proj_passif[["flux"]][["prestation"]], 2L) + sum_list(proj_passif[["revalo_prestation"]], 1L)
+        frais_passif <- sum_list(proj_passif[["flux"]][["frais"]], 2L)
+        prime <- sum_list(proj_passif[["flux"]][["prime"]], 1L)
+        frais_fin <- sum_list(proj_actif[["flux"]][["frais"]], 2L)
+        frais_fin_bel <- (1 - quote_part_fp) * frais_fin
+        frais_fin_nav <- quote_part_fp * frais_fin
+
         # Somme des flux necessaires au calcul du BEL
-        flux_bel <- (sum_list(prestation_prod, 1L) + sum_list(frais_prod, 1L) + (1-quote_part_fp) * frais_fin) - (sum_list(prime_prod, 1L))
+        flux_bel <- prestation + frais_passif + frais_fin_bel - prime
 
         # Somme des flux necessaires au calcul de la NAV
-        flux_nav <- -res_gest_fp[["flux_nav"]] + quote_part_fp * frais_fin
+        flux_nav <- -res_gest_fp[["flux_nav"]] + frais_fin_nav
+
 
 
 
@@ -361,28 +367,12 @@ setMethod(
         ## ###########################
 
         # Aggregation des flux : Actif, Passif
-        stock <- list(actif = list(image = system@actif@ptf_actif,
-                                   flux = list(prod_fin = proj_actif[["flux"]]$prod_fin,
-                                               pmvr = res_realloc[["pmvr"]],
-                                               frais = proj_actif[["flux"]]$frais,
-                                               var_vnc = proj_actif[["flux"]][["var_vnc"]],
-                                               vente_pvl = if.is_null(get0("pvl_realisees"), 0L)),
-                                   resultat_fin_fp = res_fin_fp),
-                      passif = list(image = list(epargne = system@passif@ptf_passif@epargne@ptf),
-                                    pm_ouverture = proj_passif[["pm_ouverture"]],
-                                    flux = proj_passif[["flux"]]),
-                      pb = list(revalorisation = list(attribuee = res_revalo[["revalorisation"]],
-                                                      prestation = sum_list(proj_passif[["revalo_prestation"]], 1L),
-                                                      besoin_cible = res_revalo$besoin_cible)),
-                      fonds_propres = list(image = system@passif@fonds_propres,
-                                           emprunt = res_gest_fp[["flux"]][["montant_emprunte"]],
-                                           participation_salaries = res_gest_fp[["flux"]][["participation_salaries"]],
-                                           impots_societes = res_gest_fp[["flux"]][["impots_societes"]]),
-                      provision = list(image = system@passif@provision,
-                                       flux = list(reserve_capi = res_reserve_capi[["flux"]],
-                                                   ppe = res_revalo[["flux_ppe"]],
-                                                   pre = res_dot_pre1[["flux"]] + res_dot_pre2[["flux"]])),
-                      resultat = resultat)
+        stock <- list(actif = system@actif@ptf_actif,
+                      passif = list(epargne = system@passif@ptf_passif@epargne@ptf,
+                                    pm_ouverture = proj_passif[["pm_ouverture"]]),
+                      fonds_propres = system@passif@fonds_propres,
+                      provision = system@passif@provision,
+                      flux = flux)
 
 
 
