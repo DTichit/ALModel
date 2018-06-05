@@ -5,7 +5,7 @@
 ##' \item{dotation}{ : Appel de la fonction \code{\link{dotation_ppe}} ;}
 ##' \item{reprise}{ : Appel de la fonction \code{\link{reprise_ppe}}.}
 ##' }
-##' @name dotation_ppe
+##' @name dotation_reprise_ppe
 ##' @docType methods
 ##' @param ppe est un objet de type \code{\link{PPE}}.
 ##' @param montant est un \code{numeric} representant le montant a doter ou a reprendre.

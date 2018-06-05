@@ -2,9 +2,9 @@
 ##'
 ##' Cette fonction permet de doter la PRE.
 ##'
-##' @name dotation_reserve_capi
+##' @name dotation_pre
 ##' @docType methods
-##' @param reserve_capi est un objet de type \code{\link{PRE}}.
+##' @param pre est un objet de type \code{\link{PRE}}.
 ##' @param pmvl est une \code{list} contenant les differentes PMVL par classes d'actifs modelisees.
 ##' @author Damien Tichit pour Sia Partners
 ##' @export
