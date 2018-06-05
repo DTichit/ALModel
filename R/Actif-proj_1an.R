@@ -56,10 +56,14 @@ setMethod(
         ## ######################################################
         ## ######################################################
         ##
-        ##        Evalutation des frais financiers
+        ##              Gestion des frais financiers
         ##
         ## ######################################################
         ## ######################################################
+
+        # Appliquer l'inflation aux frais financiers
+        actif@hyp_actif <- appliquer_inflation_frais_fin(hyp_actif = actif@hyp_actif, an = an)[["hyp_actif"]]
+
 
         # Calcul des frais financiers
         frais_fin <- eval_frais_fin(ptf_actif = actif@ptf_actif, frais_fin = actif@hyp_actif@frais_fin,
