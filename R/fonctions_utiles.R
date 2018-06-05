@@ -86,6 +86,8 @@ sum_list <- function(list, p) {
         res <- do.call(sum, list)
     else if(p == 2L)
         res <- sum(sapply(names(list), function(x) do.call(sum, list[[x]])))
+    else if(p == 3L)
+        res <- sum(unlist(list))
     else
         stop("Calcul de la somme non codee pour cette profondeur")
 
