@@ -193,9 +193,6 @@ setMethod(
         # Mise a jour de l'objet
         system@passif <- res_revalo[["passif"]]
 
-        # Mise a jour des chargements appliques
-        # proj_passif[["flux"]][["chargement"]][["administration"]] <- res_revalo[["chargements_appliques"]]
-
 
 
 
@@ -261,8 +258,6 @@ setMethod(
         # Mise a jour de la liste du resultat financier avec les PV realisees apres l'etape de revalorisation
         if(! is.null(get0("pvl_realisees")))
             list_result_fin[["vente_pvl"]] <- res_real_pvl[['pvr']]
-
-        # browser()
 
         # Creation de la liste contenant tous les flux
         flux <- list(charges_pm = charges_pm,
