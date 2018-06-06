@@ -109,11 +109,18 @@ setMethod(
                         FUN = function(x) return(flux_be[[x]][["stock"]]))
 
 
+
+        ## ###########################
+        ## Creation de l'objet 'Output'
+        ## ###########################
+
+        output <- new("Output", stock = stock, be = flux_bel_actu, nav = flux_nav_actu)
+
+
+
         # Output
-        return(list(be = list(be = be,
-                              flux_actu = flux_bel_actu),
-                    nav = list(nav = nav,
-                               flux_actu = flux_nav_actu),
-                    stock = stock))
+        return(list(be = be,
+                    nav = nav,
+                    output = output))
     }
 )
