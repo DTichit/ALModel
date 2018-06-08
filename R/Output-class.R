@@ -5,18 +5,21 @@
 ##' @name Output
 ##' @docType class
 ##' @slot stock est une \code{list}.
+##' @slot system est un \code{\link{System}}.
 ##' @slot be est un vecteur \code{numeric} contenant la somme des flux actualises pour chaque simulation.
 ##' @slot nav est un vecteur \code{numeric} contenant la somme des flux actualises pour chaque simulation.
 ##' @author Damien Tichit pour Sia Partners
 ##' @keywords classes
 ##' @export
 ##' @exportClass Output
+##' @import System-class.R
 ##'
 ##'
 setClass(
     Class = "Output",
 
     slots = c(stock = "list",
+              system = "System",
               be = "numeric",
               nav = "numeric"),
 
@@ -45,12 +48,14 @@ setMethod(
     signature = "Output",
     definition = function(.Object,
                           stock = "list",
+                          system = "System",
                           be = "numeric",
                           nav = "numeric"){
 
-        if(! (missing(stock) | missing(be) | missing(nav))){
+        if(! (missing(stock) | missing(system) | missing(be) | missing(nav))){
 
             .Object@stock   <- stock
+            .Object@system  <- system
             .Object@be      <- be
             .Object@nav     <- nav
 
@@ -60,6 +65,7 @@ setMethod(
         } else {
             #Traitement du cas vide
             .Object@stock   <- list()
+            .Object@system  <- new("System")
             .Object@be      <- NULL
             .Object@nav     <- NULL
 
@@ -80,6 +86,7 @@ setMethod(
     definition = function(x, i){
         switch(EXPR = i,
                "stock" = {return(x@stock)},
+               "system" = {return(x@system)},
                "be" = {return(x@be)},
                "nav" = {return(x@nav)},
                stop("Cet attribut n'existe pas!")
@@ -97,6 +104,7 @@ setReplaceMethod(
     definition = function(x, i, value){
         switch(EXPR = i,
                "stock" = {x@stock <- value},
+               "system" = {x@system <- value},
                "be" = {x@be <- value},
                "nav" = {x@nav <- value},
                stop("Cet attribut n'existe pas!")

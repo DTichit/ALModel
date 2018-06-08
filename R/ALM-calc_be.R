@@ -114,7 +114,7 @@ setMethod(
         ## Creation de l'objet 'Output'
         ## ###########################
 
-        output <- new("Output", stock = stock, be = flux_bel_actu, nav = flux_nav_actu)
+        output <- new("Output", system = alm@system, stock = stock, be = flux_bel_actu, nav = flux_nav_actu)
 
 
 
