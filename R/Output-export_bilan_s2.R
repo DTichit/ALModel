@@ -18,15 +18,26 @@ setMethod(
 
 
 
+        ## ######################################################
+        ## ######################################################
+        ##
+        ##                  SOLVABILITE 2
+        ##
+        ## ######################################################
+        ## ######################################################
+
+
         ## ###########################
         ##          ACTIFS
         ## ###########################
 
         # VMs actifs
-        vm_obligation  <- sum(alm@system@actif@ptf_actif@obligation@ptf$valeur_marche)
-        vm_action      <- sum(alm@system@actif@ptf_actif@action@ptf$valeur_marche)
-        vm_immobilier  <- sum(alm@system@actif@ptf_actif@immobilier@ptf$valeur_marche)
-        vm_tresorerie  <- sum(alm@system@actif@ptf_actif@tresorerie@solde)
+        vm_obligation  <- sum(output@system@actif@ptf_actif@obligation@ptf$valeur_marche)
+        vm_action      <- sum(output@system@actif@ptf_actif@action@ptf$valeur_marche)
+        vm_immobilier  <- sum(output@system@actif@ptf_actif@immobilier@ptf$valeur_marche)
+        vm_tresorerie  <- sum(output@system@actif@ptf_actif@tresorerie@solde)
+
+        # Somme
         vm_totale      <- vm_obligation + vm_action + vm_immobilier + vm_tresorerie
 
 
@@ -41,6 +52,88 @@ setMethod(
 
         # Somme
         passif_total <- bel + nav
+
+
+
+        ## ###########################
+        ##         BILAN S2
+        ## ###########################
+
+        # Data
+        actif <- c(Action = vm_action, Obligation = vm_obligation,
+                   Immobilier = vm_immobilier, Monetaire = vm_tresorerie)
+
+        passif <-  c(NAV = nav, BE = bel)
+
+
+        actif <- data.frame(Type = "Actif", Element = names(actif), Montant = round(actif, 2L))
+        passif <- data.frame(Type = "Passif", Element = names(passif), Montant = round(passif, 2L))
+        passif$Element <- factor(passif$Element, levels = passif$Element[order(passif$Element, decreasing = TRUE)])
+
+
+
+
+        ## ###########################
+        ##    Construction du Bilan
+        ## ###########################
+
+        bilan <- plot_bilan(actif = actif, passif = passif, title = "Bilan S2")
+
+
+
+
+        ## ######################################################
+        ## ######################################################
+        ##
+        ##                  FRENCH GAAP
+        ##
+        ## ######################################################
+        ## ######################################################
+
+
+        ## ###########################
+        ##          ACTIFS
+        ## ###########################
+
+        # VNCs actifs
+        vnc_obligation <- sum(output@system@actif@ptf_actif@obligation@ptf$valeur_nette_comptable)
+        vnc_action     <- sum(output@system@actif@ptf_actif@action@ptf$valeur_comptable)
+        vnc_immobilier <- sum(output@system@actif@ptf_actif@immobilier@ptf$valeur_comptable)
+        vnc_tresorerie <- sum(output@system@actif@ptf_actif@tresorerie@solde)
+
+        # Total
+        vnc_totale      <- vnc_obligation + vnc_action + vnc_immobilier + vnc_tresorerie
+
+
+
+        ## ###########################
+        ##          PASSIFS
+        ## ###########################
+
+        # Fonds propres
+        fp <- calcul_fonds_propres(output@system@passif@fonds_propres)[["total"]]
+
+        # Provisions techniques
+        pt <- calcul_pt(output@system@passif)[["pt"]]
+        pm <- sum_list(pt$pm, 1L)
+        rc <- pt[["reserve_capi"]]
+        ppe <- pt[["ppe"]]
+        pre <- pt[["pre"]]
+
+        # Total
+        passif_total <- fp + pt + pm + rc + ppe + pre
+
+
+
+        ## ###########################
+        ##         BILAN S1
+        ## ###########################
+
+        actif <- round(c(Action = vnc_action, Obligation = vnc_obligation,
+                   Immobilier = vnc_immobilier, Monetaire = vnc_tresorerie), 2L)
+
+        passif <-  c(Fonds_Propres = fp, PM = pm, Reserve_Capitalisation = rc, PPE = ppe, PRE = pre)
+        passif[which(passif == 0)] <- NA
 
 
 
