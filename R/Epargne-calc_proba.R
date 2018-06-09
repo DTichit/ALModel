@@ -23,7 +23,6 @@ setMethod(
         name_ptf <- names(epargne@ptf)
 
 
-
         ## ######################################################
         ## ######################################################
         ##
@@ -58,7 +57,7 @@ setMethod(
         ## ###########################
 
         # Calcul des taux de rachats par model point
-        tx_rachat_part <- calc_rx(tab_rachat = hyp_passif@tab_rachat_part, anc = anc_ptf_epargne)
+        tx_rachat_part <- calc_rx(tab_rachat = hyp_passif@tab_rachat_part, age = age_ptf_epargne, anc = anc_ptf_epargne)
 
 
 
@@ -67,7 +66,7 @@ setMethod(
         ## ###########################
 
         # Calcul des taux de rachats par model point
-        tx_rachat_tot  <- calc_rx(tab_rachat = hyp_passif@tab_rachat_tot, anc = anc_ptf_epargne)
+        tx_rachat_tot  <- calc_rx(tab_rachat = hyp_passif@tab_rachat_tot, age = age_ptf_epargne, anc = anc_ptf_epargne)
 
 
 

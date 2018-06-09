@@ -43,7 +43,7 @@ setMethod(
         lxp1 <- lx_table[row_lxp1]
 
         # Calcul du qx
-        qx    <- 1 - (lxp1 / lx)
+        qx    <- 1 - if.is_na(lxp1 / lx, 0)
 
         # Output
         return(qx)
