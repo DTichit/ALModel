@@ -6,15 +6,16 @@
 ##' @docType methods
 ##' @param output est un objet de type \code{\link{Output}}.
 ##' @param num_simu est un vecteur d'\code{integer}.
+##' @param detail est un \code{logical}. Lorsqu'il est egal a \code{TRUE}, tous les bilans et comptes de resultats seront sortis. Par defaut, sa valeur est \code{FALSE}.
 ##' @author Damien Tichit pour Sia Partners
 ##' @export
 ##' @include Output-class.R
 ##'
-setGeneric(name = "export_all", def = function(output, digits = 2L, directory = "Output", by = 50L) {standardGeneric("export_all")})
+setGeneric(name = "export_all", def = function(output, digits = 2L, directory = "Output", by = 50L, detail = FALSE) {standardGeneric("export_all")})
 setMethod(
     f = "export_all",
     signature = c(output = "Output"),
-    definition = function(output, digits, directory, by){
+    definition = function(output, digits, directory, by, detail){
 
 
         ## ###########################
@@ -88,30 +89,53 @@ setMethod(
         ## ###########################
         ##          Bilans
         ## ###########################
+        if(detail){
 
-        # Message
-        message("Construction des Bilans")
+            # Message
+            message("Construction des Bilans")
 
-        # Barre de progression
-        barre <- txtProgressBar(min = 0L, max = (length(int) - 1L), style = 3L)
+            # Barre de progression
+            barre <- txtProgressBar(min = 0L, max = (length(int) - 1L), style = 3L)
 
-        for(i in 1L:(length(int) - 1L)) {
+            for(i in 1L:(length(int) - 1L)) {
 
-            # Simulations a traiter
-            sim <- (int[i]+1L):(int[i+1L])
+                # Simulations a traiter
+                sim <- (int[i]+1L):(int[i+1L])
 
-            # File
-            file <- paste(dir_bilan_fg, paste0("Bilans_FRENCH_GAAP", "_", (int[i]+1L), "-", (int[i+1L]),".xlsx"), sep = "/")
+                # Construction de la liste des bilans
+                list_bilan <- lapply(X = sim, FUN = function(x) bilan_simu_output(output = output, num_simu = x, digits = digits))
 
-            # Export resultat
-            export_bilan(output = output, num_simu = sim, digits = digits, file = file)
+                # File
+                file <- paste(dir_bilan_fg, paste0("Bilans_FRENCH_GAAP", "_", (int[i]+1L), "-", (int[i+1L]), ".xlsx"), sep = "/")
 
-            # Avancement de la barre de progression
-            setTxtProgressBar(barre, i)
+                # Export resultat
+                export_bilan(list_bilans = list_bilan, digits = digits, file = file)
+
+                # Avancement de la barre de progression
+                setTxtProgressBar(barre, i)
+            }
+
+            # Fermeture de la barre de progression
+            close(barre)
         }
 
-        # Fermeture de la barre de progression
-        close(barre)
+
+
+
+        ## ###########################
+        ##        Bilan Moyen
+        ## ###########################
+
+        # Message
+        message("Construction du bilan moyen.")
+
+        # Construction du bilan
+        bilan_moyen <- bilan_moyen(output = output, digits = digits)
+
+        # Export vers un fichier excel
+        file <- paste(directory, paste0("Bilan_moyen_FRENCH_GAAP.xlsx"), sep = "/")
+        export_bilan(list_bilans = list(bilan_moyen), digits = digits, file = file)
+
 
 
 
@@ -120,30 +144,52 @@ setMethod(
         ##      Compte des resultats
         ## ###########################
 
-        # Message
-        message("Construction des comptes de resultat")
+        if(detail){
 
-        # Barre de progression
-        barre <- txtProgressBar(min = 0L, max = (length(int) - 1L), style = 3L)
+            # Message
+            message("Construction des comptes de resultat")
 
-        for(i in 1L:(length(int) - 1L)) {
+            # Barre de progression
+            barre <- txtProgressBar(min = 0L, max = (length(int) - 1L), style = 3L)
 
-            # Simulations a traiter
-            sim <- (int[i]+1L):(int[i+1L])
+            for(i in 1L:(length(int) - 1L)) {
 
-            # File
-            file <- paste(dir_cdr, paste0("Resultats", "_", (int[i]+1L), "-", (int[i+1L]),".xlsx"), sep = "/")
+                # Simulations a traiter
+                sim <- (int[i]+1L):(int[i+1L])
 
-            # Export resultat
-            export_resultat(output = output, num_simu = sim, digits = digits, file = file)
+                # Construction de la liste des resultats
+                list_res <- lapply(X = sim, FUN = function(x) resultat_simu_output(output = output, num_simu = x, digits = digits))
 
-            # Avancement de la barre de progression
-            setTxtProgressBar(barre, i)
+                # File
+                file <- paste(dir_cdr, paste0("Resultats", "_", (int[i]+1L), "-", (int[i+1L]),".xlsx"), sep = "/")
+
+                # Export resultat
+                export_resultat(list_resultats = list_res, digits = digits, file = file)
+
+                # Avancement de la barre de progression
+                setTxtProgressBar(barre, i)
+            }
+
+            # Fermeture de la barre de progression
+            close(barre)
         }
 
-        # Fermeture de la barre de progression
-        close(barre)
 
+
+
+        ## ###########################
+        ##  Compte de resultat moyen
+        ## ###########################
+
+        # Message
+        message("Construction du compte de resultat moyen.")
+
+        # Construction du resultat
+        resultat_moyen <- resultat_moyen(output = output, digits = digits)
+
+        # Export vers un fichier excel
+        file <- paste(directory, paste0("Resultat_moyen.xlsx"), sep = "/")
+        export_resultat(list_resultats = list(resultat_moyen), digits = digits, file = file)
 
 
     }

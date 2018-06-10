@@ -4,17 +4,17 @@
 ##'
 ##' @name export_resultat
 ##' @docType methods
-##' @param output est un objet de type \code{\link{Output}}.
-##' @param num_simu est un vecteur d'\code{integer}.
+##' @param list_resultats est un objet de type \code{\link{Output}}.
 ##' @author Damien Tichit pour Sia Partners
+##' @seealso Construction d'un compte de resultats : \code{\link{resultat_simu_output}}
 ##' @export
 ##' @include Output-class.R
 ##'
-setGeneric(name = "export_resultat", def = function(output, num_simu, digits = 2L, file = "Resultats.xlsx") {standardGeneric("export_resultat")})
+setGeneric(name = "export_resultat", def = function(list_resultats, digits = 2L, file = "Resultats.xlsx") {standardGeneric("export_resultat")})
 setMethod(
     f = "export_resultat",
-    signature = c(output = "Output", num_simu = "integer"),
-    definition = function(output, num_simu, digits, file){
+    signature = c(list_resultats = "list"),
+    definition = function(list_resultats, digits, file){
 
 
 
@@ -66,12 +66,11 @@ setMethod(
 
 
 
-        for(x in num_simu) {
+        for(x in 1L:length(list_resultats)) {
 
 
             # Construction du CdR
-            resultat <- resultat_simu_output(output = output, num_simu = x, digits = digits)
-            resultat <- as.data.frame(resultat)
+            resultat <- as.data.frame(list_resultats[[x]])
 
 
             # Creation d'une page

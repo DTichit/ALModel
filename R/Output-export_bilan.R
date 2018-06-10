@@ -4,17 +4,17 @@
 ##'
 ##' @name export_bilan
 ##' @docType methods
-##' @param output est un objet de type \code{\link{Output}}.
-##' @param num_simu est un vecteur d'\code{integer}.
+##' @param list_bilans est une \code{list} conteant les differents bilans.
 ##' @author Damien Tichit pour Sia Partners
+##' @seealso Construction d'un bilan : \code{\link{bilan_simu_output}}
 ##' @export
-##' @include Output-class.R
+##' @include Output-class.R Output-bilan_simu.R
 ##'
-setGeneric(name = "export_bilan", def = function(output, num_simu, digits = 2L, file = "Bilans_FRENCH_GAAP.xlsx") {standardGeneric("export_bilan")})
+setGeneric(name = "export_bilan", def = function(list_bilans, digits = 2L, file = "Bilans_FRENCH_GAAP.xlsx") {standardGeneric("export_bilan")})
 setMethod(
     f = "export_bilan",
-    signature = c(output = "Output", num_simu = "integer"),
-    definition = function(output, num_simu, digits, file){
+    signature = c(list_bilans = "list"),
+    definition = function(list_bilans, digits, file){
 
 
 
@@ -62,12 +62,11 @@ setMethod(
 
 
 
-        for(x in num_simu) {
+        for(x in 1L:length(list_bilans)) {
 
 
-            # Construction du bilan
-            bilan <- bilan_simu_output(output = output, num_simu = x, digits = digits)
-            bilan <- as.data.frame(bilan)
+            # Extraction du bilan
+            bilan <- as.data.frame(list_bilans[[x]])
 
 
             # Creation d'une page
