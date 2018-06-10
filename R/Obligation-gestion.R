@@ -40,7 +40,7 @@ setMethod(
             yield_curve_0 <- .subset2(hyp_actif@esg_simu$ctz_nom, which(name_ctz == "ZeroCoupon"))[num]
 
             # Calcul du spread
-            if(sum(obligation@ptf$valeur_achat) > 0)
+            if(sum(obligation@ptf$valeur_marche) > 0)
                 obligation@ptf$spread <- calc_spread(obligation = obligation, yield_curve = yield_curve_0)
             else
                 obligation@ptf$spread <- 0

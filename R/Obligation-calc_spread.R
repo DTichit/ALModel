@@ -42,9 +42,9 @@ setMethod(
 
         # Calcul des spread
         spread <- sapply(1L:nrow(obligation@ptf), function(id) {
-            newton_raphson(fun = function(x)
-                calcul_vm_obligation(coupon = nominal_ptf[id] * coupon_ptf[id], mat_res = mat_res_ptf[id],
-                                     valeur_remboursement = vr_ptf[id], spread = x, yield = yield_curve) - vm_ptf[id])
+            uniroot(f = function(x)
+                calcul_vm_obligation(coupon = nominal_ptf[id] * coupon_ptf[id], mat_res = mat_res_ptf[id], valeur_remboursement = vr_ptf[id], spread = x, yield = yield_curve) - vm_ptf[id],
+                interval = c(-1, 1), tol = .Machine$double.eps^0.5)$root
         })
 
 

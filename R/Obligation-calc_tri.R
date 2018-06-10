@@ -25,13 +25,13 @@ setMethod(
         nominal_ptf     <- .subset2(obligation@ptf, which(name_ptf_oblig == "nominal"))
         achat_ptf       <- .subset2(obligation@ptf, which(name_ptf_oblig == "valeur_achat"))
         vr_ptf          <- .subset2(obligation@ptf, which(name_ptf_oblig == "valeur_remboursement"))
-        # vnc_ptf          <- .subset2(obligation@ptf, which(name_ptf_oblig == "valeur_nette_comptable"))
+        vnc_ptf          <- .subset2(obligation@ptf, which(name_ptf_oblig == "valeur_nette_comptable"))
         coupon_ptf      <- .subset2(obligation@ptf, which(name_ptf_oblig == "coupon"))
         maturite_ptf    <- .subset2(obligation@ptf, which(name_ptf_oblig == "maturite"))
-        # dur_det_ptf     <- .subset2(obligation@ptf, which(name_ptf_oblig == "duree_detention"))
+        dur_det_ptf     <- .subset2(obligation@ptf, which(name_ptf_oblig == "duree_detention"))
 
         # Calcul de la maturite residuelle du PTF
-        # mat_res_ptf <- maturite_ptf - dur_det_ptf
+        mat_res_ptf <- maturite_ptf - dur_det_ptf
 
 
 
@@ -48,8 +48,15 @@ setMethod(
         # })
         if(sum(obligation@ptf$valeur_marche)>0) {
             tri <- sapply(1L:nrow(obligation@ptf), function(id) {
-                newton_raphson(function(x)
-                    sum(nominal_ptf[id] * coupon_ptf[id] * exp(-x * (1L:maturite_ptf[id]))) + vr_ptf[id] * exp(-x * maturite_ptf[id]) - achat_ptf[id])
+
+                if(mat_res_ptf[id] == 0L)
+                    tri <- 0
+                else
+                    tri <- uniroot(function(x)
+                        sum(nominal_ptf[id] * coupon_ptf[id] * exp(-x * (1L:mat_res_ptf[id]))) + vr_ptf[id] * exp(-x * mat_res_ptf[id]) - vnc_ptf[id],
+                        interval = c(-1, 1), tol = .Machine$double.eps^0.5)$root
+
+                return(tri)
             })
         } else {
             tri <- 0
