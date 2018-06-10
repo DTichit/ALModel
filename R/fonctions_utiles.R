@@ -57,12 +57,12 @@ if.is_null <- function(x, replace) {
 
 if.is_na <- function(x, replace) {
 
-    if(is.na(x))
-        out <- replace
-    else
-        out <- x
+    is_na <- which(is.na(x))
 
-    return(out)
+    if(length(is_na)>0)
+        x[is_na] <- rep(replace, length(is_na))
+
+    return(x)
 }
 
 
