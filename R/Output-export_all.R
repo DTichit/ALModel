@@ -11,11 +11,11 @@
 ##' @export
 ##' @include Output-class.R
 ##'
-setGeneric(name = "export_all", def = function(output, digits = 2L, directory = "Output", by = 50L, detail = FALSE) {standardGeneric("export_all")})
+setGeneric(name = "export_all", def = function(output, digits = 2L, directory = "Output", by = 50L, detail = FALSE, width_pdf = 7, height_pdf = 7) {standardGeneric("export_all")})
 setMethod(
     f = "export_all",
     signature = c(output = "Output"),
-    definition = function(output, digits, directory, by, detail){
+    definition = function(output, digits, directory, by, detail, width_pdf, height_pdf){
 
 
         ## ###########################
@@ -133,7 +133,7 @@ setMethod(
         bilan_moyen <- bilan_moyen(output = output, digits = digits)
 
         # Export vers un fichier excel
-        file <- paste(directory, paste0("Bilan_moyen_FRENCH_GAAP.xlsx"), sep = "/")
+        file <- paste(dir, paste0("Bilan_moyen_FRENCH_GAAP.xlsx"), sep = "/")
         export_bilan(list_bilans = list(bilan_moyen), digits = digits, file = file)
 
 
@@ -188,9 +188,25 @@ setMethod(
         resultat_moyen <- resultat_moyen(output = output, digits = digits)
 
         # Export vers un fichier excel
-        file <- paste(directory, paste0("Resultat_moyen.xlsx"), sep = "/")
+        file <- paste(dir, paste0("Resultat_moyen.xlsx"), sep = "/")
         export_resultat(list_resultats = list(resultat_moyen), digits = digits, file = file)
 
+
+
+
+
+        ## ###########################
+        ##  Construction des bilans sous format pdf
+        ## ###########################
+
+        # Message
+        message("Construction des bilans sous format PDF.")
+
+        # Bilan S1
+        export_bilan_s1(output = output, file = paste(dir, "Bilan_S1.pdf", sep = "/"), width = width_pdf, height = height_pdf)
+
+        # Bilan S2
+        export_bilan_s2(output = output, file = paste(dir, "Bilan_S2.pdf", sep = "/"), width = width_pdf, height = height_pdf)
 
     }
 )

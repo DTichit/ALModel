@@ -23,8 +23,8 @@ setMethod(
         ## ###########################
 
         # Total
-        actif_total     <- sum(actif$Montant)
-        passif_total    <- sum(passif$Montant)
+        actif_total     <- format(sum(actif$Montant, na.rm = TRUE), big.mark = " ", scientific = FALSE)
+        passif_total    <- format(sum(passif$Montant, na.rm = TRUE), big.mark = " ", scientific = FALSE)
 
 
 
@@ -39,12 +39,12 @@ setMethod(
 
 
         plot_actif <- gg_bilan(actif, lim = max(actif_total, passif_total)) +
-            labs(title = paste("Actif =", actif_total))
+            labs(title = paste("Actif =", actif_total, "€"))
 
         plot_passif <- gg_bilan(passif, lim = max(actif_total, passif_total)) +
-            labs(title = paste("Passif =", passif_total))
+            labs(title = paste("Passif =", passif_total, "€"))
 
-        bilan <- gridExtra::grid.arrange(plot_actif, plot_passif, nrow=1, ncol=2)
+        bilan <- gridExtra::grid.arrange(plot_actif, plot_passif, nrow = 1L, ncol = 2L)
 
 
 
