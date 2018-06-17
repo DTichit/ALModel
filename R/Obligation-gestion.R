@@ -22,39 +22,6 @@ setMethod(
         ## ######################################################
         ## ######################################################
         ##
-        ##   Extraction de la courbe des taux et calcul spread
-        ##
-        ## ######################################################
-        ## ######################################################
-
-        # Extraction de la courbe des taux
-        name_ctz <- names(hyp_actif@esg_simu$ctz_nom)
-        num <- which(.subset2(hyp_actif@esg_simu$ctz_nom, which(name_ctz == "ProjYr")) == (an))
-        yield_curve <- .subset2(hyp_actif@esg_simu$ctz_nom, which(name_ctz == "ZeroCoupon"))[num]
-
-        # Calcul du spread : uniquement en 1ere annee
-        if(an == 1L) {
-
-            # Extraction de la courbe des taux pour l'annee 0
-            num <- which(.subset2(hyp_actif@esg_simu$ctz_nom, which(name_ctz == "ProjYr")) == 0L)
-            yield_curve_0 <- .subset2(hyp_actif@esg_simu$ctz_nom, which(name_ctz == "ZeroCoupon"))[num]
-
-            # Calcul du spread
-            if(sum(obligation@ptf$valeur_marche) > 0)
-                obligation@ptf$spread <- calc_spread(obligation = obligation, yield_curve = yield_curve_0)
-            else
-                obligation@ptf$spread <- 0
-
-        }
-
-
-
-
-
-
-        ## ######################################################
-        ## ######################################################
-        ##
         ##            Vieillissement des obligations
         ##
         ## ######################################################
@@ -145,6 +112,14 @@ setMethod(
         ##
         ## ######################################################
         ## ######################################################
+
+
+        ## ###########################
+        ## Extraction de la courbe des taux
+        ## ###########################
+        name_ctz <- names(hyp_actif@esg_simu$ctz_nom)
+        num <- which(.subset2(hyp_actif@esg_simu$ctz_nom, which(name_ctz == "ProjYr")) == (an))
+        yield_curve <- .subset2(hyp_actif@esg_simu$ctz_nom, which(name_ctz == "ZeroCoupon"))[num]
 
 
         ## ###########################

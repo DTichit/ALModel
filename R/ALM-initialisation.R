@@ -21,8 +21,8 @@ setMethod(
         # Premiere aggregation
         alm <- aggregation_alm(alm = alm)
 
-        # Calcul des taux actuariels et spread sur le PTF obligataire
-        alm@system@actif@ptf_actif@obligation@ptf$tri <- calc_tri(alm@system@actif@ptf_actif@obligation)
+        # Initialisation du PTF obligataire : calcul TRI et spread
+        alm@system@actif@ptf_actif@obligation <- initialisation_obligation(obligation = alm@system@actif@ptf_actif@obligation, esg = alm@hyp_alm@esg)
 
         # Effectuer une premiere simulation permettant de calculer les probas
         system <- calc_be_simu(alm = alm, num_sim = 1L)[["system"]]
