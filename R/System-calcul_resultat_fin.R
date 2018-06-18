@@ -32,12 +32,8 @@ setMethod(
         # Variation des VNC
         var_vnc <- sum_list(resultat_fin[["var_vnc"]], 1L)
 
-        # Vente des PVL
-        if(!is.null(resultat_fin[["vente_pvl"]][["action"]]))
-            vente_pvl <- sum_list(resultat_fin[["vente_pvl"]], 1L)
-
         # Resultat financier total
-        resultat_fin <- pmvr + prod_fin + var_vnc - frais + if.is_null(get0("vente_pvl"), 0)
+        resultat_fin <- pmvr + prod_fin + var_vnc - frais
 
 
 

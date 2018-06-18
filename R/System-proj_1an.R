@@ -256,8 +256,13 @@ setMethod(
                              function(x) return(proj_passif[["pm_ouverture"]][[x]]-res_revalo[["pm_cloture"]][[x]]))
 
         # Mise a jour de la liste du resultat financier avec les PV realisees apres l'etape de revalorisation
-        if(! is.null(get0("pvl_realisees")))
-            list_result_fin[["vente_pvl"]] <- res_real_pvl[['pvr']]
+        if(! is.null(get0("pvl_realisees"))) {
+            prod_pvr <- names(res_real_pvl[['pvr']])
+
+            # Somme des PVR
+            for(prod in prod_pvr)
+                list_result_fin[["pmvr"]][[prod]] <- list_result_fin[["pmvr"]][[prod]] + res_real_pvl[["pvr"]][[prod]]
+        }
 
         # Creation de la liste contenant tous les flux
         flux <- list(charges_pm = charges_pm,
