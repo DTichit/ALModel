@@ -27,11 +27,18 @@ setMethod(
 
 
         ## ###########################
-        ##          Quote-Part
+        ## Extraction des Fonds prpres
         ## ###########################
 
         # Total des fonds propres
-        fp <- passif@fonds_propres@capitaux_propres + passif@fonds_propres@report_a_nouveau
+        fp <- calcul_fonds_propres(fp = passif@fonds_propres)[["total"]]
+
+
+
+
+        ## ###########################
+        ##          Quote-Part
+        ## ###########################
 
         # Quote-Part capitaux propres
         qp_cp <- fp / (fp + pt)
