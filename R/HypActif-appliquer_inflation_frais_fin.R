@@ -31,8 +31,8 @@ setMethod(
         ##      Appliquer inflation
         ## ###########################
 
-        hyp_actif@frais_fin$frais_prod  <- hyp_actif@frais_fin$frais_prod * (1 - inf)
-        hyp_actif@frais_fin$frais_vm    <- hyp_actif@frais_fin$frais_vm * (1 - inf)
+        hyp_actif@frais_fin$frais_prod  <- hyp_actif@frais_fin$frais_prod * (1 + inf)
+        hyp_actif@frais_fin$frais_vm    <- hyp_actif@frais_fin$frais_vm * (1 + inf)
 
 
 

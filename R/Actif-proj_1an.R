@@ -62,7 +62,7 @@ setMethod(
         ## ######################################################
 
         # Appliquer l'inflation aux frais financiers
-        # actif@hyp_actif <- appliquer_inflation_frais_fin(hyp_actif = actif@hyp_actif, an = an)[["hyp_actif"]]
+        actif@hyp_actif <- appliquer_inflation_frais_fin(hyp_actif = actif@hyp_actif, an = an)[["hyp_actif"]]
 
 
         # Calcul des frais financiers
