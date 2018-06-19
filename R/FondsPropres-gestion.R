@@ -25,7 +25,14 @@ setMethod(
         ## ###########################
 
         # Mise a jour de l'attribut
-        fp@report_a_nouveau <- fp@report_a_nouveau + fp@resultat_exercice
+        if((fp@report_a_nouveau <= 0) & (fp@resultat_exercice < 0))
+            fp@report_a_nouveau <- fp@report_a_nouveau + fp@resultat_exercice
+        else if((fp@resultat_exercice > abs(fp@report_a_nouveau))) {
+            fp@capitaux_propres <- fp@capitaux_propres + (fp@resultat_exercice - abs(fp@report_a_nouveau))
+            fp@report_a_nouveau <- 0
+        } else
+            fp@capitaux_propres <- fp@capitaux_propres + fp@resultat_exercice
+
 
 
 
@@ -35,7 +42,7 @@ setMethod(
         ## ###########################
 
         # Calcul de l'impot
-        impots_societes <- max(0, fp@hypotheses$impots_societes * resultat)
+        impots_societes <- fp@hypotheses$impots_societes * max(0, (resultat + fp@report_a_nouveau))
 
 
 
@@ -45,7 +52,7 @@ setMethod(
         ## ###########################
 
         # Calcul de la participation aux salaries
-        participation_salaries <- max(0, fp@hypotheses$participation_salaries * (resultat - impots_societes))
+        participation_salaries <- fp@hypotheses$participation_salaries * max(0, (resultat + fp@report_a_nouveau - impots_societes))
 
 
 
