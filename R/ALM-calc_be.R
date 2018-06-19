@@ -21,6 +21,16 @@ setMethod(
 
 
         ## ###########################
+        ##        Message
+        ## ###########################
+
+        start_time <- Sys.time()
+
+        message(paste("Lancement des", alm@hyp_alm@nb_simu, "simulations :", start_time))
+
+
+
+        ## ###########################
         ##      Initialisation
         ## ###########################
 
@@ -87,10 +97,15 @@ setMethod(
         }
 
 
+        message("Fin des simulations")
+
 
         ## ###########################
         ##      Calcul du BEL
         ## ###########################
+
+
+        message("Calcul du BEL et de la NAV")
 
         # Extraction des flux actualises
         flux_nav_actu <-  sapply(1L:(hyp_alm@nb_simu), function(y) return(flux_be[[y]][["flux_actu"]][["nav"]]))
@@ -115,6 +130,13 @@ setMethod(
         ## ###########################
 
         output <- new("Output", system = alm@system, stock = stock, be = flux_bel_actu, nav = flux_nav_actu)
+
+
+
+        diff_time <- round(difftime(Sys.time(), start_time, units = "min"), digits = 2L)
+
+        message(paste("Calcul du BE effectue en :", diff_time, "minutes."))
+
 
 
 
