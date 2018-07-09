@@ -26,9 +26,12 @@ setMethod(
         # Extractions des chargements
         chargements <- sum_list(resultat_tech[["chargement"]], 2L)
 
+        # Extraction de la charge des provisions
+        charges_provisions <- sum_list(resultat_tech[["charge_provisions"]], 1L)
+
 
         # Resultat technique total
-        resultat_tech <- chargements - frais_prod
+        resultat_tech <- chargements - frais_prod - charges_provisions
 
 
 

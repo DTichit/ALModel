@@ -143,7 +143,8 @@ setMethod(
                                 var_vnc = proj_actif[["flux"]][["var_vnc"]],
                                 frais = proj_actif[["flux"]][["frais"]])
         list_result_tech <- list(frais = proj_passif[["flux"]][["frais"]],
-                                 chargement = proj_passif[["flux"]][["chargement"]])
+                                 chargement = proj_passif[["flux"]][["chargement"]],
+                                 charge_provisions = list(pre = res_dot_pre1[["flux"]]))
 
 
         # Calcul des resultats
@@ -220,29 +221,6 @@ setMethod(
 
 
 
-
-
-        ## ######################################################
-        ## ######################################################
-        ##
-        ##              Seconde gestion de la PRE
-        ##
-        ## ######################################################
-        ## ######################################################
-
-        # Visualisation des PMV latentes
-        pmvl <- extract_pmvl_ptf_actif(system@actif@ptf_actif)[["pmvl"]]
-
-        # Appel de la fonction
-        res_dot_pre2 <- dotation_pre(pre = system@passif@provision@pre, pmvl = pmvl)
-
-        # Mise a jour de la provision
-        system@passif@provision@pre <- res_dot_pre2[["pre"]]
-
-
-
-
-
         ## ######################################################
         ## ######################################################
         ##
@@ -277,7 +255,7 @@ setMethod(
                      resultat_fin = list_result_fin,
                      charges_rc = res_reserve_capi[["flux"]],
                      charges_ppe = res_revalo[["flux_ppe"]],
-                     charges_pre = res_dot_pre1[["flux"]] + res_dot_pre2[["flux"]],
+                     charges_pre = res_dot_pre1[["flux"]],
                      quote_part_fp = quote_part_fp)
 
 
