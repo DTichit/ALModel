@@ -44,6 +44,7 @@ setMethod(
         alloc_totale <- alloc_ptf[["vm_actif"]][["total"]] + solde_tresorerie
 
 
+
         ## ###########################
         ##     Allocation cible
         ## ###########################
@@ -68,7 +69,11 @@ setMethod(
         ## ###########################
 
         # Mise a jour du solde
-        actif@ptf_actif@tresorerie@solde <- alloc_cible[which(alloc_cible$produit=="tresorerie"), "proportion"] * alloc_totale
+        if(alloc_totale > 0)
+            actif@ptf_actif@tresorerie@solde <- alloc_cible[which(alloc_cible$produit=="tresorerie"), "proportion"] * alloc_totale
+        else
+            actif@ptf_actif@tresorerie@solde <- alloc_totale
+
 
 
 
@@ -82,7 +87,7 @@ setMethod(
         alloc_cible_action <- prop_action * alloc_totale
 
         # Appel de la fonction
-        action_rebal <- rebalancement_action(action = actif@ptf_actif@action, alloc_cible = alloc_cible_action)
+        action_rebal <- rebalancement_action(action = actif@ptf_actif@action, alloc_cible = max(0, alloc_cible_action))
 
         # Mise a jour de l'objet
         actif@ptf_actif@action <- action_rebal[["action"]]
@@ -99,7 +104,7 @@ setMethod(
         alloc_cible_immo <- prop_immo * alloc_totale
 
         # Appel de la fonction
-        immo_rebal <- rebalancement_immobilier(immo = actif@ptf_actif@immobilier, alloc_cible = alloc_cible_immo)
+        immo_rebal <- rebalancement_immobilier(immo = actif@ptf_actif@immobilier, alloc_cible = max(0, alloc_cible_immo))
 
         # Mise a jour de l'objet
         actif@ptf_actif@immobilier <- immo_rebal[["immo"]]
@@ -116,7 +121,7 @@ setMethod(
         alloc_cible_oblig <- prop_oblig * alloc_totale
 
         # Appel de la fonction
-        oblig_rebal <- rebalancement_obligation(oblig = actif@ptf_actif@obligation, oblig_cible = ptf_cible@obligation, alloc_cible = alloc_cible_oblig)
+        oblig_rebal <- rebalancement_obligation(oblig = actif@ptf_actif@obligation, oblig_cible = ptf_cible@obligation, alloc_cible = max(0, alloc_cible_oblig))
 
         # Mise a jour de l'objet
         actif@ptf_actif@obligation <- oblig_rebal[["oblig"]]
