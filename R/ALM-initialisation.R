@@ -5,6 +5,7 @@
 ##' @name initialisation_alm
 ##' @docType methods
 ##' @param alm est un objet de type \code{\link{ALM}}.
+##' @param init_oblig est un \code{logical} indiquant s'il est necessaire d'initialiser le PTF obligataire. Par defaut, sa valeur est egale a \code{TRUE}.
 ##' @author Damien Tichit pour Sia Partners
 ##' @seealso Construction d'un objet de type \code{\link{ALM}} : \code{\link{load_alm}}.
 ##' @seealso Premiere aggregation d'un objet de type \code{\link{ALM}} : \code{\link{aggregation_alm}}.
@@ -12,17 +13,18 @@
 ##' @export
 ##' @include ALM-class.R ALM-aggregation.R ALM-load.R Passif-aggregation_2.R
 ##'
-setGeneric(name = "initialisation_alm", def = function(alm) {standardGeneric("initialisation_alm")})
+setGeneric(name = "initialisation_alm", def = function(alm, init_oblig = TRUE) {standardGeneric("initialisation_alm")})
 setMethod(
     f = "initialisation_alm",
     signature = c(alm = "ALM"),
-    definition = function(alm){
+    definition = function(alm, init_oblig){
 
         # Premiere aggregation
         alm <- aggregation_alm(alm = alm)
 
         # Initialisation du PTF obligataire : calcul TRI et spread
-        alm@system@actif@ptf_actif@obligation <- initialisation_obligation(obligation = alm@system@actif@ptf_actif@obligation, esg = alm@hyp_alm@esg)
+        if(init_oblig)
+            alm@system@actif@ptf_actif@obligation <- initialisation_obligation(obligation = alm@system@actif@ptf_actif@obligation, esg = alm@hyp_alm@esg)
 
         # Effectuer une premiere simulation permettant de calculer les probas
         system <- calc_be_simu(alm = alm, num_sim = 1L)[["system"]]
