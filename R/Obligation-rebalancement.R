@@ -167,6 +167,10 @@ setMethod(
                 temp <- data.frame(id_mp = as.character("vide"), t(rep(0, ncol(ptf) - 1L)))
                 colnames(temp) <- colnames(ptf)
 
+                # Changement de classes
+                for (col in colnames(ptf))
+                    class(temp[[col]]) <- class(ptf[[col]])
+
                 # Ajout de la ligne vide
                 ptf <- rbind(ptf, temp)
 
