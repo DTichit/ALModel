@@ -53,17 +53,12 @@ setMethod(
             vm_action      <- sum(stock$actif@action@ptf$valeur_marche)
             vm_immobilier  <- sum(stock$actif@immobilier@ptf$valeur_marche)
             vm_tresorerie  <- sum(stock$actif@tresorerie@solde)
-            vm_totale      <- vm_obligation + vm_action + vm_immobilier + vm_tresorerie
 
             # VNC actif
             vnc_obligation  <- sum(stock$actif@obligation@ptf$valeur_nette_comptable)
             vnc_action      <- sum(stock$actif@action@ptf$valeur_comptable)
             vnc_immobilier  <- sum(stock$actif@immobilier@ptf$valeur_comptable)
             vnc_tresorerie  <- sum(stock$actif@tresorerie@solde)
-            vnc_totale      <- vnc_obligation + vnc_action + vnc_immobilier + vnc_tresorerie
-
-            # PMVL
-            pmvl <- vm_totale - vnc_totale
 
 
 
@@ -99,19 +94,15 @@ setMethod(
             pm_c <- sum(stock$passif$epargne$pm)
 
 
-            passif_total <- capitaux_propres + ran + res + ppe + pm_c + rc + dette + pre
-
 
             c(VM_Obligation = vm_obligation, VM_Action = vm_action, VM_Immobilier = vm_immobilier, VM_Tresorerie = vm_tresorerie,
               VNC_Obligation = vnc_obligation, VNC_Action = vnc_action, VNC_Immobilier = vnc_immobilier, VNC_Tresorerie = vnc_tresorerie,
-              Total_Actif = vnc_totale,
 
               Capitaux_propres = capitaux_propres, Dette = dette,
               Report_a_nouveau = ran,
               Resultat_de_l_exercice = res,
               Reserve_capitalisation = rc, PRE = pre, PPE = ppe,
-              PM_Cloture = pm_c,
-              Total_Passif = passif_total)
+              PM_Cloture = pm_c)
 
         })
 

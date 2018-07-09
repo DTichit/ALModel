@@ -12,7 +12,7 @@
 ##' @keywords classes
 ##' @export
 ##' @exportClass Output
-##' @import System-class.R
+##' @include System-class.R
 ##'
 ##'
 setClass(
