@@ -56,7 +56,7 @@ setMethod(
         ## ###########################
 
         # Calcul de la participation aux salaries
-        participation_salaries <- fp@hypotheses$participation_salaries * max(0, (resultat + fp@report_a_nouveau - impots_societes))
+        participation_salaries <- fp@hypotheses$participation_salaries * max(0, (resultat - impots_societes))
 
 
 
