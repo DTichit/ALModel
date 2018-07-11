@@ -160,16 +160,13 @@ setMethod(
             # Gestion du cas ou toutes les obligations ont ete vendues
             if(nrow(ptf) == 0L) {
 
-                # Affichage d'un warning
-                warning("Portfeuille obligataire vide : completion avec une ligne de 0 (A reprendre !!)")
-
                 # Creation d'un dataframe avec une ligne de 0
-                temp <- data.frame(id_mp = as.character("vide"), t(rep(0, ncol(ptf) - 1L)))
+                temp <- data.frame(id_mp = as.character("vide"), t(rep(0, ncol(ptf) - 1L)), stringsAsFactors = FALSE)
                 colnames(temp) <- colnames(ptf)
 
                 # Changement de classes
                 for (col in colnames(ptf))
-                    class(temp[[col]]) <- class(ptf[[col]])
+                    class(temp[col]) <- class(ptf[col])
 
                 # Ajout de la ligne vide
                 ptf <- rbind(ptf, temp)
