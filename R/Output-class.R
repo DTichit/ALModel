@@ -6,13 +6,14 @@
 ##' @docType class
 ##' @slot stock est une \code{list}.
 ##' @slot system est un \code{\link{System}}.
+##' @slot esg est un \code{\link{ESG}}
 ##' @slot be est un vecteur \code{numeric} contenant la somme des flux actualises pour chaque simulation.
 ##' @slot nav est un vecteur \code{numeric} contenant la somme des flux actualises pour chaque simulation.
 ##' @author Damien Tichit pour Sia Partners
 ##' @keywords classes
 ##' @export
 ##' @exportClass Output
-##' @include System-class.R
+##' @include System-class.R ESG-class.R
 ##'
 ##'
 setClass(
@@ -20,6 +21,7 @@ setClass(
 
     slots = c(stock = "list",
               system = "System",
+              esg = "ESG",
               be = "numeric",
               nav = "numeric"),
 
@@ -49,13 +51,15 @@ setMethod(
     definition = function(.Object,
                           stock = "list",
                           system = "System",
+                          esg = "ESG",
                           be = "numeric",
                           nav = "numeric"){
 
-        if(! (missing(stock) | missing(system) | missing(be) | missing(nav))){
+        if(! (missing(stock) | missing(system) | missing(be) | missing(nav) | missing(esg))){
 
             .Object@stock   <- stock
             .Object@system  <- system
+            .Object@esg     <- esg
             .Object@be      <- be
             .Object@nav     <- nav
 
@@ -66,6 +70,7 @@ setMethod(
             #Traitement du cas vide
             .Object@stock   <- list()
             .Object@system  <- new("System")
+            .Object@esg     <- new("ESG")
             .Object@be      <- NULL
             .Object@nav     <- NULL
 
@@ -87,6 +92,7 @@ setMethod(
         switch(EXPR = i,
                "stock" = {return(x@stock)},
                "system" = {return(x@system)},
+               "esg" = {return(x@esg)},
                "be" = {return(x@be)},
                "nav" = {return(x@nav)},
                stop("Cet attribut n'existe pas!")
@@ -105,6 +111,7 @@ setReplaceMethod(
         switch(EXPR = i,
                "stock" = {x@stock <- value},
                "system" = {x@system <- value},
+               "egs" = {x@esg <- value},
                "be" = {x@be <- value},
                "nav" = {x@nav <- value},
                stop("Cet attribut n'existe pas!")
