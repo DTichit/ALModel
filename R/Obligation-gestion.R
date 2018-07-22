@@ -5,17 +5,17 @@
 ##' @name gestion_obligation
 ##' @docType methods
 ##' @param obligation est un objet de type \code{\link{Obligation}}.
-##' @param hyp_actif est un objet de type \code{\link{HypActif}}.
+##' @param ctz_nom est un objet de type \code{data.frame} contenant la courbe des taux.
 ##' @param an est un \code{integer} reprensentant l'annee sur laquelle on travaille.
 ##' @author Damien Tichit pour Sia Partners
 ##' @export
 ##' @include Immobilier-class.R HypActif-class.R
 ##'
-setGeneric(name = "gestion_obligation", def = function(obligation, hyp_actif, an) {standardGeneric("gestion_obligation")})
+setGeneric(name = "gestion_obligation", def = function(obligation, ctz_nom, an) {standardGeneric("gestion_obligation")})
 setMethod(
     f = "gestion_obligation",
-    signature = c(obligation = "Obligation", hyp_actif = "HypActif", an = "integer"),
-    definition = function(obligation, hyp_actif, an){
+    signature = c(obligation = "Obligation", ctz_nom = "data.frame", an = "integer"),
+    definition = function(obligation, ctz_nom, an){
 
 
 
@@ -117,9 +117,9 @@ setMethod(
         ## ###########################
         ## Extraction de la courbe des taux
         ## ###########################
-        name_ctz <- names(hyp_actif@esg_simu$ctz_nom)
-        num <- which(.subset2(hyp_actif@esg_simu$ctz_nom, which(name_ctz == "ProjYr")) == (an))
-        yield_curve <- .subset2(hyp_actif@esg_simu$ctz_nom, which(name_ctz == "ZeroCoupon"))[num]
+        name_ctz <- names(ctz_nom)
+        num <- which(.subset2(ctz_nom, which(name_ctz == "ProjYr")) == (an))
+        yield_curve <- .subset2(ctz_nom, which(name_ctz == "ZeroCoupon"))[num]
 
 
         ## ###########################

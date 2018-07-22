@@ -5,17 +5,17 @@
 ##' @name gestion_immobilier
 ##' @docType methods
 ##' @param immobilier est un objet de type \code{\link{Immobilier}}.
-##' @param hyp_actif est un objet de type \code{\link{HypActif}}.
+##' @param esg_simu est une \code{list} contenant les rendements et les loyers.
 ##' @param an est un \code{integer} reprensentant l'annee sur laquelle on travaille.
 ##' @author Damien Tichit pour Sia Partners
 ##' @export
 ##' @include Immobilier-class.R HypActif-class.R
 ##'
-setGeneric(name = "gestion_immobilier", def = function(immobilier, hyp_actif, an) {standardGeneric("gestion_immobilier")})
+setGeneric(name = "gestion_immobilier", def = function(immobilier, esg_simu, an) {standardGeneric("gestion_immobilier")})
 setMethod(
     f = "gestion_immobilier",
-    signature = c(immobilier = "Immobilier", hyp_actif = "HypActif", an = "integer"),
-    definition = function(immobilier, hyp_actif, an){
+    signature = c(immobilier = "Immobilier", esg_simu = "list", an = "integer"),
+    definition = function(immobilier, esg_simu, an){
 
 
         ## ###########################
@@ -41,7 +41,7 @@ setMethod(
         ## ###########################
 
         # Extraction du log rendement
-        log_rdt <- exp(hyp_actif@esg_simu$im_index[an])
+        log_rdt <- exp(esg_simu$im_index[an])
 
         # Calcul des nouvelles VM
         new_vm <- .subset2(immobilier@ptf, which(name_ptf == "valeur_marche")) * log_rdt
@@ -72,7 +72,7 @@ setMethod(
         ## ######################################################
 
         # Extraction loyer
-        loyers <- hyp_actif@esg_simu$im_loyer[an]
+        loyers <- esg_simu$im_loyer[an]
 
         # Calcul du loyer
         loyers <- loyers * .subset2(immobilier@ptf, which(name_ptf == "valeur_marche"))

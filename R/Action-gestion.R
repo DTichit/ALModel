@@ -5,17 +5,17 @@
 ##' @name gestion_action
 ##' @docType methods
 ##' @param action est un objet de type \code{\link{Action}}.
-##' @param hyp_actif est un objet de type \code{\link{HypActif}}.
+##' @param esg_simu est une \code{list} contenant les rendements et les dividendes.
 ##' @param an est un \code{integer} reprensentant l'annee sur laquelle on travaille.
 ##' @author Damien Tichit pour Sia Partners
 ##' @export
 ##' @include Action-class.R HypActif-class.R
 ##'
-setGeneric(name = "gestion_action", def = function(action, hyp_actif, an) {standardGeneric("gestion_action")})
+setGeneric(name = "gestion_action", def = function(action, esg_simu, an) {standardGeneric("gestion_action")})
 setMethod(
     f = "gestion_action",
-    signature = c(action = "Action", hyp_actif = "HypActif", an = "integer"),
-    definition = function(action, hyp_actif, an){
+    signature = c(action = "Action", esg_simu = "list", an = "integer"),
+    definition = function(action, esg_simu, an){
 
 
         ## ###########################
@@ -41,7 +41,7 @@ setMethod(
         ## ###########################
 
         # Extraction du log rendement
-        log_rdt <- exp(hyp_actif@esg_simu$eq_index[an])
+        log_rdt <- exp(esg_simu$eq_index[an])
 
         # Calcul des nouvelles VM
         new_vm <- .subset2(action@ptf, which(name_ptf == "valeur_marche")) * log_rdt
@@ -72,7 +72,7 @@ setMethod(
         ## ######################################################
 
         # Extraction dividendes
-        div <- hyp_actif@esg_simu$eq_dividends[an]
+        div <- esg_simu$eq_dividends[an]
 
         # Calcul des dividendes
         dividendes <- div * .subset2(action@ptf, which(name_ptf == "valeur_marche"))

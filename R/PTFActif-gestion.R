@@ -44,7 +44,7 @@ setMethod(
         ## ###########################
 
         # Appel de la fonction
-        res_action <- gestion_action(action = ptf_actif@action, hyp_actif = hyp_actif, an = an)
+        res_action <- gestion_action(action = ptf_actif@action, esg_simu = hyp_actif@esg_simu, an = an)
 
         # Mise a jour de l'attribut
         ptf_actif@action <- res_action[["action"]]
@@ -56,7 +56,7 @@ setMethod(
         ## ###########################
 
         # Appel de la fonction
-        res_immo <- gestion_immobilier(immobilier = ptf_actif@immobilier, hyp_actif = hyp_actif, an = an)
+        res_immo <- gestion_immobilier(immobilier = ptf_actif@immobilier, esg_simu = hyp_actif@esg_simu, an = an)
 
         # Mise a jour de l'attribut
         ptf_actif@immobilier <- res_immo[["immobilier"]]
@@ -68,7 +68,7 @@ setMethod(
         ## ###########################
 
         # Appel de la fonction
-        res_oblig <- gestion_obligation(obligation = ptf_actif@obligation, hyp_actif = hyp_actif, an = an)
+        res_oblig <- gestion_obligation(obligation = ptf_actif@obligation, ctz_nom = hyp_actif@esg_simu$ctz_nom, an = an)
 
         # Mise a jour de l'attribut
         ptf_actif@obligation <- res_oblig[["obligation"]]
