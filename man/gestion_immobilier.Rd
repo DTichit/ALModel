@@ -5,12 +5,12 @@
 \alias{gestion_immobilier}
 \title{Fonction \code{gestion_immobilier}}
 \usage{
-gestion_immobilier(immobilier, hyp_actif, an)
+gestion_immobilier(immobilier, esg_simu, an)
 }
 \arguments{
 \item{immobilier}{est un objet de type \code{\link{Immobilier}}.}
 
-\item{hyp_actif}{est un objet de type \code{\link{HypActif}}.}
+\item{esg_simu}{est une \code{list} contenant les rendements et les loyers.}
 
 \item{an}{est un \code{integer} reprensentant l'annee sur laquelle on travaille.}
 }

@@ -5,12 +5,12 @@
 \alias{gestion_obligation}
 \title{Fonction \code{gestion_obligation}}
 \usage{
-gestion_obligation(obligation, hyp_actif, an)
+gestion_obligation(obligation, ctz_nom, an)
 }
 \arguments{
 \item{obligation}{est un objet de type \code{\link{Obligation}}.}
 
-\item{hyp_actif}{est un objet de type \code{\link{HypActif}}.}
+\item{ctz_nom}{est un objet de type \code{data.frame} contenant la courbe des taux.}
 
 \item{an}{est un \code{integer} reprensentant l'annee sur laquelle on travaille.}
 }
