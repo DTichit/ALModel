@@ -166,7 +166,7 @@ setMethod(
 
                 # Changement de classes
                 for (col in colnames(ptf))
-                    class(temp[col]) <- class(ptf[col])
+                    class(temp[,col]) <- class(ptf[,col])
 
                 # Ajout de la ligne vide
                 ptf <- rbind(ptf, temp)
