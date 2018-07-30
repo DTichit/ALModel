@@ -21,15 +21,11 @@ setMethod(
 
         temp <- lapply(1L:nb_simu, function(x) {
 
-            return(flux_simu(output = output, num_simu = x, digits = digits))
+            return(cbind(num_simu = x, flux_simu(output = output, num_simu = x, digits = digits)))
         })
 
 
-
-        res <- NULL
-        for(x in 1L:nb_simu)
-            res <- rbind(res, data.frame(num_simu = x, temp[[x]]))
-
+        res <- do.call(rbind, temp)
 
         return(res)
     }

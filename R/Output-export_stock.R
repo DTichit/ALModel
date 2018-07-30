@@ -21,14 +21,12 @@ setMethod(
 
         temp <- lapply(1L:nb_simu, function(x) {
 
-            return(stock_simu(output = output, num_simu = x))
+            return(cbind(num_simu = x, stock_simu(output = output, num_simu = x)))
         })
 
 
 
-        res <- NULL
-        for(x in 1L:nb_simu)
-            res <- rbind(res, data.frame(num_simu = x, temp[[x]]))
+        res <- do.call(rbind, temp)
 
 
         return(res)
