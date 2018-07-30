@@ -5,12 +5,12 @@
 \alias{gestion_action}
 \title{Fonction \code{gestion_action}}
 \usage{
-gestion_action(action, hyp_actif, an)
+gestion_action(action, esg_simu, an)
 }
 \arguments{
 \item{action}{est un objet de type \code{\link{Action}}.}
 
-\item{hyp_actif}{est un objet de type \code{\link{HypActif}}.}
+\item{esg_simu}{est une \code{list} contenant les rendements et les dividendes.}
 
 \item{an}{est un \code{integer} reprensentant l'annee sur laquelle on travaille.}
 }
