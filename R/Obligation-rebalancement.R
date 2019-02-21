@@ -77,7 +77,7 @@ setMethod(
 
 
             # Ajout de nouvelles colonnes
-            ptf_cible$tri <- log(1 + ptf_cible$coupon, base = exp(1))
+            ptf_cible$tri <- ptf_cible$coupon
             ptf_cible$valeur_achat <- achat
             ptf_cible$valeur_nette_comptable <- achat
             ptf_cible$duree_detention <- 0L

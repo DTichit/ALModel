@@ -247,8 +247,9 @@ setMethod(
                      prime = proj_passif[["flux"]][["prime"]],
                      prestation = proj_passif[["flux"]][["prestation"]],
                      revalo_prest = proj_passif[["revalo_prestation"]],
-                     revalo_pm = list(tmg = res_revalo[["revalorisation"]][["tmg"]],
-                                      pb = res_revalo[["revalorisation"]][["pb"]]),
+                     revalo_pm = list(tmg = res_revalo[["revalorisation"]][["epargne"]][["tmg"]],
+                                      pb = list(cible = res_revalo[["revalorisation"]][["epargne"]][["cible"]],
+                                                supp = res_revalo[["revalorisation"]][["epargne"]][["supplementaire"]])),
                      frais = proj_passif[["flux"]][["frais"]],
                      chgt = list(administration = res_revalo[["chargements_appliques"]],
                                  acquisition = proj_passif[["flux"]][["chargement"]][["acquisition"]]),
@@ -348,7 +349,9 @@ setMethod(
                                     pm_ouverture = proj_passif[["pm_ouverture"]]),
                       fonds_propres = system@passif@fonds_propres,
                       provision = system@passif@provision,
-                      flux = flux)
+                      flux = flux,
+                      flux_bel = flux_bel,
+                      flux_nav = flux_nav)
 
 
 
