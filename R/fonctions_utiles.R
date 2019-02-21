@@ -79,7 +79,7 @@ if.is_empty <- function(x, replace) {
 
 
 
-sum_list <- function(list, p) {
+sum_list <- function(list, p = 1L) {
 
     # Calcul de la somme en fonction de la profondeur de la liste
     if(p == 1L)
@@ -90,6 +90,21 @@ sum_list <- function(list, p) {
         res <- sum(unlist(list))
     else
         stop("Calcul de la somme non codee pour cette profondeur")
+
+    # Output
+    return(res)
+}
+
+
+
+
+sum_cond <- function(x, cond) {
+
+    # Si TRUE alors sommer
+    if(cond)
+        res <- sum(x)
+    else
+        res <- x
 
     # Output
     return(res)
