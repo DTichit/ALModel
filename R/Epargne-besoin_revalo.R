@@ -48,7 +48,7 @@ setMethod(
         tmg_ptf_epargne  <- .subset2(epargne@ptf, which(name_ptf == "tmg"))
 
         # Calcul besoin revalorisation sur les PM
-        besoin_tmg <- sum(pm_ptf_epargne * tmg_ptf_epargne)
+        besoin_tmg <- pm_ptf_epargne * tmg_ptf_epargne
 
 
 
@@ -57,7 +57,7 @@ setMethod(
         ## ###########################
 
         # Calcul besoin revalorisation sur les PM
-        besoin_cible <- sum(pm_ptf_epargne * max(cible - tmg_ptf_epargne, 0))
+        besoin_cible <- pm_ptf_epargne * max(cible - tmg_ptf_epargne, 0)
 
 
 
@@ -69,7 +69,7 @@ setMethod(
         chgt_administration <- .subset2(epargne@ptf, which(name_ptf == "chgt_administration"))
 
         # Calcul des chargements d'administration
-        chargements <- sum(pm_ptf_epargne * chgt_administration)
+        chargements <- pm_ptf_epargne * chgt_administration
 
 
 

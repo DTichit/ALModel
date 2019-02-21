@@ -200,10 +200,10 @@ setMethod(
         if(pb_possible > 0) {
 
             # Calcul du besoin cible restant
-            besoin_cible_restant <- max(besoin_cible - pb_possible, 0)
+            besoin_cible_restant <- max(besoin_cible + chargements - pb_possible, 0)
 
             # Calcul de la PB restante
-            pb_possible_restante <- max(pb_possible - besoin_cible, 0)
+            pb_possible_restante <- max(pb_possible - (besoin_cible + chargements), 0)
 
 
             # Montant de la PB qui sera versee
@@ -226,7 +226,7 @@ setMethod(
         }
 
         # Montant que sera attribue a la revalorisation cible
-        revalo_cible <- besoin_cible - besoin_cible_restant
+        revalo_cible <- besoin_cible + chargements - besoin_cible_restant
 
 
 
@@ -297,7 +297,7 @@ setMethod(
         # Calcul des revalo
         revalo_cible_prod <- sapply(names(besoin_revalo[["besoin"]][["cible"]]), simplify = FALSE, USE.NAMES = TRUE, function(x){
             if(besoin_cible >0)
-                res <- besoin_revalo[["besoin"]][["cible"]][[x]] * revalo_cible / besoin_cible
+                res <- (sum(besoin_revalo[["besoin"]][["cible"]][[x]]) + sum(besoin_revalo[["besoin"]][["chargements"]][[x]])) * revalo_cible / (besoin_cible + chargements)
             else
                 res <- 0
             return(res)})
@@ -332,7 +332,8 @@ setMethod(
 
         # Appel de la fonction
         res_revalo <- revalo_ptf_passif(ptf_passif = passif@ptf_passif, revalo_cible = revalo_cible_prod,
-                                        revalo_supp = revalo_supp_prod, cible = list(epargne = passif@hyp_passif@cible$epargne[an]))
+                                        revalo_supp = revalo_supp_prod, cible = list(epargne = passif@hyp_passif@cible$epargne[an]),
+                                        agreg_out = passif@hyp_passif@agreg_out)
 
         # Mise a jour de l'objet
         passif@ptf_passif <- res_revalo[["ptf_passif"]]
@@ -352,26 +353,7 @@ setMethod(
         ## ######################################################
 
         # Appel de la fonction
-        pm_cloture <- calcul_pm(passif@ptf_passif)
-
-
-
-
-
-
-
-        ## ######################################################
-        ## ######################################################
-        ##
-        ##              Aggregation des donnees
-        ##
-        ## ######################################################
-        ## ######################################################
-
-        # Liste stockant l'ensemble des revalorisations
-        revalo <- list(tmg = besoin_revalo[["besoin"]][["contractuel"]],
-                       pb = list(cible = revalo_cible_prod,
-                                 supp = revalo_supp_prod))
+        pm_cloture <- calcul_pm(ptf_passif = passif@ptf_passif)
 
 
 
@@ -380,7 +362,7 @@ setMethod(
 
         # Output
         return(list(passif = passif,
-                    revalorisation = revalo,
+                    revalorisation = res_revalo[["revalorisation"]],
                     chargements_appliques = res_revalo[["chargements_appliques"]],
                     pvl_a_realiser = pvl_a_realiser,
                     besoin_emprunt = if.is_null(get0("emprunt"), 0),
