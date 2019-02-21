@@ -55,10 +55,10 @@ setMethod(
             chgt_acquisition <- sum_list(resultat_proj[["chgt"]][["acquisition"]], 1L)
             chgt_administration <- sum_list(resultat_proj[["chgt"]][["administration"]], 1L)
             prestation <- sum_list(resultat_proj[["prestation"]], 2L)
-            revalo_pm <- sum_list(resultat_proj[["revalo_pm"]][["tmg"]], 1L) + sum_list(resultat_proj[["revalo_pm"]][["pb"]], 2L)
+            revalo_pm <- sum(resultat_proj[["revalo_pm"]][["tmg"]]) + sum_list(resultat_proj[["revalo_pm"]][["pb"]], 1L)
 
             # Calcul de la marge de souscription
-            mg_souscription <- charges_pm + prime - chgt_acquisition - prestation - chgt_administration + revalo_pm
+            mg_souscription <- charges_pm + prime - chgt_acquisition - prestation + revalo_pm
 
 
 
@@ -84,7 +84,7 @@ setMethod(
             revalo_prest <- sum_list(resultat_proj[["revalo_prest"]], 1L)
 
             # Calcul de la marge financiere
-            mg_financiere <- resultat_fin - resultat_proj[["charges_rc"]] - resultat_proj[["charges_ppe"]] - resultat_proj[["charges_pre"]] - revalo_pm - revalo_prest
+            mg_financiere <- resultat_fin - resultat_proj[["charges_rc"]] - resultat_proj[["charges_ppe"]] - resultat_proj[["charges_pre"]] - revalo_pm - revalo_prest + chgt_administration
 
 
 
@@ -104,7 +104,7 @@ setMethod(
             c(Charges_PM = charges_pm,
               Primes = prime - chgt_acquisition,
               Prestations = prestation,
-              TMG_et_PB_incorpores_a_la_PM_nets_chgt = revalo_pm - chgt_administration,
+              TMG_et_PB_incorpores_a_la_PM_nets_chgt = revalo_pm,
               Marge_Souscription = mg_souscription,
 
               Chargements = chgt_administration + chgt_acquisition,
@@ -115,7 +115,7 @@ setMethod(
               Charges_PPE = resultat_proj$charges_ppe,
               Charges_RC = resultat_proj$charges_rc,
               Charges_PRE = resultat_proj$charges_pre,
-              TMG_et_PB_dont_prestations =  -(revalo_pm + revalo_prest),
+              TMG_et_PB_dont_prestations =  -(revalo_pm + revalo_prest) + chgt_administration,
               Marge_Financiere = mg_financiere,
 
               Impots_societes = is,

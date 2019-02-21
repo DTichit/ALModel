@@ -10,6 +10,7 @@
 ##' @slot tab_rachat_part est un objet de la classe \code{\link{TabRachat}} contenant la table modelisant les rachats partiels.
 ##' @slot rachat_conj est un objet de la classe \code{\link{RachatConj}} contenant les parametres modelisant les rachats conjoncturels.
 ##' @slot calc_proba est un objet \code{logical} qui indique si les probabilites doivent etre calculees.
+##' @slot agreg_out est une valeur \code{logical} qui indique si les sorties doivent etre agregees.
 ##' @slot prop_pb est un \code{data.frame} qui indique la proportion a attribue dans le cas ou les besoins ont ete assouvis (apres besoins contractuels et cible).
 ##' @slot cible est une \code{list} contenant les differents taux cibles par produits.
 ##' @slot esg_simu est une \code{list} reprenant les donnees de l'ESG pour une simulation : taux cibles et inflation.
@@ -30,6 +31,7 @@ setClass(
               tab_rachat_part = "TabRachat",
               rachat_conj = "RachatConj",
               calc_proba = "logical",
+              agreg_out = "logical",
               prop_pb = "data.frame",
               cible = "list",
               esg_simu = "list",
@@ -123,6 +125,7 @@ setMethod(
                "tab_rachat_tot" = {return(x@tab_rachat_tot)},
                "rachat_conj" = {return(x@rachat_conj)},
                "calc_proba" = {return(x@calc_proba)},
+               "agreg_out" = {return(x@agreg_out)},
                "prop_pb" = {return(x@prop_pb)},
                "cible" = {return(x@cible)},
                "esg_simu" = {return(x@esg_simu)},
@@ -147,6 +150,7 @@ setReplaceMethod(
                "tab_rachat_tot" = {x@tab_rachat_tot <- value},
                "rachat_conj" = {x@rachat_conj <- value},
                "calc_proba" = {x@calc_proba <- value},
+               "agreg_out" = {x@agreg_out <- value},
                "prop_pb" = {x@prop_pb <- value},
                "cible" = {x@cible <- value},
                "esg_simu" = {x@esg_simu <- value},

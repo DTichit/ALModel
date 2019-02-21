@@ -7,15 +7,16 @@
 ##' @param epargne est un objet de type \code{\link{Epargne}}.
 ##' @param hyp_passif est un objet de type \code{\link{HypPassif}}.
 ##' @param an est un objet de type \code{integer}.
+##' @param agreg_out est une valeur \code{logical} qui indique si les sorties doivent etre agregees. Par defaut, sa valeur est a TRUE.
 ##' @author Damien Tichit pour Sia Partners
 ##' @export
 ##' @include Epargne-class.R HypPassif-class.R
 ##'
-setGeneric(name = "proj_1an_epargne", def = function(epargne, hyp_passif, an) {standardGeneric("proj_1an_epargne")})
+setGeneric(name = "proj_1an_epargne", def = function(epargne, hyp_passif, an, agreg_out = TRUE) {standardGeneric("proj_1an_epargne")})
 setMethod(
     f = "proj_1an_epargne",
     signature = c(epargne = "Epargne", hyp_passif = "HypPassif", an = "integer"),
-    definition = function(epargne, hyp_passif, an){
+    definition = function(epargne, hyp_passif, an, agreg_out){
 
         ## ###########################
         ##   Extraction des donnnes
@@ -36,7 +37,7 @@ setMethod(
         pm_ptf_epargne   <- .subset2(epargne@ptf, which(name_ptf == "pm"))
 
         # PM a l'ouverture
-        pm_ouverture <- sum(pm_ptf_epargne)
+        pm_ouverture <- pm_ptf_epargne
 
 
 
@@ -166,8 +167,8 @@ setMethod(
         prestations <- deces + (rachat_tot + rachat_part)
 
         # Calcul des nouvelles PM
-        new_pm <- pm_ptf_epargne - prestations + primes_ajoutees
-        new_nb_contr <- nb_contr_ptf_epargne * (1 - tx_deces_contr - taux_rachat_tot_contrat)
+        new_pm <- pmax(pm_ptf_epargne - prestations, 0) + primes_ajoutees
+        new_nb_contr <- nb_contr_ptf_epargne * (1 - pmin(tx_deces_contr + taux_rachat_tot_contrat, 1))
 
         # Mise a jour de l'objet
         epargne@ptf$nb_contr <- new_nb_contr
@@ -183,6 +184,8 @@ setMethod(
             epargne@ptf$age <- .subset2(epargne@ptf, which(name_ptf == "age")) + 1L
             epargne@ptf$anc <- .subset2(epargne@ptf, which(name_ptf == "anc")) + 1L
         }
+
+
 
 
 
@@ -231,16 +234,16 @@ setMethod(
 
         # Output
         return(list(epargne = epargne,
-                    pm_ouverture = pm_ouverture,
-                    flux = list(prestation = list(deces = sum(deces),
-                                                  rachat_tot = sum(rachat_tot),
-                                                  rachat_part = sum(rachat_part)),
-                                prime = sum(prime),
-                                chargement = list(administration = sum(chgt_administration),
-                                                  acquisition = sum(chgt_acquisition)),
-                                frais = list(gestion = sum(frais_gestion),
-                                             rachats = sum(frais_rachats),
-                                             deces = sum(frais_deces))),
-                    besoin = list(revalo_prestation = sum(revalo_tmg_prest))))
+                    pm_ouverture = sum_cond(x = pm_ouverture, cond = agreg_out),
+                    flux = list(prestation = list(deces = sum_cond(x = deces, cond = agreg_out),
+                                                  rachat_tot = sum_cond(x = rachat_tot, cond = agreg_out),
+                                                  rachat_part = sum_cond(x = rachat_part, cond = agreg_out)),
+                                prime = sum_cond(x = prime, cond = agreg_out),
+                                chargement = list(administration = sum_cond(x = chgt_administration, cond = agreg_out),
+                                                  acquisition = sum_cond(x = chgt_acquisition, cond = agreg_out)),
+                                frais = list(gestion = sum_cond(x = frais_gestion, cond = agreg_out),
+                                             rachats = sum_cond(x = frais_rachats, cond = agreg_out),
+                                             deces = sum_cond(x = frais_deces, cond = agreg_out))),
+                    besoin = list(revalo_prestation = sum_cond(x = revalo_tmg_prest, cond = agreg_out))))
     }
 )

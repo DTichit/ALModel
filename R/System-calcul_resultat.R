@@ -34,7 +34,7 @@ setMethod(
         chgt_acquisition <- sum_list(resultat[["chgt"]][["acquisition"]], 1L)
         chgt_administration <- sum_list(resultat[["chgt"]][["administration"]], 1L)
         prestation <- sum_list(resultat[["prestation"]], 2L)
-        revalo_pm <- sum_list(resultat[["revalo_pm"]][["tmg"]], 1L) + sum_list(resultat[["revalo_pm"]][["pb"]], 2L)
+        revalo_pm <- sum(resultat[["revalo_pm"]][["tmg"]]) + sum_list(resultat[["revalo_pm"]][["pb"]], 1L)
 
         # Calcul de la marge de souscription
         mg_souscription <- charges_pm + (prime - chgt_acquisition) - prestation - chgt_administration + revalo_pm

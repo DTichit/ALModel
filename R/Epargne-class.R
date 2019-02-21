@@ -7,6 +7,7 @@
 ##' @docType class
 ##' @slot ptf est un objet de type \code{data.frame} contenant les donnees relatives au portfeuille.
 ##' @slot proba est un objet de type \code{\link{ProbaEpargne}} contenant les probas relatives au portfeuille.
+##' @slot agreg est une valeur \code{logical} qui indique si les sorties doivent etre agregees.
 ##' @author Damien Tichit pour Sia Partners
 ##' @keywords classes
 ##' @include ProbaEpargne-class.R

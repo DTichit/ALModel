@@ -5,15 +5,16 @@
 ##' @name calcul_pm
 ##' @docType methods
 ##' @param ptf_passif est un objet de type \code{\link{PTFPassif}}.
+##' @param agreg_out est une valeur \code{logical} qui indique si les sorties doivent etre agregees. Par defaut, sa valeur est a TRUE.
 ##' @author Damien Tichit pour Sia Partners
 ##' @export
 ##' @include PTFPassif-class.R
 ##'
-setGeneric(name = "calcul_pm", def = function(ptf_passif) {standardGeneric("calcul_pm")})
+setGeneric(name = "calcul_pm", def = function(ptf_passif, agreg_out = TRUE) {standardGeneric("calcul_pm")})
 setMethod(
     f = "calcul_pm",
     signature = c(ptf_passif = "PTFPassif"),
-    definition = function(ptf_passif){
+    definition = function(ptf_passif, agreg_out){
 
 
 
@@ -30,7 +31,7 @@ setMethod(
         ## ###########################
 
         # Somme des PMs
-        pm_epargne <- sum(ptf_passif@epargne@ptf$pm)
+        pm_epargne <- sum_cond(x = ptf_passif@epargne@ptf$pm, cond = agreg_out)
 
 
 

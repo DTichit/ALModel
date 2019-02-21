@@ -27,7 +27,7 @@ setMethod(
         ## ######################################################
 
         # Appel de la fonction
-        pm_overture <- calcul_pm(ptf_passif = passif@ptf_passif)
+        pm_overture <- calcul_pm(ptf_passif = passif@ptf_passif, agreg_out = passif@hyp_passif@agreg_out)
 
 
 
@@ -61,7 +61,7 @@ setMethod(
         ## ######################################################
 
         # Projection sur une annee du portfeuille
-        res_proj_ptf <- proj_1an_ptf_passif(ptf_passif = passif@ptf_passif, hyp_passif = passif@hyp_passif, an = an)
+        res_proj_ptf <- proj_1an_ptf_passif(ptf_passif = passif@ptf_passif, hyp_passif = passif@hyp_passif, an = an, agreg_out = passif@hyp_passif@agreg_out)
 
         # Mise a jour de l'attribut
         passif@ptf_passif <- res_proj_ptf[["ptf_passif"]]
