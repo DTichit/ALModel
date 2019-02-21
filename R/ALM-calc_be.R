@@ -26,7 +26,10 @@ setMethod(
 
         start_time <- Sys.time()
 
-        message(paste("Lancement des", alm@hyp_alm@nb_simu, "simulations :", start_time))
+        if(alm@hyp_alm@nb_simu == 1L)
+            message(paste("Lancement de la simulation :", start_time))
+        else
+            message(paste("Lancement des", alm@hyp_alm@nb_simu, "simulations :", start_time))
 
 
 
