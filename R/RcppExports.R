@@ -17,6 +17,22 @@ calcul_duration_obligation <- function(coupon, mat_res, valeur_remboursement, yi
     .Call('_SiALM_calcul_duration_obligation', PACKAGE = 'SiALM', coupon, mat_res, valeur_remboursement, yield)
 }
 
+#' Cette fonction permet de calculer les duration pour un portfeuille obligataire.
+#'
+#' @name calcul_duration_obligation
+#' @docType methods
+#' @param coupon un vecteur contenant \code{numeric} les coupons.
+#' @param mat_res un vecteur \code{numeric} contenant les maturites residuelles.
+#' @param valeur_remboursement un vecteur \code{numeric} contenant les valeurs de remboursement.
+#' @param yield un vecteur contenant la courbe de taux utilisee.
+#' @author Damien Tichit pour Sia Partners
+#' @export
+NULL
+
+calcul_modified_duration_obligation <- function(coupon, mat_res, valeur_remboursement, yield) {
+    .Call('_SiALM_calcul_modified_duration_obligation', PACKAGE = 'SiALM', coupon, mat_res, valeur_remboursement, yield)
+}
+
 #' Cette fonction permet de calculer les valeurs de marche pour un portfeuille obligataire.
 #'
 #' @name calcul_vm_obligation
