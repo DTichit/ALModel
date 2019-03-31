@@ -21,7 +21,6 @@ setMethod(
         ##   Extraction des donnnes
         ## ###########################
         names_ptf <- names(obligation@ptf)
-        nominal_ptf  <- .subset2(obligation@ptf, which(names_ptf == "nominal"))
         maturite_ptf <- .subset2(obligation@ptf, which(names_ptf == "maturite"))
 
 
@@ -57,7 +56,6 @@ setMethod(
 
         # Mise a jour de l'attribut
         obligation@ptf$coupon           <- coupon_ptf
-        obligation@ptf$valeur_marche    <- nominal_ptf
 
 
 

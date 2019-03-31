@@ -61,7 +61,6 @@ setMethod(
             obligation@ptf$valeur_nette_comptable[id_pvl]   <- new_vc
             obligation@ptf$valeur_marche[id_pvl]            <- new_vm
             obligation@ptf$nominal[id_pvl]                  <- .subset2(obligation@ptf, which(names_ptf == "nominal"))[id_pvl] * (1 - proportion_vente)
-            obligation@ptf$valeur_remboursement[id_pvl]     <- .subset2(obligation@ptf, which(names_ptf == "valeur_remboursement"))[id_pvl] * (1 - proportion_vente)
         }
 
 

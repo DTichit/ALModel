@@ -16,7 +16,7 @@ using namespace Rcpp;
 
 
 // [[Rcpp::export]]
-NumericVector calcul_vm_obligation(NumericVector coupon, NumericVector mat_res, NumericVector valeur_remboursement, NumericVector spread, NumericVector yield) {
+NumericVector calcul_vm_obligation(NumericVector nominal, NumericVector coupon, NumericVector mat_res, NumericVector remboursement, NumericVector spread, NumericVector yield) {
 
     int nb_oblig = coupon.size();
 
@@ -35,18 +35,18 @@ NumericVector calcul_vm_obligation(NumericVector coupon, NumericVector mat_res, 
             for(int j=0; j<mat_res(i); j++) {
 
                 // Comptabilisation des coupons
-                vm(i) += coupon(i) * exp(-(j + 1) * (spread(i) + yield(j)));
+                vm(i) += coupon(i) * nominal(i) * exp(-(j + 1) * (spread(i) + yield(j)));
 
                 // Ajout de la VR a la maturite residuelle
                 if((j+1) == mat_res(i))
-                    vm(i) += valeur_remboursement(i) * exp(-(j + 1) * (spread(i) + yield(j)));
+                    vm(i) += nominal(i) * remboursement(i) * exp(-(j + 1) * (spread(i) + yield(j)));
 
             }
 
         }
 
         else {
-            vm(i) = valeur_remboursement(i) * exp(-spread(i));
+            vm(i) = nominal(i) * remboursement(i) * exp(-spread(i));
         };
 
     };

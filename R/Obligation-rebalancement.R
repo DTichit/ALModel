@@ -65,18 +65,15 @@ setMethod(
 
             # Calcul de l'achat devant etre effectue
             achat <- abs(diff_alloc) * .subset2(ptf_cible, num_prop)
-            nb_achat <- achat / .subset2(ptf_cible, which(names_ptf_cible == "valeur_marche"))
 
             # Suppression de la colonne 'prop'
             ptf_cible <- ptf_cible[-num_prop]
 
-            # Mise a jour des colonnes existantes
-            ptf_cible$valeur_marche <- achat
-            ptf_cible$valeur_remboursement <- nb_achat * .subset2(ptf_cible, which(names_ptf_cible == "valeur_remboursement"))
-            ptf_cible$nominal <- nb_achat * .subset2(ptf_cible, which(names_ptf_cible == "nominal"))
-
 
             # Ajout de nouvelles colonnes
+            ptf_cible$valeur_marche <- achat
+            ptf_cible$nominal <- achat
+            ptf_cible$remboursement <- 1
             ptf_cible$tri <- ptf_cible$coupon
             ptf_cible$valeur_achat <- achat
             ptf_cible$valeur_nette_comptable <- achat
@@ -145,7 +142,6 @@ setMethod(
                 ptf[1L, "valeur_nette_comptable"] <- vnc - vnc_del
                 ptf[1L, "valeur_marche"] <- vm - diff_alloc
                 ptf[1L, "nominal"] <- ptf[1L, "nominal"] - diff_alloc * (ptf[1L, "nominal"] / vm)
-                ptf[1L, "valeur_remboursement"] <- ptf[1L, "valeur_remboursement"] - diff_alloc * (ptf[1L, "valeur_remboursement"] / vm)
 
 
                 # Mise a jour du reste a vendre

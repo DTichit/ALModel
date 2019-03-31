@@ -41,7 +41,7 @@ setMethod(
         ## ######################################################
         ## ######################################################
         ##
-        ##                  Ecreter Nominal et VR
+        ##                  Ecreter Nominal
         ##
         ## ######################################################
         ## ######################################################
@@ -59,19 +59,6 @@ setMethod(
 
         # Mise a jour du PTF
         obligation@ptf$nominal <- new_nominal
-
-
-
-
-        ## ###########################
-        ##  Calcul de la nouvelle VR
-        ## ###########################
-
-        # Calcul de la nouvelle VR
-        new_vr <- .subset2(obligation@ptf, which(names_ptf == "valeur_remboursement")) * exp(-spread_ptf)
-
-        # Mise a jour du PTF
-        obligation@ptf$valeur_remboursement <- new_vr
 
 
 
@@ -129,7 +116,7 @@ setMethod(
         vm_ptf      <- .subset2(obligation@ptf, which(names_ptf == "valeur_marche"))
         nominal_ptf <- .subset2(obligation@ptf, which(names_ptf == "nominal"))
         coupon_ptf  <- .subset2(obligation@ptf, which(names_ptf == "coupon"))
-        vr_ptf      <- .subset2(obligation@ptf, which(names_ptf == "valeur_remboursement"))
+        remboursement_ptf  <- .subset2(obligation@ptf, which(names_ptf == "remboursement"))
         mat_ptf     <- .subset2(obligation@ptf, which(names_ptf == "maturite"))
         dur_det_ptf <- .subset2(obligation@ptf, which(names_ptf == "duree_detention"))
         tri_ptf     <- .subset2(obligation@ptf, which(names_ptf == "tri"))
@@ -145,7 +132,7 @@ setMethod(
         ##   Calcul des nouvelles VM
         ## ###########################
 
-        new_vm <- calcul_vm_obligation(coupon = coupon_ptf * nominal_ptf, mat_res = mat_res_ptf, valeur_remboursement = vr_ptf, spread = spread_ptf, yield = yield_curve)
+        new_vm <- calcul_vm_obligation(nominal = nominal_ptf, coupon = coupon_ptf, mat_res = mat_res_ptf, remboursement = remboursement_ptf, spread = spread_ptf, yield = yield_curve)
 
         # Mise a jour de l'attribut
         obligation@ptf$valeur_marche <- new_vm
@@ -158,8 +145,8 @@ setMethod(
         ## ###########################
 
         # Calcul de la nouvelle VNC
-        new_vnc <- exp(-spread_ptf) * (vnc_ptf + exp(spread_ptf - tri_ptf * (mat_res_ptf + 1L)) * (vr_ptf * (exp(tri_ptf) - 1) - (nominal_ptf * coupon_ptf)))
-        new_vnc[which(mat_res_ptf==0L)] <- vr_ptf[which(mat_res_ptf==0L)]
+        new_vnc <- exp(-spread_ptf) * (vnc_ptf + exp(spread_ptf - tri_ptf * (mat_res_ptf + 1L)) * (nominal_ptf * remboursement_ptf * (exp(tri_ptf) - 1) - (nominal_ptf * coupon_ptf)))
+        new_vnc[which(mat_res_ptf==0L)] <- nominal_ptf[which(mat_res_ptf==0L)] * remboursement_ptf[which(mat_res_ptf==0L)]
 
         # new_vnc <- sapply(1L:nrow(obligation@ptf), function(id){
         #
@@ -214,14 +201,15 @@ setMethod(
         # Determination des oblig a vendre
         ind_oblig_sell <- which(maturite_new == dur_det_new)
 
-        # S'il y a des obligs a vendre :
+        # S'il y a des obligs arrivant a maturite
         if(length(ind_oblig_sell) > 0L) {
 
             # Extraction de donnees
-            vr_ptf <- .subset2(obligation@ptf, which(names_ptf == "valeur_remboursement"))
+            nominal_ptf         <- .subset2(obligation@ptf, which(names_ptf == "nominal"))
+            remboursement_ptf   <- .subset2(obligation@ptf, which(names_ptf == "remboursement"))
 
-            # Gain sur les obligations vendues
-            vente <- sum(vr_ptf[ind_oblig_sell])
+            # Gain sur les obligations remboursees
+            vente <- sum(nominal_ptf[ind_oblig_sell] * remboursement_ptf[ind_oblig_sell] )
 
             # Suppression des oblig du PTF
             obligation@ptf <- obligation@ptf[-ind_oblig_sell,]

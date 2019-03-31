@@ -24,8 +24,8 @@ setMethod(
         name_ptf_oblig  <- names(obligation@ptf)
         nominal_ptf     <- .subset2(obligation@ptf, which(name_ptf_oblig == "nominal"))
         achat_ptf       <- .subset2(obligation@ptf, which(name_ptf_oblig == "valeur_achat"))
-        vr_ptf          <- .subset2(obligation@ptf, which(name_ptf_oblig == "valeur_remboursement"))
-        vnc_ptf          <- .subset2(obligation@ptf, which(name_ptf_oblig == "valeur_nette_comptable"))
+        remboursement_ptf  <- .subset2(obligation@ptf, which(name_ptf_oblig == "remboursement"))
+        vnc_ptf         <- .subset2(obligation@ptf, which(name_ptf_oblig == "valeur_nette_comptable"))
         coupon_ptf      <- .subset2(obligation@ptf, which(name_ptf_oblig == "coupon"))
         maturite_ptf    <- .subset2(obligation@ptf, which(name_ptf_oblig == "maturite"))
         dur_det_ptf     <- .subset2(obligation@ptf, which(name_ptf_oblig == "duree_detention"))
@@ -42,10 +42,6 @@ setMethod(
         ## ###########################
 
         # Calcul des tri
-        # tri <- sapply(1L:nrow(obligation@ptf), function(id) {
-        #     newton_raphson(function(x)
-        #         sum(nominal_ptf[id] * coupon_ptf[id] * exp(-x * (1L:mat_res_ptf[id]))) + vr_ptf[id] * exp(-x * mat_res_ptf[id]) - vnc_ptf[id])
-        # })
         if(sum(obligation@ptf$valeur_marche)>0) {
             tri <- sapply(1L:nrow(obligation@ptf), function(id) {
 
@@ -53,7 +49,7 @@ setMethod(
                     tri <- 0
                 else
                     tri <- uniroot(function(x)
-                        sum(nominal_ptf[id] * coupon_ptf[id] * exp(-x * (1L:mat_res_ptf[id]))) + vr_ptf[id] * exp(-x * mat_res_ptf[id]) - vnc_ptf[id],
+                        sum(nominal_ptf[id] * coupon_ptf[id] * exp(-x * (1L:mat_res_ptf[id]))) + remboursement_ptf[id] * nominal_ptf[id] * exp(-x * mat_res_ptf[id]) - vnc_ptf[id],
                         interval = c(-1, 1), tol = .Machine$double.eps^0.5)$root
 
                 return(tri)

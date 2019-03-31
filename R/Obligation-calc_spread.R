@@ -24,7 +24,7 @@ setMethod(
         # Extraction des donnees du PTF
         name_ptf_oblig  <- names(obligation@ptf)
         nominal_ptf     <- .subset2(obligation@ptf, which(name_ptf_oblig == "nominal"))
-        vr_ptf          <- .subset2(obligation@ptf, which(name_ptf_oblig == "valeur_remboursement"))
+        remboursement_ptf  <- .subset2(obligation@ptf, which(name_ptf_oblig == "remboursement"))
         vm_ptf          <- .subset2(obligation@ptf, which(name_ptf_oblig == "valeur_marche"))
         coupon_ptf      <- .subset2(obligation@ptf, which(name_ptf_oblig == "coupon"))
         maturite_ptf    <- .subset2(obligation@ptf, which(name_ptf_oblig == "maturite"))
@@ -43,7 +43,7 @@ setMethod(
         # Calcul des spread
         spread <- sapply(1L:nrow(obligation@ptf), function(id) {
             uniroot(f = function(x)
-                calcul_vm_obligation(coupon = nominal_ptf[id] * coupon_ptf[id], mat_res = mat_res_ptf[id], valeur_remboursement = vr_ptf[id], spread = x, yield = yield_curve) - vm_ptf[id],
+                calcul_vm_obligation(nominal = nominal_ptf[id], coupon = coupon_ptf[id], mat_res = mat_res_ptf[id], remboursement = remboursement_ptf[id], spread = x, yield = yield_curve) - vm_ptf[id],
                 interval = c(-1, 1), tol = .Machine$double.eps^0.5)$root
         })
 

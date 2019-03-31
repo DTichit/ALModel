@@ -21,7 +21,7 @@ setMethod(
 
         # Lecture du fichier
         temp <- read.csv2(address, header = TRUE,
-                          colClasses = c("numeric", "numeric", "numeric", "numeric", "integer", "character", "character", "numeric"))
+                          colClasses = c("integer", "character", "character", "numeric"))
 
         # Test sur la somme des proportions
         if(sum(temp$prop) != 1)
